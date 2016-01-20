@@ -1,0 +1,6 @@
+name: Unknown action (failing)
+steps:
+  - unknown: 'action'
+  - open: 'www.example.com'
+
+

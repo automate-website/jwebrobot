@@ -1,8 +1,8 @@
 package website.automate.executors.jwebrobot.models.mapper;
 
 import com.google.inject.Inject;
-import website.automate.executors.jwebrobot.models.scenario.actions.Action;
 import website.automate.executors.jwebrobot.models.scenario.Scenario;
+import website.automate.executors.jwebrobot.models.scenario.actions.Action;
 import website.automate.executors.jwebrobot.utils.CollectionMapper;
 
 import java.util.ArrayList;

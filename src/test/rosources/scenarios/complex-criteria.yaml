@@ -1,0 +1,4 @@
+name: Action with complex criteria
+steps:
+  - open:
+      url: 'www.example.com'

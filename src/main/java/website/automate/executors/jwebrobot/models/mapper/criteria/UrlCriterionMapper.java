@@ -2,7 +2,7 @@ package website.automate.executors.jwebrobot.models.mapper.criteria;
 
 import website.automate.executors.jwebrobot.models.scenario.actions.criteria.UrlCriterion;
 
-public class OpenCriterionMapper extends CriterionMapper<UrlCriterion> {
+public class UrlCriterionMapper extends CriterionMapper<UrlCriterion> {
 
     @Override
     public String getCriterionName() {

@@ -1,0 +1,6 @@
+name: Too much actions in one step (failing)
+steps:
+  - open: 'www.example.com'
+    click: 'www.example2.com'
+
+

@@ -38,7 +38,7 @@ public abstract class ActionMapper<T extends Action> implements Mapper<Object, T
                         throw new UnknownCriterionException(criterionName);
                     }
 
-                    target.putCriterion(criterionMapper.map(source));
+                    target.putCriterion(criterionMapper.map(criteriaValue));
                 } else {
                     // TODO complex criteria
                     throw new RuntimeException("not yet supported");

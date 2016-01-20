@@ -1,10 +1,11 @@
 package website.automate.executors.jwebrobot.models.factories;
 
 
-import com.google.inject.Injector;
-import org.junit.Before;
 import org.junit.Test;
-import website.automate.executors.jwebrobot.JWebRobot;
+import website.automate.executors.jwebrobot.AbstractTest;
+import website.automate.executors.jwebrobot.exceptions.TooManyActionsException;
+import website.automate.executors.jwebrobot.exceptions.UnknownActionException;
+import website.automate.executors.jwebrobot.exceptions.UnknownCriterionException;
 import website.automate.executors.jwebrobot.models.scenario.Scenario;
 import website.automate.executors.jwebrobot.models.scenario.actions.Action;
 import website.automate.executors.jwebrobot.models.scenario.actions.ClickAction;
@@ -14,30 +15,54 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import static java.lang.ClassLoader.getSystemResourceAsStream;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
-public class ScenarioFactoryTest {
+public class ScenarioFactoryTest extends AbstractTest {
 
-    private InputStream multiDocumentInputStream;
 
-    private ScenarioFactory scenarioFactory;
+    @Test(expected = UnknownActionException.class)
+    public void shouldThrowUnknownActionException() {
+        InputStream stream = getSystemResourceAsStream("./failing_scenarios/unknown-action.yaml");
 
-    @Before
-    public void setUp() {
-        multiDocumentInputStream = ClassLoader.getSystemResourceAsStream("./scenarios/multi-document.yaml");
-
-        Injector injector = JWebRobot.configureModules();
-
-        scenarioFactory = injector.getInstance(ScenarioFactory.class);
+        scenarioFactory.createFromInputStream(stream);
     }
+
+    @Test(expected = TooManyActionsException.class)
+    public void shouldThrowTooManyActionsException() {
+        InputStream stream = getSystemResourceAsStream("./failing_scenarios/too-many-actions.yaml");
+
+        scenarioFactory.createFromInputStream(stream);
+    }
+
+    @Test(expected = UnknownCriterionException.class)
+    public void shouldThrowUnknownCriterionException() {
+        InputStream stream = getSystemResourceAsStream("./failing_scenarios/unknown-criterion.yaml");
+
+        scenarioFactory.createFromInputStream(stream);
+    }
+
+    @Test
+    public void shouldSupportComplexCriteria() {
+        // given
+        InputStream inputStream = getSystemResourceAsStream("./scenarios/complex-criteria.yaml");
+
+        // when
+        Scenario scenario = scenarioFactory.createFromInputStream(inputStream).get(0);
+
+        // then
+        assertThat(((OpenAction) scenario.getSteps().get(0)).getUrl().getValue(), is("www.example.com"));
+    }
+
 
     @Test
     public void scenarioListShouldBeLoaded() throws IOException {
         // given
+        InputStream inputStream = getSystemResourceAsStream("./scenarios/multi-document.yaml");
 
         // when
-        List<Scenario> scenarioList = scenarioFactory.createFromInputStream(multiDocumentInputStream);
+        List<Scenario> scenarioList = scenarioFactory.createFromInputStream(inputStream);
 
         // then
         assertThat(scenarioList, hasSize(2));

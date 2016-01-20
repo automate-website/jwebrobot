@@ -1,0 +1,7 @@
+name: Unknown action (failing)
+steps:
+  - open:
+      url: 'www.example.com'
+      sneeze: 'aloud'
+
+
