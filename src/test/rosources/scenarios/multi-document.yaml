@@ -1,0 +1,10 @@
+name: Scenario A
+steps:
+    - open: 'www.example.com'
+    - click: 'button[type=submit]'
+---
+name: Scenario B
+steps:
+    - open: 'www.example.com'
+    - open: 'www.example2.com'
+    - click: 'button[type=submit2]'
