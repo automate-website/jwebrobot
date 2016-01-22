@@ -15,5 +15,5 @@ mvn assembly:assembly
 A scenario can be executed from console by us passing _scenario_ parameter, e.g.:
 
 ```
-java -jar <path to jar> --scenario
+java -jar <path to jar> --scenario <path to yaml>
 ```
