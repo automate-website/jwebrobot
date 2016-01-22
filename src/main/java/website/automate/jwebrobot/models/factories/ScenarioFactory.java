@@ -1,7 +1,9 @@
 package website.automate.jwebrobot.models.factories;
 
 
+import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
+import website.automate.jwebrobot.config.logger.InjectLogger;
 import website.automate.jwebrobot.models.mapper.ScenarioMapper;
 import website.automate.jwebrobot.models.scenario.Scenario;
 
@@ -10,6 +12,9 @@ import java.io.InputStream;
 import java.util.List;
 
 public class ScenarioFactory {
+
+    @InjectLogger
+    private Logger logger;
 
     private final ScenarioMapper scenarioMapper;
 
@@ -24,6 +29,8 @@ public class ScenarioFactory {
         Iterable<Object> objects = yaml.loadAll(inputStream);
 
         List<Scenario> scenarios = scenarioMapper.map(objects);
+
+        logger.info("Loaded {} scenarios.", scenarios.size());
 
         return scenarios;
     }

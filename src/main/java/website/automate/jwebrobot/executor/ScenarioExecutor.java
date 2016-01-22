@@ -1,6 +1,8 @@
 package website.automate.jwebrobot.executor;
 
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import website.automate.jwebrobot.config.logger.InjectLogger;
 import website.automate.jwebrobot.exceptions.StepsMustBePresentException;
 import website.automate.jwebrobot.executor.action.ActionExecutor;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
@@ -14,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ScenarioExecutor {
+
+    @InjectLogger
+    private Logger logger;
 
     private final PrecedenceComparator precedenceComparator;
     private final WebDriverProvider webDriverProvider;
@@ -36,6 +41,7 @@ public class ScenarioExecutor {
         ExecutionResults executionResults = new ExecutionResults();
 
         for (Scenario scenario : scenarios) {
+            logger.info("Starting scenario {}...", scenario.getName());
             WebDriver driver = webDriverProvider.createInstance(executorOptions.getWebDriverType());
 
             ActionExecutionContext actionExecutionContext = new ActionExecutionContext(driver, new HashMap<String, String>());
@@ -44,6 +50,7 @@ public class ScenarioExecutor {
             } finally {
                 driver.quit();
             }
+            logger.info("Finished scenario {}.", scenario.getName());
         }
 
         return executionResults;
@@ -57,6 +64,7 @@ public class ScenarioExecutor {
 
         for (Action action : scenario.getSteps()) {
             ActionExecutor actionExecutor = actionExecutorFactory.getInstance(action.getClass());
+            logger.debug("Executing {}", actionExecutor.getClass().getName());
             actionExecutor.execute(action, actionExecutionContext);
         }
 
