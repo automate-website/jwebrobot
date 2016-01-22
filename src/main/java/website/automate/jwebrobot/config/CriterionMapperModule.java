@@ -1,7 +1,10 @@
-package website.automate.jwebrobot.models.mapper.criteria;
+package website.automate.jwebrobot.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
+import website.automate.jwebrobot.models.mapper.criteria.CriterionMapper;
+import website.automate.jwebrobot.models.mapper.criteria.SelectorCriterionMapper;
+import website.automate.jwebrobot.models.mapper.criteria.UrlCriterionMapper;
 
 
 public class CriterionMapperModule extends AbstractModule {

@@ -1,4 +1,4 @@
-package website.automate.jwebrobot.executor;
+package website.automate.jwebrobot.models.utils;
 
 
 import website.automate.jwebrobot.models.scenario.Scenario;

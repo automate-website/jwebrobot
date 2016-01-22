@@ -3,10 +3,13 @@ package website.automate.jwebrobot;
 import com.beust.jcommander.JCommander;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import website.automate.jwebrobot.config.ActionExecutorModule;
+import website.automate.jwebrobot.executor.ContextHolder;
+import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.models.factories.ScenarioFactory;
-import website.automate.jwebrobot.models.mapper.actions.ActionMapperModule;
-import website.automate.jwebrobot.models.mapper.criteria.CriterionMapperModule;
+import website.automate.jwebrobot.config.ActionMapperModule;
+import website.automate.jwebrobot.config.CriterionMapperModule;
 import website.automate.jwebrobot.models.scenario.Scenario;
 
 import java.io.FileInputStream;
@@ -33,7 +36,7 @@ public class JWebRobot {
         InputStream inputStream = new FileInputStream(configurationProperties.getScenarioFilename());
         List<Scenario> scenarioList = scenarioFactory.createFromInputStream(inputStream);
 
-        scenarioExecutor.execute(scenarioList, null, null);
+        scenarioExecutor.execute(scenarioList, new ContextHolder(), new ExecutorOptions());
 
 
         // Create a new instance of the Firefox driver
@@ -76,7 +79,8 @@ public class JWebRobot {
     public static Injector configureModules() {
         Injector injector = Guice.createInjector(
             new ActionMapperModule(),
-            new CriterionMapperModule()
+            new CriterionMapperModule(),
+            new ActionExecutorModule()
         );
 
         return injector;

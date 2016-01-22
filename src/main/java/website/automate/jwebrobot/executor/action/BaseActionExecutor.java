@@ -1,7 +1,8 @@
-package website.automate.jwebrobot.executor;
+package website.automate.jwebrobot.executor.action;
 
 import static java.text.MessageFormat.format;
 import website.automate.jwebrobot.exceptions.UnsupportedActionException;
+import website.automate.jwebrobot.executor.ActionExecutionContext;
 import website.automate.jwebrobot.models.scenario.actions.Action;
 
 public abstract class BaseActionExecutor<T extends Action> implements ActionExecutor<T> {
@@ -16,6 +17,6 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
         }
         safeExecute((T)action, context);
     }
-    
+
     public abstract void safeExecute(T action, ActionExecutionContext context);
 }

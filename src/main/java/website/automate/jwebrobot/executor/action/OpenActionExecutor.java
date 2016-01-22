@@ -1,7 +1,8 @@
-package website.automate.jwebrobot.executor;
+package website.automate.jwebrobot.executor.action;
 
 import org.openqa.selenium.WebDriver;
 
+import website.automate.jwebrobot.executor.ActionExecutionContext;
 import website.automate.jwebrobot.models.scenario.actions.OpenAction;
 
 public class OpenActionExecutor extends BaseActionExecutor<OpenAction> {
