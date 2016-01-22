@@ -2,11 +2,12 @@ package website.automate.jwebrobot.models.scenario;
 
 import website.automate.jwebrobot.models.scenario.actions.Action;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Scenario {
     private String name;
-    private List<Action> steps;
+    private List<Action> steps = Collections.emptyList();
     private int precedence = -1;
 
     public String getName() {

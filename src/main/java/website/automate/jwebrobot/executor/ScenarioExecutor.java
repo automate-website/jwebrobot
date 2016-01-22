@@ -5,17 +5,22 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import website.automate.jwebrobot.models.scenario.Scenario;
 import website.automate.jwebrobot.models.scenario.actions.Action;
 
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
 public class ScenarioExecutor {
-    @Inject
-    private PrecedenceComparator precedenceComparator;
 
-    public ScenarioExecutor() {}
+    private final static PrecedenceComparator precedenceComparator = new PrecedenceComparator();
 
-    public ExecutionResults execute(List<Scenario> scenarios, ContextHolder context, ExecutorOptions executorOptions) {
+    private final ContextHolder context;
+    private final ExecutorOptions executorOptions;
+
+    public ScenarioExecutor(ContextHolder contextHolder, ExecutorOptions executorOptions) {
+        this.context = contextHolder;
+        this.executorOptions = executorOptions;
+    }
+
+    public ExecutionResults execute(List<Scenario> scenarios) {
         Collections.sort(scenarios, precedenceComparator);
 
         for (Scenario scenario : scenarios) {
@@ -25,7 +30,7 @@ public class ScenarioExecutor {
         return null;
     }
 
-    private void processScenario(Scenario scenario, ContextHolder context) {
+    private void processScenario(Scenario scenario, ContextHolder contextHolder) {
         WebDriver driver = new FirefoxDriver();
         for (Action action : scenario.getSteps()) {
             processStep(action, driver);

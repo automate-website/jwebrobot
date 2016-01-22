@@ -1,12 +1,9 @@
-package website.automate.executors.jwebrobot.executor;
+package website.automate.jwebrobot.executor;
 
-import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
 import website.automate.jwebrobot.AbstractTest;
-import website.automate.jwebrobot.JWebRobot;
 import website.automate.jwebrobot.models.scenario.Scenario;
-import website.automate.jwebrobot.executor.ScenarioExecutor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,12 +17,15 @@ public class ScenarioExecutorTest extends AbstractTest {
     private Scenario scenario1, scenario2;
 
     private ScenarioExecutor scenarioExecutor;
+    private ContextHolder contextHolder;
+    private ExecutorOptions executorOptions;
 
     @Before
     public void setUp() {
-        Injector injector = JWebRobot.configureModules();
+        contextHolder = new ContextHolder();
+        executorOptions = new ExecutorOptions();
 
-        scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
+        scenarioExecutor = new ScenarioExecutor(contextHolder, executorOptions);
 
         scenario1 = new Scenario();
         scenario1.setPrecedence(-5);
@@ -38,7 +38,7 @@ public class ScenarioExecutorTest extends AbstractTest {
     @Test
     public void executorShouldSortScenarios() {
         List<Scenario> scenarios = Arrays.asList(scenario1, scenario2);
-        scenarioExecutor.execute(scenarios, null, null);
+        scenarioExecutor.execute(scenarios);
 
         assertThat(scenarios, hasSize(2));
         assertThat(scenarios.get(0), is(scenario2));
