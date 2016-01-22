@@ -1,10 +1,10 @@
 $schema: http://waml-schema.org/draft-02/scenario-schema#
-title: Full featured scenario
 name: full-featured-scenario
 description: A full featured scenario
-type: doable
-precendence: 1
-timeout: 1000
-if: ${ true }
+fragment: true
+precedence: 1
+timeout: 2000
+if: ${true}
+unless: ${false}
 steps:
-  - url: www.example.com
+  - open: http://www.example.com

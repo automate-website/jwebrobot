@@ -1,18 +1,27 @@
 package website.automate.jwebrobot.models.mapper;
 
+import website.automate.jwebrobot.exceptions.UnknownMetadataException;
 import website.automate.jwebrobot.models.scenario.Scenario;
 import website.automate.jwebrobot.models.scenario.actions.Action;
 import website.automate.jwebrobot.utils.CollectionMapper;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ScenarioMapper extends CollectionMapper<Object, Scenario> {
     private static final String NAME = "name";
     private static final String STEPS = "steps";
+    private static final String DOLLAR_SCHEMA = "$schema";
+    private static final String DESCRIPTION = "description";
+    private static final String PRECEDENCE = "precedence";
+    private static final String FRAGMENT = "fragment";
+    private static final String TIMEOUT = "timeout";
+    private static final String IF = "if";
+    private static final String UNLESS = "unless";
+
+    private final static Set<String> ALLOWED_PROPERTIES =  new HashSet<String>(
+        Arrays.asList(NAME, STEPS, DOLLAR_SCHEMA, DESCRIPTION, PRECEDENCE, FRAGMENT, TIMEOUT, IF, UNLESS));
 
     private final StepsMapper stepsMapper;
 
@@ -23,21 +32,54 @@ public class ScenarioMapper extends CollectionMapper<Object, Scenario> {
 
     @Override
     public Scenario map(Object source) {
-        Map<String, Object> sourceScenario = (Map<String, Object>) source;
-
         Scenario scenario = new Scenario();
-        scenario.setName(String.valueOf(sourceScenario.get(NAME)));
 
-        List<Object> stepList = (ArrayList) sourceScenario.get(STEPS);
-        List<Action> actions = stepsMapper.map(stepList);
-        scenario.setSteps(actions);
+        map(source, scenario);
 
         return scenario;
     }
 
-
     public void map(Object source, Scenario target) {
-        // TODO
+        Map<String, Object> sourceScenario = (Map<String, Object>) source;
+        verifyProperties(sourceScenario.keySet());
+
+        target.setName(String.valueOf(sourceScenario.get(NAME)));
+
+        List<Object> stepList = (ArrayList) sourceScenario.get(STEPS);
+        List<Action> actions = stepsMapper.map(stepList);
+        target.setSteps(actions);
+
+        if (sourceScenario.get(DESCRIPTION) != null) {
+            target.setDescription(String.valueOf(sourceScenario.get(DESCRIPTION)));
+        }
+
+        if (sourceScenario.get(PRECEDENCE) != null) {
+            target.setPrecedence((int) sourceScenario.get(PRECEDENCE));
+        }
+
+        if (sourceScenario.get(FRAGMENT) != null) {
+            target.setFragment((boolean) sourceScenario.get(FRAGMENT));
+        }
+
+        if (sourceScenario.get(TIMEOUT) != null) {
+            target.setTimeout(String.valueOf(sourceScenario.get(TIMEOUT)));
+        }
+
+        if (sourceScenario.get(IF) != null) {
+            target.setIf(String.valueOf(sourceScenario.get(IF)));
+        }
+
+        if (sourceScenario.get(UNLESS) != null) {
+            target.setUnless(String.valueOf(sourceScenario.get(UNLESS)));
+        }
+    }
+
+    private void verifyProperties(Set<String> properties) {
+        for (String metadata : properties) {
+            if (!ALLOWED_PROPERTIES.contains(metadata.toLowerCase())) {
+                throw new UnknownMetadataException(metadata);
+            }
+        }
     }
 
 }
