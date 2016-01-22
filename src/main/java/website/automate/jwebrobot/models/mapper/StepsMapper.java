@@ -1,21 +1,24 @@
 package website.automate.jwebrobot.models.mapper;
 
-import com.google.inject.Inject;
-
 import website.automate.jwebrobot.exceptions.TooManyActionsException;
 import website.automate.jwebrobot.exceptions.UnknownActionException;
 import website.automate.jwebrobot.models.mapper.actions.ActionMapper;
 import website.automate.jwebrobot.models.scenario.actions.Action;
 import website.automate.jwebrobot.utils.CollectionMapper;
 
+import javax.inject.Inject;
 import java.util.Map;
 import java.util.Set;
 
 
 public class StepsMapper extends CollectionMapper<Object, Action> {
 
+    private final Set<ActionMapper> actionMappers;
+
     @Inject
-    private Set<ActionMapper> actionMappers;
+    public StepsMapper(Set<ActionMapper> actionMappers) {
+        this.actionMappers = actionMappers;
+    }
 
     @Override
     public Action map(Object source) {

@@ -1,11 +1,10 @@
 package website.automate.jwebrobot.models.mapper;
 
-import com.google.inject.Inject;
-
 import website.automate.jwebrobot.models.scenario.Scenario;
 import website.automate.jwebrobot.models.scenario.actions.Action;
 import website.automate.jwebrobot.utils.CollectionMapper;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +14,12 @@ public class ScenarioMapper extends CollectionMapper<Object, Scenario> {
     private static final String NAME = "name";
     private static final String STEPS = "steps";
 
+    private final StepsMapper stepsMapper;
+
     @Inject
-    private StepsMapper stepsMapper;
+    public ScenarioMapper(StepsMapper stepsMapper) {
+        this.stepsMapper = stepsMapper;
+    }
 
     @Override
     public Scenario map(Object source) {

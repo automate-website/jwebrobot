@@ -5,26 +5,24 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import website.automate.jwebrobot.models.scenario.Scenario;
 import website.automate.jwebrobot.models.scenario.actions.Action;
 
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
 public class ScenarioExecutor {
 
-    private final static PrecedenceComparator precedenceComparator = new PrecedenceComparator();
+    private final PrecedenceComparator precedenceComparator;
 
-    private final ContextHolder context;
-    private final ExecutorOptions executorOptions;
-
-    public ScenarioExecutor(ContextHolder contextHolder, ExecutorOptions executorOptions) {
-        this.context = contextHolder;
-        this.executorOptions = executorOptions;
+    @Inject
+    public ScenarioExecutor(PrecedenceComparator precedenceComparator) {
+        this.precedenceComparator = precedenceComparator;
     }
 
-    public ExecutionResults execute(List<Scenario> scenarios) {
+    public ExecutionResults execute(List<Scenario> scenarios, ContextHolder contextHolder, ExecutorOptions executorOptions) {
         Collections.sort(scenarios, precedenceComparator);
 
         for (Scenario scenario : scenarios) {
-            processScenario(scenario, context);
+            processScenario(scenario, contextHolder);
         }
 
         return null;

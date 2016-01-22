@@ -25,7 +25,7 @@ public class ScenarioExecutorTest extends AbstractTest {
         contextHolder = new ContextHolder();
         executorOptions = new ExecutorOptions();
 
-        scenarioExecutor = new ScenarioExecutor(contextHolder, executorOptions);
+        scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
 
         scenario1 = new Scenario();
         scenario1.setPrecedence(-5);
@@ -38,7 +38,7 @@ public class ScenarioExecutorTest extends AbstractTest {
     @Test
     public void executorShouldSortScenarios() {
         List<Scenario> scenarios = Arrays.asList(scenario1, scenario2);
-        scenarioExecutor.execute(scenarios);
+        scenarioExecutor.execute(scenarios, contextHolder, executorOptions);
 
         assertThat(scenarios, hasSize(2));
         assertThat(scenarios.get(0), is(scenario2));

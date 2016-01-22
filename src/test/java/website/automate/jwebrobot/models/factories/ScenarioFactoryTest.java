@@ -1,12 +1,9 @@
 package website.automate.jwebrobot.models.factories;
 
 
-import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
-
 import website.automate.jwebrobot.AbstractTest;
-import website.automate.jwebrobot.JWebRobot;
 import website.automate.jwebrobot.exceptions.TooManyActionsException;
 import website.automate.jwebrobot.exceptions.UnknownActionException;
 import website.automate.jwebrobot.exceptions.UnknownCriterionException;
@@ -29,8 +26,6 @@ public class ScenarioFactoryTest extends AbstractTest {
 
     @Before
     public void setUp() {
-        Injector injector = JWebRobot.configureModules();
-
         scenarioFactory = injector.getInstance(ScenarioFactory.class);
     }
 

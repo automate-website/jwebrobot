@@ -97,7 +97,7 @@
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
-                            <mainClass>website.automate.executors.jwebrobot.JWebRobot</mainClass>
+                            <mainClass>website.automate.jwebrobot.JWebRobot</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
