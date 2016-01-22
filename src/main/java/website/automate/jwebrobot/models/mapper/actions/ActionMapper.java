@@ -2,6 +2,7 @@ package website.automate.jwebrobot.models.mapper.actions;
 
 import website.automate.jwebrobot.exceptions.UnknownCriterionException;
 import website.automate.jwebrobot.models.mapper.criteria.CriterionMapper;
+import website.automate.jwebrobot.models.mapper.criteria.CriterionMapperFactory;
 import website.automate.jwebrobot.models.scenario.actions.Action;
 import website.automate.jwebrobot.models.scenario.actions.criteria.Criterion;
 import website.automate.jwebrobot.utils.Mapper;

@@ -1,7 +1,6 @@
-package website.automate.jwebrobot.models.mapper.actions;
+package website.automate.jwebrobot.models.mapper.criteria;
 
-import website.automate.jwebrobot.exceptions.CriterionMapperMissingException;
-import website.automate.jwebrobot.models.mapper.criteria.CriterionMapper;
+import website.automate.jwebrobot.exceptions.UnknownCriterionException;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class CriterionMapperFactory {
     public CriterionMapper getInstance(String criterionName) {
         CriterionMapper criterionMapper = criterionMapperByCriterionNameMap.get(criterionName.toLowerCase());
         if (criterionMapper == null) {
-            throw new CriterionMapperMissingException(criterionName);
+            throw new UnknownCriterionException(criterionName);
         }
 
         return criterionMapper;
