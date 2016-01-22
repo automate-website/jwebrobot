@@ -8,12 +8,11 @@ import website.automate.jwebrobot.utils.Mapper;
 
 import javax.inject.Inject;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class ActionMapper<T extends Action> implements Mapper<Object, T> {
 
     @Inject
-    private Set<CriterionMapper> existingCriteria;
+    private CriterionMapperFactory criterionMapperFactory;
 
     public abstract String getActionName();
 
@@ -21,7 +20,7 @@ public abstract class ActionMapper<T extends Action> implements Mapper<Object, T
     public void map(Object source, T target) {
         if (source instanceof String) {
             String defaultCriterionName = target.getDefaultCriterionName();
-            CriterionMapper<Criterion> criterionMapper = findCriterionMapperByCriterionName(defaultCriterionName);
+            CriterionMapper<Criterion> criterionMapper = criterionMapperFactory.getInstance(defaultCriterionName);
             if (criterionMapper == null) {
                 throw new UnknownCriterionException(defaultCriterionName);
             }
@@ -33,7 +32,7 @@ public abstract class ActionMapper<T extends Action> implements Mapper<Object, T
             for (String criterionName : criteria.keySet()) {
                 Object criteriaValue = criteria.get(criterionName);
                 if (criteriaValue instanceof String) {
-                    CriterionMapper<Criterion> criterionMapper = findCriterionMapperByCriterionName(criterionName);
+                    CriterionMapper<Criterion> criterionMapper = criterionMapperFactory.getInstance(criterionName);
                     if (criterionMapper == null) {
                         throw new UnknownCriterionException(criterionName);
                     }
@@ -45,20 +44,5 @@ public abstract class ActionMapper<T extends Action> implements Mapper<Object, T
                 }
             }
         }
-    }
-
-    /**
-     * TODO use a map
-     * @param criterionName
-     * @return
-     */
-    private CriterionMapper findCriterionMapperByCriterionName(String criterionName) {
-        for (CriterionMapper criterionMapper : existingCriteria) {
-            if (criterionMapper.getCriterionName().equalsIgnoreCase(criterionName)) {
-                return criterionMapper;
-            }
-        }
-
-        return null;
     }
 }
