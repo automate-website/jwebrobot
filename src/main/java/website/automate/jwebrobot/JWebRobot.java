@@ -3,22 +3,30 @@ package website.automate.jwebrobot;
 import com.beust.jcommander.JCommander;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import website.automate.jwebrobot.models.mapper.actions.ActionMapperModule;
 import website.automate.jwebrobot.models.mapper.criteria.CriteriaMapperModule;
+
+import java.io.FileNotFoundException;
 
 /**
  * Hello world!
  *
  */
 public class JWebRobot {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         ConfigurationProperties configurationProperties = new ConfigurationProperties();
         new JCommander(configurationProperties, args);
 
         System.out.println(configurationProperties.getScenarioFilename());
 
-        configureModules();
+        Injector injector = configureModules();
+//
+//        ScenarioFactory scenarioFactory = injector.getInstance(ScenarioFactory.class);
+//        InputStream inputStream = new FileInputStream(configurationProperties.getScenarioFilename());
+//        List<Scenario> scenarioList = scenarioFactory.createFromInputStream(inputStream);
+//
+//        ScenarioExecutor scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
+//        scenarioExecutor.execute(scenarioList, null, null);
 
 
         // Create a new instance of the Firefox driver
