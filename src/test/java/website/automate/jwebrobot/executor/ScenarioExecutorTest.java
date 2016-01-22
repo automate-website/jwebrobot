@@ -6,6 +6,7 @@ import org.junit.Test;
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.models.scenario.Scenario;
 import website.automate.jwebrobot.models.scenario.actions.ClickAction;
+import website.automate.jwebrobot.models.scenario.actions.EnsureAction;
 import website.automate.jwebrobot.models.scenario.actions.OpenAction;
 
 import java.util.Arrays;
@@ -23,6 +24,7 @@ public class ScenarioExecutorTest extends AbstractTest {
 
     private OpenAction openAction;
     private ClickAction clickAction;
+    private EnsureAction ensureAction;
 
     @Before
     public void setUp() {
@@ -37,6 +39,9 @@ public class ScenarioExecutorTest extends AbstractTest {
 
         clickAction = new ClickAction();
         clickAction.setSelector("a[title=\"Wikipedia:About\"]");
+
+        ensureAction = new EnsureAction();
+        ensureAction.setSelector("#About_Wikipedia");
 
     }
 
@@ -60,9 +65,9 @@ public class ScenarioExecutorTest extends AbstractTest {
     }
 
     @Test
-    public void clickActionShouldBeProcessed() {
+    public void simpleActionsShouldBeExecuted() {
         Scenario scenario = new Scenario();
-        scenario.setSteps(Arrays.asList(openAction, clickAction));
+        scenario.setSteps(Arrays.asList(openAction, clickAction, ensureAction));
 
         scenarioExecutor.execute(Arrays.asList(scenario), contextHolder, executorOptions);
     }

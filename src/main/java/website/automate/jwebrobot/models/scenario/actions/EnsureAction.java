@@ -1,10 +1,9 @@
 package website.automate.jwebrobot.models.scenario.actions;
 
-
 import website.automate.jwebrobot.models.scenario.actions.criteria.SelectorCriterion;
 
-public class ClickAction extends Action {
-    public final static String ACTION_NAME = "click";
+public class EnsureAction extends Action {
+    public final static String ACTION_NAME = "ensure";
 
     private static final String DEFAULT_CRITERION_NAME = SelectorCriterion.NAME;
 
@@ -17,7 +16,6 @@ public class ClickAction extends Action {
         selectorCriterion.setValue(selector);
         criteriaMap.put(SelectorCriterion.NAME, selectorCriterion);
     }
-
 
     @Override
     public String getDefaultCriterionName() {

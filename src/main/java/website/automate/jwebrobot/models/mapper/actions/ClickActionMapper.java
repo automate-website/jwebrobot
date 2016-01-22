@@ -3,7 +3,6 @@ package website.automate.jwebrobot.models.mapper.actions;
 import website.automate.jwebrobot.models.scenario.actions.ClickAction;
 
 public class ClickActionMapper extends ActionMapper<ClickAction> {
-    private static final String CLICK = "click";
 
     @Override
     public ClickAction map(Object source) {
@@ -15,6 +14,6 @@ public class ClickActionMapper extends ActionMapper<ClickAction> {
 
     @Override
     public String getActionName() {
-        return CLICK;
+        return ClickAction.ACTION_NAME;
     }
 }

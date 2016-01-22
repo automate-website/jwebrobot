@@ -15,19 +15,19 @@ public class ActionExecutorFactory {
     private final Set<ActionExecutor> executors;
 
     @Inject
-    public ActionExecutorFactory(Set<ActionExecutor> executors){
+    public ActionExecutorFactory(Set<ActionExecutor> executors) {
         this.executors = executors;
 
         init();
     }
 
-    private void init(){
-        for (ActionExecutor<?> executor : executors){
+    private void init() {
+        for (ActionExecutor<?> executor : executors) {
             executorRegistry.put(executor.getActionType(), executor);
         }
     }
 
-    public ActionExecutor<?> getInstance(Class<? extends Action> actionType){
+    public ActionExecutor<?> getInstance(Class<? extends Action> actionType) {
         ActionExecutor actionExecutor = executorRegistry.get(actionType);
 
         if (actionExecutor == null) {
