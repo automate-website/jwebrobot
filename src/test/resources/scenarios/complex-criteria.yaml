@@ -1,5 +1,0 @@
-name: Action with complex criteria
-precedence: 1
-steps:
-  - open:
-      url: 'www.example.com'

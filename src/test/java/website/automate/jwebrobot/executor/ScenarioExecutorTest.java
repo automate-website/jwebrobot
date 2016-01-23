@@ -5,6 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.models.scenario.Scenario;
+import website.automate.jwebrobot.models.scenario.actions.Action;
 import website.automate.jwebrobot.models.scenario.actions.ClickAction;
 import website.automate.jwebrobot.models.scenario.actions.EnsureAction;
 import website.automate.jwebrobot.models.scenario.actions.OpenAction;
@@ -67,7 +68,7 @@ public class ScenarioExecutorTest extends AbstractTest {
     @Test
     public void simpleActionsShouldBeExecuted() {
         Scenario scenario = new Scenario();
-        scenario.setSteps(Arrays.asList(openAction, clickAction, ensureAction));
+        scenario.setSteps(Arrays.<Action>asList(openAction, clickAction, ensureAction));
 
         scenarioExecutor.execute(Arrays.asList(scenario), contextHolder, executorOptions);
     }

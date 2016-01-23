@@ -12,13 +12,13 @@ public class UrlCriterionMapper extends CriterionMapper<UrlCriterion> {
     @Override
     public UrlCriterion map(Object source) {
         UrlCriterion criterion = new UrlCriterion();
-        criterion.setValue((String) source);
+        map(source, criterion);
 
         return criterion;
     }
 
     @Override
     public void map(Object source, UrlCriterion target) {
-
+        target.setValue((String) source);
     }
 }

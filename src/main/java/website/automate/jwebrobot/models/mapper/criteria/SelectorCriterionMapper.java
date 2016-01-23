@@ -12,13 +12,13 @@ public class SelectorCriterionMapper extends CriterionMapper<SelectorCriterion> 
     @Override
     public SelectorCriterion map(Object source) {
         SelectorCriterion criterion = new SelectorCriterion();
-        criterion.setValue((String) source);
+        map(source, criterion);
 
         return criterion;
     }
 
     @Override
     public void map(Object source, SelectorCriterion target) {
-
+        target.setValue((String) source);
     }
 }

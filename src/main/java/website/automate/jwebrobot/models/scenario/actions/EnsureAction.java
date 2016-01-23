@@ -1,24 +1,25 @@
 package website.automate.jwebrobot.models.scenario.actions;
 
 import website.automate.jwebrobot.models.scenario.actions.criteria.SelectorCriterion;
+import website.automate.jwebrobot.models.scenario.actions.criteria.TextCriterion;
+import website.automate.jwebrobot.models.scenario.actions.criteria.TimeoutCriterion;
+import website.automate.jwebrobot.models.scenario.actions.criteria.ValueCriterion;
 
-public class EnsureAction extends Action {
+public class EnsureAction extends SelectorAction<SelectorCriterion> {
     public final static String ACTION_NAME = "ensure";
 
-    private static final String DEFAULT_CRITERION_NAME = SelectorCriterion.NAME;
 
-    public SelectorCriterion getSelector() {
-        return (SelectorCriterion) criteriaMap.get(SelectorCriterion.NAME);
+    public TextCriterion getText() {
+        return (TextCriterion) criteriaMap.get(TextCriterion.NAME);
     }
 
-    public void setSelector(String selector) {
-        SelectorCriterion selectorCriterion = new SelectorCriterion();
-        selectorCriterion.setValue(selector);
-        criteriaMap.put(SelectorCriterion.NAME, selectorCriterion);
+    public TimeoutCriterion getTimeout() {
+        return (TimeoutCriterion) criteriaMap.get(TimeoutCriterion.NAME);
     }
 
-    @Override
-    public String getDefaultCriterionName() {
-        return DEFAULT_CRITERION_NAME;
+    public ValueCriterion getValue() {
+        return (ValueCriterion) criteriaMap.get(ValueCriterion.NAME);
     }
+
+
 }

@@ -50,18 +50,6 @@ public class ScenarioFactoryTest extends AbstractTest {
         scenarioFactory.createFromInputStream(stream);
     }
 
-    @Test
-    public void shouldSupportComplexCriteria() {
-        // given
-        InputStream inputStream = getSystemResourceAsStream("./scenarios/complex-criteria.yaml");
-
-        // when
-        Scenario scenario = scenarioFactory.createFromInputStream(inputStream).get(0);
-
-        // then
-        assertThat(((OpenAction) scenario.getSteps().get(0)).getUrl().getValue(), is("www.example.com"));
-    }
-
 
     @Test
     public void scenarioListShouldBeLoaded() throws IOException {

@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Action {
+public abstract class Action<T extends Criterion> {
     Map<String, Criterion> criteriaMap = new HashMap<>();
 
     public void putCriterion(Criterion criterion) {
