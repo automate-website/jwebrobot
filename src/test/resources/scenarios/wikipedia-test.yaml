@@ -1,0 +1,12 @@
+name: Wikipedia Test
+steps:
+  - open: 'https://en.wikipedia.org'
+  - click: 'a[title="Wikipedia:About"]'
+  - ensure: '#About_Wikipedia'
+  - click: 'a[accesskey="j"]'
+  - select: 'select#namespace > option:nth-child(3)'
+  - wait: 2000
+  - select:
+      selector: 'select#namespace'
+      value: '6'
+

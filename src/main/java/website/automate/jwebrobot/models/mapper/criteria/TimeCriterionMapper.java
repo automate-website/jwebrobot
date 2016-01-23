@@ -19,6 +19,6 @@ public class TimeCriterionMapper extends CriterionMapper<TimeCriterion> {
 
     @Override
     public void map(Object source, TimeCriterion target) {
-        target.setValue((String) source);
+        target.setValue(String.valueOf(source));
     }
 }

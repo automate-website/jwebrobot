@@ -116,6 +116,7 @@ public class CriteriaMapperTest extends AbstractTest {
         SelectAction action = (SelectAction) steps.get(9);
 
         assertThat(action.getSelector().getValue(), is("select.selector"));
+        assertThat(action.getValue().getValue(), is("select.value"));
         // TODO: Add other criteria check
         assertThat(action.getIf().getValue(), is("select.if"));
         assertThat(action.getUnless().getValue(), is("select.unless"));

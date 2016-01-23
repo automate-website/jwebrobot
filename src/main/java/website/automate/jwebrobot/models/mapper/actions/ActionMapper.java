@@ -19,15 +19,7 @@ public abstract class ActionMapper<T extends Action> implements Mapper<Object, T
 
     @Override
     public void map(Object source, T target) {
-        if (source instanceof String) {
-            String defaultCriterionName = target.getDefaultCriterionName();
-            CriterionMapper<Criterion> criterionMapper = criterionMapperFactory.getInstance(defaultCriterionName);
-            if (criterionMapper == null) {
-                throw new UnknownCriterionException(defaultCriterionName);
-            }
-
-            target.putCriterion(criterionMapper.map(source));
-        } else {
+        if (source instanceof Map) {
             Map<String, Object> criteria = (Map<String, Object>) source;
 
             for (String criterionName : criteria.keySet()) {
@@ -44,6 +36,14 @@ public abstract class ActionMapper<T extends Action> implements Mapper<Object, T
                     throw new RuntimeException("not yet supported");
                 }
             }
+        } else {
+            String defaultCriterionName = target.getDefaultCriterionName();
+            CriterionMapper<Criterion> criterionMapper = criterionMapperFactory.getInstance(defaultCriterionName);
+            if (criterionMapper == null) {
+                throw new UnknownCriterionException(defaultCriterionName);
+            }
+
+            target.putCriterion(criterionMapper.map(source));
         }
     }
 }

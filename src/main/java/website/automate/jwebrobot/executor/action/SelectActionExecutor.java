@@ -5,19 +5,22 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import website.automate.jwebrobot.executor.ActionExecutionContext;
-import website.automate.jwebrobot.models.scenario.actions.ClickAction;
+import website.automate.jwebrobot.models.scenario.actions.SelectAction;
 
-public class ClickActionExecutor extends BaseActionExecutor<ClickAction> {
+public class SelectActionExecutor extends BaseActionExecutor<SelectAction> {
+
+    private static final String OPTION = "option";
 
     @Override
-    public Class<ClickAction> getActionType() {
-        return ClickAction.class;
+    public Class<SelectAction> getActionType() {
+        return SelectAction.class;
     }
 
     @Override
-    public void safeExecute(final ClickAction action, ActionExecutionContext context) {
+    public void safeExecute(final SelectAction action, ActionExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         WebElement element = (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<WebElement>() {
@@ -27,7 +30,15 @@ public class ClickActionExecutor extends BaseActionExecutor<ClickAction> {
         });
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(element).click().perform();
+        actions.moveToElement(element).perform();
+
+        if (element.getTagName().equalsIgnoreCase(OPTION)) {
+            element.click();
+        } else {
+            Select select = new Select(element);
+            select.selectByValue(action.getValue().getValue());
+        }
+
     }
 
 }

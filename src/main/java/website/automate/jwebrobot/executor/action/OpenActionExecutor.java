@@ -13,7 +13,7 @@ public class OpenActionExecutor extends BaseActionExecutor<OpenAction> {
     }
 
     @Override
-    public void safeExecute(OpenAction action, ActionExecutionContext context) {
+    public void safeExecute(final OpenAction action, ActionExecutionContext context) {
         WebDriver driver = context.getDriver();
         driver.get(action.getUrl().getValue());
     }

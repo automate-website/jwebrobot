@@ -7,17 +7,17 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import website.automate.jwebrobot.executor.ActionExecutionContext;
-import website.automate.jwebrobot.models.scenario.actions.ClickAction;
+import website.automate.jwebrobot.models.scenario.actions.MoveAction;
 
-public class ClickActionExecutor extends BaseActionExecutor<ClickAction> {
+public class MoveActionExecutor extends BaseActionExecutor<MoveAction> {
 
     @Override
-    public Class<ClickAction> getActionType() {
-        return ClickAction.class;
+    public Class<MoveAction> getActionType() {
+        return MoveAction.class;
     }
 
     @Override
-    public void safeExecute(final ClickAction action, ActionExecutionContext context) {
+    public void safeExecute(final MoveAction action, ActionExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         WebElement element = (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<WebElement>() {
@@ -27,7 +27,7 @@ public class ClickActionExecutor extends BaseActionExecutor<ClickAction> {
         });
 
         Actions actions = new Actions(driver);
-        actions.moveToElement(element).click().perform();
+        actions.moveToElement(element).perform();
     }
 
 }

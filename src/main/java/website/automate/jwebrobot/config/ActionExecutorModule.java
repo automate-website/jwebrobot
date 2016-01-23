@@ -2,10 +2,7 @@ package website.automate.jwebrobot.config;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.Multibinder;
-import website.automate.jwebrobot.executor.action.ActionExecutor;
-import website.automate.jwebrobot.executor.action.ClickActionExecutor;
-import website.automate.jwebrobot.executor.action.EnsureActionExecutor;
-import website.automate.jwebrobot.executor.action.OpenActionExecutor;
+import website.automate.jwebrobot.executor.action.*;
 
 
 public class ActionExecutorModule extends AbstractModule {
@@ -14,9 +11,12 @@ public class ActionExecutorModule extends AbstractModule {
     protected void configure() {
         Multibinder<ActionExecutor> actionExecutorBinder = Multibinder.newSetBinder(binder(), ActionExecutor.class);
 
-        actionExecutorBinder.addBinding().to(OpenActionExecutor.class);
         actionExecutorBinder.addBinding().to(ClickActionExecutor.class);
         actionExecutorBinder.addBinding().to(EnsureActionExecutor.class);
+        actionExecutorBinder.addBinding().to(MoveActionExecutor.class);
+        actionExecutorBinder.addBinding().to(OpenActionExecutor.class);
+        actionExecutorBinder.addBinding().to(SelectActionExecutor.class);
+        actionExecutorBinder.addBinding().to(WaitActionExecutor.class);
 
     }
 }
