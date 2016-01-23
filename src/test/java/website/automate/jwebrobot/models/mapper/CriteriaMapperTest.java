@@ -134,6 +134,7 @@ public class CriteriaMapperTest extends AbstractTest {
         EnterAction action = (EnterAction) steps.get(11);
 
         assertThat(action.getValue().getValue(), is("enter.value"));
+        assertThat(action.getClear().getValue(), is(true));
         // TODO: Add other criteria check
         assertThat(action.getIf().getValue(), is("enter.if"));
         assertThat(action.getUnless().getValue(), is("enter.unless"));

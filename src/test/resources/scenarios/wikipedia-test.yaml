@@ -5,8 +5,15 @@ steps:
   - ensure: '#About_Wikipedia'
   - click: 'a[accesskey="j"]'
   - select: 'select#namespace > option:nth-child(3)'
-  - wait: 2000
+  - wait: 100
   - select:
       selector: 'select#namespace'
       value: '6'
-
+  - enter:
+      selector: 'input[name="target"]'
+      clear: true
+      value: 'Machu Picchu'
+  - wait: 500
+  - enter: "\uE015"
+  - enter: "\uE006"
+  - wait: 1000

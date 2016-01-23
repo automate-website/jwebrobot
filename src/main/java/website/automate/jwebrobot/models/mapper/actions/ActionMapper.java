@@ -24,16 +24,16 @@ public abstract class ActionMapper<T extends Action> implements Mapper<Object, T
 
             for (String criterionName : criteria.keySet()) {
                 Object criteriaValue = criteria.get(criterionName);
-                if (criteriaValue instanceof String) {
+                if (criteriaValue instanceof Map) {
+                    // TODO complex criteria
+                    throw new RuntimeException("not yet supported" + criterionName);
+                } else {
                     CriterionMapper<Criterion> criterionMapper = criterionMapperFactory.getInstance(criterionName);
                     if (criterionMapper == null) {
                         throw new UnknownCriterionException(criterionName);
                     }
 
                     target.putCriterion(criterionMapper.map(criteriaValue));
-                } else {
-                    // TODO complex criteria
-                    throw new RuntimeException("not yet supported");
                 }
             }
         } else {

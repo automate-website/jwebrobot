@@ -11,6 +11,7 @@ public class CriterionMapperModule extends AbstractModule {
     protected void configure() {
         Multibinder<CriterionMapper> criterionMapperBinder = Multibinder.newSetBinder(binder(), CriterionMapper.class);
 
+        criterionMapperBinder.addBinding().to(ClearCriterionMapper.class);
         criterionMapperBinder.addBinding().to(IfCriterionMapper.class);
         criterionMapperBinder.addBinding().to(ScenarioCriterionMapper.class);
         criterionMapperBinder.addBinding().to(SelectorCriterionMapper.class);

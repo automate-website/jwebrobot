@@ -15,6 +15,10 @@ public abstract class Action<T extends Criterion> {
         criteriaMap.put(criterion.getName(), criterion);
     }
 
+    protected <I extends Criterion> I getCriterion(String criterionName, Class<I> criterionClass) {
+        return (I) criteriaMap.get(criterionName);
+    }
+
     public Collection<Criterion> getCriteria() {
         return criteriaMap.values();
     }

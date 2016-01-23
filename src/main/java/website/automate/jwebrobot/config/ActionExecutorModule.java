@@ -13,6 +13,7 @@ public class ActionExecutorModule extends AbstractModule {
 
         actionExecutorBinder.addBinding().to(ClickActionExecutor.class);
         actionExecutorBinder.addBinding().to(EnsureActionExecutor.class);
+        actionExecutorBinder.addBinding().to(EnterActionExecutor.class);
         actionExecutorBinder.addBinding().to(MoveActionExecutor.class);
         actionExecutorBinder.addBinding().to(OpenActionExecutor.class);
         actionExecutorBinder.addBinding().to(SelectActionExecutor.class);

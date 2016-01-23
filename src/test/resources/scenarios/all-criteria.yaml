@@ -42,6 +42,7 @@ steps:
   - enter: 'enter.value1'
   - enter:
       value: 'enter.value'
+      clear: true
       text: 'enter.text'
       selector: 'enter.selector'
       timeout: 'enter.timeout'

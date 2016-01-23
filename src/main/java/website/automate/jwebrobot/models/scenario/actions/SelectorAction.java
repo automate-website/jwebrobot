@@ -4,10 +4,10 @@ package website.automate.jwebrobot.models.scenario.actions;
 import website.automate.jwebrobot.models.scenario.actions.criteria.Criterion;
 import website.automate.jwebrobot.models.scenario.actions.criteria.SelectorCriterion;
 
-public abstract class SelectorAction<T extends Criterion> extends IfUnlessAction {
+public abstract class SelectorAction<T extends Criterion> extends IfUnlessAction<T> {
 
     public SelectorCriterion getSelector() {
-        return (SelectorCriterion) criteriaMap.get(SelectorCriterion.NAME);
+        return getCriterion(SelectorCriterion.NAME, SelectorCriterion.class);
     }
 
     public void setSelector(String selector) {
