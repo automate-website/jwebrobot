@@ -1,0 +1,5 @@
+name: Goto Wikipedia Landing Page
+fragment: true
+steps:
+  - open: https://en.wikipedia.org
+

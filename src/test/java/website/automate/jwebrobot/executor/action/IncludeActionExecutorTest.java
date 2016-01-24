@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.google.inject.Provider;
+
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
@@ -27,6 +29,7 @@ public class IncludeActionExecutorTest {
     @Mock private GlobalExecutionContext globalContext;
     @Mock private Scenario childScenario;
     @Mock private ScenarioCriterion scenarioCriterion;
+    @Mock private Provider<ScenarioExecutor> scenarioExecutorProvider;
     
     private IncludeActionExecutor executor;
     
@@ -37,7 +40,8 @@ public class IncludeActionExecutorTest {
         when(scenarioContext.getGlobalContext()).thenReturn(globalContext);
         when(globalContext.getScenario(SCENARIO_TITLE)).thenReturn(childScenario);
         when(scenarioContext.createChildContext(childScenario)).thenReturn(childScenarioContext);
-        executor = new IncludeActionExecutor(scenarioExecutor);
+        when(scenarioExecutorProvider.get()).thenReturn(scenarioExecutor);
+        executor = new IncludeActionExecutor(scenarioExecutorProvider);
         
         executor.execute(action, scenarioContext);
         

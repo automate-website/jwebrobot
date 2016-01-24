@@ -1,0 +1,5 @@
+name: Ensure on Wikipedia About Page
+steps:
+  - include: Ensure on Wikipedia Landing Page
+  - click: a[title="Wikipedia:About"]
+  - ensure: '#About_Wikipedia'

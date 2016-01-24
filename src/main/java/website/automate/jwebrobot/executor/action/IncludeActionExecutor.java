@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.executor.action;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
@@ -10,10 +11,10 @@ import website.automate.jwebrobot.models.scenario.actions.IncludeAction;
 
 public class IncludeActionExecutor extends BaseActionExecutor<IncludeAction> {
 
-    private ScenarioExecutor scenarioExecutor;
+    private Provider<ScenarioExecutor> scenarioExecutor;
     
     @Inject
-    public IncludeActionExecutor(ScenarioExecutor scenarioExecutor) {
+    public IncludeActionExecutor(Provider<ScenarioExecutor> scenarioExecutor) {
         this.scenarioExecutor = scenarioExecutor;
     }
     
@@ -28,7 +29,7 @@ public class IncludeActionExecutor extends BaseActionExecutor<IncludeAction> {
         String scenarioName = action.getScenario().getValue();
         Scenario scenario = globalContext.getScenario(scenarioName);
         ScenarioExecutionContext includedScenarioContext = context.createChildContext(scenario);
-        scenarioExecutor.runScenario(scenario, includedScenarioContext);
+        scenarioExecutor.get().runScenario(scenario, includedScenarioContext);
     }
 
 }
