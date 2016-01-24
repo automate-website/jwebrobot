@@ -11,11 +11,9 @@ import website.automate.jwebrobot.executor.action.ActionExecutor;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.models.scenario.Scenario;
 import website.automate.jwebrobot.models.scenario.actions.Action;
-import website.automate.jwebrobot.models.utils.PrecedenceComparator;
 
 import javax.inject.Inject;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,32 +22,28 @@ public class ScenarioExecutor {
     @InjectLogger
     private Logger logger;
 
-    private final PrecedenceComparator precedenceComparator;
     private final WebDriverProvider webDriverProvider;
     private final ActionExecutorFactory actionExecutorFactory;
 
     @Inject
     public ScenarioExecutor(
-        PrecedenceComparator precedenceComparator,
         WebDriverProvider webDriverProvider,
         ActionExecutorFactory actionExecutorFactory
     ) {
-        this.precedenceComparator = precedenceComparator;
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
     }
 
-    public ExecutionResults execute(List<Scenario> scenarios, ContextHolder contextHolder, ExecutorOptions executorOptions) {
-        Collections.sort(scenarios, precedenceComparator);
-
+    public ExecutionResults execute(GlobalExecutionContext context) {
         ExecutionResults executionResults = new ExecutionResults();
-        GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarios);
+        List<Scenario> scenarios = context.getScenarios();
+        ExecutorOptions options = context.getOptions();
         
         for (Scenario scenario : scenarios) {
             logger.info("Starting scenario {}...", scenario.getName());
-            WebDriver driver = webDriverProvider.createInstance(executorOptions.getWebDriverType());
+            WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
 
-            ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(globalContext, scenario, driver, new HashMap<String, String>());
+            ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, new HashMap<String, String>());
             try {
                 runScenario(scenario, scenarioExecutionContext);
             } finally {

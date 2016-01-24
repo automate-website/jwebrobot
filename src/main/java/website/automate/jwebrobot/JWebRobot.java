@@ -3,19 +3,18 @@ package website.automate.jwebrobot;
 import com.beust.jcommander.JCommander;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import website.automate.jwebrobot.config.ActionExecutorModule;
 import website.automate.jwebrobot.config.ActionMapperModule;
 import website.automate.jwebrobot.config.CriterionMapperModule;
 import website.automate.jwebrobot.config.logger.LoggerModule;
-import website.automate.jwebrobot.executor.ContextHolder;
+import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
-import website.automate.jwebrobot.models.factories.ScenarioFactory;
-import website.automate.jwebrobot.models.scenario.Scenario;
+import website.automate.jwebrobot.loader.ScenarioFile;
+import website.automate.jwebrobot.loader.ScenarioLoader;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -31,13 +30,13 @@ public class JWebRobot {
         System.out.println("Executing: " + configurationProperties.getScenarioFilename());
 
         Injector injector = configureModules();
-        ScenarioFactory scenarioFactory = injector.getInstance(ScenarioFactory.class);
+        ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
         ScenarioExecutor scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
 
-        InputStream inputStream = new FileInputStream(configurationProperties.getScenarioFilename());
-        List<Scenario> scenarioList = scenarioFactory.createFromInputStream(inputStream);
-
-        scenarioExecutor.execute(scenarioList, new ContextHolder(), new ExecutorOptions());
+        List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getScenarioFilename());
+        GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, new ExecutorOptions());
+        
+        scenarioExecutor.execute(globalContext);
 
     }
 
