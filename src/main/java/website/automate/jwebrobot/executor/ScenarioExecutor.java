@@ -2,7 +2,10 @@ package website.automate.jwebrobot.executor;
 
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
+
 import website.automate.jwebrobot.config.logger.InjectLogger;
+import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.exceptions.StepsMustBePresentException;
 import website.automate.jwebrobot.executor.action.ActionExecutor;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
@@ -11,6 +14,7 @@ import website.automate.jwebrobot.models.scenario.actions.Action;
 import website.automate.jwebrobot.models.utils.PrecedenceComparator;
 
 import javax.inject.Inject;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -39,14 +43,15 @@ public class ScenarioExecutor {
         Collections.sort(scenarios, precedenceComparator);
 
         ExecutionResults executionResults = new ExecutionResults();
-
+        GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarios);
+        
         for (Scenario scenario : scenarios) {
             logger.info("Starting scenario {}...", scenario.getName());
             WebDriver driver = webDriverProvider.createInstance(executorOptions.getWebDriverType());
 
-            ActionExecutionContext actionExecutionContext = new ActionExecutionContext(driver, new HashMap<String, String>());
+            ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(globalContext, scenario, driver, new HashMap<String, String>());
             try {
-                runScenario(scenario, actionExecutionContext);
+                runScenario(scenario, scenarioExecutionContext);
             } finally {
                 driver.quit();
             }
@@ -57,7 +62,7 @@ public class ScenarioExecutor {
     }
 
 
-    private void runScenario(Scenario scenario, ActionExecutionContext actionExecutionContext) {
+    public void runScenario(Scenario scenario, ScenarioExecutionContext scenarioExecutionContext) {
         if (scenario.getSteps() == null) {
             throw new StepsMustBePresentException(scenario.getName());
         }
@@ -65,7 +70,7 @@ public class ScenarioExecutor {
         for (Action action : scenario.getSteps()) {
             ActionExecutor actionExecutor = actionExecutorFactory.getInstance(action.getClass());
             logger.debug("Executing {}", actionExecutor.getClass().getName());
-            actionExecutor.execute(action, actionExecutionContext);
+            actionExecutor.execute(action, scenarioExecutionContext);
         }
 
     }

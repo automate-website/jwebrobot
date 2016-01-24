@@ -5,7 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import website.automate.jwebrobot.executor.ActionExecutionContext;
+
+import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.models.scenario.actions.EnterAction;
 
 public class EnterActionExecutor extends BaseActionExecutor<EnterAction> {
@@ -16,7 +17,7 @@ public class EnterActionExecutor extends BaseActionExecutor<EnterAction> {
     }
 
     @Override
-    public void safeExecute(final EnterAction action, ActionExecutionContext context) {
+    public void safeExecute(final EnterAction action, ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         final WebElement element;
