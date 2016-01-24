@@ -40,16 +40,18 @@ public class ScenarioExecutor {
         ExecutorOptions options = context.getOptions();
         
         for (Scenario scenario : scenarios) {
-            logger.info("Starting scenario {}...", scenario.getName());
-            WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
-
-            ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, new HashMap<String, String>());
-            try {
-                runScenario(scenario, scenarioExecutionContext);
-            } finally {
-                driver.quit();
+            if (!scenario.isFragment()){
+                logger.info("Starting scenario {}...", scenario.getName());
+                WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
+    
+                ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, new HashMap<String, String>());
+                try {
+                    runScenario(scenario, scenarioExecutionContext);
+                } finally {
+                    driver.quit();
+                }
+                logger.info("Finished scenario {}.", scenario.getName());
             }
-            logger.info("Finished scenario {}.", scenario.getName());
         }
 
         return executionResults;
