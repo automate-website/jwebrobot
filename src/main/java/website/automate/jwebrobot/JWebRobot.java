@@ -26,13 +26,13 @@ public class JWebRobot {
         ConfigurationProperties configurationProperties = new ConfigurationProperties();
         new JCommander(configurationProperties, args);
 
-        System.out.println("Executing: " + configurationProperties.getScenarioFilename());
+        System.out.println("Executing: " + configurationProperties.getScenarioPath());
 
         Injector injector = configureModules();
         ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
         ScenarioExecutor scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
 
-        List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getScenarioFilename());
+        List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getScenarioPath());
         GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, new ExecutorOptions());
         
         scenarioExecutor.execute(globalContext);

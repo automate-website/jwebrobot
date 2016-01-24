@@ -5,7 +5,7 @@ import org.junit.Test;
 public class JWebRobotIT {
 
     private static final String ROOT_PACKAGE_DIRECTORY_PATH =  "./src/test/resources/website/automate/jwebrobot/";
-    private static final String SCENARIO_PATH_PARAM_NAME = "scenario";
+    private static final String SCENARIO_PATH_PARAM_NAME = "scenarioPath";
     
     @Test
     public void wikipediaTestScenarioIsExecuted() {

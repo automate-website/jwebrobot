@@ -5,14 +5,14 @@ import com.beust.jcommander.Parameters;
 
 @Parameters(separators = "=")
 public class ConfigurationProperties {
-    @Parameter(names = "--scenario", description = "Scenario filename", required = true)
-    private String scenarioFilename;
+    @Parameter(names = "--scenarioPath", description = "Path to a single waml scenario or waml project root directory.", required = true)
+    private String scenarioPath;
 
-    public String getScenarioFilename() {
-        return scenarioFilename;
+    public String getScenarioPath() {
+        return scenarioPath;
     }
 
-    public void setScenarioFilename(String scenarioFilename) {
-        this.scenarioFilename = scenarioFilename;
+    public void setScenarioPath(String scenarioPath) {
+        this.scenarioPath = scenarioPath;
     }
 }
