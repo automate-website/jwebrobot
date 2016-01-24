@@ -17,11 +17,9 @@ import website.automate.jwebrobot.models.scenario.actions.EnsureAction;
 import website.automate.jwebrobot.models.scenario.actions.OpenAction;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.lang.ClassLoader.getSystemResourceAsStream;
 import static java.util.Arrays.asList;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,14 +55,6 @@ public class ScenarioExecutorTest extends AbstractTest {
         scenario.setSteps(Arrays.<Action>asList(openAction, clickAction, ensureAction));
 
         scenarioExecutor.execute(asContext(scenario));
-    }
-
-    @Test
-    public void simpleActionsShouldBeExecuted2() {
-        InputStream stream = getSystemResourceAsStream("./scenarios/wikipedia-test.yaml");
-        List<Scenario> scenarios = scenarioFactory.createFromInputStream(stream);
-
-        scenarioExecutor.execute(asContext(scenarios.toArray(new Scenario[scenarios.size()])));
     }
     
     private GlobalExecutionContext asContext(Scenario ... scenarios){

@@ -14,7 +14,6 @@ import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -23,7 +22,7 @@ import java.util.List;
  */
 public class JWebRobot {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         ConfigurationProperties configurationProperties = new ConfigurationProperties();
         new JCommander(configurationProperties, args);
 
