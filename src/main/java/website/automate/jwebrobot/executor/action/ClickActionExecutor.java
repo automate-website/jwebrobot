@@ -7,10 +7,18 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.inject.Inject;
+
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.models.scenario.actions.ClickAction;
 
-public class ClickActionExecutor extends BaseActionExecutor<ClickAction> {
+public class ClickActionExecutor extends IfUnlessActionExecutor<ClickAction> {
+
+    @Inject
+    public ClickActionExecutor(ExpressionEvaluator expressionEvaluator) {
+        super(expressionEvaluator);
+    }
 
     @Override
     public Class<ClickAction> getActionType() {

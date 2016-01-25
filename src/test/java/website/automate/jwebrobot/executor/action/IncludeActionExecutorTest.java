@@ -13,6 +13,7 @@ import com.google.inject.Provider;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
+import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.models.scenario.Scenario;
 import website.automate.jwebrobot.models.scenario.actions.IncludeAction;
 import website.automate.jwebrobot.models.scenario.actions.criteria.ScenarioCriterion;
@@ -30,6 +31,7 @@ public class IncludeActionExecutorTest {
     @Mock private Scenario childScenario;
     @Mock private ScenarioCriterion scenarioCriterion;
     @Mock private Provider<ScenarioExecutor> scenarioExecutorProvider;
+    @Mock private ExpressionEvaluator expressionEvaluator;
     
     private IncludeActionExecutor executor;
     
@@ -41,7 +43,7 @@ public class IncludeActionExecutorTest {
         when(globalContext.getScenario(SCENARIO_TITLE)).thenReturn(childScenario);
         when(scenarioContext.createChildContext(childScenario)).thenReturn(childScenarioContext);
         when(scenarioExecutorProvider.get()).thenReturn(scenarioExecutor);
-        executor = new IncludeActionExecutor(scenarioExecutorProvider);
+        executor = new IncludeActionExecutor(expressionEvaluator, scenarioExecutorProvider);
         
         executor.execute(action, scenarioContext);
         

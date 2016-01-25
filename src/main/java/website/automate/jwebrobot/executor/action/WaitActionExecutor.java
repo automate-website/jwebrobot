@@ -1,9 +1,17 @@
 package website.automate.jwebrobot.executor.action;
 
+import com.google.inject.Inject;
+
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.models.scenario.actions.WaitAction;
 
-public class WaitActionExecutor extends BaseActionExecutor<WaitAction> {
+public class WaitActionExecutor extends IfUnlessActionExecutor<WaitAction> {
+
+    @Inject
+    public WaitActionExecutor(ExpressionEvaluator expressionEvaluator) {
+        super(expressionEvaluator);
+    }
 
     @Override
     public Class<WaitAction> getActionType() {

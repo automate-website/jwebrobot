@@ -6,15 +6,17 @@ import com.google.inject.Provider;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
+import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.models.scenario.Scenario;
 import website.automate.jwebrobot.models.scenario.actions.IncludeAction;
 
-public class IncludeActionExecutor extends BaseActionExecutor<IncludeAction> {
+public class IncludeActionExecutor extends IfUnlessActionExecutor<IncludeAction> {
 
     private Provider<ScenarioExecutor> scenarioExecutor;
     
     @Inject
-    public IncludeActionExecutor(Provider<ScenarioExecutor> scenarioExecutor) {
+    public IncludeActionExecutor(ExpressionEvaluator expressionEvaluator, Provider<ScenarioExecutor> scenarioExecutor) {
+        super(expressionEvaluator);
         this.scenarioExecutor = scenarioExecutor;
     }
     

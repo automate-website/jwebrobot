@@ -2,10 +2,18 @@ package website.automate.jwebrobot.executor.action;
 
 import org.openqa.selenium.WebDriver;
 
+import com.google.inject.Inject;
+
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.models.scenario.actions.OpenAction;
 
-public class OpenActionExecutor extends BaseActionExecutor<OpenAction> {
+public class OpenActionExecutor extends IfUnlessActionExecutor<OpenAction> {
+
+    @Inject
+    public OpenActionExecutor(ExpressionEvaluator expressionEvaluator) {
+        super(expressionEvaluator);
+    }
 
     @Override
     public Class<OpenAction> getActionType() {

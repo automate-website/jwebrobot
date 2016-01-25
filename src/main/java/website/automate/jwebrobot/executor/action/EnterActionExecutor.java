@@ -6,10 +6,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.inject.Inject;
+
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.models.scenario.actions.EnterAction;
 
-public class EnterActionExecutor extends BaseActionExecutor<EnterAction> {
+public class EnterActionExecutor extends IfUnlessActionExecutor<EnterAction> {
+
+    @Inject
+    public EnterActionExecutor(ExpressionEvaluator expressionEvaluator) {
+        super(expressionEvaluator);
+    }
 
     @Override
     public Class<EnterAction> getActionType() {

@@ -10,12 +10,16 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
     @SuppressWarnings("unchecked")
     @Override
     public void execute(Action action, ScenarioExecutionContext context){
+        validate(action, context);
+        safeExecute((T)action, context);
+    }
+    
+    protected void validate(Action action, ScenarioExecutionContext context){
         Class<? extends Action> actualActionType = action.getClass();
         Class<? extends Action> actionType = getActionType();
         if(!getActionType().isAssignableFrom(actualActionType)){
             throw new UnsupportedActionException(format("Given action type {0} is not compatible with supported type {1}.", actualActionType, actionType));
         }
-        safeExecute((T)action, context);
     }
 
     public abstract void safeExecute(T action, ScenarioExecutionContext context);

@@ -8,13 +8,21 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.inject.Inject;
+
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.models.scenario.actions.SelectAction;
 
-public class SelectActionExecutor extends BaseActionExecutor<SelectAction> {
+public class SelectActionExecutor extends IfUnlessActionExecutor<SelectAction> {
 
     private static final String OPTION = "option";
 
+    @Inject
+    public SelectActionExecutor(ExpressionEvaluator expressionEvaluator) {
+        super(expressionEvaluator);
+    }
+    
     @Override
     public Class<SelectAction> getActionType() {
         return SelectAction.class;
