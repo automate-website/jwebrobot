@@ -17,10 +17,6 @@ import website.automate.jwebrobot.loader.ScenarioLoader;
 
 import java.util.List;
 
-/**
- * Hello world!
- *
- */
 public class JWebRobot {
 
     public static void main(String[] args) {
