@@ -4,9 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import website.automate.jwebrobot.AbstractTest;
+import website.automate.jwebrobot.loader.ScenarioLoader;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.Scenario;
-import website.automate.jwebrobot.models.factories.ScenarioFactory;
 
 import java.io.InputStream;
 import java.util.List;
@@ -18,18 +18,18 @@ import static org.junit.Assert.assertThat;
 
 
 public class CriteriaMapperTest extends AbstractTest {
-    protected ScenarioFactory scenarioFactory;
+    protected ScenarioLoader scenarioLoader;
     private List<Action> steps;
 
     @Before
     public void setUp() {
-        scenarioFactory = injector.getInstance(ScenarioFactory.class);
+        scenarioLoader = injector.getInstance(ScenarioLoader.class);
 
         // given
         InputStream inputStream = getSystemResourceAsStream("./scenarios/all-criteria.yaml");
 
         // when
-        Scenario scenario = scenarioFactory.createFromInputStream(inputStream).get(0);
+        Scenario scenario = scenarioLoader.createFromInputStream(inputStream).get(0);
 
         steps = scenario.getSteps();
     }

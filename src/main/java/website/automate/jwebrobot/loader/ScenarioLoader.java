@@ -3,6 +3,7 @@ package website.automate.jwebrobot.loader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,11 +15,12 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 import com.google.inject.Inject;
 
 import website.automate.jwebrobot.model.Scenario;
-import website.automate.jwebrobot.models.factories.ScenarioFactory;
+import website.automate.jwebrobot.model.mapper.ScenarioMapper;
 
 public class ScenarioLoader {
 
@@ -26,11 +28,11 @@ public class ScenarioLoader {
     
     private static final Logger LOG = LoggerFactory.getLogger(ScenarioLoader.class);
     
-    private ScenarioFactory scenarioFactory;
-
+    private final ScenarioMapper scenarioMapper;
+    
     @Inject
-    public ScenarioLoader(ScenarioFactory scenarioFactory){
-        this.scenarioFactory = scenarioFactory;
+    public ScenarioLoader(ScenarioMapper scenarioMapper){
+        this.scenarioMapper = scenarioMapper;
     }
     
     public List<ScenarioFile> load(String scenarioPath){
@@ -61,6 +63,18 @@ public class ScenarioLoader {
     
     private List<Scenario> load(File scenarioFile) throws FileNotFoundException{
         LOG.debug(MessageFormat.format("Reading scenario file {0} ...", scenarioFile.getAbsolutePath()));
-        return scenarioFactory.createFromInputStream(new FileInputStream(scenarioFile));
+        return createFromInputStream(new FileInputStream(scenarioFile));
+    }
+    
+    public List<Scenario> createFromInputStream(InputStream inputStream) {
+        Yaml yaml = new Yaml();
+
+        Iterable<Object> objects = yaml.loadAll(inputStream);
+
+        List<Scenario> scenarios = scenarioMapper.map(objects);
+
+        LOG.info("Loaded {} scenarios.", scenarios.size());
+
+        return scenarios;
     }
 }

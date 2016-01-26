@@ -12,7 +12,6 @@ import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.ActionType;
 import website.automate.jwebrobot.model.Scenario;
-import website.automate.jwebrobot.models.factories.ScenarioFactory;
 
 import java.io.File;
 import java.util.Arrays;
@@ -33,7 +32,6 @@ public class ScenarioExecutorTest extends AbstractTest {
 
     @Before
     public void setUp() {
-        injector.getInstance(ScenarioFactory.class);
         scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
 
         openAction = new Action();
