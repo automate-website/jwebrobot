@@ -1,7 +1,7 @@
 package website.automate.jwebrobot.models.utils;
 
 
-import website.automate.jwebrobot.models.scenario.Scenario;
+import website.automate.jwebrobot.model.Scenario;
 
 import java.util.Comparator;
 

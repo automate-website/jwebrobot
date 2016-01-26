@@ -17,8 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
+import website.automate.jwebrobot.model.Scenario;
 import website.automate.jwebrobot.models.factories.ScenarioFactory;
-import website.automate.jwebrobot.models.scenario.Scenario;
 
 public class ScenarioLoader {
 

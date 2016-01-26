@@ -7,10 +7,11 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.models.scenario.Scenario;
-import website.automate.jwebrobot.models.scenario.actions.IncludeAction;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.ActionType;
+import website.automate.jwebrobot.model.Scenario;
 
-public class IncludeActionExecutor extends IfUnlessActionExecutor<IncludeAction> {
+public class IncludeActionExecutor extends IfUnlessActionExecutor {
 
     private Provider<ScenarioExecutor> scenarioExecutor;
     
@@ -21,14 +22,14 @@ public class IncludeActionExecutor extends IfUnlessActionExecutor<IncludeAction>
     }
     
     @Override
-    public Class<IncludeAction> getActionType() {
-        return IncludeAction.class;
+    public ActionType getActionType() {
+        return ActionType.INCLUDE;
     }
 
     @Override
-    public void safeExecute(IncludeAction action, ScenarioExecutionContext context) {
+    public void perform(Action action, ScenarioExecutionContext context) {
         GlobalExecutionContext globalContext = context.getGlobalContext();
-        String scenarioName = action.getScenario().getValue();
+        String scenarioName = action.getScenario();
         Scenario scenario = globalContext.getScenario(scenarioName);
         ScenarioExecutionContext includedScenarioContext = context.createChildContext(scenario);
         scenarioExecutor.get().runScenario(scenario, includedScenarioContext);

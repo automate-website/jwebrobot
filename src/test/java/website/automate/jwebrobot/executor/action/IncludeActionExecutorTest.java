@@ -14,9 +14,9 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.models.scenario.Scenario;
-import website.automate.jwebrobot.models.scenario.actions.IncludeAction;
-import website.automate.jwebrobot.models.scenario.actions.criteria.ScenarioCriterion;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.CriteriaValue;
+import website.automate.jwebrobot.model.Scenario;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IncludeActionExecutorTest {
@@ -24,12 +24,12 @@ public class IncludeActionExecutorTest {
     private static final String SCENARIO_TITLE = "awesome scenario";
     
     @Mock private ScenarioExecutor scenarioExecutor;
-    @Mock private IncludeAction action;
+    @Mock private Action action;
     @Mock private ScenarioExecutionContext scenarioContext;
     @Mock private ScenarioExecutionContext childScenarioContext;
     @Mock private GlobalExecutionContext globalContext;
     @Mock private Scenario childScenario;
-    @Mock private ScenarioCriterion scenarioCriterion;
+    @Mock private CriteriaValue scenarioCriterion;
     @Mock private Provider<ScenarioExecutor> scenarioExecutorProvider;
     @Mock private ExpressionEvaluator expressionEvaluator;
     
@@ -37,8 +37,7 @@ public class IncludeActionExecutorTest {
     
     @Test
     public void includedScenarioShouldBeExecuted(){
-        when(action.getScenario()).thenReturn(scenarioCriterion);
-        when(scenarioCriterion.getValue()).thenReturn(SCENARIO_TITLE);
+        when(action.getScenario()).thenReturn(SCENARIO_TITLE);
         when(scenarioContext.getGlobalContext()).thenReturn(globalContext);
         when(globalContext.getScenario(SCENARIO_TITLE)).thenReturn(childScenario);
         when(scenarioContext.createChildContext(childScenario)).thenReturn(childScenarioContext);

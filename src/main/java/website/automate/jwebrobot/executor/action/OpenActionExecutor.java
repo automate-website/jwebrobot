@@ -6,9 +6,10 @@ import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.models.scenario.actions.OpenAction;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.ActionType;
 
-public class OpenActionExecutor extends IfUnlessActionExecutor<OpenAction> {
+public class OpenActionExecutor extends IfUnlessActionExecutor {
 
     @Inject
     public OpenActionExecutor(ExpressionEvaluator expressionEvaluator) {
@@ -16,14 +17,14 @@ public class OpenActionExecutor extends IfUnlessActionExecutor<OpenAction> {
     }
 
     @Override
-    public Class<OpenAction> getActionType() {
-        return OpenAction.class;
+    public ActionType getActionType() {
+        return ActionType.OPEN;
     }
 
     @Override
-    public void safeExecute(final OpenAction action, ScenarioExecutionContext context) {
+    public void perform(final Action action, ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
-        driver.get(action.getUrl().getValue());
+        driver.get(action.getUrl());
     }
 
 }

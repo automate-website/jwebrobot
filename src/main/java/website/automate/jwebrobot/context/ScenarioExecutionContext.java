@@ -2,7 +2,7 @@ package website.automate.jwebrobot.context;
 
 import org.openqa.selenium.WebDriver;
 
-import website.automate.jwebrobot.models.scenario.Scenario;
+import website.automate.jwebrobot.model.Scenario;
 
 import java.util.Map;
 

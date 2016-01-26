@@ -13,17 +13,18 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.models.scenario.actions.IfUnlessAction;
-import website.automate.jwebrobot.models.scenario.actions.criteria.IfCriterion;
-import website.automate.jwebrobot.models.scenario.actions.criteria.UnlessCriterion;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.ActionType;
+import website.automate.jwebrobot.model.CriteriaType;
+import website.automate.jwebrobot.model.CriteriaValue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IfUnlessActionExecutorTest {
 
     @Mock private ExpressionEvaluator expressionEvaluator;
-    @Mock private IfUnlessAction action;
-    @Mock private IfCriterion ifCriterion;
-    @Mock private UnlessCriterion unlessCriterion;
+    @Mock private Action action;
+    @Mock private CriteriaValue ifCriterion;
+    @Mock private CriteriaValue unlessCriterion;
     @Mock private TestActionExecution execution;
     @Mock private ScenarioExecutionContext context;
     
@@ -50,8 +51,8 @@ public class IfUnlessActionExecutorTest {
     
     @Test
     public void actionIsExecutedWhenOnlyIfIsSetAndEvaluatesTrue(){
-        when(action.getIf()).thenReturn(ifCriterion);
-        when(ifCriterion.getValue()).thenReturn(TRUE_VALUE);
+        when(action.getCriteria(CriteriaType.IF)).thenReturn(ifCriterion);
+        when(ifCriterion.asString()).thenReturn(TRUE_VALUE);
         
         executor.execute(action, context);
         
@@ -60,8 +61,8 @@ public class IfUnlessActionExecutorTest {
     
     @Test
     public void actionIsNotExecutedWhenOnlyIfIsSetAndEvaluatesFalse(){
-        when(action.getIf()).thenReturn(ifCriterion);
-        when(ifCriterion.getValue()).thenReturn(FALSE_VALUE);
+        when(action.getCriteria(CriteriaType.IF)).thenReturn(ifCriterion);
+        when(ifCriterion.asString()).thenReturn(FALSE_VALUE);
         
         executor.execute(action, context);
         
@@ -70,8 +71,8 @@ public class IfUnlessActionExecutorTest {
     
     @Test
     public void actionIsExecutedWhenOnlyUnlessIsSetAndEvaluatesFalse(){
-        when(action.getUnless()).thenReturn(unlessCriterion);
-        when(unlessCriterion.getValue()).thenReturn(FALSE_VALUE);
+        when(action.getCriteria(CriteriaType.UNLESS)).thenReturn(unlessCriterion);
+        when(unlessCriterion.asString()).thenReturn(FALSE_VALUE);
         
         executor.execute(action, context);
         
@@ -80,8 +81,8 @@ public class IfUnlessActionExecutorTest {
     
     @Test
     public void actionIsNotExecutedWhenOnlyUnlessIsSetAndEvaluatesTrue(){
-        when(action.getUnless()).thenReturn(unlessCriterion);
-        when(unlessCriterion.getValue()).thenReturn(TRUE_VALUE);
+        when(action.getCriteria(CriteriaType.UNLESS)).thenReturn(unlessCriterion);
+        when(unlessCriterion.asString()).thenReturn(TRUE_VALUE);
         
         executor.execute(action, context);
         
@@ -90,10 +91,10 @@ public class IfUnlessActionExecutorTest {
     
     @Test
     public void actionIsExecutedWhenIfIsSetTrueAndUnlessIsSetFalse(){
-        when(action.getIf()).thenReturn(ifCriterion);
-        when(ifCriterion.getValue()).thenReturn(TRUE_VALUE);
-        when(action.getUnless()).thenReturn(unlessCriterion);
-        when(unlessCriterion.getValue()).thenReturn(FALSE_VALUE);
+        when(action.getCriteria(CriteriaType.IF)).thenReturn(ifCriterion);
+        when(ifCriterion.asString()).thenReturn(TRUE_VALUE);
+        when(action.getCriteria(CriteriaType.UNLESS)).thenReturn(unlessCriterion);
+        when(unlessCriterion.asString()).thenReturn(FALSE_VALUE);
         
         executor.execute(action, context);
         
@@ -102,17 +103,17 @@ public class IfUnlessActionExecutorTest {
     
     @Test
     public void actionIsNotExecutedWhenIfIsSetFalseOrUnlessIsSetTrue(){
-        when(action.getIf()).thenReturn(ifCriterion);
-        when(ifCriterion.getValue()).thenReturn(FALSE_VALUE);
-        when(action.getUnless()).thenReturn(unlessCriterion);
-        when(unlessCriterion.getValue()).thenReturn(FALSE_VALUE);
+        when(action.getCriteria(CriteriaType.IF)).thenReturn(ifCriterion);
+        when(ifCriterion.asString()).thenReturn(FALSE_VALUE);
+        when(action.getCriteria(CriteriaType.UNLESS)).thenReturn(unlessCriterion);
+        when(unlessCriterion.asString()).thenReturn(FALSE_VALUE);
         
         executor.execute(action, context);
         
         verify(execution, never()).run();
     }
     
-    static final class TestIfUnlessActionExecutor extends IfUnlessActionExecutor<IfUnlessAction> {
+    static final class TestIfUnlessActionExecutor extends IfUnlessActionExecutor {
 
         private TestActionExecution execution;
         
@@ -124,13 +125,12 @@ public class IfUnlessActionExecutorTest {
         }
 
         @Override
-        public Class<IfUnlessAction> getActionType() {
-            return IfUnlessAction.class;
+        public ActionType getActionType() {
+            return null;
         }
 
         @Override
-        public void safeExecute(IfUnlessAction action,
-                ScenarioExecutionContext context) {
+        public void perform(Action action, ScenarioExecutionContext context) {
             execution.run();
         }
     }

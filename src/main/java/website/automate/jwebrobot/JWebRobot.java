@@ -5,8 +5,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import website.automate.jwebrobot.config.ActionExecutorModule;
-import website.automate.jwebrobot.config.ActionMapperModule;
-import website.automate.jwebrobot.config.CriterionMapperModule;
 import website.automate.jwebrobot.config.ExpressionEvaluatorModule;
 import website.automate.jwebrobot.config.logger.LoggerModule;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
@@ -39,8 +37,6 @@ public class JWebRobot {
     public static Injector configureModules() {
         Injector injector = Guice.createInjector(
             new LoggerModule(),
-            new ActionMapperModule(),
-            new CriterionMapperModule(),
             new ActionExecutorModule(),
             new ExpressionEvaluatorModule()
         );

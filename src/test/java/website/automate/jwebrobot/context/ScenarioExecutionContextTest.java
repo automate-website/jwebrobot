@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.WebDriver;
 
-import website.automate.jwebrobot.models.scenario.Scenario;
+import website.automate.jwebrobot.model.Scenario;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ScenarioExecutionContextTest {

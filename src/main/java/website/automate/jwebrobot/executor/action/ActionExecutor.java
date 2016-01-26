@@ -1,11 +1,12 @@
 package website.automate.jwebrobot.executor.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.models.scenario.actions.Action;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.ActionType;
 
-public interface ActionExecutor<T extends Action> {
+public interface ActionExecutor {
 
     void execute(Action action, ScenarioExecutionContext context);
 
-    Class<T> getActionType();
+    ActionType getActionType();
 }

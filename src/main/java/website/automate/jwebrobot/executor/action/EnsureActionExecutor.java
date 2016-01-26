@@ -9,9 +9,10 @@ import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.models.scenario.actions.EnsureAction;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.ActionType;
 
-public class EnsureActionExecutor extends IfUnlessActionExecutor<EnsureAction> {
+public class EnsureActionExecutor extends IfUnlessActionExecutor {
 
     @Inject
     public EnsureActionExecutor(ExpressionEvaluator expressionEvaluator) {
@@ -19,17 +20,17 @@ public class EnsureActionExecutor extends IfUnlessActionExecutor<EnsureAction> {
     }
 
     @Override
-    public Class<EnsureAction> getActionType() {
-        return EnsureAction.class;
+    public ActionType getActionType() {
+        return ActionType.ENSURE;
     }
 
     @Override
-    public void safeExecute(final EnsureAction action, ScenarioExecutionContext context) {
+    public void perform(final Action action, ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
-                return d.findElement(By.cssSelector(action.getSelector().getValue())).isDisplayed();
+                return d.findElement(By.cssSelector(action.getSelector())).isDisplayed();
             }
         });
     }

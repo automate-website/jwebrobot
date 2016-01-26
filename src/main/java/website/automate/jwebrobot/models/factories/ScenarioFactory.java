@@ -3,11 +3,13 @@ package website.automate.jwebrobot.models.factories;
 
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
+
 import website.automate.jwebrobot.config.logger.InjectLogger;
-import website.automate.jwebrobot.models.mapper.ScenarioMapper;
-import website.automate.jwebrobot.models.scenario.Scenario;
+import website.automate.jwebrobot.model.Scenario;
+import website.automate.jwebrobot.model.mapper.ScenarioMapper;
 
 import javax.inject.Inject;
+
 import java.io.InputStream;
 import java.util.List;
 

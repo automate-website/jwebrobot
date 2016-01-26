@@ -9,8 +9,8 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.exceptions.StepsMustBePresentException;
 import website.automate.jwebrobot.executor.action.ActionExecutor;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
-import website.automate.jwebrobot.models.scenario.Scenario;
-import website.automate.jwebrobot.models.scenario.actions.Action;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.Scenario;
 
 import javax.inject.Inject;
 
@@ -64,7 +64,7 @@ public class ScenarioExecutor {
         }
 
         for (Action action : scenario.getSteps()) {
-            ActionExecutor actionExecutor = actionExecutorFactory.getInstance(action.getClass());
+            ActionExecutor actionExecutor = actionExecutorFactory.getInstance(action.getType());
             logger.debug("Executing {}", actionExecutor.getClass().getName());
             actionExecutor.execute(action, scenarioExecutionContext);
         }

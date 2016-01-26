@@ -3,14 +3,12 @@ package website.automate.jwebrobot.models.factories;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.exceptions.TooManyActionsException;
 import website.automate.jwebrobot.exceptions.UnknownActionException;
-import website.automate.jwebrobot.exceptions.UnknownCriterionException;
-import website.automate.jwebrobot.models.scenario.Scenario;
-import website.automate.jwebrobot.models.scenario.actions.Action;
-import website.automate.jwebrobot.models.scenario.actions.ClickAction;
-import website.automate.jwebrobot.models.scenario.actions.OpenAction;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.Scenario;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,14 +41,6 @@ public class ScenarioFactoryTest extends AbstractTest {
         scenarioFactory.createFromInputStream(stream);
     }
 
-    @Test(expected = UnknownCriterionException.class)
-    public void shouldThrowUnknownCriterionException() {
-        InputStream stream = getSystemResourceAsStream("./failing_scenarios/unknown-criterion.yaml");
-
-        scenarioFactory.createFromInputStream(stream);
-    }
-
-
     @Test
     public void scenarioListShouldBeLoaded() throws IOException {
         // given
@@ -73,19 +63,12 @@ public class ScenarioFactoryTest extends AbstractTest {
         List<Action> steps2 = scenario2.getSteps();
         assertThat(steps2, hasSize(3));
 
-        assertThat(steps1.get(0), instanceOf(OpenAction.class));
-        assertThat(steps1.get(1), instanceOf(ClickAction.class));
+        assertThat(steps1.get(0).getUrl(), is("www.example.com"));
+        assertThat(steps1.get(1).getSelector(), is("button[type=submit]"));
 
-        assertThat(steps2.get(0), instanceOf(OpenAction.class));
-        assertThat(steps2.get(1), instanceOf(OpenAction.class));
-        assertThat(steps2.get(2), instanceOf(ClickAction.class));
-
-        assertThat(((OpenAction)steps1.get(0)).getUrl().getValue(), is("www.example.com"));
-        assertThat(((ClickAction)steps1.get(1)).getSelector().getValue(), is("button[type=submit]"));
-
-        assertThat(((OpenAction)steps2.get(0)).getUrl().getValue(), is("www.example.com"));
-        assertThat(((OpenAction)steps2.get(1)).getUrl().getValue(), is("www.example2.com"));
-        assertThat(((ClickAction)steps2.get(2)).getSelector().getValue(), is("button[type=submit2]"));
+        assertThat(steps2.get(0).getUrl(), is("www.example.com"));
+        assertThat(steps2.get(1).getUrl(), is("www.example2.com"));
+        assertThat(steps2.get(2).getSelector(), is("button[type=submit2]"));
 
     }
 }
