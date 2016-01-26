@@ -10,9 +10,12 @@ import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.models.scenario.actions.EnterAction;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.ActionType;
+import website.automate.jwebrobot.model.CriteriaType;
+import website.automate.jwebrobot.model.CriteriaValue;
 
-public class EnterActionExecutor extends IfUnlessActionExecutor<EnterAction> {
+public class EnterActionExecutor extends IfUnlessActionExecutor {
 
     @Inject
     public EnterActionExecutor(ExpressionEvaluator expressionEvaluator) {
@@ -20,18 +23,19 @@ public class EnterActionExecutor extends IfUnlessActionExecutor<EnterAction> {
     }
 
     @Override
-    public Class<EnterAction> getActionType() {
-        return EnterAction.class;
+    public ActionType getActionType() {
+        return ActionType.ENTER;
     }
 
     @Override
-    public void safeExecute(final EnterAction action, ScenarioExecutionContext context) {
+    public void perform(final Action action, ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         final WebElement element;
-
-        if (action.getSelector() != null) {
-            final By selector = By.cssSelector(action.getSelector().getValue());
+        
+        CriteriaValue selectorValue = action.getCriteria(CriteriaType.SELECTOR);
+        if (selectorValue != null) {
+            final By selector = By.cssSelector(selectorValue.asString());
             element = (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<WebElement>() {
                 public WebElement apply(WebDriver d) {
                     return d.findElement(selector);
@@ -42,14 +46,14 @@ public class EnterActionExecutor extends IfUnlessActionExecutor<EnterAction> {
         }
 
         // Make clear
-        if (action.getClear() != null && action.getClear().getValue()) {
+        if (action.getCriteria(CriteriaType.CLEAR) != null && action.getCriteria(CriteriaType.CLEAR).asBoolean()) {
             element.clear();
         }
 
         /**
          * See {@link org.openqa.selenium.Keys} to send keys.
          */
-        element.sendKeys(action.getValue().getValue());
+        element.sendKeys(action.getCriteriaOrDefault(CriteriaType.VALUE).asString());
 
     }
 

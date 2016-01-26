@@ -1,6 +1,4 @@
-package website.automate.jwebrobot.models.scenario;
-
-import website.automate.jwebrobot.models.scenario.actions.Action;
+package website.automate.jwebrobot.model;
 
 import java.util.List;
 import java.util.Objects;

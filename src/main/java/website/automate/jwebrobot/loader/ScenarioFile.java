@@ -3,7 +3,7 @@ package website.automate.jwebrobot.loader;
 import java.io.File;
 import java.util.List;
 
-import website.automate.jwebrobot.models.scenario.Scenario;
+import website.automate.jwebrobot.model.Scenario;
 
 public class ScenarioFile {
 

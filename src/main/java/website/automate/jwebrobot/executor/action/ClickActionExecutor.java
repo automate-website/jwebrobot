@@ -11,9 +11,10 @@ import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.models.scenario.actions.ClickAction;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.ActionType;
 
-public class ClickActionExecutor extends IfUnlessActionExecutor<ClickAction> {
+public class ClickActionExecutor extends IfUnlessActionExecutor {
 
     @Inject
     public ClickActionExecutor(ExpressionEvaluator expressionEvaluator) {
@@ -21,17 +22,17 @@ public class ClickActionExecutor extends IfUnlessActionExecutor<ClickAction> {
     }
 
     @Override
-    public Class<ClickAction> getActionType() {
-        return ClickAction.class;
+    public ActionType getActionType() {
+        return ActionType.CLICK;
     }
 
     @Override
-    public void safeExecute(final ClickAction action, ScenarioExecutionContext context) {
+    public void perform(final Action action, ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         WebElement element = (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<WebElement>() {
             public WebElement apply(WebDriver d) {
-                return d.findElement(By.cssSelector(action.getSelector().getValue()));
+                return d.findElement(By.cssSelector(action.getSelector()));
             }
         });
 

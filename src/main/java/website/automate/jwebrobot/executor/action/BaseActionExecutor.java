@@ -1,26 +1,20 @@
 package website.automate.jwebrobot.executor.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.exceptions.UnsupportedActionException;
-import website.automate.jwebrobot.models.scenario.actions.Action;
-import static java.text.MessageFormat.format;
+import website.automate.jwebrobot.model.Action;
 
-public abstract class BaseActionExecutor<T extends Action> implements ActionExecutor<T> {
+public abstract class BaseActionExecutor implements ActionExecutor {
 
-    @SuppressWarnings("unchecked")
     @Override
     public void execute(Action action, ScenarioExecutionContext context){
-        validate(action, context);
-        safeExecute((T)action, context);
-    }
-    
-    protected void validate(Action action, ScenarioExecutionContext context){
-        Class<? extends Action> actualActionType = action.getClass();
-        Class<? extends Action> actionType = getActionType();
-        if(!getActionType().isAssignableFrom(actualActionType)){
-            throw new UnsupportedActionException(format("Given action type {0} is not compatible with supported type {1}.", actualActionType, actionType));
+        if(preHandle(action, context)){
+            perform(action, context);
         }
     }
+    
+    public boolean preHandle(Action action, ScenarioExecutionContext context){
+        return true;
+    }
 
-    public abstract void safeExecute(T action, ScenarioExecutionContext context);
+    public abstract void perform(Action action, ScenarioExecutionContext context);
 }

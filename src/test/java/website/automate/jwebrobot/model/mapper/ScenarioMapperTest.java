@@ -1,11 +1,13 @@
-package website.automate.jwebrobot.models.mapper;
+package website.automate.jwebrobot.model.mapper;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
+
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.exceptions.UnknownMetadataException;
-import website.automate.jwebrobot.models.scenario.Scenario;
+import website.automate.jwebrobot.model.Scenario;
+import website.automate.jwebrobot.model.mapper.ScenarioMapper;
 
 import java.io.InputStream;
 

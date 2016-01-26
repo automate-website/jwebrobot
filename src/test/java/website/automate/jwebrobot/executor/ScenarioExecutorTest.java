@@ -9,12 +9,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.loader.ScenarioFile;
-import website.automate.jwebrobot.models.factories.ScenarioFactory;
-import website.automate.jwebrobot.models.scenario.Scenario;
-import website.automate.jwebrobot.models.scenario.actions.Action;
-import website.automate.jwebrobot.models.scenario.actions.ClickAction;
-import website.automate.jwebrobot.models.scenario.actions.EnsureAction;
-import website.automate.jwebrobot.models.scenario.actions.OpenAction;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.ActionType;
+import website.automate.jwebrobot.model.Scenario;
 
 import java.io.File;
 import java.util.Arrays;
@@ -27,25 +24,26 @@ public class ScenarioExecutorTest extends AbstractTest {
 
     private ScenarioExecutor scenarioExecutor;
 
-    private OpenAction openAction;
-    private ClickAction clickAction;
-    private EnsureAction ensureAction;
-    private ScenarioFactory scenarioFactory;
+    private Action openAction;
+    private Action clickAction;
+    private Action ensureAction;
     
     @Mock private File file;
 
     @Before
     public void setUp() {
-        scenarioFactory = injector.getInstance(ScenarioFactory.class);
         scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
 
-        openAction = new OpenAction();
+        openAction = new Action();
+        openAction.setType(ActionType.OPEN);
         openAction.setUrl("https://en.wikipedia.org");
 
-        clickAction = new ClickAction();
+        clickAction = new Action();
+        clickAction.setType(ActionType.CLICK);
         clickAction.setSelector("a[title=\"Wikipedia:About\"]");
 
-        ensureAction = new EnsureAction();
+        ensureAction = new Action();
+        ensureAction.setType(ActionType.ENSURE);
         ensureAction.setSelector("#About_Wikipedia");
     }
 

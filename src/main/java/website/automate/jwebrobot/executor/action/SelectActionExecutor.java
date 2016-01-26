@@ -12,9 +12,11 @@ import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.models.scenario.actions.SelectAction;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.ActionType;
+import website.automate.jwebrobot.model.CriteriaType;
 
-public class SelectActionExecutor extends IfUnlessActionExecutor<SelectAction> {
+public class SelectActionExecutor extends IfUnlessActionExecutor {
 
     private static final String OPTION = "option";
 
@@ -24,17 +26,17 @@ public class SelectActionExecutor extends IfUnlessActionExecutor<SelectAction> {
     }
     
     @Override
-    public Class<SelectAction> getActionType() {
-        return SelectAction.class;
+    public ActionType getActionType() {
+        return ActionType.SELECT;
     }
 
     @Override
-    public void safeExecute(final SelectAction action, ScenarioExecutionContext context) {
+    public void perform(final Action action, ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         WebElement element = (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<WebElement>() {
             public WebElement apply(WebDriver d) {
-                return d.findElement(By.cssSelector(action.getSelector().getValue()));
+                return d.findElement(By.cssSelector(action.getCriteriaOrDefault(CriteriaType.SELECTOR).asString()));
             }
         });
 
@@ -45,7 +47,7 @@ public class SelectActionExecutor extends IfUnlessActionExecutor<SelectAction> {
             element.click();
         } else {
             Select select = new Select(element);
-            select.selectByValue(action.getValue().getValue());
+            select.selectByValue(action.getValue());
         }
 
     }

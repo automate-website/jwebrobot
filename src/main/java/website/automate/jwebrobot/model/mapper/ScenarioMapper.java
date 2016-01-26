@@ -1,11 +1,12 @@
-package website.automate.jwebrobot.models.mapper;
+package website.automate.jwebrobot.model.mapper;
 
 import website.automate.jwebrobot.exceptions.UnknownMetadataException;
-import website.automate.jwebrobot.models.scenario.Scenario;
-import website.automate.jwebrobot.models.scenario.actions.Action;
+import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.Scenario;
 import website.automate.jwebrobot.utils.CollectionMapper;
 
 import javax.inject.Inject;
+
 import java.util.*;
 
 
@@ -39,13 +40,14 @@ public class ScenarioMapper extends CollectionMapper<Object, Scenario> {
         return scenario;
     }
 
+    @SuppressWarnings("unchecked")
     public void map(Object source, Scenario target) {
         Map<String, Object> sourceScenario = (Map<String, Object>) source;
         verifyProperties(sourceScenario.keySet());
 
         target.setName(String.valueOf(sourceScenario.get(NAME)));
 
-        List<Object> stepList = (ArrayList) sourceScenario.get(STEPS);
+        List<Object> stepList = (List<Object>) sourceScenario.get(STEPS);
         List<Action> actions = stepsMapper.map(stepList);
         target.setSteps(actions);
 
