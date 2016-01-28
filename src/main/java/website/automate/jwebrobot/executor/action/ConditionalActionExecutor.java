@@ -6,11 +6,11 @@ import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.CriteriaType;
 import website.automate.jwebrobot.model.CriteriaValue;
 
-public abstract class IfUnlessActionExecutor extends BaseActionExecutor {
+public abstract class ConditionalActionExecutor extends BaseActionExecutor {
 
     protected ExpressionEvaluator expressionEvaluator;
     
-    public IfUnlessActionExecutor(ExpressionEvaluator expressionEvaluator){
+    public ConditionalActionExecutor(ExpressionEvaluator expressionEvaluator){
         this.expressionEvaluator = expressionEvaluator;
     }
     

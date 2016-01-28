@@ -11,7 +11,7 @@ import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.ActionType;
 import website.automate.jwebrobot.model.Scenario;
 
-public class IncludeActionExecutor extends IfUnlessActionExecutor {
+public class IncludeActionExecutor extends ConditionalActionExecutor {
 
     private Provider<ScenarioExecutor> scenarioExecutor;
     

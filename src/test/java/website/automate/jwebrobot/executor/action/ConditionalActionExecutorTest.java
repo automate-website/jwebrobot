@@ -19,7 +19,7 @@ import website.automate.jwebrobot.model.CriteriaType;
 import website.automate.jwebrobot.model.CriteriaValue;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IfUnlessActionExecutorTest {
+public class ConditionalActionExecutorTest {
 
     @Mock private ExpressionEvaluator expressionEvaluator;
     @Mock private Action action;
@@ -32,12 +32,12 @@ public class IfUnlessActionExecutorTest {
         TRUE_VALUE = "true",
         FALSE_VALUE = "false";
     
-    private TestIfUnlessActionExecutor executor;
+    private TestConditionalActionExecutor executor;
     
     @SuppressWarnings("unchecked")
     @Before
     public void init(){
-        executor = new TestIfUnlessActionExecutor(expressionEvaluator, execution);
+        executor = new TestConditionalActionExecutor(expressionEvaluator, execution);
         when(expressionEvaluator.evaluate(Mockito.eq(TRUE_VALUE), Mockito.anyMap())).thenReturn(true);
         when(expressionEvaluator.evaluate(Mockito.eq(FALSE_VALUE), Mockito.anyMap())).thenReturn(false);
     }
@@ -113,11 +113,11 @@ public class IfUnlessActionExecutorTest {
         verify(execution, never()).run();
     }
     
-    static final class TestIfUnlessActionExecutor extends IfUnlessActionExecutor {
+    static final class TestConditionalActionExecutor extends ConditionalActionExecutor {
 
         private TestActionExecution execution;
         
-        public TestIfUnlessActionExecutor(
+        public TestConditionalActionExecutor(
                 ExpressionEvaluator expressionEvaluator,
                 TestActionExecution execution) {
             super(expressionEvaluator);

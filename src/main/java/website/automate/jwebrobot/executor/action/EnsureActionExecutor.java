@@ -12,7 +12,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.ActionType;
 
-public class EnsureActionExecutor extends IfUnlessActionExecutor {
+public class EnsureActionExecutor extends ConditionalActionExecutor {
 
     @Inject
     public EnsureActionExecutor(ExpressionEvaluator expressionEvaluator) {

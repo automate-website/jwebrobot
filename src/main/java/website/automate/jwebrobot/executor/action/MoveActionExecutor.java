@@ -14,7 +14,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.ActionType;
 
-public class MoveActionExecutor extends IfUnlessActionExecutor {
+public class MoveActionExecutor extends ConditionalActionExecutor {
 
     @Inject
     public MoveActionExecutor(ExpressionEvaluator expressionEvaluator) {

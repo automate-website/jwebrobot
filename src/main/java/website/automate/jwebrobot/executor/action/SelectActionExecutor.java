@@ -16,7 +16,7 @@ import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.ActionType;
 import website.automate.jwebrobot.model.CriteriaType;
 
-public class SelectActionExecutor extends IfUnlessActionExecutor {
+public class SelectActionExecutor extends ConditionalActionExecutor {
 
     private static final String OPTION = "option";
 
