@@ -6,6 +6,6 @@ public class MockExpressionEvaluator implements ExpressionEvaluator {
 
     @Override
     public Object evaluate(String expression, Map<String, String> memory) {
-        return true;
+        return expression;
     }
 }

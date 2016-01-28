@@ -12,7 +12,7 @@ public class Action {
     private ActionType type;
     
     private Map<String, CriteriaValue> criteriaValueMap = new HashMap<>();
-
+    
     public CriteriaValue getCriteriaOrDefault(CriteriaType type){
         CriteriaValue value = getCriteria(CriteriaType.DEFAULT);
         if(value != null){
@@ -125,5 +125,13 @@ public class Action {
     
     public void setType(ActionType type) {
         this.type = type;
+    }
+
+    public Map<String, CriteriaValue> getCriteriaValueMap() {
+        return criteriaValueMap;
+    }
+
+    public void setCriteriaValueMap(Map<String, CriteriaValue> criteriaValueMap) {
+        this.criteriaValueMap = criteriaValueMap;
     }
 }

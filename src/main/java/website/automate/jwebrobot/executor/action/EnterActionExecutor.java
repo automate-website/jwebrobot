@@ -15,7 +15,7 @@ import website.automate.jwebrobot.model.ActionType;
 import website.automate.jwebrobot.model.CriteriaType;
 import website.automate.jwebrobot.model.CriteriaValue;
 
-public class EnterActionExecutor extends ConditionalActionExecutor {
+public class EnterActionExecutor extends EvaluatedActionExecutor {
 
     @Inject
     public EnterActionExecutor(ExpressionEvaluator expressionEvaluator) {

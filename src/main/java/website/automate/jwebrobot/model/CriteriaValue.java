@@ -13,7 +13,7 @@ public class CriteriaValue {
     }
     
     public Boolean asBoolean(){
-        return Boolean.class.cast(value);
+        return Boolean.parseBoolean(asString());
     }
     
     public Integer asInteger(){
