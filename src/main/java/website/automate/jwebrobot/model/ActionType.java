@@ -9,7 +9,8 @@ public enum ActionType {
     MOVE("move"),
     OPEN("open"),
     SELECT("select"),
-    WAIT("wait");
+    WAIT("wait"),
+    STORE("store");
     
     private final String name;
     

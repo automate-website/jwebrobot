@@ -44,7 +44,7 @@ public class ScenarioExecutor {
                 logger.info("Starting scenario {}...", scenario.getName());
                 WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
     
-                ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, new HashMap<String, String>());
+                ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, new HashMap<String, Object>());
                 try {
                     runScenario(scenario, scenarioExecutionContext);
                 } finally {

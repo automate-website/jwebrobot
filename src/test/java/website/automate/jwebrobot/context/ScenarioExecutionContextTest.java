@@ -19,7 +19,7 @@ public class ScenarioExecutionContextTest {
     @Mock private GlobalExecutionContext globalContext;
     @Mock private Scenario scenario;
     @Mock private WebDriver driver;
-    @Mock private Map<String, String> memory;
+    @Mock private Map<String, Object> memory;
     @Mock private Scenario childScenario;
     
     @Test

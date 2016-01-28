@@ -12,7 +12,7 @@ public class ScenarioExecutionContext {
 
     private WebDriver driver;
 
-    private Map<String, String> memory;
+    private Map<String, Object> memory;
     
     private ScenarioExecutionContext parent;
     
@@ -22,7 +22,7 @@ public class ScenarioExecutionContext {
 
     public ScenarioExecutionContext(GlobalExecutionContext globalContext,
             Scenario scenario,
-            WebDriver driver, Map<String, String> memory) {
+            WebDriver driver, Map<String, Object> memory) {
         this.globalContext = globalContext;
         this.scenario = scenario;
         this.driver = driver;
@@ -35,7 +35,7 @@ public class ScenarioExecutionContext {
     
     private ScenarioExecutionContext(GlobalExecutionContext globalContext,
             Scenario scenario,
-            WebDriver driver, Map<String, String> memory,
+            WebDriver driver, Map<String, Object> memory,
             ScenarioExecutionContext parent) {
         this(globalContext, scenario, driver, memory);
         this.parent = parent;
@@ -49,7 +49,7 @@ public class ScenarioExecutionContext {
         return driver;
     }
 
-    public Map<String, String> getMemory() {
+    public Map<String, Object> getMemory() {
         return memory;
     }
 
