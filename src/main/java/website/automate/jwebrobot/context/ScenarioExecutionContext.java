@@ -64,4 +64,15 @@ public class ScenarioExecutionContext {
     public GlobalExecutionContext getGlobalContext() {
         return globalContext;
     }
+    
+    public boolean containsScenario(Scenario scenario){
+        if(this.getScenario().equals(scenario)){
+            return true;
+        }
+        ScenarioExecutionContext parentContext = this.getParent();
+        if(parentContext == null){
+            return false;
+        }
+        return parentContext.containsScenario(scenario);
+    }
 }

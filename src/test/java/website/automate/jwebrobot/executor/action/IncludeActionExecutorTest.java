@@ -3,6 +3,7 @@ package website.automate.jwebrobot.executor.action;
 import static java.util.Collections.singletonMap;
 import static org.mockito.Mockito.*;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -12,6 +13,7 @@ import com.google.inject.Provider;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.model.Action;
@@ -24,7 +26,7 @@ import website.automate.jwebrobot.model.Scenario;
 public class IncludeActionExecutorTest {
 
     private static final String SCENARIO_TITLE = "awesome scenario";
-    
+
     @Mock private ScenarioExecutor scenarioExecutor;
     @Mock private Action action;
     @Mock private ScenarioExecutionContext scenarioContext;
@@ -34,15 +36,15 @@ public class IncludeActionExecutorTest {
     @Mock private CriteriaValue scenarioCriterion;
     @Mock private Provider<ScenarioExecutor> scenarioExecutorProvider;
     @Mock private ExpressionEvaluator expressionEvaluator;
-    
+
     private static final ActionType ACTION_TYPE = ActionType.INCLUDE;
     private static final CriteriaType CRITERIA_TYPE = CriteriaType.SCENARIO;
-    
+
     private IncludeActionExecutor executor;
-    
+
     @SuppressWarnings("unchecked")
-    @Test
-    public void includedScenarioShouldBeExecuted(){
+    @Before
+    public void init(){
         when(action.getScenario()).thenReturn(SCENARIO_TITLE);
         when(action.getType()).thenReturn(ACTION_TYPE);
         when(action.getCriteriaValueMap()).thenReturn(singletonMap(CRITERIA_TYPE.getName(), scenarioCriterion));
@@ -54,9 +56,19 @@ public class IncludeActionExecutorTest {
         when(expressionEvaluator.evaluate(eq(SCENARIO_TITLE), anyMap())).thenReturn(SCENARIO_TITLE);
         
         executor = new IncludeActionExecutor(expressionEvaluator, scenarioExecutorProvider);
-        
+    }
+
+    @Test
+    public void includedScenarioShouldBeExecuted(){
         executor.execute(action, scenarioContext);
         
         verify(scenarioExecutor).runScenario(childScenario, childScenarioContext);
+    }
+
+    @Test(expected=RecursiveScenarioInclusionException.class)
+    public void recursiveIncludedScenarioCausesException(){
+        when(scenarioContext.containsScenario(childScenario)).thenReturn(true);
+        
+        executor.execute(action, scenarioContext);
     }
 }

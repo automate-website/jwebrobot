@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.model.Action;
@@ -31,6 +32,11 @@ public class IncludeActionExecutor extends EvaluatedActionExecutor {
         GlobalExecutionContext globalContext = context.getGlobalContext();
         String scenarioName = action.getScenario();
         Scenario scenario = globalContext.getScenario(scenarioName);
+        
+        if(context.containsScenario(scenario)){
+            throw new RecursiveScenarioInclusionException(context, scenario);
+        }
+        
         ScenarioExecutionContext includedScenarioContext = context.createChildContext(scenario);
         scenarioExecutor.get().runScenario(scenario, includedScenarioContext);
     }
