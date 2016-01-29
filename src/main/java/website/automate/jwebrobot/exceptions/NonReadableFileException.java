@@ -1,4 +1,4 @@
-package website.automate.jwebrobot.loader;
+package website.automate.jwebrobot.exceptions;
 
 import java.text.MessageFormat;
 

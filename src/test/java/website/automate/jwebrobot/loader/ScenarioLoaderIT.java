@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.Test;
 
 import website.automate.jwebrobot.AbstractTest;
+import website.automate.jwebrobot.exceptions.NonReadableFileException;
 import website.automate.jwebrobot.exceptions.TooManyActionsException;
 import website.automate.jwebrobot.exceptions.UnknownActionException;
 import website.automate.jwebrobot.model.Action;

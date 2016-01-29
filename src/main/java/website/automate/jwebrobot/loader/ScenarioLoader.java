@@ -19,6 +19,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.google.inject.Inject;
 
+import website.automate.jwebrobot.exceptions.NonReadableFileException;
 import website.automate.jwebrobot.model.Scenario;
 import website.automate.jwebrobot.model.mapper.ScenarioMapper;
 
