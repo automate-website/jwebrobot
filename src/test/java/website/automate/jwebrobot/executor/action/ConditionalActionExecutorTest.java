@@ -13,6 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
+import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.ActionType;
 import website.automate.jwebrobot.model.CriteriaType;
@@ -27,6 +28,7 @@ public class ConditionalActionExecutorTest {
     @Mock private CriteriaValue unlessCriterion;
     @Mock private TestActionExecution execution;
     @Mock private ScenarioExecutionContext context;
+    @Mock private ExecutionEventListeners listener;
     
     private static final String 
         TRUE_VALUE = "true",
@@ -37,7 +39,7 @@ public class ConditionalActionExecutorTest {
     @SuppressWarnings("unchecked")
     @Before
     public void init(){
-        executor = new TestConditionalActionExecutor(expressionEvaluator, execution);
+        executor = new TestConditionalActionExecutor(expressionEvaluator, execution, listener);
         when(expressionEvaluator.evaluate(Mockito.eq(TRUE_VALUE), Mockito.anyMap())).thenReturn(true);
         when(expressionEvaluator.evaluate(Mockito.eq(FALSE_VALUE), Mockito.anyMap())).thenReturn(false);
     }
@@ -119,8 +121,9 @@ public class ConditionalActionExecutorTest {
         
         public TestConditionalActionExecutor(
                 ExpressionEvaluator expressionEvaluator,
-                TestActionExecution execution) {
-            super(expressionEvaluator);
+                TestActionExecution execution,
+                ExecutionEventListeners listener) {
+            super(expressionEvaluator, listener);
             this.execution = execution;
         }
 

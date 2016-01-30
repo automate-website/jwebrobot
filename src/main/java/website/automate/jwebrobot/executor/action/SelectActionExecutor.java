@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
+import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.ActionType;
 import website.automate.jwebrobot.model.CriteriaType;
@@ -21,8 +22,9 @@ public class SelectActionExecutor extends EvaluatedActionExecutor {
     private static final String OPTION = "option";
 
     @Inject
-    public SelectActionExecutor(ExpressionEvaluator expressionEvaluator) {
-        super(expressionEvaluator);
+    public SelectActionExecutor(ExpressionEvaluator expressionEvaluator,
+            ExecutionEventListeners listener) {
+        super(expressionEvaluator, listener);
     }
     
     @Override

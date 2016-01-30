@@ -6,6 +6,7 @@ import com.google.inject.Injector;
 
 import website.automate.jwebrobot.config.ActionExecutorModule;
 import website.automate.jwebrobot.config.ContextValidatorModule;
+import website.automate.jwebrobot.config.ExecutionEventListenerModule;
 import website.automate.jwebrobot.config.ExpressionEvaluatorModule;
 import website.automate.jwebrobot.config.logger.LoggerModule;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
@@ -34,7 +35,7 @@ public class JWebRobot {
         GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, new ExecutorOptions());
         
         contextValidators.validate(globalContext);
-        
+
         scenarioExecutor.execute(globalContext);
     }
 
@@ -43,7 +44,8 @@ public class JWebRobot {
             new LoggerModule(),
             new ActionExecutorModule(),
             new ExpressionEvaluatorModule(),
-            new ContextValidatorModule()
+            new ContextValidatorModule(),
+            new ExecutionEventListenerModule()
         );
 
         return injector;

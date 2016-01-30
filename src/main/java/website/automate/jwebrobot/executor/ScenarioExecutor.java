@@ -9,6 +9,7 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.exceptions.StepsMustBePresentException;
 import website.automate.jwebrobot.executor.action.ActionExecutor;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
+import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.Scenario;
 
@@ -24,14 +25,17 @@ public class ScenarioExecutor {
 
     private final WebDriverProvider webDriverProvider;
     private final ActionExecutorFactory actionExecutorFactory;
+    private final ExecutionEventListeners listener;
 
     @Inject
     public ScenarioExecutor(
         WebDriverProvider webDriverProvider,
-        ActionExecutorFactory actionExecutorFactory
+        ActionExecutorFactory actionExecutorFactory,
+        ExecutionEventListeners listener
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
+        this.listener = listener;
     }
 
     public ExecutionResults execute(GlobalExecutionContext context) {
@@ -46,8 +50,14 @@ public class ScenarioExecutor {
     
                 ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, new HashMap<String, Object>());
                 try {
+                    listener.beforeScenario(scenarioExecutionContext);
+                    
                     runScenario(scenario, scenarioExecutionContext);
+                    
+                    listener.afterScenario(scenarioExecutionContext);
                 } finally {
+                    listener.errorScenario(scenarioExecutionContext);
+                    
                     driver.quit();
                 }
                 logger.info("Finished scenario {}.", scenario.getName());

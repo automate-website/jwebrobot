@@ -2,6 +2,7 @@ package website.automate.jwebrobot.executor.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
+import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.CriteriaType;
 import website.automate.jwebrobot.model.CriteriaValue;
@@ -10,7 +11,9 @@ public abstract class ConditionalActionExecutor extends BaseActionExecutor {
 
     protected ExpressionEvaluator expressionEvaluator;
     
-    public ConditionalActionExecutor(ExpressionEvaluator expressionEvaluator){
+    public ConditionalActionExecutor(ExpressionEvaluator expressionEvaluator,
+            ExecutionEventListeners listener){
+        super(listener);
         this.expressionEvaluator = expressionEvaluator;
     }
     

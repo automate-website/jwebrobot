@@ -6,13 +6,15 @@ import java.util.Map.Entry;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
+import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.CriteriaValue;
 
 public abstract class EvaluatedActionExecutor extends ConditionalActionExecutor {
 
-    public EvaluatedActionExecutor(ExpressionEvaluator expressionEvaluator) {
-        super(expressionEvaluator);
+    public EvaluatedActionExecutor(ExpressionEvaluator expressionEvaluator,
+            ExecutionEventListeners listener) {
+        super(expressionEvaluator, listener);
     }
 
     @Override

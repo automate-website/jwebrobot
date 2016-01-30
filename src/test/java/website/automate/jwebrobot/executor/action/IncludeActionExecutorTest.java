@@ -16,6 +16,7 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
+import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.ActionType;
 import website.automate.jwebrobot.model.CriteriaType;
@@ -36,6 +37,7 @@ public class IncludeActionExecutorTest {
     @Mock private CriteriaValue scenarioCriterion;
     @Mock private Provider<ScenarioExecutor> scenarioExecutorProvider;
     @Mock private ExpressionEvaluator expressionEvaluator;
+    @Mock private ExecutionEventListeners listener;
 
     private static final ActionType ACTION_TYPE = ActionType.INCLUDE;
     private static final CriteriaType CRITERIA_TYPE = CriteriaType.SCENARIO;
@@ -55,7 +57,7 @@ public class IncludeActionExecutorTest {
         when(scenarioExecutorProvider.get()).thenReturn(scenarioExecutor);
         when(expressionEvaluator.evaluate(eq(SCENARIO_TITLE), anyMap())).thenReturn(SCENARIO_TITLE);
         
-        executor = new IncludeActionExecutor(expressionEvaluator, scenarioExecutorProvider);
+        executor = new IncludeActionExecutor(expressionEvaluator, scenarioExecutorProvider, listener);
     }
 
     @Test
