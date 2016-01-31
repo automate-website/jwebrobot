@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.google.inject.Inject;
 
+import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.model.Action;
 
@@ -32,9 +33,9 @@ public class ExecutionEventListeners implements ExecutionEventListener {
     }
 
     @Override
-    public void errorScenario(ScenarioExecutionContext context) {
+    public void errorScenario(ScenarioExecutionContext context, Exception exception) {
         for(ExecutionEventListener listener : listeners){
-            listener.errorScenario(context);
+            listener.errorScenario(context, exception);
         }
     }
 
@@ -53,9 +54,30 @@ public class ExecutionEventListeners implements ExecutionEventListener {
     }
 
     @Override
-    public void errorAction(ScenarioExecutionContext context, Action action) {
+    public void errorAction(ScenarioExecutionContext context, Action action, Exception exception) {
         for(ExecutionEventListener listener : listeners){
-            listener.errorAction(context, action);
+            listener.errorAction(context, action, exception);
+        }
+    }
+
+    @Override
+    public void beforeExecution(GlobalExecutionContext context) {
+        for(ExecutionEventListener listener : listeners){
+            listener.beforeExecution(context);
+        }
+    }
+
+    @Override
+    public void afterExecution(GlobalExecutionContext context) {
+        for(ExecutionEventListener listener : listeners){
+            listener.afterExecution(context);
+        }
+    }
+
+    @Override
+    public void errorExecution(GlobalExecutionContext context, Exception exception) {
+        for(ExecutionEventListener listener : listeners){
+            listener.errorExecution(context, exception);
         }
     }
 

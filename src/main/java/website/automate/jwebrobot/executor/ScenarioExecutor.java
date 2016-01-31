@@ -12,11 +12,11 @@ import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.Scenario;
+import website.automate.jwebrobot.validator.ContextValidators;
 
 import javax.inject.Inject;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ScenarioExecutor {
 
@@ -26,47 +26,62 @@ public class ScenarioExecutor {
     private final WebDriverProvider webDriverProvider;
     private final ActionExecutorFactory actionExecutorFactory;
     private final ExecutionEventListeners listener;
+    private final ContextValidators validator;
 
     @Inject
     public ScenarioExecutor(
         WebDriverProvider webDriverProvider,
         ActionExecutorFactory actionExecutorFactory,
-        ExecutionEventListeners listener
+        ExecutionEventListeners listener,
+        ContextValidators validator
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
         this.listener = listener;
+        this.validator = validator;
     }
 
-    public ExecutionResults execute(GlobalExecutionContext context) {
-        ExecutionResults executionResults = new ExecutionResults();
-        List<Scenario> scenarios = context.getScenarios();
+    public void execute(GlobalExecutionContext context) {
+        listener.beforeExecution(context);
+        
+        validator.validate(context);
+        
+        try{
+            for (Scenario scenario : context.getScenarios()) {
+                execute(context, scenario);
+            }
+        } catch (Exception e){
+            listener.errorExecution(context, e);
+            throw e;
+        }
+        
+        listener.afterExecution(context);
+    }
+    
+    private void execute(GlobalExecutionContext context, Scenario scenario){
         ExecutorOptions options = context.getOptions();
         
-        for (Scenario scenario : scenarios) {
-            if (!scenario.isFragment()){
-                logger.info("Starting scenario {}...", scenario.getName());
-                WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
-    
-                ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, new HashMap<String, Object>());
-                try {
-                    listener.beforeScenario(scenarioExecutionContext);
-                    
-                    runScenario(scenario, scenarioExecutionContext);
-                    
-                    listener.afterScenario(scenarioExecutionContext);
-                } finally {
-                    listener.errorScenario(scenarioExecutionContext);
-                    
-                    driver.quit();
-                }
-                logger.info("Finished scenario {}.", scenario.getName());
+        if (!scenario.isFragment()){
+            logger.info("Starting scenario {}...", scenario.getName());
+            WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
+
+            ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, new HashMap<String, Object>());
+            try {
+                listener.beforeScenario(scenarioExecutionContext);
+                
+                runScenario(scenario, scenarioExecutionContext);
+                
+                listener.afterScenario(scenarioExecutionContext);
+            } catch (Exception e){
+                listener.errorScenario(scenarioExecutionContext, e);
+                throw e;
             }
+            finally {
+                driver.quit();
+            }
+            logger.info("Finished scenario {}.", scenario.getName());
         }
-
-        return executionResults;
     }
-
 
     public void runScenario(Scenario scenario, ScenarioExecutionContext scenarioExecutionContext) {
         if (scenario.getSteps() == null) {

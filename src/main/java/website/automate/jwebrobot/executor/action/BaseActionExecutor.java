@@ -22,7 +22,7 @@ public abstract class BaseActionExecutor implements ActionExecutor {
                 perform(preprocessedAction, context);
             }
         } catch (Exception e) {
-            listener.errorAction(context, action);
+            listener.errorAction(context, action, e);
             throw e;
         }
         

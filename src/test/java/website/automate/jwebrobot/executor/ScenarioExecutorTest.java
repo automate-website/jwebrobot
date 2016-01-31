@@ -33,7 +33,7 @@ public class ScenarioExecutorTest extends AbstractTest {
     @Before
     public void setUp() {
         scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
-
+        
         openAction = new Action();
         openAction.setType(ActionType.OPEN);
         openAction.setUrl("https://en.wikipedia.org");

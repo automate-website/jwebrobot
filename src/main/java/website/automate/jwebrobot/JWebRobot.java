@@ -14,7 +14,6 @@ import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
-import website.automate.jwebrobot.validator.ContextValidators;
 
 import java.util.List;
 
@@ -29,13 +28,10 @@ public class JWebRobot {
         Injector injector = configureModules();
         ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
         ScenarioExecutor scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
-        ContextValidators contextValidators = injector.getInstance(ContextValidators.class);
 
         List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getScenarioPath());
         GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, new ExecutorOptions());
         
-        contextValidators.validate(globalContext);
-
         scenarioExecutor.execute(globalContext);
     }
 

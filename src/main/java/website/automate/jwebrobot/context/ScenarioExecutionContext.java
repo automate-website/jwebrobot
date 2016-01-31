@@ -65,6 +65,21 @@ public class ScenarioExecutionContext {
         return globalContext;
     }
     
+    public String getScenarioInclusionPath(){
+        String result = scenario.getName();
+        if(parent != null){
+            return parent.getScenarioInclusionPath() + "/" + result; 
+        }
+        return result;
+    }
+    
+    public Scenario getRootScenario(){
+        if(parent == null){
+            return scenario;
+        }
+        return parent.getRootScenario();
+    }
+    
     public boolean containsScenario(Scenario scenario){
         if(this.getScenario().equals(scenario)){
             return true;
