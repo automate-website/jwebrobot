@@ -1,18 +1,15 @@
 package website.automate.jwebrobot.report;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.yaml.snakeyaml.Yaml;
+import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.exceptions.NonReadableFileException;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.Scenario;
@@ -21,17 +18,22 @@ import website.automate.jwebrobot.report.model.ExecutionReport;
 import website.automate.jwebrobot.report.model.ExecutionStatus;
 import website.automate.jwebrobot.report.model.ScenarioReport;
 
-public class YamlReporter implements ExecutionEventListener {
+public class Reporter implements ExecutionEventListener {
 
-    private String reportPath = "./report.yaml";
+    private String reportPath = "./report";
 
-    private Yaml yaml = new Yaml();
+    private ReportWriter writer;
     
     private Map<Action, Long> actionStartTimeMap = new HashMap<>();
     
     private Map<Action, ActionReport> actionReportMap = new HashMap<>();
     
     private Map<Scenario, ScenarioReport> scenarioReportMap = new LinkedHashMap<>();
+    
+    @Inject
+    public Reporter(ReportWriter writer) {
+        this.writer = writer;
+    }
     
     @Override
     public void beforeScenario(ScenarioExecutionContext context) {
@@ -93,7 +95,7 @@ public class YamlReporter implements ExecutionEventListener {
         ExecutionReport report = new ExecutionReport();
         report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
         report.updateStats();
-        writeReport(report);
+        writer.writeReport(reportPath, report);
     }
 
     @Override
@@ -101,7 +103,7 @@ public class YamlReporter implements ExecutionEventListener {
             Exception exception) {
         ExecutionReport report = afterExecutionOrError(context);
         report.setMessage(exception.getMessage());
-        writeReport(report);
+        writer.writeReport(reportPath, report);
     }
     
     private ExecutionReport afterExecutionOrError(GlobalExecutionContext context){
@@ -109,14 +111,6 @@ public class YamlReporter implements ExecutionEventListener {
         report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
         report.updateStats();
         return report;
-    }
-    
-    private void writeReport(ExecutionReport report){
-        try {
-            yaml.dump(report, new FileWriter(reportPath));
-        } catch (IOException e) {
-            throw new NonReadableFileException(reportPath);
-        }
     }
     
     private ActionReport afterActionOrError(ScenarioExecutionContext context, Action action){

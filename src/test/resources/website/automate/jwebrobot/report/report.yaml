@@ -1,0 +1,21 @@
+status: SUCESS
+time: 0.0
+numScenarioTotal: 0
+numScenarioPasses: 0
+numScenarioFailures: 0
+scenarios:
+- name: scenario1
+  status: SUCESS
+  time: 0.0
+  path: /scenario.yaml
+  numActionPasses: 0
+  numActionFailures: 0
+  actions:
+  - name: open
+    status: SUCESS
+    time: 1.0
+    path: scenario1
+  - name: click
+    status: FAILURE
+    time: 2.0
+    path: scenario1

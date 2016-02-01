@@ -1,5 +1,6 @@
 package website.automate.jwebrobot;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -19,6 +20,7 @@ public class JWebRobotIT {
         JWebRobot.main(new String [] {"--" + SCENARIO_PATH_PARAM_NAME + "=" + ROOT_PACKAGE_DIRECTORY_PATH + "inclusion" });
     }
 
+    @Ignore
     @Test
     @Category(ChromeTests.class)
     public void simpleScenarioShouldBeExecutedWithChrome() {
