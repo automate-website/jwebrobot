@@ -20,20 +20,20 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ScenarioExecutorTest extends AbstractTest {
+public class ScenarioExecutorIT extends AbstractTest {
 
     private ScenarioExecutor scenarioExecutor;
 
     private Action openAction;
     private Action clickAction;
     private Action ensureAction;
-    
+
     @Mock private File file;
 
     @Before
     public void setUp() {
         scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
-        
+
         openAction = new Action();
         openAction.setType(ActionType.OPEN);
         openAction.setUrl("https://en.wikipedia.org");
@@ -54,11 +54,11 @@ public class ScenarioExecutorTest extends AbstractTest {
 
         scenarioExecutor.execute(asContext(scenario));
     }
-    
+
     private GlobalExecutionContext asContext(Scenario ... scenarios){
         return new GlobalExecutionContext(asScenarioFiles(scenarios), new ExecutorOptions());
     }
-    
+
     private List<ScenarioFile> asScenarioFiles(Scenario ... scenarios){
         return asList(new ScenarioFile(asList(scenarios), file));
     }

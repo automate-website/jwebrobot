@@ -1,23 +1,36 @@
 package website.automate.jwebrobot;
 
 import com.beust.jcommander.JCommander;
-import com.google.inject.Guice;
 import com.google.inject.Injector;
-
-import website.automate.jwebrobot.config.ActionExecutorModule;
-import website.automate.jwebrobot.config.ContextValidatorModule;
-import website.automate.jwebrobot.config.ExecutionEventListenerModule;
-import website.automate.jwebrobot.config.ExpressionEvaluatorModule;
-import website.automate.jwebrobot.config.logger.LoggerModule;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
+import website.automate.jwebrobot.executor.WebDriverProvider;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class JWebRobot {
+
+    @Inject
+    private ScenarioLoader scenarioLoader;
+
+    @Inject
+    private ScenarioExecutor scenarioExecutor;
+
+    public JWebRobot() {
+    }
+
+    public void run(ConfigurationProperties configurationProperties) {
+        List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getScenarioPath());
+        ExecutorOptions executorOptions = new ExecutorOptions();
+        executorOptions.setWebDriverType(WebDriverProvider.Type.fromString(configurationProperties.getBrowser()));
+        GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, executorOptions);
+
+        scenarioExecutor.execute(globalContext);
+    }
 
     public static void main(String[] args) {
         ConfigurationProperties configurationProperties = new ConfigurationProperties();
@@ -25,25 +38,10 @@ public class JWebRobot {
 
         System.out.println("Executing: " + configurationProperties.getScenarioPath());
 
-        Injector injector = configureModules();
-        ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
-        ScenarioExecutor scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
+        Injector injector = GuiceInjector.getInstance();
 
-        List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getScenarioPath());
-        GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, new ExecutorOptions());
-        
-        scenarioExecutor.execute(globalContext);
+        JWebRobot jWebRobot = injector.getInstance(JWebRobot.class);
+        jWebRobot.run(configurationProperties);
     }
 
-    public static Injector configureModules() {
-        Injector injector = Guice.createInjector(
-            new LoggerModule(),
-            new ActionExecutorModule(),
-            new ExpressionEvaluatorModule(),
-            new ContextValidatorModule(),
-            new ExecutionEventListenerModule()
-        );
-
-        return injector;
-    }
 }
