@@ -2,6 +2,7 @@ package website.automate.jwebrobot.context;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
 import java.util.Map;
 
@@ -17,6 +18,10 @@ import website.automate.jwebrobot.model.Scenario;
 @RunWith(MockitoJUnitRunner.class)
 public class ScenarioExecutionContextTest {
 
+	private static final String
+		SCENARIO_NAME = "scenario",
+		CHILD_SCENARIO_NAME = "child-scenario";
+	
     @Mock private GlobalExecutionContext globalContext;
     @Mock private Scenario scenario;
     @Mock private WebDriver driver;
@@ -31,6 +36,8 @@ public class ScenarioExecutionContextTest {
     public void init(){
         context = new ScenarioExecutionContext(globalContext, scenario, driver, memory);
         childContext = context.createChildContext(childScenario);
+        when(scenario.getName()).thenReturn(SCENARIO_NAME);
+        when(childScenario.getName()).thenReturn(CHILD_SCENARIO_NAME);
     }
     
     @Test
@@ -65,5 +72,25 @@ public class ScenarioExecutionContextTest {
     @Test
     public void childContextDoesNotContainSeparateScenario(){
         assertThat(childContext.containsScenario(separateScenario), is(false));
+    }
+    
+    @Test
+    public void contextScenarioInclusionPathIsReturned(){
+    	assertThat(context.getScenarioInclusionPath(), is(SCENARIO_NAME));
+    }
+    
+    @Test
+    public void childContextScenarioInclusionPathIsReturned(){
+    	assertThat(childContext.getScenarioInclusionPath(), is(SCENARIO_NAME + "/" + CHILD_SCENARIO_NAME));
+    }
+    
+    @Test
+    public void rootScenarioIsReturnedByChildContext(){
+    	assertThat(childContext.getRootScenario(), is(scenario));
+    }
+    
+    @Test
+    public void rootScenarioIsReturnedByContext(){
+    	assertThat(context.getRootScenario(), is(scenario));
     }
 }
