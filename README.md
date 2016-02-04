@@ -9,7 +9,7 @@
 ## References
 Refer to the [changelog] for recent notable changes and modifications.
 
-Refer to the [wiki pages] for documentation and user information.
+Refer to the [waml-schema] for schema sources.
 
 ## Options
 Options may be passed to the **JWebRobot** using single hyphen notation:
@@ -61,4 +61,5 @@ mvn package
 
 [webdriver-chrome]: http://chromedriver.storage.googleapis.com/index.html
 [changelog]: CHANGELOG.md
+[waml-schema]: http://waml-schema.org
 [web automation markup language]: https://github.com/automate-website/waml
