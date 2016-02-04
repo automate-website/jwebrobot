@@ -12,12 +12,12 @@ public class JWebRobotIT {
 
     @Test
     public void simpleScenarioIsExecuted() {
-        JWebRobot.main(new String [] {"--" + SCENARIO_PATH_PARAM_NAME + "=" + ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml" });
+        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml"});
     }
 
     @Test
     public void threeLevelInclusionScenarioIsExecuted(){
-        JWebRobot.main(new String [] {"--" + SCENARIO_PATH_PARAM_NAME + "=" + ROOT_PACKAGE_DIRECTORY_PATH + "inclusion" });
+        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "inclusion" });
     }
 
     @Ignore
@@ -25,8 +25,8 @@ public class JWebRobotIT {
     @Category(ChromeTests.class)
     public void simpleScenarioShouldBeExecutedWithChrome() {
         JWebRobot.main(new String [] {
-            "--" + SCENARIO_PATH_PARAM_NAME + "=" + ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml",
-            "--browser=chrome"
+            "-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml",
+            "-browser", "chrome"
         });
     }
 }

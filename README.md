@@ -15,12 +15,12 @@ mvn package
 A scenario can be executed from console by us passing _scenarioPath_ parameter, e.g.:
 
 ```
-java -jar <path to jar> --scenarioPath=<path to WAML file or WAML project directory>
+java -jar <path to jar> -scenarioPath=<path to WAML file or WAML project directory>
 ```
 
 ## Browser Support 
 
-A browser can be selected by passing the ```--browser=<browser name>``` property when running JWebRobot. Please consider 
+A browser can be selected by passing the ```-browser=<browser name>``` property when running JWebRobot. Please consider 
 that some browsers require additional configuration parameters.
 
 ## Firefox (Default)
@@ -34,7 +34,7 @@ path to the downloaded executable has to be passed via the system property ```we
 Chrome must be present on the same machine.
 
 ```
-java -jar <path to jar> --scenarioPath=<path to WAML> --browser=chrome -Dwebdriver.chrome.driver=<path to chrome driver>
+java -jar <path to jar> -scenarioPath=<path to WAML> -browser=chrome -Dwebdriver.chrome.driver=<path to chrome driver>
 ```
 
 [webdriver-chrome]: http://chromedriver.storage.googleapis.com/index.html
