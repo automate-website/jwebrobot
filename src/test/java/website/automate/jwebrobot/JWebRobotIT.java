@@ -19,7 +19,15 @@ public class JWebRobotIT {
     public void threeLevelInclusionScenarioIsExecuted(){
         JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "inclusion" });
     }
-
+    
+    @Test
+    public void contextArgumentScenarioIsExecuted(){
+        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, 
+                ROOT_PACKAGE_DIRECTORY_PATH + "context-argument-test.yaml",
+                "-context",
+                "baseUrl=https://en.wikipedia.org"});
+    }
+    
     @Ignore
     @Test
     @Category(ChromeTests.class)

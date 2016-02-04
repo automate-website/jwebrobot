@@ -2,6 +2,7 @@ package website.automate.jwebrobot;
 
 import static java.text.MessageFormat.format;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,8 @@ public class ConfigurationProperties {
     @Parameter(names = "-browser", description = "Browser to use for execution (e.g firefox or chrome).", required = false)
     private String browser = "firefox";
     
-    @Parameter(names = "-context", required = false)
-    private List<String> contextEntries;
+    @Parameter(names = "-context", variableArity = true, required = false)
+    private List<String> contextEntries = new ArrayList<>();
 
     public String getScenarioPath() {
         return scenarioPath;
@@ -35,12 +36,12 @@ public class ConfigurationProperties {
         this.browser = browser;
     }
     
-    public Map<String, String> getContext(){
-        Map<String, String> contextMap = new HashMap<>();
+    public Map<String, Object> getContext(){
+        Map<String, Object> contextMap = new HashMap<>();
         for(String contextEntry : contextEntries){
             String [] contextPair = contextEntry.split("=");
             if(contextPair.length != 2){
-                throw new IllegalArgumentException(format("Context entry {0} must contain = separator.", contextEntry));
+                throw new IllegalArgumentException(format("Context entry {0} is incomplete.", contextEntry));
             }
             contextMap.put(contextPair[0], contextPair[1]);
         }

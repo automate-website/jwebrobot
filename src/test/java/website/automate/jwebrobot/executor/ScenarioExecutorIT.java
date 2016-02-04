@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
@@ -17,6 +18,7 @@ import website.automate.jwebrobot.model.Scenario;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.ClassLoader.getSystemResourceAsStream;
@@ -68,7 +70,7 @@ public class ScenarioExecutorIT extends AbstractTest {
     }
 
     private GlobalExecutionContext asContext(Scenario ... scenarios){
-        return new GlobalExecutionContext(asScenarioFiles(scenarios), new ExecutorOptions());
+        return new GlobalExecutionContext(asScenarioFiles(scenarios), new ExecutorOptions(), new HashMap<String, Object>());
     }
 
     private List<ScenarioFile> asScenarioFiles(Scenario ... scenarios){

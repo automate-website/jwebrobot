@@ -19,12 +19,16 @@ public class GlobalExecutionContext {
 
     private Map<Scenario, File> scenarioFileMap = new HashMap<>();
     
+    private Map<String, Object> memory = new HashMap<>();
+    
     private List<Scenario> scenarios = new ArrayList<>();
     
     private ExecutorOptions options;
     
-    public GlobalExecutionContext(Collection<ScenarioFile> scenarioFiles, ExecutorOptions options) {
+    public GlobalExecutionContext(Collection<ScenarioFile> scenarioFiles, ExecutorOptions options,
+            Map<String, Object> memory) {
         this.options = options;
+        this.memory = memory;
         addScenarios(scenarioFiles);
     }
     
@@ -57,5 +61,11 @@ public class GlobalExecutionContext {
 
     public List<Scenario> getScenarios() {
         return scenarios;
+    }
+    
+    public Map<String, Object> getMemory() {
+        Map<String, Object> copy = new HashMap<>();
+        copy.putAll(memory);
+        return copy;
     }
 }

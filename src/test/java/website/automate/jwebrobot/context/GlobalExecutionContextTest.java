@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +30,7 @@ public class GlobalExecutionContextTest {
     @Mock private File file;
     @Mock private ScenarioFile scenarioFile;
     @Mock private ExecutorOptions options;
+    @Mock private Map<String, Object> memory;
     
     @Before
     public void init(){
@@ -42,14 +44,14 @@ public class GlobalExecutionContextTest {
     
     @Test
     public void optionsAreSet(){
-        GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options);
+        GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options, memory);
         
         assertThat(context.getOptions(), is(options));
     }
     
     @Test
     public void scenariosFoundByName(){
-        GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options);
+        GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options, memory);
         
         assertThat(context.getScenario(SCENARIO_TITLE), is(scenario));
         assertThat(context.getScenario(ANOTHER_SCENARIO_TITLE), is(anotherScenario));
@@ -57,7 +59,7 @@ public class GlobalExecutionContextTest {
     
     @Test
     public void scenariosReferenceFile(){
-        GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options);
+        GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options, memory);
         
         assertThat(context.getFile(scenario), is(file));
         assertThat(context.getFile(anotherScenario), is(file));
@@ -65,8 +67,15 @@ public class GlobalExecutionContextTest {
     
     @Test
     public void scenariosAreSortedByPrecedence(){
-        GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options);
+        GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options, memory);
         
         assertThat(context.getScenarios(), is(asList(anotherScenario, scenario)));
+    }
+    
+    @Test
+    public void memoryIsSet(){
+        GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options, memory);
+        
+        assertThat(context.getMemory(), is(memory));
     }
 }

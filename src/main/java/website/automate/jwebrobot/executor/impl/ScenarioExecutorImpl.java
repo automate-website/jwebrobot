@@ -17,7 +17,6 @@ import website.automate.jwebrobot.model.Scenario;
 import website.automate.jwebrobot.validator.ContextValidators;
 
 import javax.inject.Inject;
-import java.util.HashMap;
 
 public class ScenarioExecutorImpl implements ScenarioExecutor {
 
@@ -67,7 +66,7 @@ public class ScenarioExecutorImpl implements ScenarioExecutor {
             logger.info("Starting scenario {}...", scenario.getName());
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
 
-            ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, new HashMap<String, Object>());
+            ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, context.getMemory());
             try {
                 listener.beforeScenario(scenarioExecutionContext);
 

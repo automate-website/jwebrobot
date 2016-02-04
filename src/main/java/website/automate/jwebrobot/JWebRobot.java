@@ -27,7 +27,8 @@ public class JWebRobot {
         List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getScenarioPath());
         ExecutorOptions executorOptions = new ExecutorOptions();
         executorOptions.setWebDriverType(WebDriverProvider.Type.fromString(configurationProperties.getBrowser()));
-        GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, executorOptions);
+        GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, executorOptions,
+                configurationProperties.getContext());
 
         scenarioExecutor.execute(globalContext);
     }

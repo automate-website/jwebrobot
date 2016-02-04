@@ -93,4 +93,9 @@ public class ScenarioExecutionContextTest {
     public void rootScenarioIsReturnedByContext(){
     	assertThat(context.getRootScenario(), is(scenario));
     }
+    
+    @Test
+    public void memoryIsSet(){
+        assertThat(context.getMemory(), is(memory));
+    }
 }
