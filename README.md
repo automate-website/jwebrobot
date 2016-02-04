@@ -4,7 +4,7 @@
 
 ## Short Description
 
-**JWebRobot** is the reference implementation of [web automation markup language].
+**JWebRobot** is the reference implementation of [web automation markup language]. Currently **JWebRobot** implements the [draft-02].
 
 ## References
 Refer to the [changelog] for recent notable changes and modifications.
@@ -63,3 +63,4 @@ mvn package
 [changelog]: CHANGELOG.md
 [waml-schema]: http://waml-schema.org
 [web automation markup language]: https://github.com/automate-website/waml
+[draft-02]: http://waml-schema.org/draft-02/schema#
