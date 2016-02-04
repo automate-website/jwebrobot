@@ -5,9 +5,12 @@ import org.openqa.selenium.WebDriver;
 import website.automate.jwebrobot.model.Scenario;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class ScenarioExecutionContext {
 
+    private String sessionId;
+    
     private Scenario scenario;
 
     private WebDriver driver;
@@ -27,6 +30,7 @@ public class ScenarioExecutionContext {
         this.scenario = scenario;
         this.driver = driver;
         this.memory = memory;
+        this.sessionId = UUID.randomUUID().toString();
     }
     
     public ScenarioExecutionContext createChildContext(Scenario scenario){
@@ -39,6 +43,7 @@ public class ScenarioExecutionContext {
             ScenarioExecutionContext parent) {
         this(globalContext, scenario, driver, memory);
         this.parent = parent;
+        this.sessionId = parent.getRoot().getSessionId();
     }
     
     public Scenario getScenario() {
@@ -74,10 +79,14 @@ public class ScenarioExecutionContext {
     }
     
     public Scenario getRootScenario(){
+        return getRoot().getScenario();
+    }
+    
+    public ScenarioExecutionContext getRoot(){
         if(parent == null){
-            return scenario;
+            return this;
         }
-        return parent.getRootScenario();
+        return parent.getRoot();
     }
     
     public boolean containsScenario(Scenario scenario){
@@ -89,5 +98,9 @@ public class ScenarioExecutionContext {
             return false;
         }
         return parentContext.containsScenario(scenario);
+    }
+
+    public String getSessionId() {
+        return sessionId;
     }
 }

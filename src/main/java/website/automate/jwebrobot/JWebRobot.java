@@ -2,14 +2,15 @@ package website.automate.jwebrobot;
 
 import com.beust.jcommander.JCommander;
 import com.google.inject.Injector;
+
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
-import website.automate.jwebrobot.executor.WebDriverProvider;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
 
 import javax.inject.Inject;
+
 import java.util.List;
 
 public class JWebRobot {
@@ -25,8 +26,7 @@ public class JWebRobot {
 
     public void run(ConfigurationProperties configurationProperties) {
         List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getScenarioPath());
-        ExecutorOptions executorOptions = new ExecutorOptions();
-        executorOptions.setWebDriverType(WebDriverProvider.Type.fromString(configurationProperties.getBrowser()));
+        ExecutorOptions executorOptions = ExecutorOptions.of(configurationProperties);
         GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, executorOptions,
                 configurationProperties.getContext());
 

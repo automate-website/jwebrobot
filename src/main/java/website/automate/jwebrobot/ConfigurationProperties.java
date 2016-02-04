@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import website.automate.jwebrobot.executor.ExecutorOptions.TakeScreenshots;
+
 import com.beust.jcommander.Parameter;
 
 public class ConfigurationProperties {
@@ -19,7 +21,13 @@ public class ConfigurationProperties {
     
     @Parameter(names = "-context", variableArity = true, required = false)
     private List<String> contextEntries = new ArrayList<>();
+    
+    @Parameter(names = "-takeScreenshots", description = "Determines if any and under which condition screenshots must be taken.", required = false)
+    private String takeScreenshots = TakeScreenshots.ON_FAILURE.getName();
 
+    @Parameter(names = "-screenshotPath", description = "Path to the directory where created screeshots must be saved.", required = false)
+    private String screenshotPath = "./";
+    
     public String getScenarioPath() {
         return scenarioPath;
     }
@@ -50,5 +58,21 @@ public class ConfigurationProperties {
 
     public void setContextEntries(List<String> contextEntries) {
         this.contextEntries = contextEntries;
+    }
+
+    public String getTakeScreenshots() {
+        return takeScreenshots;
+    }
+
+    public void setTakeScreenshots(String takeScreenshots) {
+        this.takeScreenshots = takeScreenshots;
+    }
+
+    public String getScreenshotPath() {
+        return screenshotPath;
+    }
+
+    public void setScreenshotPath(String screenshotPath) {
+        this.screenshotPath = screenshotPath;
     }
 }
