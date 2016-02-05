@@ -1,5 +1,9 @@
 package website.automate.jwebrobot.model;
 
+import static java.util.Arrays.asList;
+
+import java.util.List;
+
 public enum CriteriaType {
     CLEAR("clear"),
     IF("if"),
@@ -13,6 +17,8 @@ public enum CriteriaType {
     VALUE("value"),
     DEFAULT("default");
 
+    public static final List<CriteriaType> FILTER_CRITERIA_TYPES = asList(SELECTOR, TEXT, VALUE);
+    
     private final String name;
     
     private CriteriaType(String name){

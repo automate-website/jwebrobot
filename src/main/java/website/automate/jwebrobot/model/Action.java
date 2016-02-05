@@ -2,6 +2,8 @@ package website.automate.jwebrobot.model;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -133,5 +135,17 @@ public class Action {
 
     public void setCriteriaValueMap(Map<String, CriteriaValue> criteriaValueMap) {
         this.criteriaValueMap = criteriaValueMap;
+    }
+    
+    public Map<CriteriaType, CriteriaValue> getCriteriaValueMap(List<CriteriaType> criteriaTypes){
+        Map<CriteriaType, CriteriaValue> filteredCriteriaValueMap = new LinkedHashMap<>();
+        for(CriteriaType criteriaType : criteriaTypes){
+            // FIX-ME: default criteria may be not compatible with given criteria types
+            CriteriaValue criteriaValue = getCriteriaOrDefault(criteriaType);
+            if(criteriaValue != null){
+                filteredCriteriaValueMap.put(criteriaType, criteriaValue);
+            }
+        }
+        return filteredCriteriaValueMap;
     }
 }
