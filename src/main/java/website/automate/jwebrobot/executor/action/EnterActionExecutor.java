@@ -55,7 +55,7 @@ public class EnterActionExecutor extends FilterActionExecutor {
         /**
          * See {@link org.openqa.selenium.Keys} to send keys.
          */
-        element.sendKeys(action.getCriteria(CriteriaType.VALUE).asString());
+        element.sendKeys(action.getInput());
 
     }
 

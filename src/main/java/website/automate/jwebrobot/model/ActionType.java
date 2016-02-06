@@ -4,7 +4,7 @@ public enum ActionType {
     
     CLICK("click", CriteriaType.SELECTOR),
     ENSURE("ensure", CriteriaType.SELECTOR),
-    ENTER("enter", CriteriaType.VALUE),
+    ENTER("enter", CriteriaType.INPUT),
     INCLUDE("include", CriteriaType.SCENARIO),
     MOVE("move", CriteriaType.SELECTOR),
     OPEN("open", CriteriaType.URL),

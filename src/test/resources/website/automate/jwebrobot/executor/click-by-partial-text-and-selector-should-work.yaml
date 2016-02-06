@@ -3,5 +3,5 @@ steps:
   - open: 'http://localhost:8089'
   - click:
       selector: '.secondary > a'
-      text: '^Read (.*)'
+      text: 'Read info'
   - ensure: 'h1#Info'

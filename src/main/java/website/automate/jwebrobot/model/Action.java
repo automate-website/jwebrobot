@@ -89,6 +89,10 @@ public class Action {
         return getCriteriaOrDefaultAsString(CriteriaType.VALUE);
     }
     
+    public String getInput(){
+        return getCriteriaOrDefaultAsString(CriteriaType.INPUT);
+    }
+    
     public Boolean getClear(){
         return getCriteria(CriteriaType.CLEAR).asBoolean();
     }
@@ -145,6 +149,6 @@ public class Action {
     }
     
     public boolean hasFilterCriteria(){
-        return getFilterCriteria().isEmpty();
+        return !getFilterCriteria().isEmpty();
     }
 }

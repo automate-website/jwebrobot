@@ -12,7 +12,7 @@ steps:
   - enter:
       selector: 'input[name="target"]'
       clear: true
-      value: 'Machu Picchu'
+      input: 'Machu Picchu'
   - wait: 500
   - enter: "\uE015"
   - enter: "\uE006"

@@ -15,7 +15,7 @@ public enum CriteriaType {
     TIMEOUT("timeout"),
     URL("url"),
     VALUE("value"),
-    DEFAULT("default");
+    INPUT("input");
 
     public static final List<CriteriaType> FILTER_CRITERIA_TYPES = asList(SELECTOR, TEXT, VALUE);
     

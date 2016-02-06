@@ -127,14 +127,14 @@ public class CriteriaMapperTest extends AbstractTest {
     public void shouldSupportSimpleEnterAction() {
         Action action = steps.get(10);
 
-        assertThat(action.getValue(), is("enter.value1"));
+        assertThat(action.getInput(), is("enter.input1"));
     }
 
     @Test
     public void shouldSupportComplexEnterAction() {
         Action action = steps.get(11);
 
-        assertThat(action.getValue(), is("enter.value"));
+        assertThat(action.getInput(), is("enter.input"));
         assertThat(action.getClear(), is(true));
         // TODO: Add other criteria check
         assertThat(action.getIf(), is("enter.if"));

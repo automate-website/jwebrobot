@@ -39,9 +39,9 @@ steps:
       if: 'select.if'
       unless: 'select.unless'
       # parent: 'select.parent'
-  - enter: 'enter.value1'
+  - enter: 'enter.input1'
   - enter:
-      value: 'enter.value'
+      input: 'enter.input'
       clear: true
       text: 'enter.text'
       selector: 'enter.selector'
