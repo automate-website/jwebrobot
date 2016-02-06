@@ -1,6 +1,0 @@
-name: Click by Text Regex Test
-steps:
-  - open: 'http://localhost:8089'
-  - click:
-      text: '^Read (.*)'
-  - ensure: 'h1#About'

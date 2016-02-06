@@ -93,13 +93,6 @@ public class ScenarioExecutorIT extends AbstractTest {
         scenarioExecutor.execute(asContext(scenarios));
     }
 
-    @Test
-    public void clickByRegexTextShouldWork() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-regex-text-should-work.yaml");
-
-        scenarioExecutor.execute(asContext(scenarios));
-    }
-
     @Test(expected = RecursiveScenarioInclusionException.class)
     public void shouldDetectCircularDependency() {
         InputStream stream = getSystemResourceAsStream("./failing_scenarios/circular-dependency.yaml");
