@@ -1,5 +1,7 @@
 package website.automate.jwebrobot.model;
 
+import java.util.Map;
+
 public class CriteriaValue {
 
     private Object value;
@@ -26,5 +28,10 @@ public class CriteriaValue {
     
     public Object asObject(){
         return value;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public Map<String, CriteriaValue> asMap(){
+        return (Map<String, CriteriaValue>)value;
     }
 }

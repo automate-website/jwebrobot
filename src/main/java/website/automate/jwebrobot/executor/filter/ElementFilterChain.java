@@ -2,6 +2,7 @@ package website.automate.jwebrobot.executor.filter;
 
 import static java.util.Arrays.asList;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -27,19 +28,36 @@ public class ElementFilterChain {
     }
     
     public List<WebElement> filter(ScenarioExecutionContext context, Action action){
-        Map<CriteriaType, CriteriaValue> criteriaValueMap = action.getFilterCriteria();
+        List<Map<CriteriaType, CriteriaValue>> filterCriteriaValueMaps = getParentCriteriaValueMapsInReverseOrder(action);
         
-        if(criteriaValueMap.isEmpty()){
+        if(filterCriteriaValueMaps.isEmpty()){
             return Collections.emptyList();
         }
         
         WebElement html = context.getDriver().findElement(By.tagName("html"));
         
         List<WebElement> filteredWebElements = asList(html);
-        for(Entry<CriteriaType, CriteriaValue> criteriaValueEntry : criteriaValueMap.entrySet()){
-            ElementFilter elementFilter = elementFilterProvider.getInstance(criteriaValueEntry.getKey());
-            filteredWebElements = elementFilter.filter(criteriaValueEntry.getValue(), filteredWebElements);
+        for(Map<CriteriaType, CriteriaValue> filterCriteriaValueMap : filterCriteriaValueMaps){
+            for(Entry<CriteriaType, CriteriaValue> filterCriteriaValueEntry : filterCriteriaValueMap.entrySet()){
+                ElementFilter elementFilter = elementFilterProvider.getInstance(filterCriteriaValueEntry.getKey());
+                filteredWebElements = elementFilter.filter(filterCriteriaValueEntry.getValue(), filteredWebElements);
+            }
         }
         return filteredWebElements;
+    }
+    
+    private List<Map<CriteriaType, CriteriaValue>> getParentCriteriaValueMapsInReverseOrder(Action action){
+        List<Map<CriteriaType,CriteriaValue>> result = new ArrayList<>();
+        populateCriteriaValueMapsInReverseOrder(result, Action.getFilterCriteria(action.getCriteriaValueMap()));
+        return result;
+    }
+    
+    private void populateCriteriaValueMapsInReverseOrder(List<Map<CriteriaType, CriteriaValue>> criteriaValueMaps,
+            Map<CriteriaType, CriteriaValue> criteriaValueMap){
+        CriteriaValue parentCriterion = criteriaValueMap.get(CriteriaType.PARENT);
+        if(parentCriterion != null){
+            populateCriteriaValueMapsInReverseOrder(criteriaValueMaps, Action.getFilterCriteria(parentCriterion.asMap()));
+        }
+        criteriaValueMaps.add(criteriaValueMap);
     }
 }

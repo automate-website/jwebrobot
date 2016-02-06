@@ -16,6 +16,10 @@ public class Action {
     private Map<String, CriteriaValue> criteriaValueMap = new HashMap<>();
     
     public CriteriaValue getCriteria(CriteriaType type){
+        return getCriteria(type, criteriaValueMap);
+    }
+    
+    private static CriteriaValue getCriteria(CriteriaType type, Map<String, CriteriaValue> criteriaValueMap){
         return criteriaValueMap.get(type.getName());
     }
     
@@ -41,7 +45,7 @@ public class Action {
     @SuppressWarnings("unchecked")
     private void initCriteriaValueMap(Object value){
         if(value instanceof Map){
-            addAll((Map<String, Object>)value);
+            addAll(criteriaValueMap, (Map<String, Object>)value);
         } else {
             addDefault(value);
         }
@@ -51,9 +55,17 @@ public class Action {
         criteriaValueMap.put(type.getDefaultCriteriaType().getName(), new CriteriaValue(value));
     }
     
-    private void addAll(Map<String, Object> values){
+    @SuppressWarnings("unchecked")
+    private void addAll(Map<String, CriteriaValue> criteriaValueMap, Map<String, Object> values){
         for(Entry<String, Object> entry : values.entrySet()){
-            criteriaValueMap.put(entry.getKey(), new CriteriaValue(entry.getValue()));
+            Object value = entry.getValue();
+            if(value instanceof Map){
+                Map<String, CriteriaValue> nestedCriteriaValueMap = new HashMap<>();
+                criteriaValueMap.put(entry.getKey(), new CriteriaValue(nestedCriteriaValueMap));
+                addAll(nestedCriteriaValueMap, (Map<String, Object>)value);
+            } else {
+                criteriaValueMap.put(entry.getKey(), new CriteriaValue(entry.getValue()));
+            }
         }
     }
     
@@ -134,9 +146,13 @@ public class Action {
     }
     
     public Map<CriteriaType, CriteriaValue> getCriteriaValueMap(List<CriteriaType> criteriaTypes){
+        return getCriteriaValueMap(criteriaValueMap, criteriaTypes);
+    }
+    
+    public static Map<CriteriaType, CriteriaValue> getCriteriaValueMap(Map<String, CriteriaValue> criteriaValueMap, List<CriteriaType> criteriaTypes){
         Map<CriteriaType, CriteriaValue> filteredCriteriaValueMap = new LinkedHashMap<>();
         for(CriteriaType criteriaType : criteriaTypes){
-            CriteriaValue criteriaValue = getCriteria(criteriaType);
+            CriteriaValue criteriaValue = getCriteria(criteriaType, criteriaValueMap);
             if(criteriaValue != null){
                 filteredCriteriaValueMap.put(criteriaType, criteriaValue);
             }
@@ -146,6 +162,10 @@ public class Action {
     
     public Map<CriteriaType, CriteriaValue> getFilterCriteria(){
         return getCriteriaValueMap(CriteriaType.FILTER_CRITERIA_TYPES);
+    }
+    
+    public static Map<CriteriaType, CriteriaValue> getFilterCriteria(Map<String, CriteriaValue> criteriaValueMap){
+        return getCriteriaValueMap(criteriaValueMap, CriteriaType.FILTER_CRITERIA_TYPES);
     }
     
     public boolean hasFilterCriteria(){
