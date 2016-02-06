@@ -2,20 +2,27 @@ package website.automate.jwebrobot.model;
 
 public enum ActionType {
     
-    CLICK("click"),
-    ENSURE("ensure"),
-    ENTER("enter"),
-    INCLUDE("include"),
-    MOVE("move"),
-    OPEN("open"),
-    SELECT("select"),
-    WAIT("wait"),
-    STORE("store");
+    CLICK("click", CriteriaType.SELECTOR),
+    ENSURE("ensure", CriteriaType.SELECTOR),
+    ENTER("enter", CriteriaType.VALUE),
+    INCLUDE("include", CriteriaType.SCENARIO),
+    MOVE("move", CriteriaType.SELECTOR),
+    OPEN("open", CriteriaType.URL),
+    SELECT("select", CriteriaType.SELECTOR),
+    WAIT("wait", CriteriaType.TIME),
+    STORE("store", null);
     
     private final String name;
     
-    private ActionType(String name){
+    private CriteriaType defaultCriteriaType;
+    
+    private ActionType(String name, CriteriaType defaultCriteriaType){
         this.name = name;
+        this.defaultCriteriaType = defaultCriteriaType;
+    }
+    
+    public CriteriaType getDefaultCriteriaType() {
+        return defaultCriteriaType;
     }
     
     public String getName() {

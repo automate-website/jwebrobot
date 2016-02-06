@@ -15,14 +15,6 @@ public class Action {
     
     private Map<String, CriteriaValue> criteriaValueMap = new HashMap<>();
     
-    public CriteriaValue getCriteriaOrDefault(CriteriaType type){
-        CriteriaValue value = getCriteria(CriteriaType.DEFAULT);
-        if(value != null){
-            return value;
-        }
-        return getCriteria(type);
-    }
-    
     public CriteriaValue getCriteria(CriteriaType type){
         return criteriaValueMap.get(type.getName());
     }
@@ -56,7 +48,7 @@ public class Action {
     }
     
     private void addDefault(Object value){
-        criteriaValueMap.put(CriteriaType.DEFAULT.getName(), new CriteriaValue(value));
+        criteriaValueMap.put(type.getDefaultCriteriaType().getName(), new CriteriaValue(value));
     }
     
     private void addAll(Map<String, Object> values){
@@ -98,7 +90,7 @@ public class Action {
     }
     
     public Boolean getClear(){
-        return getCriteriaOrDefault(CriteriaType.CLEAR).asBoolean();
+        return getCriteria(CriteriaType.CLEAR).asBoolean();
     }
     
     public String getScenario(){
@@ -114,7 +106,7 @@ public class Action {
     }
     
     private String getCriteriaOrDefaultAsString(CriteriaType type){
-        return getCriteriaOrDefault(type).asString();
+        return getCriteria(type).asString();
     }
     
     public void setUrl(String url){
@@ -140,12 +132,19 @@ public class Action {
     public Map<CriteriaType, CriteriaValue> getCriteriaValueMap(List<CriteriaType> criteriaTypes){
         Map<CriteriaType, CriteriaValue> filteredCriteriaValueMap = new LinkedHashMap<>();
         for(CriteriaType criteriaType : criteriaTypes){
-            // FIX-ME: default criteria may be not compatible with given criteria types
-            CriteriaValue criteriaValue = getCriteriaOrDefault(criteriaType);
+            CriteriaValue criteriaValue = getCriteria(criteriaType);
             if(criteriaValue != null){
                 filteredCriteriaValueMap.put(criteriaType, criteriaValue);
             }
         }
         return filteredCriteriaValueMap;
+    }
+    
+    public Map<CriteriaType, CriteriaValue> getFilterCriteria(){
+        return getCriteriaValueMap(CriteriaType.FILTER_CRITERIA_TYPES);
+    }
+    
+    public boolean hasFilterCriteria(){
+        return getFilterCriteria().isEmpty();
     }
 }

@@ -1,6 +1,5 @@
 package website.automate.jwebrobot.executor.action;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -8,17 +7,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.executor.filter.ElementFilterChain;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.ActionType;
 
-public class EnsureActionExecutor extends EvaluatedActionExecutor {
+public class EnsureActionExecutor extends FilterActionExecutor {
 
     @Inject
     public EnsureActionExecutor(ExpressionEvaluator expressionEvaluator,
-            ExecutionEventListeners listener) {
-        super(expressionEvaluator, listener);
+            ExecutionEventListeners listener,
+            ElementFilterChain elementFilterChain) {
+        super(expressionEvaluator, listener,
+                elementFilterChain);
     }
 
     @Override
@@ -27,12 +29,12 @@ public class EnsureActionExecutor extends EvaluatedActionExecutor {
     }
 
     @Override
-    public void perform(final Action action, ScenarioExecutionContext context) {
+    public void perform(final Action action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
-                return d.findElement(By.cssSelector(action.getSelector())).isDisplayed();
+                return filter(context, action).isDisplayed();
             }
         });
     }

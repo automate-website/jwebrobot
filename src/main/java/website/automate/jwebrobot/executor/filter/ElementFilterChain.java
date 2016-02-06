@@ -2,6 +2,7 @@ package website.automate.jwebrobot.executor.filter;
 
 import static java.util.Arrays.asList;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,8 +27,13 @@ public class ElementFilterChain {
     }
     
     public List<WebElement> filter(ScenarioExecutionContext context, Action action){
+        Map<CriteriaType, CriteriaValue> criteriaValueMap = action.getFilterCriteria();
+        
+        if(criteriaValueMap.isEmpty()){
+            return Collections.emptyList();
+        }
+        
         WebElement html = context.getDriver().findElement(By.tagName("html"));
-        Map<CriteriaType, CriteriaValue> criteriaValueMap = action.getCriteriaValueMap(CriteriaType.FILTER_CRITERIA_TYPES);
         
         List<WebElement> filteredWebElements = asList(html);
         for(Entry<CriteriaType, CriteriaValue> criteriaValueEntry : criteriaValueMap.entrySet()){

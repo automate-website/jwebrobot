@@ -4,12 +4,14 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
+
 import website.automate.jwebrobot.config.*;
 import website.automate.jwebrobot.config.logger.LoggerModule;
 
 public class GuiceInjector {
     public static final Module DEFAULT_MODULES = Modules.combine(
         new LoggerModule(),
+        new ElementFilterModule(),
         new ActionExecutorModule(),
         new ExpressionEvaluatorModule(),
         new ContextValidatorModule(),

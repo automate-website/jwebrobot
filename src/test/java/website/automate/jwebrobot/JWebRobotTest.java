@@ -32,6 +32,7 @@ public class JWebRobotTest extends AbstractTest {
     public void setUp() {
         injector = GuiceInjector.recreateInstance(Modules.combine(
             new LoggerModule(),
+            new ElementFilterModule(),
             new ActionExecutorModule(),
             new ExpressionEvaluatorModule(),
             new ContextValidatorModule(),
