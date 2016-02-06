@@ -1,0 +1,7 @@
+name: Click by Text Regex Test
+steps:
+  - open: 'http://localhost:8089'
+  - click:
+      selector: '.secondary > a'
+      text: '^Read (.*)'
+  - ensure: 'h1#Info'

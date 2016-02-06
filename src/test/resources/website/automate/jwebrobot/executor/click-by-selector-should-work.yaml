@@ -1,0 +1,6 @@
+name: Click by Text Test
+steps:
+  - open: 'http://localhost:8089'
+  - click:
+      selector: 'a[title="About"]'
+  - ensure: '#About'
