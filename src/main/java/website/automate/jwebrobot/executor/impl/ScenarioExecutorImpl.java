@@ -2,6 +2,7 @@ package website.automate.jwebrobot.executor.impl;
 
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
+
 import website.automate.jwebrobot.config.logger.InjectLogger;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
@@ -11,6 +12,7 @@ import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.executor.WebDriverProvider;
 import website.automate.jwebrobot.executor.action.ActionExecutor;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
+import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
 import website.automate.jwebrobot.model.Scenario;
@@ -27,18 +29,21 @@ public class ScenarioExecutorImpl implements ScenarioExecutor {
     private final ActionExecutorFactory actionExecutorFactory;
     private final ExecutionEventListeners listener;
     private final ContextValidators validator;
-
+    private final ConditionalExpressionEvaluator conditionalExpressionEvaluator;
+    
     @Inject
     public ScenarioExecutorImpl(
         WebDriverProvider webDriverProvider,
         ActionExecutorFactory actionExecutorFactory,
         ExecutionEventListeners listener,
-        ContextValidators validator
+        ContextValidators validator,
+        ConditionalExpressionEvaluator conditionalExpressionEvaluator
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
         this.listener = listener;
         this.validator = validator;
+        this.conditionalExpressionEvaluator = conditionalExpressionEvaluator;
     }
 
     @Override
@@ -68,11 +73,7 @@ public class ScenarioExecutorImpl implements ScenarioExecutor {
 
             ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, context.getMemory());
             try {
-                listener.beforeScenario(scenarioExecutionContext);
-
                 runScenario(scenario, scenarioExecutionContext);
-
-                listener.afterScenario(scenarioExecutionContext);
             } catch (Exception e){
                 listener.errorScenario(scenarioExecutionContext, e);
                 throw e;
@@ -86,6 +87,14 @@ public class ScenarioExecutorImpl implements ScenarioExecutor {
 
     @Override
     public void runScenario(Scenario scenario, ScenarioExecutionContext scenarioExecutionContext) {
+        boolean executable = conditionalExpressionEvaluator.isExecutable(scenario, scenarioExecutionContext);
+        
+        if(!executable){
+            return;
+        }
+        
+        listener.beforeScenario(scenarioExecutionContext);
+        
         if (scenario.getSteps() == null) {
             throw new StepsMustBePresentException(scenario.getName());
         }
@@ -95,6 +104,7 @@ public class ScenarioExecutorImpl implements ScenarioExecutor {
             logger.debug("Executing {}", actionExecutor.getClass().getName());
             actionExecutor.execute(action, scenarioExecutionContext);
         }
-
+        
+        listener.afterScenario(scenarioExecutionContext);
     }
 }

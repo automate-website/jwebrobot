@@ -18,7 +18,10 @@ public class ConditionalExpressionEvaluator {
     }
     
     public boolean isExecutable(Scenario scenario, ScenarioExecutionContext context){
-        return isExecutable(new CriteriaValue(scenario.getIf()), new CriteriaValue(scenario.getUnless()), context);
+        String ifCondition = scenario.getIf();
+        String unlessCondition = scenario.getUnless();
+        return isExecutable(ifCondition != null ? new CriteriaValue(ifCondition) : null, 
+                unlessCondition != null ? new CriteriaValue(unlessCondition) : null, context);
     }
     
     public boolean isExecutable(Action action, ScenarioExecutionContext context){
