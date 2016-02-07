@@ -3,6 +3,8 @@ package website.automate.jwebrobot.executor.action;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
+import website.automate.jwebrobot.model.CriteriaType;
+import website.automate.jwebrobot.model.CriteriaValue;
 
 public abstract class BaseActionExecutor implements ActionExecutor {
 
@@ -38,4 +40,18 @@ public abstract class BaseActionExecutor implements ActionExecutor {
     }
 
     public abstract void perform(Action action, ScenarioExecutionContext context);
+    
+    protected Long getActionTimeout(Action action, ScenarioExecutionContext context){
+        CriteriaValue actionTimeout = action.getCriteria(CriteriaType.TIMEOUT);
+        if(actionTimeout != null){
+            return actionTimeout.asLong();
+        }
+        
+        String scenarioTimeout = context.getScenario().getTimeout();
+        if(scenarioTimeout != null){
+            return new CriteriaValue(scenarioTimeout).asLong();
+        }
+        
+        return context.getGlobalContext().getOptions().getTimeout();
+    }
 }

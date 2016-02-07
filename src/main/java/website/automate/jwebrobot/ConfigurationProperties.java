@@ -28,6 +28,9 @@ public class ConfigurationProperties {
     @Parameter(names = "-screenshotPath", description = "Path to the directory where created screeshots must be saved.", required = false)
     private String screenshotPath = "./";
     
+    @Parameter(names = "-timeout", description = "Default timeout waiting for conditions to be fulfilled in seconds.", required = false)
+    private Long timeout = 1L;
+    
     public String getScenarioPath() {
         return scenarioPath;
     }
@@ -42,6 +45,14 @@ public class ConfigurationProperties {
 
     public void setBrowser(String browser) {
         this.browser = browser;
+    }
+
+    public Long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Long timeout) {
+        this.timeout = timeout;
     }
     
     public Map<String, Object> getContext(){

@@ -38,7 +38,7 @@ public class EnterActionExecutor extends FilterActionExecutor {
         
         boolean hasFilterCriteria = action.hasFilterCriteria();
         if (hasFilterCriteria) {
-            element = (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<WebElement>() {
+            element = (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<WebElement>() {
                 public WebElement apply(WebDriver d) {
                     return filter(context, action);
                 }

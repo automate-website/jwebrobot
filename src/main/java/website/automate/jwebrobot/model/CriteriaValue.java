@@ -18,6 +18,10 @@ public class CriteriaValue {
         return Boolean.parseBoolean(asString());
     }
     
+    public Long asLong(){
+        return Long.parseLong(value.toString());
+    }
+    
     public Integer asInteger(){
         return Integer.class.cast(value);
     }

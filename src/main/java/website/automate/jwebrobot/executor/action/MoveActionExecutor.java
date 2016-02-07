@@ -34,7 +34,7 @@ public class MoveActionExecutor extends FilterActionExecutor {
     public void perform(final Action action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
-        WebElement element = (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<WebElement>() {
+        WebElement element = (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<WebElement>() {
             public WebElement apply(WebDriver d) {
                 return filter(context, action);
             }

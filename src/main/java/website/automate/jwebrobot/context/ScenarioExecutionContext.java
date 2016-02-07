@@ -21,8 +21,6 @@ public class ScenarioExecutionContext {
     
     private GlobalExecutionContext globalContext;
 
-    private long timeout = 1;
-
     public ScenarioExecutionContext(GlobalExecutionContext globalContext,
             Scenario scenario,
             WebDriver driver, Map<String, Object> memory) {
@@ -56,10 +54,6 @@ public class ScenarioExecutionContext {
 
     public Map<String, Object> getMemory() {
         return memory;
-    }
-
-    public long getTimeout() {
-        return timeout;
     }
 
     public ScenarioExecutionContext getParent() {

@@ -35,12 +35,15 @@ public class ExecutorOptions {
     
     private TakeScreenshots takeScreenshots;
     
+    private Long timeout;
+    
     public static ExecutorOptions of(ConfigurationProperties configurationProperties){
         ExecutorOptions executorOptions = new ExecutorOptions();
         
         executorOptions.setWebDriverType(WebDriverProvider.Type.fromString(configurationProperties.getBrowser()));
         executorOptions.setScreenshotPath(configurationProperties.getScreenshotPath());
         executorOptions.setTakeScreenshots(TakeScreenshots.findByName(configurationProperties.getTakeScreenshots()));
+        executorOptions.setTimeout(configurationProperties.getTimeout());
         
         return executorOptions;
     }
@@ -67,5 +70,13 @@ public class ExecutorOptions {
 
     public void setTakeScreenshots(TakeScreenshots takeScreenshots) {
         this.takeScreenshots = takeScreenshots;
+    }
+
+    public Long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Long timeout) {
+        this.timeout = timeout;
     }
 }

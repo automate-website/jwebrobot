@@ -32,7 +32,7 @@ public class EnsureActionExecutor extends FilterActionExecutor {
     public void perform(final Action action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
-        (new WebDriverWait(driver, context.getTimeout())).until(new ExpectedCondition<Boolean>() {
+        (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 return filter(context, action).isDisplayed();
             }
