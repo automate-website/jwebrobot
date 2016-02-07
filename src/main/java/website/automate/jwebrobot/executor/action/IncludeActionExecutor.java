@@ -7,6 +7,7 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
+import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
@@ -19,8 +20,8 @@ public class IncludeActionExecutor extends EvaluatedActionExecutor {
     
     @Inject
     public IncludeActionExecutor(ExpressionEvaluator expressionEvaluator, Provider<ScenarioExecutor> scenarioExecutor,
-            ExecutionEventListeners listener) {
-        super(expressionEvaluator, listener);
+            ExecutionEventListeners listener, ConditionalExpressionEvaluator conditionalExpressionEvaluator) {
+        super(expressionEvaluator, listener, conditionalExpressionEvaluator);
         this.scenarioExecutor = scenarioExecutor;
     }
     

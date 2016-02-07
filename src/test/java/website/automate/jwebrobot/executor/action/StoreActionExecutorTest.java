@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
@@ -30,6 +31,7 @@ public class StoreActionExecutorTest {
     @Mock private ScenarioExecutionContext context;
     @Mock private Map<String, Object> memory;
     @Mock private ExecutionEventListeners listener;
+    @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
     
     private static final ActionType ACTION_TYPE = ActionType.CLICK;
     
@@ -44,7 +46,8 @@ public class StoreActionExecutorTest {
     @SuppressWarnings("unchecked")
     @Before
     public void init(){
-        executor = new StoreActionExecutor(expressionEvaluator, listener);
+        executor = new StoreActionExecutor(expressionEvaluator, listener, conditionalExpressionEvaluator);
+        when(conditionalExpressionEvaluator.isExecutable(action, context)).thenReturn(true);
         when(criteraValue.asString()).thenReturn(EXPRESSION);
         when(action.getType()).thenReturn(ACTION_TYPE);
         when(action.getCriteriaValueMap()).thenReturn(Collections.singletonMap(CRITERIA_TYPE.getName(), criteraValue));

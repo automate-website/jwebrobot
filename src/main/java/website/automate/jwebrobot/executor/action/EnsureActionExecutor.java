@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.filter.ElementFilterChain;
+import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Action;
@@ -18,9 +19,11 @@ public class EnsureActionExecutor extends FilterActionExecutor {
     @Inject
     public EnsureActionExecutor(ExpressionEvaluator expressionEvaluator,
             ExecutionEventListeners listener,
-            ElementFilterChain elementFilterChain) {
+            ElementFilterChain elementFilterChain,
+            ConditionalExpressionEvaluator conditionalExpressionEvaluator) {
         super(expressionEvaluator, listener,
-                elementFilterChain);
+                elementFilterChain,
+                conditionalExpressionEvaluator);
     }
 
     @Override
