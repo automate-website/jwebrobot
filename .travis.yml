@@ -5,3 +5,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script: mvn clean verify
+before_install:
+  - pip install --user codecov
+after_success:
+  - codecov
