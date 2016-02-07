@@ -100,6 +100,20 @@ public class ScenarioExecutorIT extends AbstractTest {
         scenarioExecutor.execute(asContext(scenarios));
     }
 
+    @Test
+    public void disabledConditionalScenarioIsNotExecuted() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/included-disabled-conditional-scenario-is-not-executed.yaml");
+
+        scenarioExecutor.execute(asContext(scenarios));
+    }
+    
+    @Test
+    public void includedDisabledConditionalScenarioIsNotExecuted() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/disabled-conditional-scenario-is-not-executed.yaml");
+
+        scenarioExecutor.execute(asContext(scenarios));
+    }
+    
     @Test(expected = RecursiveScenarioInclusionException.class)
     public void shouldDetectCircularDependency() {
         InputStream stream = getSystemResourceAsStream("./failing_scenarios/circular-dependency.yaml");

@@ -1,0 +1,10 @@
+name: include scenario
+steps:
+  - include: disabled included scenario
+---
+name: disabled included scenario
+fragment: true
+if: false
+steps:
+  - open: ${missing.parameter}
+
