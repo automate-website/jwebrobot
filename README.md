@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/automate-website/jwebrobot.svg?branch=master)](https://travis-ci.org/automate-website/jwebrobot)
 
+[![codecov.io](https://codecov.io/github/automate-website/jwebrobot/coverage.svg?branch=master)](https://codecov.io/github/automate-website/jwebrobot?branch=master)
+
 ## Short Description
 
 **JWebRobot** is the reference implementation of [web automation markup language]. Currently the implementation is based on the [draft-02] schema.
