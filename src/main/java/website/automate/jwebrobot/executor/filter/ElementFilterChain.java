@@ -47,16 +47,21 @@ public class ElementFilterChain {
     }
     
     private List<Map<CriteriaType, CriteriaValue>> getParentCriteriaValueMapsInReverseOrder(Action action){
-        List<Map<CriteriaType,CriteriaValue>> result = new ArrayList<>();
-        populateCriteriaValueMapsInReverseOrder(result, Action.getFilterCriteria(action.getCriteriaValueMap()));
-        return result;
+        List<Map<String, CriteriaValue>> rawCriteriaValueMaps = new ArrayList<>();
+        populateCriteriaValueMapsInReverseOrder(rawCriteriaValueMaps, action.getCriteriaValueMap());
+        
+        List<Map<CriteriaType, CriteriaValue>> criteriaValueMaps = new ArrayList<>();
+        for(Map<String, CriteriaValue> rawCriteriaValueMap : rawCriteriaValueMaps){
+            criteriaValueMaps.add(Action.getFilterCriteria(rawCriteriaValueMap));
+        }
+        return criteriaValueMaps;
     }
     
-    private void populateCriteriaValueMapsInReverseOrder(List<Map<CriteriaType, CriteriaValue>> criteriaValueMaps,
-            Map<CriteriaType, CriteriaValue> criteriaValueMap){
-        CriteriaValue parentCriterion = criteriaValueMap.get(CriteriaType.PARENT);
+    private void populateCriteriaValueMapsInReverseOrder(List<Map<String, CriteriaValue>> criteriaValueMaps,
+            Map<String, CriteriaValue> criteriaValueMap){
+        CriteriaValue parentCriterion = criteriaValueMap.get(CriteriaType.PARENT.getName());
         if(parentCriterion != null){
-            populateCriteriaValueMapsInReverseOrder(criteriaValueMaps, Action.getFilterCriteria(parentCriterion.asMap()));
+            populateCriteriaValueMapsInReverseOrder(criteriaValueMaps, parentCriterion.asMap());
         }
         criteriaValueMaps.add(criteriaValueMap);
     }

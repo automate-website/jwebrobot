@@ -28,12 +28,26 @@ public abstract class EvaluatedActionExecutor extends ConditionalActionExecutor 
         Map<String, CriteriaValue> preprocessedCriteriaValueMap = new HashMap<>();
         preprocessedAction.setCriteriaValueMap(preprocessedCriteriaValueMap);
         
-        for(Entry<String, CriteriaValue> criteriaValueEntry : criteriaValueMap.entrySet()){
-            Object evaluatedExpression = expressionEvaluator.evaluate(criteriaValueEntry.getValue().asString(), context.getMemory());
-            preprocessedCriteriaValueMap.put(criteriaValueEntry.getKey(), new CriteriaValue(evaluatedExpression));
-        }
+        preprocess(context, criteriaValueMap, preprocessedCriteriaValueMap);
         
         return preprocessedAction;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void preprocess(ScenarioExecutionContext context, Map<String, CriteriaValue> criteriaValueMap, Map<String, CriteriaValue> preprocessedCriteriaValueMap){
+        for(Entry<String, CriteriaValue> criteriaValueEntry : criteriaValueMap.entrySet()){
+            CriteriaValue criteriaValue = criteriaValueEntry.getValue();
+            if(criteriaValue.asObject() instanceof Map){
+                Map<String, CriteriaValue> nestedCriteriaValueMap = (Map<String, CriteriaValue>)criteriaValue.asObject();
+                Map<String, CriteriaValue> nestedPreprocessedCriteriaValueMap = new HashMap<>();
+                
+                preprocessedCriteriaValueMap.put(criteriaValueEntry.getKey(), new CriteriaValue(nestedPreprocessedCriteriaValueMap));
+                preprocess(context, nestedCriteriaValueMap, nestedPreprocessedCriteriaValueMap);
+            } else {
+                Object evaluatedExpression = expressionEvaluator.evaluate(criteriaValueEntry.getValue().asString(), context.getMemory());
+                preprocessedCriteriaValueMap.put(criteriaValueEntry.getKey(), new CriteriaValue(evaluatedExpression));
+            }
+        }
     }
     
 }
