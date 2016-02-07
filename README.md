@@ -1,6 +1,6 @@
 # JWebRobot
 
-[![Build Status](https://travis-ci.org/automate-website/jwebrobot.svg?branch=master)](https://travis-ci.org/automate-website/jwebrobot) [![codecov.io](https://codecov.io/github/automate-website/jwebrobot/coverage.svg?branch=master)](https://codecov.io/github/automate-website/jwebrobot?branch=master)
+[![Build Status](https://travis-ci.org/automate-website/jwebrobot.svg?branch=master)](https://travis-ci.org/automate-website/jwebrobot) [![codecov.io](https://codecov.io/github/automate-website/jwebrobot/coverage.svg?branch=master)](https://codecov.io/github/automate-website/jwebrobot?branch=master) [![Code Climate](https://codeclimate.com/github/automate-website/jwebrobot/badges/gpa.svg)](https://codeclimate.com/github/automate-website/jwebrobot) [![Issue Count](https://codeclimate.com/github/automate-website/jwebrobot/badges/issue_count.svg)](https://codeclimate.com/github/automate-website/jwebrobot)
 
 ## Short Description
 
