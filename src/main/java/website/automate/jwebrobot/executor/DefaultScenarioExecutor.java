@@ -1,4 +1,4 @@
-package website.automate.jwebrobot.executor.impl;
+package website.automate.jwebrobot.executor;
 
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -7,9 +7,6 @@ import website.automate.jwebrobot.config.logger.InjectLogger;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.StepsMustBePresentException;
-import website.automate.jwebrobot.executor.ExecutorOptions;
-import website.automate.jwebrobot.executor.ScenarioExecutor;
-import website.automate.jwebrobot.executor.WebDriverProvider;
 import website.automate.jwebrobot.executor.action.ActionExecutor;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
@@ -20,7 +17,7 @@ import website.automate.jwebrobot.validator.ContextValidators;
 
 import javax.inject.Inject;
 
-public class ScenarioExecutorImpl implements ScenarioExecutor {
+public class DefaultScenarioExecutor implements ScenarioExecutor {
 
     @InjectLogger
     private Logger logger;
@@ -30,20 +27,23 @@ public class ScenarioExecutorImpl implements ScenarioExecutor {
     private final ExecutionEventListeners listener;
     private final ContextValidators validator;
     private final ConditionalExpressionEvaluator conditionalExpressionEvaluator;
+    private final ScenarioPreprocessor scenarioPreprocessor;
     
     @Inject
-    public ScenarioExecutorImpl(
+    public DefaultScenarioExecutor(
         WebDriverProvider webDriverProvider,
         ActionExecutorFactory actionExecutorFactory,
         ExecutionEventListeners listener,
         ContextValidators validator,
-        ConditionalExpressionEvaluator conditionalExpressionEvaluator
+        ConditionalExpressionEvaluator conditionalExpressionEvaluator,
+        ScenarioPreprocessor scenarioPreprocessor
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
         this.listener = listener;
         this.validator = validator;
         this.conditionalExpressionEvaluator = conditionalExpressionEvaluator;
+        this.scenarioPreprocessor = scenarioPreprocessor;
     }
 
     @Override
@@ -94,6 +94,9 @@ public class ScenarioExecutorImpl implements ScenarioExecutor {
         }
         
         listener.beforeScenario(scenarioExecutionContext);
+        
+        Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, scenarioExecutionContext);
+        scenarioExecutionContext.setScenario(preprocessedScenario);
         
         if (scenario.getSteps() == null) {
             throw new StepsMustBePresentException(scenario.getName());

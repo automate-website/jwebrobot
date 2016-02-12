@@ -97,4 +97,8 @@ public class ScenarioExecutionContext {
     public String getSessionId() {
         return sessionId;
     }
+    
+    public void setScenario(Scenario scenario) {
+        this.scenario = scenario;
+    }
 }

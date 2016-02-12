@@ -1,4 +1,4 @@
-package website.automate.jwebrobot.loader.impl;
+package website.automate.jwebrobot.executor;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -11,31 +11,36 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.executor.DefaultScenarioExecutor;
 import website.automate.jwebrobot.executor.WebDriverProvider;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
-import website.automate.jwebrobot.executor.impl.ScenarioExecutorImpl;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.model.Scenario;
 import website.automate.jwebrobot.validator.ContextValidators;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ScenarioExecutorImplTest {
+public class DefaultScenarioExecutorTest {
 
     @Mock private WebDriverProvider webDriverProvider;
     @Mock private ActionExecutorFactory actionExecutorFactory;
     @Mock private ExecutionEventListeners listener;
     @Mock private ContextValidators validator;
     @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
+    @Mock private ScenarioPreprocessor scenarioPreprocessor;
     
     @Mock private Scenario scenario;
+    @Mock private Scenario preprocessedScenario;
     @Mock private ScenarioExecutionContext context;
     
-    private ScenarioExecutorImpl scenarioExecutor;
+    private DefaultScenarioExecutor scenarioExecutor;
     
     @Before
     public void init(){
-        scenarioExecutor = new ScenarioExecutorImpl(webDriverProvider, actionExecutorFactory, listener, validator, conditionalExpressionEvaluator);
+        scenarioExecutor = new DefaultScenarioExecutor(webDriverProvider, actionExecutorFactory, listener, validator, conditionalExpressionEvaluator,
+                scenarioPreprocessor);
+        
+        when(scenarioPreprocessor.preprocess(scenario, context)).thenReturn(preprocessedScenario);
     }
     
     @Test
