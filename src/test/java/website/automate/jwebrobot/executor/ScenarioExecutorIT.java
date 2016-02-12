@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.executor;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,8 +21,10 @@ import website.automate.jwebrobot.model.Scenario;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.ClassLoader.getSystemResourceAsStream;
 import static java.util.Arrays.asList;
@@ -114,6 +117,14 @@ public class ScenarioExecutorIT extends AbstractTest {
         scenarioExecutor.execute(asContext(scenarios));
     }
     
+    @Test
+    public void timeoutPropertyOnScenarioIsPreprocessed() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/timeout-property-on-scenario-is-preprocessed.yaml");
+        GlobalExecutionContext context = asContext(scenarios, Collections.singletonMap("timeout", (Object)"1"));
+        
+        scenarioExecutor.execute(context);
+    }
+    
     @Test(expected = RecursiveScenarioInclusionException.class)
     public void shouldDetectCircularDependency() {
         InputStream stream = getSystemResourceAsStream("./failing_scenarios/circular-dependency.yaml");
@@ -121,9 +132,13 @@ public class ScenarioExecutorIT extends AbstractTest {
 
         scenarioExecutor.execute(asContext(scenarios));
     }
-
+    
     private GlobalExecutionContext asContext(List<Scenario> scenarios){
-        return new GlobalExecutionContext(asScenarioFiles(scenarios), new ExecutorOptions(), new HashMap<String, Object>());
+        return asContext(scenarios, new HashMap<String, Object>());
+    }
+
+    private GlobalExecutionContext asContext(List<Scenario> scenarios, Map<String, Object> memory){
+        return new GlobalExecutionContext(asScenarioFiles(scenarios), new ExecutorOptions(), memory);
     }
 
     private List<ScenarioFile> asScenarioFiles(List<Scenario> scenarios){
