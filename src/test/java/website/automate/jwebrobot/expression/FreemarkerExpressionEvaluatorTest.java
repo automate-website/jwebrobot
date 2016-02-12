@@ -1,9 +1,11 @@
 package website.automate.jwebrobot.expression;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 import java.util.Collections;
+import java.util.HashMap;
 
 import org.junit.Test;
 
@@ -16,5 +18,12 @@ public class FreemarkerExpressionEvaluatorTest {
         Object actualResult = evaluator.evaluate("i'm feeling ${mood}!", Collections.singletonMap("mood", (Object)"great"));
         
         assertThat(actualResult.toString(), is("i'm feeling great!"));
+    }
+    
+    @Test
+    public void mockDataIsGenerated(){
+        Object actualResult = evaluator.evaluate("${ _.mock.company().name() }", new HashMap<String, Object>());
+        
+        assertFalse(actualResult.toString().isEmpty());
     }
 }

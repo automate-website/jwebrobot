@@ -91,6 +91,11 @@
             <version>2.3.23</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.codearte.jfairy</groupId>
+            <artifactId>jfairy</artifactId>
+            <version>0.5.1</version>
+        </dependency>
 
         <dependency>
             <groupId>com.github.tomakehurst</groupId>

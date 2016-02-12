@@ -1,7 +1,11 @@
 package website.automate.jwebrobot.expression;
 
+import io.codearte.jfairy.Fairy;
+
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import website.automate.jwebrobot.exceptions.ExpressionEvaluationException;
@@ -16,12 +20,18 @@ public class FreemarkerExpressionEvaluator implements ExpressionEvaluator {
 
     private Configuration config = createConfig();
     
+    private Fairy mock = Fairy.create();
+    
     @Override
     public Object evaluate(String expression, Map<String, Object> memory) {
+        Map<String, Object> context = new HashMap<>();
+        context.putAll(memory);
+        context.put("_", Collections.singletonMap("mock", mock));
+        
         try {
             Template template = new Template("expression", expression, this.config);
             StringWriter resultWriter = new StringWriter();
-            template.process(memory, resultWriter);
+            template.process(context, resultWriter);
             
             return resultWriter.toString();
         } catch (IOException | TemplateException e) {
