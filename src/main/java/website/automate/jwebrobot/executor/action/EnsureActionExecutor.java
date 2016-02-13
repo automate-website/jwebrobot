@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.executor.action;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -37,7 +38,11 @@ public class EnsureActionExecutor extends FilterActionExecutor {
 
         (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
-                return filter(context, action).isDisplayed();
+                WebElement webElement = filter(context, action);
+                if(webElement == null){
+                    return null;
+                }
+                return webElement.isDisplayed();
             }
         });
     }
