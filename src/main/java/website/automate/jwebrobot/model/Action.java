@@ -70,7 +70,7 @@ public class Action {
     }
     
     public String getUrl(){
-        return getCriteriaOrDefaultAsString(CriteriaType.URL);
+        return getCriteriaAsString(CriteriaType.URL);
     }
     
     public String getIf(){
@@ -82,35 +82,35 @@ public class Action {
     }
     
     public String getSelector(){
-        return getCriteriaOrDefaultAsString(CriteriaType.SELECTOR);
+        return getCriteriaAsString(CriteriaType.SELECTOR);
     }
     
     public String getText(){
-        return getCriteriaOrDefaultAsString(CriteriaType.TEXT);
+        return getCriteriaAsString(CriteriaType.TEXT);
     }
     
     public String getTime(){
-        return getCriteriaOrDefaultAsString(CriteriaType.TIME);
+        return getCriteriaAsString(CriteriaType.TIME);
     }
     
     public String getTimeout(){
-        return getCriteriaOrDefaultAsString(CriteriaType.TIMEOUT);
+        return getCriteriaAsString(CriteriaType.TIMEOUT);
     }
 
     public String getValue(){
-        return getCriteriaOrDefaultAsString(CriteriaType.VALUE);
+        return getCriteriaAsString(CriteriaType.VALUE);
     }
     
     public String getInput(){
-        return getCriteriaOrDefaultAsString(CriteriaType.INPUT);
+        return getCriteriaAsString(CriteriaType.INPUT);
     }
     
     public Boolean getClear(){
-        return getCriteria(CriteriaType.CLEAR).asBoolean();
+        return getCriteriaAsBoolean(CriteriaType.CLEAR);
     }
     
     public String getScenario(){
-        return getCriteriaOrDefaultAsString(CriteriaType.SCENARIO);
+        return getCriteriaAsString(CriteriaType.SCENARIO);
     }
     
     private String getCriteriaAsString(CriteriaType type){
@@ -119,10 +119,6 @@ public class Action {
             return value.asString();
         }
         return null;
-    }
-    
-    private String getCriteriaOrDefaultAsString(CriteriaType type){
-        return getCriteria(type).asString();
     }
     
     public void setUrl(String url){
@@ -173,10 +169,14 @@ public class Action {
     }
     
     public Boolean getAbsent(){
-        CriteriaValue absentCriteriaValue = getCriteria(CriteriaType.ABSENT);
-        if(absentCriteriaValue == null){
+        return getCriteriaAsBoolean(CriteriaType.ABSENT);
+    }
+    
+    private Boolean getCriteriaAsBoolean(CriteriaType type){
+        CriteriaValue criteriaValue = getCriteria(type);
+        if(criteriaValue == null){
             return Boolean.FALSE;
         }
-        return absentCriteriaValue.asBoolean();
+        return criteriaValue.asBoolean();
     }
 }
