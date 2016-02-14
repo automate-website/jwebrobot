@@ -82,6 +82,7 @@ public class BaseActionExecutorTest {
     @Test
     public void actionTimeoutChoosenIfSet(){
         when(scenario.getTimeout()).thenReturn(SCENARIO_TIMEOUT);
+        when(options.getTimeout()).thenReturn(null);
         when(action.getCriteria(CriteriaType.TIMEOUT)).thenReturn(actionTimeoutValue);
         when(actionTimeoutValue.asLong()).thenReturn(ACTION_TIMEOUT);
         
@@ -93,6 +94,7 @@ public class BaseActionExecutorTest {
     @Test
     public void scenarioTimeoutChoosenIfActionTimeoutIsNotSet(){
         when(scenario.getTimeout()).thenReturn(SCENARIO_TIMEOUT);
+        when(options.getTimeout()).thenReturn(null);
         
         Long actualTimeout = executor.getActionTimeout(action, context);
         
