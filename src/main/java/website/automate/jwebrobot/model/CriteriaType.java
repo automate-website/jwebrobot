@@ -16,7 +16,8 @@ public enum CriteriaType {
     URL("url"),
     VALUE("value"),
     INPUT("input"),
-    PARENT("parent");
+    PARENT("parent"),
+    ABSENT("absent");
 
     public static final List<CriteriaType> FILTER_CRITERIA_TYPES = asList(SELECTOR, TEXT, VALUE);
     

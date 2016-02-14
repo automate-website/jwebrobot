@@ -36,15 +36,19 @@ public class EnsureActionExecutor extends FilterActionExecutor {
     public void perform(final Action action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
+        final Boolean absent = action.getAbsent();
         (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 WebElement webElement = filter(context, action);
                 if(webElement == null){
-                    return null;
+                    return absent;
+                } else {
+                    if(absent){
+                        return Boolean.FALSE;
+                    }
+                    return webElement.isDisplayed();
                 }
-                return webElement.isDisplayed();
             }
         });
     }
-
 }

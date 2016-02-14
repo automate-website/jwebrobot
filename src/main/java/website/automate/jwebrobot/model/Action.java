@@ -171,4 +171,12 @@ public class Action {
     public boolean hasFilterCriteria(){
         return !getFilterCriteria().isEmpty();
     }
+    
+    public Boolean getAbsent(){
+        CriteriaValue absentCriteriaValue = getCriteria(CriteriaType.ABSENT);
+        if(absentCriteriaValue == null){
+            return Boolean.FALSE;
+        }
+        return absentCriteriaValue.asBoolean();
+    }
 }

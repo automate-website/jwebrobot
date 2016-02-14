@@ -133,6 +133,13 @@ public class ScenarioExecutorIT extends AbstractTest {
         scenarioExecutor.execute(asContext(scenarios));
     }
     
+    @Test
+    public void ensureAbsentWorks() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/ensure-absent-works.yaml");
+
+        scenarioExecutor.execute(asContext(scenarios));
+    }
+    
     private GlobalExecutionContext asContext(List<Scenario> scenarios){
         return asContext(scenarios, new HashMap<String, Object>());
     }
