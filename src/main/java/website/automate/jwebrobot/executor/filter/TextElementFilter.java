@@ -21,7 +21,7 @@ public class TextElementFilter extends BaseElementFilter {
             List<WebElement> webElements) {
         List<WebElement> foundWebElements = new ArrayList<>();
         for(WebElement webElement : webElements){
-            foundWebElements.addAll(webElement.findElements(By.xpath("//*[contains(text(),'" + value.asString() + "')]")));
+            foundWebElements.addAll(webElement.findElements(By.xpath("descendant-or-self::*[contains(text(),'" + value.asString() + "')]")));
         }
         return foundWebElements;
     }

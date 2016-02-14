@@ -42,16 +42,16 @@ public abstract class BaseActionExecutor implements ActionExecutor {
     public abstract void perform(Action action, ScenarioExecutionContext context);
     
     protected Long getActionTimeout(Action action, ScenarioExecutionContext context){
+        Long globalContextTimeout = context.getGlobalContext().getOptions().getTimeout();
+        if(globalContextTimeout != null){
+            return globalContextTimeout;
+        }
+        
         CriteriaValue actionTimeout = action.getCriteria(CriteriaType.TIMEOUT);
         if(actionTimeout != null){
             return actionTimeout.asLong();
         }
         
-        String scenarioTimeout = context.getScenario().getTimeout();
-        if(scenarioTimeout != null){
-            return new CriteriaValue(scenarioTimeout).asLong();
-        }
-        
-        return context.getGlobalContext().getOptions().getTimeout();
+        return new CriteriaValue(context.getScenario().getTimeout()).asLong();
     }
 }

@@ -11,7 +11,7 @@ public class Scenario {
     private int precedence = -1;
     private String description;
     private boolean fragment = false;
-    private String timeout;
+    private String timeout = "5";
     private String ifCondition;
     private String unlessCondition;
 
