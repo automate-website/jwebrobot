@@ -7,11 +7,35 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>jwebrobot</name>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Reference implementation of the web automation markup language (WAML).</description>
+    <url>https://github.com/automate-website/jwebrobot</url>
+
+    <developers>
+       <developer>
+        <name>Dmitri Wolowelsky</name>
+        <email>dmitri.wolowelsky@automate.website</email>
+        <organization>Automate Website</organization>
+        <organizationUrl>https://automate.website</organizationUrl>
+       </developer>
+       <developer>
+        <name>Michael Lewkowski</name>
+        <email>michael.lewkowski@automate.website</email>
+        <organization>Automate Website</organization>
+        <organizationUrl>https://automate.website</organizationUrl>
+       </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    
+    <licenses>
+      <license>
+        <name>MIT License</name>
+        <url>http://www.opensource.org/licenses/mit-license.php</url>
+      </license>
+    </licenses>
 
     <dependencies>
         <dependency>
