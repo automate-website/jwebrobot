@@ -1,11 +1,17 @@
 language: java
 sudo: false
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sleep 3
 script: mvn clean verify
 before_install:
-  - pip install --user codecov
+- pip install --user codecov
 after_success:
-  - codecov
+- codecov
+- mvn deploy --settings settings.xml -DskipTests=true -B
+env:
+  global:
+  - secure: JkEhnGBfzxe2bXCW25oYHcTMTJSPrJpfiElfjpqax5sFu6IxWwWxVit75OgJLIkN/rxStZ+vVW6tGd6qtdIhhXpecT5MufOyj3PCGtX2R4WAD9YHuvYDIP8Wth34e+VPfspfVPpuh1epOLteWBL8txXhYzUcpQsQccA6tkqfsDdiO+YmXBkOap0KSU3uVXqCATMJRv0vUCzHENE7CTC6+O+2JsAtEvTk+xQ6WOfS7kei+G+D0auHrMOEU3hLRdt8OWJDp7u75dyxeZTR+f2HqurRnzgMlpvpRpX28Rcflc9u/Ran/a20N5ieiETXf56x30C57rz6YBaLGROSyMfssvns6LEM4n+O5OldaRQ09+sntwI89fB8PnEW27G5yao+9T3mPN0eDrpPID8NvCjHlnncONz/1nH4lQL53UWX1XXT8AaqMO3Ek7GXt/HWfLsKgdMJNXJor1ldZcPZxa8J5qkp3QgOWWRkc6JXytw+vUyT/ckCWNaRvVQMNkI/OV9RI3BEKO0zs9PG+dDMimzlL/1ZbF/erguwYea5PkxfU0yjc2JhCebASK4BSqci8PBNnReCVhxUqUi9ee094MXCTHguVGN/piyLaAg51VhVTm8nCbPfpaWQGhPMF6gDytrs85Jt2YkNeHVmwauLhXYCYmb2AvhVL7jVBnKqnGmHeuY=
+  - secure: ja1Mb8+SE41bOjt0YSGrNDSQdwwsRll8VC48PVABDU2lgU3xnFUSYWH5idxQHUcHZKP5XSe457shBtK/0/B+hlrRkh3V+nHhOXjD2GCKVWogcwH/Y/oTzA0cqXH2F4sOprhyLFZgzrJF2StlAkZ9hb4sEpriLqhqNEd5birNFKpJqRxQ5GlryyMqlgCowUaBUtLdS2+SYFt+AlWbHs7mwP031MPT5gRfduVyxx/tQcmVCJPWqTi4YDnnDrBY6jdIYHGrIIweU5IUKtjncl+8HNTpLgXNhJUnmZFqTHrJavOzDrydMmJbWqTdM3OFO7erB58ZHsYmtGQbBnPgTgyetqEoNlRGW313CiSZwaSCtkpM6spkKGKY1mceI5qj92XpxQ80JT8VWdYTdCWqXZFbZhDVacSYzu/d9bclAstV55Tre2X7LN4I0nOcfbzsLgZUIDJdjzTL650BWSGkE4DRf61eP5HQT/FnA9NE91WCZvHakbnToFulJ/pLrOqhcBx3CfIf3kYL2pAatukmIhKTBvqRRoFdwJdWTDtfg20Tar1VMfyHirtBqM34x16gx/Ip2vnLsZyu7pIZJL4qjgx1yY0loYMcS0Ghxwki4TPWOWjmu0qBr0wGMKrgMTfXZBWf+iIFEARwoJ2rZbsshmwp+kiwHpH1rEpxOrv92KmAi+o=
+
