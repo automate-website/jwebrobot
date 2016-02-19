@@ -11,7 +11,7 @@ before_install:
 - pip install --user codecov
 after_success:
 - codecov
-- mvn deploy --settings .travis/settings.xml -DskipTests=true -B
+- .travis/deploy.sh
 env:
   global:
   - secure: JkEhnGBfzxe2bXCW25oYHcTMTJSPrJpfiElfjpqax5sFu6IxWwWxVit75OgJLIkN/rxStZ+vVW6tGd6qtdIhhXpecT5MufOyj3PCGtX2R4WAD9YHuvYDIP8Wth34e+VPfspfVPpuh1epOLteWBL8txXhYzUcpQsQccA6tkqfsDdiO+YmXBkOap0KSU3uVXqCATMJRv0vUCzHENE7CTC6+O+2JsAtEvTk+xQ6WOfS7kei+G+D0auHrMOEU3hLRdt8OWJDp7u75dyxeZTR+f2HqurRnzgMlpvpRpX28Rcflc9u/Ran/a20N5ieiETXf56x30C57rz6YBaLGROSyMfssvns6LEM4n+O5OldaRQ09+sntwI89fB8PnEW27G5yao+9T3mPN0eDrpPID8NvCjHlnncONz/1nH4lQL53UWX1XXT8AaqMO3Ek7GXt/HWfLsKgdMJNXJor1ldZcPZxa8J5qkp3QgOWWRkc6JXytw+vUyT/ckCWNaRvVQMNkI/OV9RI3BEKO0zs9PG+dDMimzlL/1ZbF/erguwYea5PkxfU0yjc2JhCebASK4BSqci8PBNnReCVhxUqUi9ee094MXCTHguVGN/piyLaAg51VhVTm8nCbPfpaWQGhPMF6gDytrs85Jt2YkNeHVmwauLhXYCYmb2AvhVL7jVBnKqnGmHeuY=
