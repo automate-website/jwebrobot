@@ -308,4 +308,10 @@
     </repository>
   </distributionManagement>
   
+  <scm>
+    <url>https://github.com/automate-website/jwebrobot</url>
+    <connection>scm:git:git@github.com:automate-website/jwebrobot.git</connection>
+    <developerConnection>scm:git:git@github.com:automate-website/jwebrobot.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 </project>
