@@ -4,4 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/automate-website/jwebrobot
+## [0.1.0]
+### Added
+- Created initial implementation of [waml] draft-02
+
+
+[0.1.0]: https://github.com/automate-website/jwebrobot/compare/a23fabaf1d3557278bdef476d665e5ffe84a799f...0.1.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.1.0...master
+[waml]: https://github.com/automate-website/waml
