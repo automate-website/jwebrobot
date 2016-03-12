@@ -14,17 +14,16 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
-import website.automate.jwebrobot.model.CriteriaValue;
+import website.automate.waml.io.model.CriterionValue;
+import website.automate.waml.io.model.action.ConditionalAction;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConditionalActionExecutorTest {
 
     @Mock private ExpressionEvaluator expressionEvaluator;
-    @Mock private Action action;
-    @Mock private CriteriaValue ifCriterion;
-    @Mock private CriteriaValue unlessCriterion;
+    @Mock private ConditionalAction action;
+    @Mock private CriterionValue ifCriterion;
+    @Mock private CriterionValue unlessCriterion;
     @Mock private TestActionExecution execution;
     @Mock private ScenarioExecutionContext context;
     @Mock private ExecutionEventListeners listener;
@@ -55,7 +54,7 @@ public class ConditionalActionExecutorTest {
         verify(execution, never()).run();
     }
     
-    static final class TestConditionalActionExecutor extends ConditionalActionExecutor {
+    static final class TestConditionalActionExecutor extends ConditionalActionExecutor<ConditionalAction> {
 
         private TestActionExecution execution;
         
@@ -69,13 +68,13 @@ public class ConditionalActionExecutorTest {
         }
 
         @Override
-        public ActionType getActionType() {
-            return null;
+        public void perform(ConditionalAction action, ScenarioExecutionContext context) {
+            execution.run();
         }
 
         @Override
-        public void perform(Action action, ScenarioExecutionContext context) {
-            execution.run();
+        public Class<ConditionalAction> getSupportedType() {
+            return ConditionalAction.class;
         }
     }
     

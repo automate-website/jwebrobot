@@ -16,7 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.loader.ScenarioFile;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.Scenario;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GlobalExecutionContextTest {

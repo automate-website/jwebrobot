@@ -14,9 +14,11 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.action.ClickAction;
+import website.automate.waml.io.model.action.EnsureAction;
+import website.automate.waml.io.model.action.OpenAction;
 
 import java.io.File;
 import java.io.InputStream;
@@ -38,9 +40,9 @@ public class ScenarioExecutorIT extends AbstractTest {
     private ScenarioExecutor scenarioExecutor;
     private ScenarioLoader scenarioLoader;
 
-    private Action openAction;
-    private Action clickAction;
-    private Action ensureAction;
+    private OpenAction openAction;
+    private ClickAction clickAction;
+    private EnsureAction ensureAction;
 
     @Mock private File file;
 
@@ -53,16 +55,13 @@ public class ScenarioExecutorIT extends AbstractTest {
 
         scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
 
-        openAction = new Action();
-        openAction.setType(ActionType.OPEN);
+        openAction = new OpenAction();
         openAction.setUrl("http://localhost:" + MOCK_SERVER_PORT);
 
-        clickAction = new Action();
-        clickAction.setType(ActionType.CLICK);
+        clickAction = new ClickAction();
         clickAction.setSelector("a[title=\"About\"]");
 
-        ensureAction = new Action();
-        ensureAction.setType(ActionType.ENSURE);
+        ensureAction = new EnsureAction();
         ensureAction.setSelector("#About");
 
     }

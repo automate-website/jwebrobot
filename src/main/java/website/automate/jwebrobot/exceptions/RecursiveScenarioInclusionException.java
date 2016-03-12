@@ -1,7 +1,7 @@
 package website.automate.jwebrobot.exceptions;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.Scenario;
 
 public class RecursiveScenarioInclusionException extends ScenarioExecutionException {
 

@@ -1,6 +1,5 @@
 package website.automate.jwebrobot.executor.action;
 
-import static java.util.Collections.singletonMap;
 import static org.mockito.Mockito.*;
 
 import org.junit.Before;
@@ -18,19 +17,16 @@ import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
-import website.automate.jwebrobot.model.CriteriaType;
-import website.automate.jwebrobot.model.CriteriaValue;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.IncludeAction;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IncludeActionExecutorTest {
+public class IncludeActionExecutorTest<CriteriaValue> {
 
     private static final String SCENARIO_TITLE = "awesome scenario";
 
     @Mock private ScenarioExecutor scenarioExecutor;
-    @Mock private Action action;
+    @Mock private IncludeAction action;
     @Mock private ScenarioExecutionContext scenarioContext;
     @Mock private ScenarioExecutionContext childScenarioContext;
     @Mock private GlobalExecutionContext globalContext;
@@ -41,9 +37,6 @@ public class IncludeActionExecutorTest {
     @Mock private ExecutionEventListeners listener;
     @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
 
-    private static final ActionType ACTION_TYPE = ActionType.INCLUDE;
-    private static final CriteriaType CRITERIA_TYPE = CriteriaType.SCENARIO;
-
     private IncludeActionExecutor executor;
 
     @SuppressWarnings("unchecked")
@@ -51,9 +44,6 @@ public class IncludeActionExecutorTest {
     public void init(){
         when(conditionalExpressionEvaluator.isExecutable(action, scenarioContext)).thenReturn(true);
         when(action.getScenario()).thenReturn(SCENARIO_TITLE);
-        when(action.getType()).thenReturn(ACTION_TYPE);
-        when(action.getCriteriaValueMap()).thenReturn(singletonMap(CRITERIA_TYPE.getName(), scenarioCriterion));
-        when(scenarioCriterion.asString()).thenReturn(SCENARIO_TITLE);
         when(scenarioContext.getGlobalContext()).thenReturn(globalContext);
         when(globalContext.getScenario(SCENARIO_TITLE)).thenReturn(childScenario);
         when(scenarioContext.createChildContext(childScenario)).thenReturn(childScenarioContext);

@@ -14,10 +14,9 @@ import website.automate.jwebrobot.executor.filter.ElementFilterChain;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
+import website.automate.waml.io.model.action.SelectAction;
 
-public class SelectActionExecutor extends FilterActionExecutor {
+public class SelectActionExecutor extends FilterActionExecutor<SelectAction> {
 
     private static final String OPTION = "option";
 
@@ -32,12 +31,7 @@ public class SelectActionExecutor extends FilterActionExecutor {
     }
     
     @Override
-    public ActionType getActionType() {
-        return ActionType.SELECT;
-    }
-
-    @Override
-    public void perform(final Action action, final ScenarioExecutionContext context) {
+    public void perform(final SelectAction action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         WebElement element = (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<WebElement>() {
@@ -56,6 +50,11 @@ public class SelectActionExecutor extends FilterActionExecutor {
             select.selectByValue(action.getValue());
         }
 
+    }
+
+    @Override
+    public Class<SelectAction> getSupportedType() {
+        return SelectAction.class;
     }
 
 }

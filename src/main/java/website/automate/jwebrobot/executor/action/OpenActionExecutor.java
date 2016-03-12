@@ -8,10 +8,9 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
+import website.automate.waml.io.model.action.OpenAction;
 
-public class OpenActionExecutor extends EvaluatedActionExecutor {
+public class OpenActionExecutor extends ConditionalActionExecutor<OpenAction> {
 
     @Inject
     public OpenActionExecutor(ExpressionEvaluator expressionEvaluator,
@@ -22,14 +21,14 @@ public class OpenActionExecutor extends EvaluatedActionExecutor {
     }
 
     @Override
-    public ActionType getActionType() {
-        return ActionType.OPEN;
+    public void perform(final OpenAction action, ScenarioExecutionContext context) {
+        WebDriver driver = context.getDriver();
+        driver.get(action.getUrl());
     }
 
     @Override
-    public void perform(final Action action, ScenarioExecutionContext context) {
-        WebDriver driver = context.getDriver();
-        driver.get(action.getUrl());
+    public Class<OpenAction> getSupportedType() {
+        return OpenAction.class;
     }
 
 }

@@ -3,6 +3,7 @@ package website.automate.jwebrobot.expression;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
+import static website.automate.waml.io.model.CriterionValue.of;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,17 +14,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.CriteriaType;
-import website.automate.jwebrobot.model.CriteriaValue;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.CriterionValue;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.ConditionalAction;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConditionalExpressionEvaluatorTest {
 
-    @Mock private Action action;
-    @Mock private CriteriaValue ifCriterion;
-    @Mock private CriteriaValue unlessCriterion;
+    @Mock private ConditionalAction action;
+    @Mock private CriterionValue ifCriterion;
+    @Mock private CriterionValue unlessCriterion;
     @Mock private ScenarioExecutionContext context;
     @Mock private ExecutionEventListeners listener;
     @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
@@ -53,8 +53,8 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void scenarioIsExecutableWhenIfIsSetTrueAndUnlessIsSetFalse(){
-        when(scenario.getIf()).thenReturn(TRUE_VALUE);
-        when(scenario.getUnless()).thenReturn(FALSE_VALUE);
+        when(scenario.getWhen()).thenReturn(of(TRUE_VALUE));
+        when(scenario.getUnless()).thenReturn(of(FALSE_VALUE));
         
         boolean executable = evaluator.isExecutable(scenario, context);
         
@@ -63,7 +63,7 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void scenarioIsExecutableWhenOnlyIfIsSetAndEvaluatesTrue(){
-        when(scenario.getIf()).thenReturn(TRUE_VALUE);
+        when(scenario.getWhen()).thenReturn(of(TRUE_VALUE));
         
         boolean executable = evaluator.isExecutable(scenario, context);
         
@@ -72,7 +72,7 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void scenarioIsNotExecutableWhenOnlyIfIsSetAndEvaluatesFalse(){
-        when(scenario.getIf()).thenReturn(FALSE_VALUE);
+        when(scenario.getWhen()).thenReturn(of(FALSE_VALUE));
         
         boolean executable = evaluator.isExecutable(scenario, context);
         
@@ -81,7 +81,7 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void scenarioIsExecutableWhenOnlyUnlessIsSetAndEvaluatesFalse(){
-        when(scenario.getUnless()).thenReturn(TRUE_VALUE);
+        when(scenario.getUnless()).thenReturn(of(TRUE_VALUE));
         
         boolean executable = evaluator.isExecutable(scenario, context);
         
@@ -90,7 +90,7 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void scenarioIsNotExecutableWhenOnlyUnlessIsSetAndEvaluatesTrue(){
-        when(scenario.getUnless()).thenReturn(FALSE_VALUE);
+        when(scenario.getUnless()).thenReturn(of(FALSE_VALUE));
         
         boolean executable = evaluator.isExecutable(scenario, context);
         
@@ -106,8 +106,8 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void actionIsExecutableWhenOnlyIfIsSetAndEvaluatesTrue(){
-        when(action.getCriteria(CriteriaType.IF)).thenReturn(ifCriterion);
-        when(ifCriterion.asString()).thenReturn(TRUE_VALUE);
+        when(action.getWhen()).thenReturn(ifCriterion);
+        when(ifCriterion.toString()).thenReturn(TRUE_VALUE);
         
         boolean executable = evaluator.isExecutable(action, context);
         
@@ -116,8 +116,8 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void actionIsNotExecutableWhenOnlyIfIsSetAndEvaluatesFalse(){
-        when(action.getCriteria(CriteriaType.IF)).thenReturn(ifCriterion);
-        when(ifCriterion.asString()).thenReturn(FALSE_VALUE);
+        when(action.getWhen()).thenReturn(ifCriterion);
+        when(ifCriterion.toString()).thenReturn(FALSE_VALUE);
         
         boolean executable = evaluator.isExecutable(action, context);
         
@@ -126,8 +126,8 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void actionIsExecutableWhenOnlyUnlessIsSetAndEvaluatesFalse(){
-        when(action.getCriteria(CriteriaType.UNLESS)).thenReturn(unlessCriterion);
-        when(unlessCriterion.asString()).thenReturn(FALSE_VALUE);
+        when(action.getUnless()).thenReturn(unlessCriterion);
+        when(unlessCriterion.toString()).thenReturn(FALSE_VALUE);
         
         boolean executable = evaluator.isExecutable(action, context);
         
@@ -136,8 +136,8 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void actionIsNotExecutableWhenOnlyUnlessIsSetAndEvaluatesTrue(){
-        when(action.getCriteria(CriteriaType.UNLESS)).thenReturn(unlessCriterion);
-        when(unlessCriterion.asString()).thenReturn(TRUE_VALUE);
+        when(action.getUnless()).thenReturn(unlessCriterion);
+        when(unlessCriterion.toString()).thenReturn(TRUE_VALUE);
         
         boolean executable = evaluator.isExecutable(action, context);
         
@@ -146,10 +146,10 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void actionIsExecutableWhenIfIsSetTrueAndUnlessIsSetFalse(){
-        when(action.getCriteria(CriteriaType.IF)).thenReturn(ifCriterion);
-        when(ifCriterion.asString()).thenReturn(TRUE_VALUE);
-        when(action.getCriteria(CriteriaType.UNLESS)).thenReturn(unlessCriterion);
-        when(unlessCriterion.asString()).thenReturn(FALSE_VALUE);
+        when(action.getWhen()).thenReturn(ifCriterion);
+        when(ifCriterion.toString()).thenReturn(TRUE_VALUE);
+        when(action.getUnless()).thenReturn(unlessCriterion);
+        when(unlessCriterion.toString()).thenReturn(FALSE_VALUE);
         
         boolean executable = evaluator.isExecutable(action, context);
         
@@ -158,10 +158,10 @@ public class ConditionalExpressionEvaluatorTest {
     
     @Test
     public void actionIsNotExecutableWhenIfIsSetFalseOrUnlessIsSetTrue(){
-        when(action.getCriteria(CriteriaType.IF)).thenReturn(ifCriterion);
-        when(ifCriterion.asString()).thenReturn(FALSE_VALUE);
-        when(action.getCriteria(CriteriaType.UNLESS)).thenReturn(unlessCriterion);
-        when(unlessCriterion.asString()).thenReturn(FALSE_VALUE);
+        when(action.getWhen()).thenReturn(ifCriterion);
+        when(ifCriterion.toString()).thenReturn(FALSE_VALUE);
+        when(action.getUnless()).thenReturn(unlessCriterion);
+        when(unlessCriterion.toString()).thenReturn(FALSE_VALUE);
         
         boolean executable = evaluator.isExecutable(action, context);
         

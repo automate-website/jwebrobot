@@ -7,7 +7,7 @@ import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.model.Action;
+import website.automate.waml.io.model.action.Action;
 
 public class ExecutionEventListeners implements ExecutionEventListener {
 

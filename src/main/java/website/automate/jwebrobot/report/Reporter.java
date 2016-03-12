@@ -11,12 +11,13 @@ import com.google.inject.Inject;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.Scenario;
 import website.automate.jwebrobot.report.model.ActionReport;
 import website.automate.jwebrobot.report.model.ExecutionReport;
 import website.automate.jwebrobot.report.model.ExecutionStatus;
 import website.automate.jwebrobot.report.model.ScenarioReport;
+import website.automate.waml.io.model.ActionType;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.Action;
 
 public class Reporter implements ExecutionEventListener {
 
@@ -66,7 +67,7 @@ public class Reporter implements ExecutionEventListener {
         
         ActionReport actionReport = new ActionReport();
         actionReport.setPath(context.getScenarioInclusionPath());
-        actionReport.setName(action.getType().getName());
+        actionReport.setName(ActionType.findByClazz(action.getClass()).getName());
         
         scenarioReport.getActions().add(actionReport);
         actionStartTimeMap.put(action, System.currentTimeMillis());

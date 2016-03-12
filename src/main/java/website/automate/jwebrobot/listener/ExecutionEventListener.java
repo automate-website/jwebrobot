@@ -2,7 +2,7 @@ package website.automate.jwebrobot.listener;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.model.Action;
+import website.automate.waml.io.model.action.Action;
 
 public interface ExecutionEventListener {
 

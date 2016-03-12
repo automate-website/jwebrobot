@@ -9,11 +9,10 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
-import website.automate.jwebrobot.model.CriteriaValue;
+import website.automate.waml.io.model.CriterionValue;
+import website.automate.waml.io.model.action.StoreAction;
 
-public class StoreActionExecutor extends EvaluatedActionExecutor {
+public class StoreActionExecutor extends ConditionalActionExecutor<StoreAction> {
 
     @Inject
     public StoreActionExecutor(ExpressionEvaluator expressionEvaluator,
@@ -24,19 +23,19 @@ public class StoreActionExecutor extends EvaluatedActionExecutor {
     }
 
     @Override
-    public ActionType getActionType() {
-        return ActionType.STORE;
+    public void perform(StoreAction action, ScenarioExecutionContext context) {
+        Map<String, Object> memory = context.getMemory();
+        
+        Map<String, CriterionValue> criteriaValueMap = action.getValue();
+        
+        for(Entry<String, CriterionValue> criteriaValueEntry : criteriaValueMap.entrySet()){
+            memory.put(criteriaValueEntry.getKey(), criteriaValueEntry.getValue().getValue());
+        }
     }
 
     @Override
-    public void perform(Action action, ScenarioExecutionContext context) {
-        Map<String, Object> memory = context.getMemory();
-        
-        Map<String, CriteriaValue> criteriaValueMap = action.getCriteriaValueMap();
-        
-        for(Entry<String, CriteriaValue> criteriaValueEntry : criteriaValueMap.entrySet()){
-            memory.put(criteriaValueEntry.getKey(), criteriaValueEntry.getValue().asObject());
-        }
+    public Class<StoreAction> getSupportedType() {
+        return StoreAction.class;
     }
 
 }

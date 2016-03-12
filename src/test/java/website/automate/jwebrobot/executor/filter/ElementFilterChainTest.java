@@ -5,9 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +16,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.CriteriaType;
-import website.automate.jwebrobot.model.CriteriaValue;
+import website.automate.waml.io.model.CriterionType;
+import website.automate.waml.io.model.CriterionValue;
+import website.automate.waml.io.model.action.FilterAction;
+import website.automate.waml.io.model.action.ParentCriteria;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ElementFilterChainTest {
@@ -29,7 +28,8 @@ public class ElementFilterChainTest {
     @Mock private ElementFilter textElementFilter;
     @Mock private ElementFilterProvider provider;
     @Mock private ScenarioExecutionContext context;
-    @Mock private Action action;
+    @Mock private FilterAction action;
+    @Mock private ParentCriteria parentCriteria;
     @Mock private WebDriver driver;
     @Mock private WebElement body;
     @Mock private WebElement parent;
@@ -37,24 +37,24 @@ public class ElementFilterChainTest {
     
     private ElementFilterChain chain;
     
-    private Map<String, CriteriaValue> criteriaValueMap = new HashMap<>();
-    private Map<String, CriteriaValue> parentCriteriaValueMap = new HashMap<>();
+    private static final String 
+            SELECTOR = "h2",
+            PARENT_TEXT = "interesting article";
     
-    private CriteriaValue selectorValue = new CriteriaValue("h2");
-    private CriteriaValue textValue = new CriteriaValue("interesting article");
+    private CriterionValue selectorValue = new CriterionValue("h2");
+    private CriterionValue textValue = new CriterionValue("interesting article");
     
     @Test
     public void elementDescribedByActionAndParentCriteriaIsFound(){
         chain = new ElementFilterChain(provider);
-        criteriaValueMap.put(CriteriaType.SELECTOR.getName(), selectorValue);
-        criteriaValueMap.put(CriteriaType.PARENT.getName(), new CriteriaValue(parentCriteriaValueMap));
-        parentCriteriaValueMap.put(CriteriaType.TEXT.getName(), textValue);
+        when(action.getSelector()).thenReturn(SELECTOR);
+        when(action.getParent()).thenReturn(parentCriteria);
+        when(parentCriteria.getText()).thenReturn(PARENT_TEXT);
         
-        when(provider.getInstance(CriteriaType.SELECTOR)).thenReturn(selectorElementFilter);
-        when(provider.getInstance(CriteriaType.TEXT)).thenReturn(textElementFilter);
+        when(provider.getInstance(CriterionType.SELECTOR)).thenReturn(selectorElementFilter);
+        when(provider.getInstance(CriterionType.TEXT)).thenReturn(textElementFilter);
         when(context.getDriver()).thenReturn(driver);
         when(driver.findElement(By.tagName("html"))).thenReturn(body);
-        when(action.getCriteriaValueMap()).thenReturn(criteriaValueMap);
         when(selectorElementFilter.filter(selectorValue, asList(parent))).thenReturn(asList(target));
         when(textElementFilter.filter(textValue, asList(body))).thenReturn(asList(parent));
         

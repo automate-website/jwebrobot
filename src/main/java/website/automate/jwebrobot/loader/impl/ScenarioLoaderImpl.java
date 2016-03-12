@@ -1,18 +1,19 @@
 package website.automate.jwebrobot.loader.impl;
 
 import com.google.inject.Inject;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
+
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
-import website.automate.jwebrobot.model.Scenario;
-import website.automate.jwebrobot.model.mapper.ScenarioMapper;
+import website.automate.waml.io.WamlReader;
+import website.automate.waml.io.model.Scenario;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,11 +30,11 @@ public class ScenarioLoaderImpl implements ScenarioLoader {
 
     private static final Logger LOG = LoggerFactory.getLogger(ScenarioLoaderImpl.class);
 
-    private final ScenarioMapper scenarioMapper;
+    private final WamlReader wamlReader;
 
     @Inject
-    public ScenarioLoaderImpl(ScenarioMapper scenarioMapper){
-        this.scenarioMapper = scenarioMapper;
+    public ScenarioLoaderImpl(WamlReader wamlReader){
+        this.wamlReader = wamlReader;
     }
 
     public List<ScenarioFile> load(String scenarioPath){
@@ -68,11 +69,7 @@ public class ScenarioLoaderImpl implements ScenarioLoader {
     }
 
     public List<Scenario> createFromInputStream(InputStream inputStream) {
-        Yaml yaml = new Yaml();
-
-        Iterable<Object> objects = yaml.loadAll(inputStream);
-
-        List<Scenario> scenarios = scenarioMapper.map(objects);
+        List<Scenario> scenarios = wamlReader.read(inputStream);
 
         LOG.info("Loaded {} scenarios.", scenarios.size());
 

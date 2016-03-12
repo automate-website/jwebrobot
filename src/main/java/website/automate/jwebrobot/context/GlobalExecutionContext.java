@@ -10,8 +10,8 @@ import java.util.Map;
 
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.loader.ScenarioFile;
-import website.automate.jwebrobot.model.Scenario;
 import website.automate.jwebrobot.utils.PrecedenceComparator;
+import website.automate.waml.io.model.Scenario;
 
 public class GlobalExecutionContext {
 

@@ -39,6 +39,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>website.automate</groupId>
+            <artifactId>waml-io</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+    
+        <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>2.49.0</version>

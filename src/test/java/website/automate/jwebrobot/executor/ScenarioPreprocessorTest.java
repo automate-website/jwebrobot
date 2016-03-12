@@ -3,6 +3,7 @@ package website.automate.jwebrobot.executor;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
+import static website.automate.waml.io.model.CriterionValue.of;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.Action;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ScenarioPreprocessorTest {
@@ -54,32 +55,32 @@ public class ScenarioPreprocessorTest {
     
     @Test
     public void timeoutIsProcessed(){
-        when(scenario.getTimeout()).thenReturn(TIMEOUT);
+        when(scenario.getTimeout()).thenReturn(of(TIMEOUT));
         when(expressionEvaluator.evaluate(TIMEOUT, memory)).thenReturn(PROCESSED_TIMEOUT);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
-        assertThat(preprocessedScenario.getTimeout(), is(PROCESSED_TIMEOUT));
+        assertThat(preprocessedScenario.getTimeout(), is(of(PROCESSED_TIMEOUT)));
     }
     
     @Test
     public void ifIsProcessed(){
-        when(scenario.getIf()).thenReturn(IF);
+        when(scenario.getWhen()).thenReturn(of(IF));
         when(expressionEvaluator.evaluate(IF, memory)).thenReturn(PROCESSED_IF);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
-        assertThat(preprocessedScenario.getIf(), is(PROCESSED_IF));
+        assertThat(preprocessedScenario.getWhen(), is(of(PROCESSED_IF)));
     }
     
     @Test
     public void unlessIsProcessed(){
-        when(scenario.getUnless()).thenReturn(UNLESS);
+        when(scenario.getUnless()).thenReturn(of(UNLESS));
         when(expressionEvaluator.evaluate(UNLESS, memory)).thenReturn(PROCESSED_UNLESS);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
-        assertThat(preprocessedScenario.getUnless(), is(PROCESSED_UNLESS));
+        assertThat(preprocessedScenario.getUnless(), is(of(PROCESSED_UNLESS)));
     }
     
     @Test

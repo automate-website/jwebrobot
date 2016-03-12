@@ -2,11 +2,11 @@ package website.automate.jwebrobot.executor.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.CriteriaType;
-import website.automate.jwebrobot.model.CriteriaValue;
+import website.automate.waml.io.model.CriterionValue;
+import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.action.TimeLimitedAction;
 
-public abstract class BaseActionExecutor implements ActionExecutor {
+public abstract class BaseActionExecutor<T extends Action> implements ActionExecutor<T> {
 
     private ExecutionEventListeners listener;
     
@@ -15,12 +15,12 @@ public abstract class BaseActionExecutor implements ActionExecutor {
     }
     
     @Override
-    public void execute(Action action, ScenarioExecutionContext context){
+    public void execute(T action, ScenarioExecutionContext context){
         listener.beforeAction(context, action);
         
         try {
             if(preHandle(action, context)){
-                Action preprocessedAction = preprocess(action, context);
+                T preprocessedAction = preprocess(action, context);
                 perform(preprocessedAction, context);
             }
         } catch (Exception e) {
@@ -31,27 +31,27 @@ public abstract class BaseActionExecutor implements ActionExecutor {
         listener.afterAction(context, action);
     }
     
-    public boolean preHandle(Action action, ScenarioExecutionContext context){
+    public boolean preHandle(T action, ScenarioExecutionContext context){
         return true;
     }
     
-    public Action preprocess(Action action, ScenarioExecutionContext context){
+    public T preprocess(T action, ScenarioExecutionContext context){
         return action;
     }
 
-    public abstract void perform(Action action, ScenarioExecutionContext context);
+    public abstract void perform(T action, ScenarioExecutionContext context);
     
-    protected Long getActionTimeout(Action action, ScenarioExecutionContext context){
+    protected Long getActionTimeout(TimeLimitedAction action, ScenarioExecutionContext context){
         Long globalContextTimeout = context.getGlobalContext().getOptions().getTimeout();
         if(globalContextTimeout != null){
             return globalContextTimeout;
         }
         
-        CriteriaValue actionTimeout = action.getCriteria(CriteriaType.TIMEOUT);
+        CriterionValue actionTimeout = action.getTimeout();
         if(actionTimeout != null){
-            return actionTimeout.asLong();
+            return actionTimeout.toLong();
         }
         
-        return new CriteriaValue(context.getScenario().getTimeout()).asLong();
-    }
+        return new CriterionValue(context.getScenario().getTimeout()).toLong();
+    } 
 }

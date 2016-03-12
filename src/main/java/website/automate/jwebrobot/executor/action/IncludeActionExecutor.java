@@ -10,11 +10,10 @@ import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.IncludeAction;
 
-public class IncludeActionExecutor extends EvaluatedActionExecutor {
+public class IncludeActionExecutor extends ConditionalActionExecutor<IncludeAction> {
 
     private Provider<ScenarioExecutor> scenarioExecutor;
     
@@ -26,12 +25,7 @@ public class IncludeActionExecutor extends EvaluatedActionExecutor {
     }
     
     @Override
-    public ActionType getActionType() {
-        return ActionType.INCLUDE;
-    }
-
-    @Override
-    public void perform(Action action, ScenarioExecutionContext context) {
+    public void perform(IncludeAction action, ScenarioExecutionContext context) {
         GlobalExecutionContext globalContext = context.getGlobalContext();
         String scenarioName = action.getScenario();
         Scenario scenario = globalContext.getScenario(scenarioName);
@@ -42,6 +36,11 @@ public class IncludeActionExecutor extends EvaluatedActionExecutor {
         
         ScenarioExecutionContext includedScenarioContext = context.createChildContext(scenario);
         scenarioExecutor.get().runScenario(scenario, includedScenarioContext);
+    }
+
+    @Override
+    public Class<IncludeAction> getSupportedType() {
+        return IncludeAction.class;
     }
 
 }

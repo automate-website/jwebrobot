@@ -1,6 +1,6 @@
 package website.automate.jwebrobot.exceptions;
 
-import website.automate.jwebrobot.model.ActionType;
+import website.automate.waml.io.model.action.Action;
 
 public class ActionExecutorMissingException extends RuntimeException {
 
@@ -8,7 +8,7 @@ public class ActionExecutorMissingException extends RuntimeException {
 
     private static final String MESSAGE = "Missing action executor for action %s.";
 
-    public ActionExecutorMissingException(ActionType actionType) {
-        super(String.format(MESSAGE, actionType.getName()));
+    public ActionExecutorMissingException(Class<? extends Action> actionClass) {
+        super(String.format(MESSAGE, actionClass.getSimpleName()));
     }
 }

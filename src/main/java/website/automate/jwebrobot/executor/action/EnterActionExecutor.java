@@ -12,11 +12,9 @@ import website.automate.jwebrobot.executor.filter.ElementFilterChain;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
-import website.automate.jwebrobot.model.CriteriaType;
+import website.automate.waml.io.model.action.EnterAction;
 
-public class EnterActionExecutor extends FilterActionExecutor {
+public class EnterActionExecutor extends FilterActionExecutor<EnterAction> {
 
     @Inject
     public EnterActionExecutor(ExpressionEvaluator expressionEvaluator,
@@ -29,12 +27,7 @@ public class EnterActionExecutor extends FilterActionExecutor {
     }
 
     @Override
-    public ActionType getActionType() {
-        return ActionType.ENTER;
-    }
-
-    @Override
-    public void perform(final Action action, final ScenarioExecutionContext context) {
+    public void perform(final EnterAction action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         final WebElement element;
@@ -51,15 +44,19 @@ public class EnterActionExecutor extends FilterActionExecutor {
         }
 
         // Make clear
-        if (action.getCriteria(CriteriaType.CLEAR) != null && action.getCriteria(CriteriaType.CLEAR).asBoolean()) {
+        if (action.getClear() != null && action.getClear().toBoolean()) {
             element.clear();
         }
 
         /**
          * See {@link org.openqa.selenium.Keys} to send keys.
          */
-        element.sendKeys(action.getInput());
+        element.sendKeys(action.getInput().toString());
 
     }
 
+    @Override
+    public Class<EnterAction> getSupportedType() {
+        return EnterAction.class;
+    }
 }

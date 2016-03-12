@@ -13,10 +13,11 @@ import org.junit.Test;
 
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
-import website.automate.jwebrobot.exceptions.TooManyActionsException;
-import website.automate.jwebrobot.exceptions.UnknownActionException;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.WamlDeserializationException;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.action.ClickAction;
+import website.automate.waml.io.model.action.OpenAction;
 
 public class ScenarioLoaderIT extends AbstractTest {
 
@@ -43,14 +44,14 @@ public class ScenarioLoaderIT extends AbstractTest {
         scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/non-existent.yaml");
     }
     
-    @Test(expected = UnknownActionException.class)
+    @Test(expected = WamlDeserializationException.class)
     public void shouldThrowUnknownActionException() {
         InputStream stream = getSystemResourceAsStream("./failing_scenarios/unknown-action.yaml");
 
         scenarioLoader.createFromInputStream(stream);
     }
 
-    @Test(expected = TooManyActionsException.class)
+    @Test(expected = WamlDeserializationException.class)
     public void shouldThrowTooManyActionsException() {
         InputStream stream = getSystemResourceAsStream("./failing_scenarios/too-many-actions.yaml");
 
@@ -79,12 +80,20 @@ public class ScenarioLoaderIT extends AbstractTest {
         List<Action> steps2 = scenario2.getSteps();
         assertThat(steps2, hasSize(3));
 
-        assertThat(steps1.get(0).getUrl(), is("www.example.com"));
-        assertThat(steps1.get(1).getSelector(), is("button[type=submit]"));
+        OpenAction openAction1 = OpenAction.class.cast(steps1.get(0));
+        assertThat(openAction1.getUrl(), is("www.example.com"));
+        
+        ClickAction clickAction1 = ClickAction.class.cast(steps1.get(1));
+        assertThat(clickAction1.getSelector(), is("button[type=submit]"));
 
-        assertThat(steps2.get(0).getUrl(), is("www.example.com"));
-        assertThat(steps2.get(1).getUrl(), is("www.example2.com"));
-        assertThat(steps2.get(2).getSelector(), is("button[type=submit2]"));
+        OpenAction openAction2 = OpenAction.class.cast(steps2.get(0));
+        assertThat(openAction2.getUrl(), is("www.example.com"));
+        
+        OpenAction openAction3 = OpenAction.class.cast(steps2.get(1));
+        assertThat(openAction3.getUrl(), is("www.example2.com"));
+        
+        ClickAction clickAction2 = ClickAction.class.cast(steps2.get(2));
+        assertThat(clickAction2.getSelector(), is("button[type=submit2]"));
 
     }
     

@@ -13,10 +13,9 @@ import website.automate.jwebrobot.executor.filter.ElementFilterChain;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
+import website.automate.waml.io.model.action.ClickAction;
 
-public class ClickActionExecutor extends FilterActionExecutor {
+public class ClickActionExecutor extends FilterActionExecutor<ClickAction> {
 
     @Inject
     public ClickActionExecutor(ExpressionEvaluator expressionEvaluator, ExecutionEventListeners listener,
@@ -26,12 +25,7 @@ public class ClickActionExecutor extends FilterActionExecutor {
     }
 
     @Override
-    public ActionType getActionType() {
-        return ActionType.CLICK;
-    }
-
-    @Override
-    public void perform(final Action action, final ScenarioExecutionContext context) {
+    public void perform(final ClickAction action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
         WebElement element = (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<WebElement>() {
@@ -42,6 +36,11 @@ public class ClickActionExecutor extends FilterActionExecutor {
 
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
+    }
+
+    @Override
+    public Class<ClickAction> getSupportedType() {
+        return ClickAction.class;
     }
 
 }

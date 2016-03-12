@@ -4,6 +4,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static website.automate.waml.io.model.CriterionValue.of;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,11 +18,9 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
-import website.automate.jwebrobot.model.CriteriaType;
-import website.automate.jwebrobot.model.CriteriaValue;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.CriterionValue;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.TimeLimitedAction;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseActionExecutorTest {
@@ -37,15 +36,15 @@ public class BaseActionExecutorTest {
     public final ExpectedException exceptionExpectation = ExpectedException.none();
     
     @Mock private ExecutionEventListeners listener;
-    @Mock private Action action;
+    @Mock private TimeLimitedAction action;
     @Mock private ScenarioExecutionContext context;
     @Mock private GlobalExecutionContext globalContext;
     @Mock private Scenario scenario;
     @Mock private ExecutorOptions options;
-    @Mock private CriteriaValue actionTimeoutValue;
+    @Mock private CriterionValue actionTimeoutValue;
     @Mock private RuntimeException exception;
     
-    private BaseActionExecutor executor;
+    private BaseActionExecutor<TimeLimitedAction> executor;
     
     @Before
     public void init(){
@@ -81,10 +80,10 @@ public class BaseActionExecutorTest {
     
     @Test
     public void actionTimeoutChoosenIfSet(){
-        when(scenario.getTimeout()).thenReturn(SCENARIO_TIMEOUT);
+        when(scenario.getTimeout()).thenReturn(of(SCENARIO_TIMEOUT));
         when(options.getTimeout()).thenReturn(null);
-        when(action.getCriteria(CriteriaType.TIMEOUT)).thenReturn(actionTimeoutValue);
-        when(actionTimeoutValue.asLong()).thenReturn(ACTION_TIMEOUT);
+        when(action.getTimeout()).thenReturn(actionTimeoutValue);
+        when(actionTimeoutValue.toLong()).thenReturn(ACTION_TIMEOUT);
         
         Long actualTimeout = executor.getActionTimeout(action, context);
         
@@ -93,12 +92,12 @@ public class BaseActionExecutorTest {
     
     @Test
     public void scenarioTimeoutChoosenIfActionTimeoutIsNotSet(){
-        when(scenario.getTimeout()).thenReturn(SCENARIO_TIMEOUT);
+        when(scenario.getTimeout()).thenReturn(of(SCENARIO_TIMEOUT));
         when(options.getTimeout()).thenReturn(null);
         
         Long actualTimeout = executor.getActionTimeout(action, context);
         
-        assertThat(actualTimeout, is(new CriteriaValue(SCENARIO_TIMEOUT).asLong()));
+        assertThat(actualTimeout, is(of(SCENARIO_TIMEOUT).toLong()));
     }
     
     @Test
@@ -110,7 +109,7 @@ public class BaseActionExecutorTest {
         assertThat(actualTimeout, is(GLOBAL_TIMEOUT));
     }
     
-    private static class ExceptionalTestBaseActionExecutor extends BaseActionExecutor {
+    private static class ExceptionalTestBaseActionExecutor extends BaseActionExecutor<TimeLimitedAction> {
 
         private RuntimeException exception;
         
@@ -122,30 +121,30 @@ public class BaseActionExecutorTest {
         }
 
         @Override
-        public ActionType getActionType() {
-            return null;
+        public void perform(TimeLimitedAction action, ScenarioExecutionContext context) {
+            throw exception;
         }
 
         @Override
-        public void perform(Action action, ScenarioExecutionContext context) {
-            throw exception;
+        public Class<TimeLimitedAction> getSupportedType() {
+            return TimeLimitedAction.class;
         }
         
     }
     
-    private static class TestBaseActionExecutor extends BaseActionExecutor {
+    private static class TestBaseActionExecutor extends BaseActionExecutor<TimeLimitedAction> {
 
         public TestBaseActionExecutor(ExecutionEventListeners listener) {
             super(listener);
         }
 
         @Override
-        public ActionType getActionType() {
-            return null;
+        public void perform(TimeLimitedAction action, ScenarioExecutionContext context) {
         }
 
         @Override
-        public void perform(Action action, ScenarioExecutionContext context) {
+        public Class<TimeLimitedAction> getSupportedType() {
+            return TimeLimitedAction.class;
         }
         
     }

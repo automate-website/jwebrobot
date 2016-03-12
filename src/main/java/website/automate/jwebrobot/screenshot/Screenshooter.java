@@ -1,5 +1,7 @@
 package website.automate.jwebrobot.screenshot;
 
+import static website.automate.waml.io.model.ActionType.findByClazz;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -11,7 +13,7 @@ import org.openqa.selenium.WebDriver;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
-import website.automate.jwebrobot.model.Action;
+import website.automate.waml.io.model.action.Action;
 
 public class Screenshooter {
     
@@ -34,6 +36,6 @@ public class Screenshooter {
         GlobalExecutionContext globalContext = context.getGlobalContext();
         String targetPath = globalContext.getOptions().getScreenshotPath();
         
-        return targetPath + context.getSessionId() + "_" + context.getRootScenario().getName() + "_" + action.getType().getName() + ".png"; 
+        return targetPath + context.getSessionId() + "_" + context.getRootScenario().getName() + "_" + findByClazz(action.getClass()).getName() + ".png"; 
     }
 }

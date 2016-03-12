@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
-import website.automate.jwebrobot.model.CriteriaType;
-import website.automate.jwebrobot.model.CriteriaValue;
+import website.automate.waml.io.model.CriterionType;
+import website.automate.waml.io.model.CriterionValue;
 
 public interface ElementFilter {
 
-    CriteriaType getSupportedType();
+    CriterionType getSupportedType();
 
-    List<WebElement> filter(CriteriaValue value, List<WebElement> webElements);
+    List<WebElement> filter(CriterionValue value, List<WebElement> webElements);
     
-    List<WebElement> filter(CriteriaValue value, WebElement webElement);
+    List<WebElement> filter(CriterionValue value, WebElement webElement);
 }

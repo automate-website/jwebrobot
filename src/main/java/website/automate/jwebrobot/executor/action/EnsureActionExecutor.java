@@ -12,10 +12,10 @@ import website.automate.jwebrobot.executor.filter.ElementFilterChain;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
+import website.automate.waml.io.model.CriterionValue;
+import website.automate.waml.io.model.action.EnsureAction;
 
-public class EnsureActionExecutor extends FilterActionExecutor {
+public class EnsureActionExecutor extends FilterActionExecutor<EnsureAction> {
 
     @Inject
     public EnsureActionExecutor(ExpressionEvaluator expressionEvaluator,
@@ -28,15 +28,11 @@ public class EnsureActionExecutor extends FilterActionExecutor {
     }
 
     @Override
-    public ActionType getActionType() {
-        return ActionType.ENSURE;
-    }
-
-    @Override
-    public void perform(final Action action, final ScenarioExecutionContext context) {
+    public void perform(final EnsureAction action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
-        final Boolean absent = action.getAbsent();
+        CriterionValue absentValue = action.getAbsent();
+        final Boolean absent = absentValue != null ? absentValue.toBoolean() : Boolean.FALSE;
         (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 WebElement webElement = filter(context, action);
@@ -50,5 +46,10 @@ public class EnsureActionExecutor extends FilterActionExecutor {
                 }
             }
         });
+    }
+
+    @Override
+    public Class<EnsureAction> getSupportedType() {
+        return EnsureAction.class;
     }
 }

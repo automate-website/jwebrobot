@@ -1,9 +1,8 @@
 package website.automate.jwebrobot.utils;
 
-
-import website.automate.jwebrobot.model.Scenario;
-
 import java.util.Comparator;
+
+import website.automate.waml.io.model.Scenario;
 
 public class PrecedenceComparator implements Comparator<Scenario> {
     

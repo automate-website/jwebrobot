@@ -4,9 +4,9 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
+import website.automate.waml.io.model.action.ConditionalAction;
 
-public abstract class ConditionalActionExecutor extends BaseActionExecutor {
+public abstract class ConditionalActionExecutor<T extends ConditionalAction> extends BaseActionExecutor<T> {
 
     protected ExpressionEvaluator expressionEvaluator;
     
@@ -21,7 +21,7 @@ public abstract class ConditionalActionExecutor extends BaseActionExecutor {
     }
     
     @Override
-    public boolean preHandle(Action action, ScenarioExecutionContext context){
+    public boolean preHandle(T action, ScenarioExecutionContext context){
         return conditionalExpressionEvaluator.isExecutable(action, context);
     }
 }

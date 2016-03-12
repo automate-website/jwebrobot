@@ -3,10 +3,9 @@ package website.automate.jwebrobot.expression;
 import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.CriteriaType;
-import website.automate.jwebrobot.model.CriteriaValue;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.CriterionValue;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.ConditionalAction;
 
 public class ConditionalExpressionEvaluator {
 
@@ -18,28 +17,28 @@ public class ConditionalExpressionEvaluator {
     }
     
     public boolean isExecutable(Scenario scenario, ScenarioExecutionContext context){
-        String ifCondition = scenario.getIf();
-        String unlessCondition = scenario.getUnless();
-        return isExecutable(ifCondition != null ? new CriteriaValue(ifCondition) : null, 
-                unlessCondition != null ? new CriteriaValue(unlessCondition) : null, context);
+        CriterionValue whenCondition = scenario.getWhen();
+        CriterionValue unlessCondition = scenario.getUnless();
+        return isExecutable(whenCondition, 
+                unlessCondition, context);
     }
     
-    public boolean isExecutable(Action action, ScenarioExecutionContext context){
-        return isExecutable(action.getCriteria(CriteriaType.IF), action.getCriteria(CriteriaType.UNLESS), context);
+    public boolean isExecutable(ConditionalAction action, ScenarioExecutionContext context){
+        return isExecutable(action.getWhen(), action.getUnless(), context);
     }
     
-    private boolean isExecutable(CriteriaValue ifCriteriaValue, CriteriaValue unlessCriteriaValue, ScenarioExecutionContext context){
+    private boolean isExecutable(CriterionValue ifCriteriaValue, CriterionValue unlessCriteriaValue, ScenarioExecutionContext context){
         boolean executeIf = evaluate(ifCriteriaValue, context, true);
         boolean executeUnless = evaluate(unlessCriteriaValue, context, false);
         
         return executeIf && !executeUnless;
     }
     
-    private boolean evaluate(CriteriaValue value, ScenarioExecutionContext context, boolean defaultValue){
+    private boolean evaluate(CriterionValue value, ScenarioExecutionContext context, boolean defaultValue){
         if(value == null){
             return defaultValue;
         }
-        String evaluationResultStr = expressionEvaluator.evaluate(value.asString(), context.getMemory()).toString();
+        String evaluationResultStr = expressionEvaluator.evaluate(value.toString(), context.getMemory()).toString();
         return Boolean.parseBoolean(evaluationResultStr);
     }
 }

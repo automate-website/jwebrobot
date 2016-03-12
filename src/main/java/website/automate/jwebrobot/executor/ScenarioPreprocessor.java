@@ -4,7 +4,8 @@ import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.waml.io.model.CriterionValue;
+import website.automate.waml.io.model.Scenario;
 
 public class ScenarioPreprocessor {
 
@@ -23,17 +24,24 @@ public class ScenarioPreprocessor {
         preprocessedScenario.setSteps(scenario.getSteps());
         preprocessedScenario.setPrecedence(scenario.getPrecedence());
         
-        preprocessedScenario.setIf(preprocessProperty(scenario.getIf(), context));
+        preprocessedScenario.setWhen(preprocessProperty(scenario.getWhen(), context));
         preprocessedScenario.setUnless(preprocessProperty(scenario.getUnless(), context));
-        preprocessedScenario.setTimeout(preprocessProperty(scenario.getTimeout(), context));
+        preprocessedScenario.setTimeout(new CriterionValue(preprocessProperty(scenario.getTimeout(), context)));
         return preprocessedScenario;
     }
     
-    private String preprocessProperty(String value, ScenarioExecutionContext context){
+    private CriterionValue preprocessProperty(CriterionValue value, ScenarioExecutionContext context){
+        if(value == null){
+            return null;
+        }
+        return preprocessProperty(value.toString(), context);
+    }
+    
+    private CriterionValue preprocessProperty(String value, ScenarioExecutionContext context){
         if(value == null){
             return null;
         }
         Object evaluatedExpression = expressionEvaluator.evaluate(value, context.getMemory());
-        return evaluatedExpression.toString();
+        return new CriterionValue(evaluatedExpression);
     }
 }

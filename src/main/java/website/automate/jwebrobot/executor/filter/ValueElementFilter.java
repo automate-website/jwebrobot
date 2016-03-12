@@ -6,22 +6,22 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import website.automate.jwebrobot.model.CriteriaType;
-import website.automate.jwebrobot.model.CriteriaValue;
+import website.automate.waml.io.model.CriterionType;
+import website.automate.waml.io.model.CriterionValue;
 
 public class ValueElementFilter extends BaseElementFilter {
 
     @Override
-    public CriteriaType getSupportedType() {
-        return CriteriaType.VALUE;
+    public CriterionType getSupportedType() {
+        return CriterionType.VALUE;
     }
 
     @Override
-    public List<WebElement> filter(CriteriaValue value,
+    public List<WebElement> filter(CriterionValue value,
             List<WebElement> webElements) {
         List<WebElement> foundWebElements = new ArrayList<>();
         for(WebElement webElement : webElements){
-            foundWebElements.addAll(webElement.findElements(By.cssSelector("*[value~='" + value.asString()  + "']")));
+            foundWebElements.addAll(webElement.findElements(By.cssSelector("*[value~='" + value.toString()  + "']")));
         }
         return foundWebElements;
     }

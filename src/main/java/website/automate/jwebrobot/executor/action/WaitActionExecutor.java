@@ -6,10 +6,9 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.ActionType;
+import website.automate.waml.io.model.action.WaitAction;
 
-public class WaitActionExecutor extends EvaluatedActionExecutor {
+public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
 
     @Inject
     public WaitActionExecutor(ExpressionEvaluator expressionEvaluator,
@@ -20,19 +19,19 @@ public class WaitActionExecutor extends EvaluatedActionExecutor {
     }
 
     @Override
-    public ActionType getActionType() {
-        return ActionType.WAIT;
-    }
-
-    @Override
-    public void perform(final Action action, ScenarioExecutionContext context) {
-        long time = Long.parseLong(action.getTime());
+    public void perform(final WaitAction action, ScenarioExecutionContext context) {
+        long time = action.getTime().toLong();
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
 
         }
 
+    }
+
+    @Override
+    public Class<WaitAction> getSupportedType() {
+        return WaitAction.class;
     }
 
 }

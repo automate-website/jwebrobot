@@ -9,9 +9,9 @@ import website.automate.jwebrobot.executor.filter.ElementFilterChain;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
+import website.automate.waml.io.model.action.FilterAction;
 
-public abstract class FilterActionExecutor extends EvaluatedActionExecutor {
+public abstract class FilterActionExecutor<T extends FilterAction> extends ConditionalActionExecutor<T> {
 
     private ElementFilterChain elementFilterChain;
     
@@ -23,7 +23,7 @@ public abstract class FilterActionExecutor extends EvaluatedActionExecutor {
         this.elementFilterChain = elementFilterChain;
     }
     
-    protected WebElement filter(ScenarioExecutionContext context, Action action){
+    protected WebElement filter(ScenarioExecutionContext context, T action){
         return getFirstOrNull(elementFilterChain.filter(context, action));
     }
 

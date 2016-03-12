@@ -9,11 +9,13 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.StepsMustBePresentException;
 import website.automate.jwebrobot.executor.action.ActionExecutor;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
+import website.automate.jwebrobot.executor.action.ActionPreprocessor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.model.Action;
-import website.automate.jwebrobot.model.Scenario;
+import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
 import website.automate.jwebrobot.validator.ContextValidators;
+import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.Action;
 
 import javax.inject.Inject;
 
@@ -28,6 +30,8 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final ContextValidators validator;
     private final ConditionalExpressionEvaluator conditionalExpressionEvaluator;
     private final ScenarioPreprocessor scenarioPreprocessor;
+    private final ActionPreprocessor actionPreprocessor;
+    private final AbstractActionMapper abstractActionMapper;
     
     @Inject
     public DefaultScenarioExecutor(
@@ -36,7 +40,9 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ExecutionEventListeners listener,
         ContextValidators validator,
         ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-        ScenarioPreprocessor scenarioPreprocessor
+        ScenarioPreprocessor scenarioPreprocessor,
+        ActionPreprocessor actionPreprocessor,
+        AbstractActionMapper abstractActionMapper
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
@@ -44,6 +50,8 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         this.validator = validator;
         this.conditionalExpressionEvaluator = conditionalExpressionEvaluator;
         this.scenarioPreprocessor = scenarioPreprocessor;
+        this.actionPreprocessor = actionPreprocessor;
+        this.abstractActionMapper = abstractActionMapper;
     }
 
     @Override
@@ -103,9 +111,12 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         }
 
         for (Action action : scenario.getSteps()) {
-            ActionExecutor actionExecutor = actionExecutorFactory.getInstance(action.getType());
+            ActionExecutor<Action> actionExecutor = actionExecutorFactory.getInstance(action.getClass());
+            
+            Action preprocessedAction = actionPreprocessor.preprocess(abstractActionMapper.map(action), scenarioExecutionContext);
+            
             logger.debug("Executing {}", actionExecutor.getClass().getName());
-            actionExecutor.execute(action, scenarioExecutionContext);
+            actionExecutor.execute(preprocessedAction, scenarioExecutionContext);
         }
         
         listener.afterScenario(scenarioExecutionContext);

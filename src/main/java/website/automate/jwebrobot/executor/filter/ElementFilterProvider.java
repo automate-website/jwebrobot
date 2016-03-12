@@ -6,11 +6,11 @@ import java.util.Set;
 
 import com.google.inject.Inject;
 
-import website.automate.jwebrobot.model.CriteriaType;
+import website.automate.waml.io.model.CriterionType;
 
 public class ElementFilterProvider {
 
-    private Map<CriteriaType, ElementFilter> criteriaTypeElementFilterMap = new HashMap<>();
+    private Map<CriterionType, ElementFilter> criteriaTypeElementFilterMap = new HashMap<>();
     
     @Inject
     public ElementFilterProvider(Set<ElementFilter> elementFilters){
@@ -19,7 +19,7 @@ public class ElementFilterProvider {
         }
     }
     
-    public ElementFilter getInstance(CriteriaType type){
+    public ElementFilter getInstance(CriterionType type){
         return criteriaTypeElementFilterMap.get(type);
     }
 }
