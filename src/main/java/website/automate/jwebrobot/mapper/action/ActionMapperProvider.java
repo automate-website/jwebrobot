@@ -22,7 +22,7 @@ public class ActionMapperProvider {
     }
     
     @SuppressWarnings("unchecked")
-    public Mapper<Action, Action> getInstance(Class<? extends Action> actionClazz){
-        return (Mapper<Action, Action>) actionMapperMap.get(actionClazz);
+    public <T extends Action> Mapper<T, T> getInstance(Class<T> actionClazz){
+        return (Mapper<T, T>) actionMapperMap.get(actionClazz);
     }
 }

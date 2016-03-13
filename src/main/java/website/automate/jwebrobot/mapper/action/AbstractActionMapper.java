@@ -15,8 +15,9 @@ public class AbstractActionMapper {
         this.actionMapperProvider = actionMapperProvider;
     }
     
-    public Action map(Action action){
-        Mapper<Action, Action> actionMapperImpl = actionMapperProvider.getInstance(action.getClass());
+    @SuppressWarnings("unchecked")
+    public <T extends Action> T map(T action){
+        Mapper<T,T> actionMapperImpl = (Mapper<T, T>) actionMapperProvider.getInstance(action.getClass());
         return actionMapperImpl.map(action);
     }
 }
