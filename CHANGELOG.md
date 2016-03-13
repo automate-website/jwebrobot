@@ -4,11 +4,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0]
+### Changed
+- Switched to waml-io for (de)serialiazation of waml scenarios
+
 ## [0.1.0]
 ### Added
 - Created initial implementation of [waml] draft-02
 
 
 [0.1.0]: https://github.com/automate-website/jwebrobot/compare/a23fabaf1d3557278bdef476d665e5ffe84a799f...0.1.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.1.0...master
+[0.2.0]: https://github.com/automate-website/jwebrobot/compare/0.2.0...0.1.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.2.0...master
 [waml]: https://github.com/automate-website/waml
+[waml-io]: https://github.com/automate-website/waml-io
