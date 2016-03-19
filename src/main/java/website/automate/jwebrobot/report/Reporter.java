@@ -1,6 +1,8 @@
 package website.automate.jwebrobot.report;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -11,19 +13,22 @@ import com.google.inject.Inject;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
-import website.automate.jwebrobot.report.model.ActionReport;
-import website.automate.jwebrobot.report.model.ExecutionReport;
-import website.automate.jwebrobot.report.model.ExecutionStatus;
-import website.automate.jwebrobot.report.model.ScenarioReport;
 import website.automate.waml.io.model.ActionType;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
+import website.automate.waml.report.io.WamlReportWriter;
+import website.automate.waml.report.io.model.ActionReport;
+import website.automate.waml.report.io.model.ExecutionStatus;
+import website.automate.waml.report.io.model.ScenarioReport;
+import website.automate.waml.report.io.model.SimpleActionReport;
+import website.automate.waml.report.io.model.SimpleScenarioReport;
+import website.automate.waml.report.io.model.WamlReport;
 
 public class Reporter implements ExecutionEventListener {
 
     private String reportPath = "./report";
 
-    private ReportWriter writer;
+    private WamlReportWriter writer;
     
     private Map<Action, Long> actionStartTimeMap = new HashMap<>();
     
@@ -32,7 +37,7 @@ public class Reporter implements ExecutionEventListener {
     private Map<Scenario, ScenarioReport> scenarioReportMap = new LinkedHashMap<>();
     
     @Inject
-    public Reporter(ReportWriter writer) {
+    public Reporter(WamlReportWriter writer) {
         this.writer = writer;
     }
     
@@ -41,7 +46,7 @@ public class Reporter implements ExecutionEventListener {
         Scenario contextScenario = context.getScenario();
         File contextScenarioFile = context.getGlobalContext().getFile(contextScenario);
         
-        ScenarioReport report = new ScenarioReport();
+        ScenarioReport report = new SimpleScenarioReport();
         report.setName(contextScenario.getName());
         report.setPath(contextScenarioFile.getAbsolutePath());
         
@@ -65,7 +70,7 @@ public class Reporter implements ExecutionEventListener {
     public void beforeAction(ScenarioExecutionContext context, Action action) {
         ScenarioReport scenarioReport = scenarioReportMap.get(context.getRootScenario());
         
-        ActionReport actionReport = new ActionReport();
+        ActionReport actionReport = new SimpleActionReport();
         actionReport.setPath(context.getScenarioInclusionPath());
         actionReport.setName(ActionType.findByClazz(action.getClass()).getName());
         
@@ -77,7 +82,7 @@ public class Reporter implements ExecutionEventListener {
     @Override
     public void afterAction(ScenarioExecutionContext context, Action action) {
         ActionReport report = afterActionOrError(context, action);
-        report.setStatus(ExecutionStatus.SUCESS);
+        report.setStatus(ExecutionStatus.SUCCESS);
     }
 
     @Override
@@ -93,22 +98,30 @@ public class Reporter implements ExecutionEventListener {
 
     @Override
     public void afterExecution(GlobalExecutionContext context) {
-        ExecutionReport report = new ExecutionReport();
+        WamlReport report = new WamlReport();
         report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
         report.updateStats();
-        writer.writeReport(reportPath, report);
+        try {
+            writer.write(new FileOutputStream(reportPath), report);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void errorExecution(GlobalExecutionContext context,
             Exception exception) {
-        ExecutionReport report = afterExecutionOrError(context);
+        WamlReport report = afterExecutionOrError(context);
         report.setMessage(exception.getMessage());
-        writer.writeReport(reportPath, report);
+        try {
+            writer.write(new FileOutputStream(reportPath), report);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
     
-    private ExecutionReport afterExecutionOrError(GlobalExecutionContext context){
-        ExecutionReport report = new ExecutionReport();
+    private WamlReport afterExecutionOrError(GlobalExecutionContext context){
+        WamlReport report = new WamlReport();
         report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
         report.updateStats();
         return report;
