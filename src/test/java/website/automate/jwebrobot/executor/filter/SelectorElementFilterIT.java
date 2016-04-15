@@ -2,7 +2,6 @@ package website.automate.jwebrobot.executor.filter;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static website.automate.waml.io.model.CriterionValue.of;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class SelectorElementFilterIT extends ElementFilterTestBase {
     
     @Test
     public void elementsAreSelectedBySelector(){
-        List<WebElement> webElements = filter.filter(of("h1.central-textlogo"), getBody());
+        List<WebElement> webElements = filter.filter("h1.central-textlogo", getBody());
         
         assertThat(webElements.size(), is(1));
     }

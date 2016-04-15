@@ -2,7 +2,6 @@ package website.automate.jwebrobot.executor.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.waml.io.model.CriterionValue;
 import website.automate.waml.io.model.action.Action;
 import website.automate.waml.io.model.action.TimeLimitedAction;
 
@@ -47,11 +46,11 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
             return globalContextTimeout;
         }
         
-        CriterionValue actionTimeout = action.getTimeout();
+        String actionTimeout = action.getTimeout();
         if(actionTimeout != null){
-            return actionTimeout.toLong();
+            return Long.parseLong(actionTimeout);
         }
         
-        return new CriterionValue(context.getScenario().getTimeout()).toLong();
-    } 
+        return Long.parseLong(context.getScenario().getTimeout());
+    }
 }

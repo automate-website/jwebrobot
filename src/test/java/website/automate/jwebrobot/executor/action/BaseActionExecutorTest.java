@@ -4,7 +4,6 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static website.automate.waml.io.model.CriterionValue.of;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,7 +17,6 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.waml.io.model.CriterionValue;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.TimeLimitedAction;
 
@@ -28,9 +26,8 @@ public class BaseActionExecutorTest {
     private static final String
         SCENARIO_TIMEOUT = "3";
     
-    private static final Long
-        GLOBAL_TIMEOUT = 1L,
-        ACTION_TIMEOUT = 2L;
+    private static final Long GLOBAL_TIMEOUT = 1L;
+    private static final String ACTION_TIMEOUT = "2";
     
     @Rule
     public final ExpectedException exceptionExpectation = ExpectedException.none();
@@ -41,7 +38,6 @@ public class BaseActionExecutorTest {
     @Mock private GlobalExecutionContext globalContext;
     @Mock private Scenario scenario;
     @Mock private ExecutorOptions options;
-    @Mock private CriterionValue actionTimeoutValue;
     @Mock private RuntimeException exception;
     
     private BaseActionExecutor<TimeLimitedAction> executor;
@@ -80,24 +76,23 @@ public class BaseActionExecutorTest {
     
     @Test
     public void actionTimeoutChoosenIfSet(){
-        when(scenario.getTimeout()).thenReturn(of(SCENARIO_TIMEOUT));
+        when(scenario.getTimeout()).thenReturn(SCENARIO_TIMEOUT);
         when(options.getTimeout()).thenReturn(null);
-        when(action.getTimeout()).thenReturn(actionTimeoutValue);
-        when(actionTimeoutValue.toLong()).thenReturn(ACTION_TIMEOUT);
+        when(action.getTimeout()).thenReturn(ACTION_TIMEOUT);
         
         Long actualTimeout = executor.getActionTimeout(action, context);
         
-        assertThat(actualTimeout, is(ACTION_TIMEOUT));
+        assertThat(actualTimeout, is(Long.parseLong(ACTION_TIMEOUT)));
     }
     
     @Test
     public void scenarioTimeoutChoosenIfActionTimeoutIsNotSet(){
-        when(scenario.getTimeout()).thenReturn(of(SCENARIO_TIMEOUT));
+        when(scenario.getTimeout()).thenReturn(SCENARIO_TIMEOUT);
         when(options.getTimeout()).thenReturn(null);
         
         Long actualTimeout = executor.getActionTimeout(action, context);
         
-        assertThat(actualTimeout, is(of(SCENARIO_TIMEOUT).toLong()));
+        assertThat(actualTimeout, is(Long.parseLong(SCENARIO_TIMEOUT)));
     }
     
     @Test

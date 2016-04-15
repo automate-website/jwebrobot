@@ -9,7 +9,6 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.waml.io.model.CriterionValue;
 import website.automate.waml.io.model.action.StoreAction;
 
 public class StoreActionExecutor extends ConditionalActionExecutor<StoreAction> {
@@ -26,10 +25,10 @@ public class StoreActionExecutor extends ConditionalActionExecutor<StoreAction> 
     public void perform(StoreAction action, ScenarioExecutionContext context) {
         Map<String, Object> memory = context.getMemory();
         
-        Map<String, CriterionValue> criteriaValueMap = action.getValue();
+        Map<String, String> criteriaValueMap = action.getValue();
         
-        for(Entry<String, CriterionValue> criteriaValueEntry : criteriaValueMap.entrySet()){
-            memory.put(criteriaValueEntry.getKey(), criteriaValueEntry.getValue().getValue());
+        for(Entry<String, String> criteriaValueEntry : criteriaValueMap.entrySet()){
+            memory.put(criteriaValueEntry.getKey(), criteriaValueEntry.getValue());
         }
     }
 

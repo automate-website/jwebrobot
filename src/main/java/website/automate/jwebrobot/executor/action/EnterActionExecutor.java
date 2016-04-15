@@ -44,7 +44,7 @@ public class EnterActionExecutor extends FilterActionExecutor<EnterAction> {
         }
 
         // Make clear
-        if (action.getClear() != null && action.getClear().toBoolean()) {
+        if (Boolean.parseBoolean(action.getClear())) {
             element.clear();
         }
 

@@ -23,7 +23,7 @@ public class FreemarkerExpressionEvaluator implements ExpressionEvaluator {
     private Fairy mock = Fairy.create();
     
     @Override
-    public Object evaluate(String expression, Map<String, Object> memory) {
+    public String evaluate(String expression, Map<String, Object> memory) {
         Map<String, Object> context = new HashMap<>();
         context.putAll(memory);
         context.put("_", Collections.singletonMap("mock", mock));

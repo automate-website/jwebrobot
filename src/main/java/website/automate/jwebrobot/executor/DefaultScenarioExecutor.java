@@ -75,7 +75,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private void execute(GlobalExecutionContext context, Scenario scenario){
         ExecutorOptions options = context.getOptions();
 
-        if (!scenario.isFragment()){
+        if (!scenario.getFragment()){
             logger.info("Starting scenario {}...", scenario.getName());
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
 

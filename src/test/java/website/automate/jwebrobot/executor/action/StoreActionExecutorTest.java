@@ -18,7 +18,6 @@ import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.CriterionType;
-import website.automate.waml.io.model.CriterionValue;
 import website.automate.waml.io.model.action.StoreAction;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -26,7 +25,6 @@ public class StoreActionExecutorTest {
 
     @Mock private ExpressionEvaluator expressionEvaluator;
     @Mock private StoreAction action;
-    @Mock private CriterionValue criteraValue;
     @Mock private ScenarioExecutionContext context;
     @Mock private Map<String, Object> memory;
     @Mock private ExecutionEventListeners listener;
@@ -43,8 +41,7 @@ public class StoreActionExecutorTest {
     public void init(){
         executor = new StoreActionExecutor(expressionEvaluator, listener, conditionalExpressionEvaluator);
         when(conditionalExpressionEvaluator.isExecutable(action, context)).thenReturn(true);
-        when(criteraValue.getValue()).thenReturn(EXPRESSION);
-        when(action.getValue()).thenReturn(Collections.singletonMap(CRITERIA_TYPE.getName(), criteraValue));
+        when(action.getValue()).thenReturn(Collections.singletonMap(CRITERIA_TYPE.getName(), EXPRESSION));
         when(context.getMemory()).thenReturn(memory);
         when(expressionEvaluator.evaluate(Mockito.eq(EXPRESSION), Mockito.anyMap())).thenReturn(EXPRESSION);
     }

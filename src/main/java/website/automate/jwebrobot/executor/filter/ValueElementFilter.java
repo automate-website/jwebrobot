@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import website.automate.waml.io.model.CriterionType;
-import website.automate.waml.io.model.CriterionValue;
 
 public class ValueElementFilter extends BaseElementFilter {
 
@@ -17,11 +16,11 @@ public class ValueElementFilter extends BaseElementFilter {
     }
 
     @Override
-    public List<WebElement> filter(CriterionValue value,
+    public List<WebElement> filter(String value,
             List<WebElement> webElements) {
         List<WebElement> foundWebElements = new ArrayList<>();
         for(WebElement webElement : webElements){
-            foundWebElements.addAll(webElement.findElements(By.cssSelector("*[value~='" + value.toString()  + "']")));
+            foundWebElements.addAll(webElement.findElements(By.xpath("descendant-or-self::*[contains(@value, '" + value  + "')]")));
         }
         return foundWebElements;
     }

@@ -12,7 +12,6 @@ import website.automate.jwebrobot.executor.filter.ElementFilterChain;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.waml.io.model.CriterionValue;
 import website.automate.waml.io.model.action.EnsureAction;
 
 public class EnsureActionExecutor extends FilterActionExecutor<EnsureAction> {
@@ -31,8 +30,7 @@ public class EnsureActionExecutor extends FilterActionExecutor<EnsureAction> {
     public void perform(final EnsureAction action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
-        CriterionValue absentValue = action.getAbsent();
-        final Boolean absent = absentValue != null ? absentValue.toBoolean() : Boolean.FALSE;
+        final Boolean absent = Boolean.parseBoolean(action.getAbsent());
         (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 WebElement webElement = filter(context, action);

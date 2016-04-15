@@ -14,7 +14,6 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.waml.io.model.CriterionValue;
 import website.automate.waml.io.model.action.ConditionalAction;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -22,8 +21,6 @@ public class ConditionalActionExecutorTest {
 
     @Mock private ExpressionEvaluator expressionEvaluator;
     @Mock private ConditionalAction action;
-    @Mock private CriterionValue ifCriterion;
-    @Mock private CriterionValue unlessCriterion;
     @Mock private TestActionExecution execution;
     @Mock private ScenarioExecutionContext context;
     @Mock private ExecutionEventListeners listener;

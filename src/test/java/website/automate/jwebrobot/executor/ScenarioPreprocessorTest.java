@@ -3,7 +3,6 @@ package website.automate.jwebrobot.executor;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
-import static website.automate.waml.io.model.CriterionValue.of;
 
 import java.util.List;
 import java.util.Map;
@@ -55,32 +54,32 @@ public class ScenarioPreprocessorTest {
     
     @Test
     public void timeoutIsProcessed(){
-        when(scenario.getTimeout()).thenReturn(of(TIMEOUT));
+        when(scenario.getTimeout()).thenReturn(TIMEOUT);
         when(expressionEvaluator.evaluate(TIMEOUT, memory)).thenReturn(PROCESSED_TIMEOUT);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
-        assertThat(preprocessedScenario.getTimeout(), is(of(PROCESSED_TIMEOUT)));
+        assertThat(preprocessedScenario.getTimeout(), is(PROCESSED_TIMEOUT));
     }
     
     @Test
     public void ifIsProcessed(){
-        when(scenario.getWhen()).thenReturn(of(IF));
+        when(scenario.getWhen()).thenReturn(IF);
         when(expressionEvaluator.evaluate(IF, memory)).thenReturn(PROCESSED_IF);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
-        assertThat(preprocessedScenario.getWhen(), is(of(PROCESSED_IF)));
+        assertThat(preprocessedScenario.getWhen(), is(PROCESSED_IF));
     }
     
     @Test
     public void unlessIsProcessed(){
-        when(scenario.getUnless()).thenReturn(of(UNLESS));
+        when(scenario.getUnless()).thenReturn(UNLESS);
         when(expressionEvaluator.evaluate(UNLESS, memory)).thenReturn(PROCESSED_UNLESS);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
-        assertThat(preprocessedScenario.getUnless(), is(of(PROCESSED_UNLESS)));
+        assertThat(preprocessedScenario.getUnless(), is(PROCESSED_UNLESS));
     }
     
     @Test
@@ -103,11 +102,11 @@ public class ScenarioPreprocessorTest {
     
     @Test
     public void fragmentIsNotProcessed(){
-        when(scenario.isFragment()).thenReturn(FRAGMENT);
+        when(scenario.getFragment()).thenReturn(FRAGMENT);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
-        assertThat(preprocessedScenario.isFragment(), is(FRAGMENT));
+        assertThat(preprocessedScenario.getFragment(), is(FRAGMENT));
     }
     
     @Test

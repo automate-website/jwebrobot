@@ -17,7 +17,6 @@ import org.openqa.selenium.WebElement;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.waml.io.model.CriterionType;
-import website.automate.waml.io.model.CriterionValue;
 import website.automate.waml.io.model.action.FilterAction;
 import website.automate.waml.io.model.action.ParentCriteria;
 
@@ -41,12 +40,14 @@ public class ElementFilterChainTest {
             SELECTOR = "h2",
             PARENT_TEXT = "interesting article";
     
-    private CriterionValue selectorValue = new CriterionValue("h2");
-    private CriterionValue textValue = new CriterionValue("interesting article");
+    private String selectorValue = "h2";
+    private String textValue = "interesting article";
     
     @Test
     public void elementDescribedByActionAndParentCriteriaIsFound(){
         chain = new ElementFilterChain(provider);
+        when(parent.isDisplayed()).thenReturn(Boolean.TRUE);
+        when(target.isDisplayed()).thenReturn(Boolean.TRUE);
         when(action.getSelector()).thenReturn(SELECTOR);
         when(action.getParent()).thenReturn(parentCriteria);
         when(parentCriteria.getText()).thenReturn(PARENT_TEXT);

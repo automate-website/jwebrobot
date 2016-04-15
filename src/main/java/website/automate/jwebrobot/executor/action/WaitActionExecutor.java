@@ -20,7 +20,7 @@ public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
 
     @Override
     public void perform(final WaitAction action, ScenarioExecutionContext context) {
-        long time = action.getTime().toLong();
+        Long time = Long.parseLong(action.getTime());
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
