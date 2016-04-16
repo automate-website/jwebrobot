@@ -24,6 +24,11 @@ public class ScenarioPatternFilterTest {
     }
     
     @Test
+    public void blankScenarioPatternReturnsIsExecutable(){
+        assertTrue(scenarioPatternFilter.isExecutable("", SCENARIO_NAME));
+    }
+    
+    @Test
     public void nonMatchingScenarioPatternReturnsIsNotExecutable(){
         assertFalse(scenarioPatternFilter.isExecutable("^first$", ANOTHER_SCENARIO_NAME));
     }
