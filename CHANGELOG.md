@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.5.0]
 ### Fixed
 - Fixed scenario pattern handling in case the give argument value is empty.
 ### Added
@@ -32,6 +34,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.2.0]: https://github.com/automate-website/jwebrobot/compare/0.1.0...0.2.0
 [0.3.0]: https://github.com/automate-website/jwebrobot/compare/0.2.0...0.3.0
 [0.4.0]: https://github.com/automate-website/jwebrobot/compare/0.3.0...0.4.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.4.0...master
+[0.5.0]: https://github.com/automate-website/jwebrobot/compare/0.4.0...0.5.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.5.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
