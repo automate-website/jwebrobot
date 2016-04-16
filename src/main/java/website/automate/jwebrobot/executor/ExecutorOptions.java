@@ -5,49 +5,54 @@ import website.automate.jwebrobot.ConfigurationProperties;
 public class ExecutorOptions {
 
     public enum TakeScreenshots {
-        NEVER("never"),
-        ON_FAILURE("on_failure"),
-        ON_EVERY_STEP("on_every_step");
-        
+        NEVER("never"), ON_FAILURE("on_failure"), ON_EVERY_STEP("on_every_step");
+
         private String name;
-        
-        private TakeScreenshots(String name){
+
+        private TakeScreenshots(String name) {
             this.name = name;
         }
-        
-        public String getName(){
+
+        public String getName() {
             return name;
         }
-        
-        public static TakeScreenshots findByName(String name){
-            for(TakeScreenshots takeScreenshots : values()){
-                if(takeScreenshots.getName().equals(name)){
+
+        public static TakeScreenshots findByName(String name) {
+            for (TakeScreenshots takeScreenshots : values()) {
+                if (takeScreenshots.getName().equals(name)) {
                     return takeScreenshots;
                 }
             }
             return null;
         }
     }
-    
+
     private WebDriverProvider.Type webDriverType = WebDriverProvider.Type.FIREFOX;
-    
+
     public String screenshotPath;
-    
+
     private TakeScreenshots takeScreenshots;
-    
+
     private Long timeout;
-    
-    public static ExecutorOptions of(ConfigurationProperties configurationProperties){
+
+    private String scenarioPattern;
+
+    public static ExecutorOptions of(
+            ConfigurationProperties configurationProperties) {
         ExecutorOptions executorOptions = new ExecutorOptions();
-        
-        executorOptions.setWebDriverType(WebDriverProvider.Type.fromString(configurationProperties.getBrowser()));
-        executorOptions.setScreenshotPath(configurationProperties.getScreenshotPath());
-        executorOptions.setTakeScreenshots(TakeScreenshots.findByName(configurationProperties.getTakeScreenshots()));
+
+        executorOptions.setWebDriverType(WebDriverProvider.Type
+                .fromString(configurationProperties.getBrowser()));
+        executorOptions.setScreenshotPath(configurationProperties
+                .getScreenshotPath());
+        executorOptions.setTakeScreenshots(TakeScreenshots
+                .findByName(configurationProperties.getTakeScreenshots()));
         executorOptions.setTimeout(configurationProperties.getTimeout());
-        
+        executorOptions.setScenarioPattern(configurationProperties.getScenarioPattern());
+
         return executorOptions;
     }
-    
+
     public WebDriverProvider.Type getWebDriverType() {
         return webDriverType;
     }
@@ -55,7 +60,7 @@ public class ExecutorOptions {
     public void setWebDriverType(WebDriverProvider.Type webDriverType) {
         this.webDriverType = webDriverType;
     }
-    
+
     public String getScreenshotPath() {
         return screenshotPath;
     }
@@ -78,5 +83,13 @@ public class ExecutorOptions {
 
     public void setTimeout(Long timeout) {
         this.timeout = timeout;
+    }
+
+    public String getScenarioPattern() {
+        return scenarioPattern;
+    }
+
+    public void setScenarioPattern(String scenarioPattern) {
+        this.scenarioPattern = scenarioPattern;
     }
 }

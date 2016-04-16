@@ -32,6 +32,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final ScenarioPreprocessor scenarioPreprocessor;
     private final ActionPreprocessor actionPreprocessor;
     private final AbstractActionMapper abstractActionMapper;
+    private final ScenarioPatternFilter scenarioPatternFilter;
     
     @Inject
     public DefaultScenarioExecutor(
@@ -42,7 +43,8 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ConditionalExpressionEvaluator conditionalExpressionEvaluator,
         ScenarioPreprocessor scenarioPreprocessor,
         ActionPreprocessor actionPreprocessor,
-        AbstractActionMapper abstractActionMapper
+        AbstractActionMapper abstractActionMapper,
+        ScenarioPatternFilter scenarioPatternFilter
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
@@ -52,6 +54,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         this.scenarioPreprocessor = scenarioPreprocessor;
         this.actionPreprocessor = actionPreprocessor;
         this.abstractActionMapper = abstractActionMapper;
+        this.scenarioPatternFilter =scenarioPatternFilter;
     }
 
     @Override
@@ -75,7 +78,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private void execute(GlobalExecutionContext context, Scenario scenario){
         ExecutorOptions options = context.getOptions();
 
-        if (!scenario.getFragment()){
+        if (!scenario.getFragment() && scenarioPatternFilter.isExecutable(options.getScenarioPattern(), scenario.getName())){
             logger.info("Starting scenario {}...", scenario.getName());
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
 

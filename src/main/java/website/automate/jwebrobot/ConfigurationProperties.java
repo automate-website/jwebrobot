@@ -31,6 +31,9 @@ public class ConfigurationProperties {
     @Parameter(names = "-timeout", description = "Default timeout waiting for conditions to be fulfilled in seconds.", required = false)
     private Long timeout = 1L;
     
+    @Parameter(names = "-scenarioPattern", description = "Scenario name pattern. If set, only non fragment scenarios matching the pattern are executed.", required = false)
+    private String scenarioPattern;
+    
     public String getScenarioPath() {
         return scenarioPath;
     }
@@ -85,5 +88,13 @@ public class ConfigurationProperties {
 
     public void setScreenshotPath(String screenshotPath) {
         this.screenshotPath = screenshotPath;
+    }
+
+    public String getScenarioPattern() {
+        return scenarioPattern;
+    }
+
+    public void setScenarioPattern(String scenarioPattern) {
+        this.scenarioPattern = scenarioPattern;
     }
 }

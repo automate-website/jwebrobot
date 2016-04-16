@@ -38,6 +38,7 @@ public class DefaultScenarioExecutorTest {
     @Mock private Scenario preprocessedScenario;
     @Mock private ScenarioExecutionContext context;
     @Mock private AbstractActionMapper abstractActionMapper;
+    @Mock private ScenarioPatternFilter scenarioPatternFilter;
     
     private DefaultScenarioExecutor scenarioExecutor;
     
@@ -45,7 +46,8 @@ public class DefaultScenarioExecutorTest {
     public void init(){
         scenarioExecutor = new DefaultScenarioExecutor(webDriverProvider, actionExecutorFactory, listener,
                 validator, conditionalExpressionEvaluator,
-                scenarioPreprocessor, actionPreprocessor, abstractActionMapper);
+                scenarioPreprocessor, actionPreprocessor, abstractActionMapper,
+                scenarioPatternFilter);
         
         when(scenarioPreprocessor.preprocess(scenario, context)).thenReturn(preprocessedScenario);
     }
