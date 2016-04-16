@@ -36,6 +36,8 @@ public class ExecutorOptions {
     private Long timeout;
 
     private String scenarioPattern;
+    
+    private String reportPath;
 
     public static ExecutorOptions of(
             ConfigurationProperties configurationProperties) {
@@ -49,6 +51,7 @@ public class ExecutorOptions {
                 .findByName(configurationProperties.getTakeScreenshots()));
         executorOptions.setTimeout(configurationProperties.getTimeout());
         executorOptions.setScenarioPattern(configurationProperties.getScenarioPattern());
+        executorOptions.setReportPath(configurationProperties.getReportPath());
 
         return executorOptions;
     }
@@ -91,5 +94,13 @@ public class ExecutorOptions {
 
     public void setScenarioPattern(String scenarioPattern) {
         this.scenarioPattern = scenarioPattern;
+    }
+
+    public String getReportPath() {
+        return reportPath;
+    }
+
+    public void setReportPath(String reportPath) {
+        this.reportPath = reportPath;
     }
 }

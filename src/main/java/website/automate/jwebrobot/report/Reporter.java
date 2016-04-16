@@ -26,7 +26,7 @@ import website.automate.waml.report.io.model.WamlReport;
 
 public class Reporter implements ExecutionEventListener {
 
-    private String reportPath = "./report";
+    private static final String DEFAULT_REPORT_PATH = "./report.yaml";
 
     private WamlReportWriter writer;
     
@@ -102,7 +102,7 @@ public class Reporter implements ExecutionEventListener {
         report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
         report.updateStats();
         try {
-            writer.write(new FileOutputStream(reportPath), report);
+            writer.write(new FileOutputStream(getReportPath(context)), report);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -114,7 +114,7 @@ public class Reporter implements ExecutionEventListener {
         WamlReport report = afterExecutionOrError(context);
         report.setMessage(exception.getMessage());
         try {
-            writer.write(new FileOutputStream(reportPath), report);
+            writer.write(new FileOutputStream(getReportPath(context)), report);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -136,5 +136,13 @@ public class Reporter implements ExecutionEventListener {
     
     private ExecutionStatus exceptionToStatus(Exception exception){
         return ExecutionStatus.ERROR;
+    }
+    
+    private String getReportPath(GlobalExecutionContext context){
+        String reportPath = context.getOptions().getReportPath();
+        if(reportPath != null){
+            return reportPath;
+        }
+        return DEFAULT_REPORT_PATH;
     }
 }

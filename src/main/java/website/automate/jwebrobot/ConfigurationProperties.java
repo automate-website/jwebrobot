@@ -34,6 +34,9 @@ public class ConfigurationProperties {
     @Parameter(names = "-scenarioPattern", description = "Scenario name pattern. If set, only non fragment scenarios matching the pattern are executed.", required = false)
     private String scenarioPattern;
     
+    @Parameter(names = "-reportPath", description = "Path to which the execution report is written to.")
+    private String reportPath;
+    
     public String getScenarioPath() {
         return scenarioPath;
     }
@@ -88,6 +91,14 @@ public class ConfigurationProperties {
 
     public void setScreenshotPath(String screenshotPath) {
         this.screenshotPath = screenshotPath;
+    }
+
+    public String getReportPath() {
+        return reportPath;
+    }
+
+    public void setReportPath(String reportPath) {
+        this.reportPath = reportPath;
     }
 
     public String getScenarioPattern() {
