@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [0.4.0]
+### Added
+- Added scenarioPattern command line argument to provide a possibility to filter non fragment scenarios that must be executed.
+
 ## [0.3.0]
 ### Changed
 - Updated to [waml-io] 0.2.0
@@ -22,6 +26,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.1.0]: https://github.com/automate-website/jwebrobot/compare/a23fabaf1d3557278bdef476d665e5ffe84a799f...0.1.0
 [0.2.0]: https://github.com/automate-website/jwebrobot/compare/0.1.0...0.2.0
 [0.3.0]: https://github.com/automate-website/jwebrobot/compare/0.2.0...0.3.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.3.0...master
+[0.4.0]: https://github.com/automate-website/jwebrobot/compare/0.3.0...0.4.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.4.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
