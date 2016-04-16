@@ -2,7 +2,7 @@
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot/badge.svg)](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot) [![Build Status](https://travis-ci.org/automate-website/jwebrobot.svg?branch=master)](https://travis-ci.org/automate-website/jwebrobot) [![codecov.io](https://codecov.io/github/automate-website/jwebrobot/coverage.svg?branch=master)](https://codecov.io/github/automate-website/jwebrobot?branch=master) [![Gitter](https://badges.gitter.im/automate-website/jwebrobot.svg)](https://gitter.im/automate-website/jwebrobot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Latest release is available at [repo1.maven.org].
+Latest release can be downloaded directly from [here].
 
 ## Short Description
 
@@ -44,4 +44,4 @@ mvn package
 [waml-schema]: http://waml-schema.org
 [web automation markup language]: https://github.com/automate-website/waml
 [draft-02]: http://waml-schema.org/draft-02/schema#
-[repo1.maven.org]: http://repo1.maven.org/maven2/website/automate/jwebrobot/0.5.0/jwebrobot-0.5.0.jar
+[here]: http://repo1.maven.org/maven2/website/automate/jwebrobot/0.5.0/jwebrobot-0.5.0.jar
