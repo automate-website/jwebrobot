@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- Fixed scenario pattern handling in case the give argument value is empty.
+### Added
+- Added report path command line argument to be able to control the path the report is written to.
+
 ## [0.4.0]
 ### Added
 - Added scenarioPattern command line argument to provide a possibility to filter non fragment scenarios that must be executed.
