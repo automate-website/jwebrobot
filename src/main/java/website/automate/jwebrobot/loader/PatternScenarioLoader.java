@@ -1,4 +1,4 @@
-package website.automate.jwebrobot.loader.impl;
+package website.automate.jwebrobot.loader;
 
 import com.google.inject.Inject;
 
@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
-import website.automate.jwebrobot.loader.ScenarioFile;
-import website.automate.jwebrobot.loader.ScenarioLoader;
 import website.automate.waml.io.WamlReader;
 import website.automate.waml.io.model.Scenario;
 
@@ -24,16 +22,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ScenarioLoaderImpl implements ScenarioLoader {
+public class PatternScenarioLoader implements ScenarioLoader {
 
     private static final IOFileFilter SCENARIO_FORMAT_FILTER = new WildcardFileFilter(new String[] {"**.yaml", "**.json"});
 
-    private static final Logger LOG = LoggerFactory.getLogger(ScenarioLoaderImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PatternScenarioLoader.class);
 
     private final WamlReader wamlReader;
 
     @Inject
-    public ScenarioLoaderImpl(WamlReader wamlReader){
+    public PatternScenarioLoader(WamlReader wamlReader){
         this.wamlReader = wamlReader;
     }
 

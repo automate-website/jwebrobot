@@ -19,7 +19,7 @@ import website.automate.waml.io.model.action.Action;
 import website.automate.waml.io.model.action.ClickAction;
 import website.automate.waml.io.model.action.OpenAction;
 
-public class ScenarioLoaderIT extends AbstractTest {
+public class PatternScenarioLoaderIT extends AbstractTest {
 
     private ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
     
