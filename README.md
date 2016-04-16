@@ -18,14 +18,15 @@ Options may be passed to the **JWebRobot** using single hyphen notation:
 java -jar <path to jar> -<argument name> [<argument value> ...]
 ```
 
-| Name  | Type | Description | Example |
-| ------------- | ------------- | ------------- | ------------- |
-| *scenarioPath*  | mandatory  | Scenario path may be a directory or a single scenario file. | `../path/to/my/scenario` |
-| *scenarioPattern*  | optional | If set, only non fragment scenarios with a name matching the pattern are executed. | `'^desired-scenario$'` |
-| context  | optional | Context is a multi value argument that populates the context utilized during expression evaluation. | `baseUrl=http://www.wikipedia.com language=en` |
-| *timeout* | optional | Default timeout waiting for conditions to be fulfilled in seconds. | `5` |
-| *screenshotPath*  | optional | Path to the directory where created screenshots must be saved. | `./` |
-| *browser*  | optional | A browser can be selected by passing this option when running JWebRobot. Please consider that some browsers require additional configuration parameters. WAML scenarios are executed with Mozilla Firefox per default. Firefox must be installed on the same machine. E.g.: Chrome does not provide embedded webdriver so that it has to be [downloaded manually](webdriver-chrome). The path to the downloaded executable has to be forwarded via the system property `webdriver.chrome.driver`. Of course, Chrome must be present on the same machine. | `chrome` |
+| Name  | Type | Description | Default | Example |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| *scenarioPath*  | mandatory  | Scenario path may be a directory or a single scenario file. | `-` |`../path/to/my/scenario` |
+| *scenarioPattern*  | optional | If set, only non fragment scenarios with a name matching the pattern are executed. | `-` | `'^desired-scenario$'` |
+| context  | optional | Context is a multi value argument that populates the context utilized during expression evaluation. | `-` |`baseUrl=http://www.wikipedia.com language=en` |
+| *timeout* | optional | Default timeout waiting for conditions to be fulfilled in seconds. | `1` | `5` |
+| *screenshotPath*  | optional | Path to the directory where created screenshots must be saved. | `./` | `./` |
+| *browser*  | optional | A browser can be selected by passing this option when running JWebRobot. Please consider that some browsers require additional configuration parameters. WAML scenarios are executed with Mozilla Firefox per default. Firefox must be installed on the same machine. E.g.: Chrome does not provide embedded webdriver so that it has to be [downloaded manually](webdriver-chrome). The path to the downloaded executable has to be forwarded via the system property `webdriver.chrome.driver`. Of course, Chrome must be present on the same machine. | `firefox` | `chrome` |
+| *reportPath*  | optional  | Path to which the report is written to. | `./report.yaml` | `./myreport.yaml` |
 
 ## Source Build
 

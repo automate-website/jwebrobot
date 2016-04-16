@@ -34,7 +34,7 @@ public class ConfigurationProperties {
     @Parameter(names = "-scenarioPattern", description = "Scenario name pattern. If set, only non fragment scenarios matching the pattern are executed.", required = false)
     private String scenarioPattern;
     
-    @Parameter(names = "-reportPath", description = "Path to which the execution report is written to.")
+    @Parameter(names = "-reportPath", description = "Path to which the execution report is written to.", required = false)
     private String reportPath;
     
     public String getScenarioPath() {
