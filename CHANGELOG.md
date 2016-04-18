@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ## [0.5.2]
 ### Changed
-- Adjusted screenshot naming pattern to <root scenario name>-<step number>-<step type>
+- Adjusted screenshot naming pattern to `<root scenario name>-<step number>-<step type>`
 
 ### Fixed
 - Fixed takeScreenshots argument value recognition
