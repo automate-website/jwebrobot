@@ -28,6 +28,12 @@ public class JWebRobotIT {
                 "baseUrl=https://en.wikipedia.org"});
     }
     
+    @Test
+    public void storeActionScenarioIsExecuted(){
+        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, 
+                ROOT_PACKAGE_DIRECTORY_PATH + "store-action-test.yaml"});
+    }
+    
     @Ignore
     @Test
     @Category(ChromeTests.class)

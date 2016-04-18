@@ -1,0 +1,7 @@
+name: Wikipedia Test
+steps:
+  - store:
+      baseUrl: 'https://en.wikipedia.org'
+  - open: ${baseUrl}
+  - click: 'a[title="Wikipedia:About"]'
+  - ensure: '#About_Wikipedia'
