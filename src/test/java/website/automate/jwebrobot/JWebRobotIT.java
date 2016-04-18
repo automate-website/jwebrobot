@@ -34,6 +34,12 @@ public class JWebRobotIT {
                 ROOT_PACKAGE_DIRECTORY_PATH + "store-action-test.yaml"});
     }
     
+    @Test
+    public void moveActionScenarioIsExecuted(){
+        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, 
+                ROOT_PACKAGE_DIRECTORY_PATH + "move-action-test.yaml"});
+    }
+    
     @Ignore
     @Test
     @Category(ChromeTests.class)
