@@ -37,8 +37,6 @@ public class JWebRobot {
         ConfigurationProperties configurationProperties = new ConfigurationProperties();
         new JCommander(configurationProperties, args);
 
-        System.out.println("Executing: " + configurationProperties.getScenarioPath());
-
         Injector injector = GuiceInjector.getInstance();
 
         JWebRobot jWebRobot = injector.getInstance(JWebRobot.class);
