@@ -21,6 +21,7 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
             if(preHandle(action, context)){
                 T preprocessedAction = preprocess(action, context);
                 perform(preprocessedAction, context);
+                context.countStep(action);
             }
         } catch (Exception e) {
             listener.errorAction(context, action, e);

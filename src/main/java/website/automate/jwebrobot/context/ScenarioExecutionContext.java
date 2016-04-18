@@ -3,13 +3,14 @@ package website.automate.jwebrobot.context;
 import org.openqa.selenium.WebDriver;
 
 import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.action.IncludeAction;
 
 import java.util.Map;
-import java.util.UUID;
 
 public class ScenarioExecutionContext {
 
-    private String sessionId;
+    private Integer stepCount = 0;
     
     private Scenario scenario;
 
@@ -28,7 +29,6 @@ public class ScenarioExecutionContext {
         this.scenario = scenario;
         this.driver = driver;
         this.memory = memory;
-        this.sessionId = UUID.randomUUID().toString();
     }
     
     public ScenarioExecutionContext createChildContext(Scenario scenario){
@@ -41,7 +41,6 @@ public class ScenarioExecutionContext {
             ScenarioExecutionContext parent) {
         this(globalContext, scenario, driver, memory);
         this.parent = parent;
-        this.sessionId = parent.getRoot().getSessionId();
     }
     
     public Scenario getScenario() {
@@ -93,12 +92,21 @@ public class ScenarioExecutionContext {
         }
         return parentContext.containsScenario(scenario);
     }
-
-    public String getSessionId() {
-        return sessionId;
-    }
     
+    public void countStep(Action action){
+        if(!(action instanceof IncludeAction)){
+            this.stepCount++;
+            if(this.getParent() != null){
+                this.getParent().countStep(action);
+            }
+        }
+    }
+
     public void setScenario(Scenario scenario) {
         this.scenario = scenario;
+    }
+
+    public Integer getStepCount() {
+        return stepCount;
     }
 }

@@ -35,7 +35,8 @@ public class Screenshooter {
     private String getFileName(ScenarioExecutionContext context,  Action action){
         GlobalExecutionContext globalContext = context.getGlobalContext();
         String targetPath = globalContext.getOptions().getScreenshotPath();
+        ScenarioExecutionContext rootContext = context.getRoot();
         
-        return targetPath + context.getSessionId() + "_" + context.getRootScenario().getName() + "_" + findByClazz(action.getClass()).getName() + ".png"; 
+        return targetPath + rootContext.getScenario().getName() + "_" + rootContext.getStepCount() + "_" + findByClazz(action.getClass()).getName() + ".png"; 
     }
 }
