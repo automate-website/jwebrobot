@@ -3,15 +3,24 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [0.5.2]
+### Changed
+- Adjusted screenshot naming pattern to <root scenario name>-<step number>-<step type>
+
+### Fixed
+- Fixed takeScreenshots argument value recognition
+
 ## [0.5.1]
 ### Fixed
 - Fixed jackson library dependency conflicts
+
 ### Changed
 - Renamed fat jar to jwebrobot-<version>-full.jar
 
 ## [0.5.0]
 ### Fixed
 - Fixed scenario pattern handling in case the give argument value is empty.
+
 ### Added
 - Added report path command line argument to be able to control the path the report is written to.
 
@@ -41,6 +50,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.4.0]: https://github.com/automate-website/jwebrobot/compare/0.3.0...0.4.0
 [0.5.0]: https://github.com/automate-website/jwebrobot/compare/0.4.0...0.5.0
 [0.5.1]: https://github.com/automate-website/jwebrobot/compare/0.5.0...0.5.1
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.5.1...master
+[0.5.2]: https://github.com/automate-website/jwebrobot/compare/0.5.1...0.5.2
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.5.2...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
