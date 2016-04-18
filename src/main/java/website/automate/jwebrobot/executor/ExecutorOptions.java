@@ -5,7 +5,7 @@ import website.automate.jwebrobot.ConfigurationProperties;
 public class ExecutorOptions {
 
     public enum TakeScreenshots {
-        NEVER("never"), ON_FAILURE("on_failure"), ON_EVERY_STEP("on_every_step");
+        NEVER("NEVER"), ON_FAILURE("ON_FAILURE"), ON_EVERY_STEP("ON_EVERY_STEP");
 
         private String name;
 
@@ -19,7 +19,7 @@ public class ExecutorOptions {
 
         public static TakeScreenshots findByName(String name) {
             for (TakeScreenshots takeScreenshots : values()) {
-                if (takeScreenshots.getName().equals(name)) {
+                if (takeScreenshots.getName().equalsIgnoreCase(name)) {
                     return takeScreenshots;
                 }
             }
