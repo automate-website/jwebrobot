@@ -41,13 +41,13 @@
         <dependency>
             <groupId>website.automate</groupId>
             <artifactId>waml-io</artifactId>
-            <version>0.2.0</version>
+            <version>0.2.1</version>
         </dependency>
 
         <dependency>
             <groupId>website.automate</groupId>
             <artifactId>waml-report-io</artifactId>
-            <version>0.2.0</version>
+            <version>0.3.1</version>
         </dependency>
 
         <dependency>
