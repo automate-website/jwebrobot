@@ -129,7 +129,7 @@ public class Reporter implements ExecutionEventListener {
     private ActionReport afterActionOrError(ScenarioExecutionContext context, Action action){
         Long startTime = actionStartTimeMap.get(action);
         ActionReport report = actionReportMap.get(action);
-        report.setTime(startTime);
+        report.setTime((System.currentTimeMillis() - startTime) / 1000.0);
         return report;
     }
     
