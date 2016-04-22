@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [0.6.0]
+### Changed
+- upgraded to waml-report-io 0.3.1s
+
 ## [0.5.2]
 ### Changed
 - Adjusted screenshot naming pattern to `<root scenario name>-<step number>-<step type>`
@@ -51,6 +55,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.5.0]: https://github.com/automate-website/jwebrobot/compare/0.4.0...0.5.0
 [0.5.1]: https://github.com/automate-website/jwebrobot/compare/0.5.0...0.5.1
 [0.5.2]: https://github.com/automate-website/jwebrobot/compare/0.5.1...0.5.2
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.5.2...master
+[0.6.0]: https://github.com/automate-website/jwebrobot/compare/0.5.2...0.6.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.6.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
