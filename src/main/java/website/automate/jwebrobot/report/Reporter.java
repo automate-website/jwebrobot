@@ -13,11 +13,11 @@ import com.google.inject.Inject;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
-import website.automate.waml.io.model.ActionType;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
 import website.automate.waml.report.io.WamlReportWriter;
 import website.automate.waml.report.io.model.ActionReport;
+import website.automate.waml.report.io.model.ActionStats;
 import website.automate.waml.report.io.model.ExecutionStatus;
 import website.automate.waml.report.io.model.ScenarioReport;
 import website.automate.waml.report.io.model.SimpleActionReport;
@@ -71,8 +71,11 @@ public class Reporter implements ExecutionEventListener {
         ScenarioReport scenarioReport = scenarioReportMap.get(context.getRootScenario());
         
         ActionReport actionReport = new SimpleActionReport();
-        actionReport.setPath(context.getScenarioInclusionPath());
-        actionReport.setName(ActionType.findByClazz(action.getClass()).getName());
+        ActionStats stats = new ActionStats();
+        stats.setPath(context.getScenarioInclusionPath());
+        
+        actionReport.setStats(stats);
+        actionReport.setAction(action);
         
         scenarioReport.getActions().add(actionReport);
         actionStartTimeMap.put(action, System.currentTimeMillis());
@@ -82,14 +85,15 @@ public class Reporter implements ExecutionEventListener {
     @Override
     public void afterAction(ScenarioExecutionContext context, Action action) {
         ActionReport report = afterActionOrError(context, action);
-        report.setStatus(ExecutionStatus.SUCCESS);
+        report.getStats().setStatus(ExecutionStatus.SUCCESS);
     }
 
     @Override
     public void errorAction(ScenarioExecutionContext context, Action action, Exception exception) {
         ActionReport report = afterActionOrError(context, action);
-        report.setStatus(exceptionToStatus(exception));
-        report.setMessage(exception.getMessage());
+        ActionStats stats = report.getStats();
+        stats.setStatus(exceptionToStatus(exception));
+        stats.setMessage(exception.getMessage());
     }
 
     @Override
@@ -130,7 +134,7 @@ public class Reporter implements ExecutionEventListener {
     private ActionReport afterActionOrError(ScenarioExecutionContext context, Action action){
         Long startTime = actionStartTimeMap.get(action);
         ActionReport report = actionReportMap.get(action);
-        report.setTime(startTime);
+        report.getStats().setTime(startTime);
         return report;
     }
     

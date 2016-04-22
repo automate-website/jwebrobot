@@ -17,18 +17,19 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
     public void execute(T action, ScenarioExecutionContext context){
         listener.beforeAction(context, action);
         
+        T resultAction = action;
         try {
             if(preHandle(action, context)){
-                T preprocessedAction = preprocess(action, context);
-                perform(preprocessedAction, context);
-                context.countStep(action);
+                resultAction = preprocess(action, context);
+                perform(resultAction, context);
+                context.countStep(resultAction);
             }
         } catch (Exception e) {
-            listener.errorAction(context, action, e);
+            listener.errorAction(context, resultAction, e);
             throw e;
         }
         
-        listener.afterAction(context, action);
+        listener.afterAction(context, resultAction);
     }
     
     public boolean preHandle(T action, ScenarioExecutionContext context){
