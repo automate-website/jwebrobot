@@ -44,4 +44,4 @@ mvn package
 [waml-schema]: http://waml-schema.org
 [web automation markup language]: https://github.com/automate-website/waml
 [draft-02]: http://waml-schema.org/draft-02/schema#
-[here]: http://repo1.maven.org/maven2/website/automate/jwebrobot/0.6.0/jwebrobot-0.6.0.jar
+[here]: http://repo1.maven.org/maven2/website/automate/jwebrobot/0.7.0/jwebrobot-0.7.0.jar
