@@ -70,6 +70,7 @@ public class ScenarioExecutorIT extends AbstractTest {
     public void simpleActionsShouldBeExecuted() {
         Scenario scenario = new Scenario();
         scenario.setName("simpleScenario");
+        scenario.setMeta("data");
         scenario.setSteps(Arrays.<Action>asList(openAction, clickAction, ensureAction));
 
         scenarioExecutor.execute(asContext(Arrays.asList(scenario)));

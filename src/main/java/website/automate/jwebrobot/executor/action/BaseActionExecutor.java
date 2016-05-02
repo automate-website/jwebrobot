@@ -20,12 +20,11 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
         T resultAction = action;
         try {
             if(preHandle(action, context)){
-                resultAction = preprocess(action, context);
-                perform(resultAction, context);
-                context.countStep(resultAction);
+                perform(action, context);
+                context.countStep(action);
             }
         } catch (Exception e) {
-            listener.errorAction(context, resultAction, e);
+            listener.errorAction(context, action, e);
             throw e;
         }
         
@@ -36,10 +35,6 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
         return true;
     }
     
-    public T preprocess(T action, ScenarioExecutionContext context){
-        return action;
-    }
-
     public abstract void perform(T action, ScenarioExecutionContext context);
     
     protected Long getActionTimeout(TimeLimitedAction action, ScenarioExecutionContext context){

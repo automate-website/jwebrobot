@@ -14,6 +14,8 @@ public abstract class ConditionalActionMapper<T extends ConditionalAction> imple
     public void map(T source, T target) {
         target.setWhen(source.getWhen());
         target.setUnless(source.getUnless());
+        
+        target.setMeta(source.getMeta());
     }
 
     abstract public Class<T> getSupportedType();

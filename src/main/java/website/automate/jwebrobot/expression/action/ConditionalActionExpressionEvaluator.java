@@ -14,5 +14,7 @@ public abstract class ConditionalActionExpressionEvaluator<T extends Conditional
     public void evaluate(T action, ScenarioExecutionContext context) {
         action.setWhen(evaluate(action.getWhen(), context));
         action.setUnless(evaluate(action.getUnless(), context));
+        
+        action.setMeta(evaluate(action.getMeta(), context));
     }
 }

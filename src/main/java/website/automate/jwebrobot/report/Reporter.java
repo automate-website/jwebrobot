@@ -154,6 +154,7 @@ public class Reporter implements ExecutionEventListener {
         target.setTimeout(source.getTimeout());
         target.setUnless(source.getUnless());
         target.setWhen(source.getWhen());
+        target.setMeta(source.getMeta());
         return target;
     }
 }

@@ -1,4 +1,5 @@
 name: Wikipedia Test
+meta: data
 steps:
   - open: 'https://en.wikipedia.org'
   - click: 'a[title="Wikipedia:About"]'
@@ -8,7 +9,8 @@ steps:
   - wait: 100
   - select:
       selector: 'select#namespace'
-      value: '6'
+      value: 6
+      meta: data
   - enter:
       selector: 'input[name="target"]'
       clear: true

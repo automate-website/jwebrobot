@@ -23,6 +23,8 @@ public class ScenarioPreprocessor {
         preprocessedScenario.setSteps(scenario.getSteps());
         preprocessedScenario.setPrecedence(scenario.getPrecedence());
         
+        preprocessedScenario.setMeta(scenario.getMeta());
+        
         preprocessedScenario.setWhen(preprocessProperty(scenario.getWhen(), context));
         preprocessedScenario.setUnless(preprocessProperty(scenario.getUnless(), context));
         preprocessedScenario.setTimeout(preprocessProperty(scenario.getTimeout(), context));
