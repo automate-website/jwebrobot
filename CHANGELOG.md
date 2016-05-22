@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [0.7.2]
+### Fixed
+- upgraded to selenium-java 2.53.0
+
 ## [0.7.1]
 ### Changed
 - upgraded to waml-report-io 0.4.1
@@ -68,6 +72,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.6.0]: https://github.com/automate-website/jwebrobot/compare/0.5.2...0.6.0
 [0.7.0]: https://github.com/automate-website/jwebrobot/compare/0.6.0...0.7.0
 [0.7.1]: https://github.com/automate-website/jwebrobot/compare/0.7.0...0.7.1
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.7.1...master
+[0.7.2]: https://github.com/automate-website/jwebrobot/compare/0.7.1...0.7.2
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.7.2...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
