@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [0.8.1]
 ### Fixed
 - fixed timeout propagation, global timeout overrides those defined in the scenarios only if set
 
@@ -82,6 +83,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.7.1]: https://github.com/automate-website/jwebrobot/compare/0.7.0...0.7.1
 [0.7.2]: https://github.com/automate-website/jwebrobot/compare/0.7.1...0.7.2
 [0.8.0]: https://github.com/automate-website/jwebrobot/compare/0.7.2...0.8.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.8.0...master
+[0.8.1]: https://github.com/automate-website/jwebrobot/compare/0.8.0...0.8.1
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.8.1...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
