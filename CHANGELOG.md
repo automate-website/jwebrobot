@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [0.8.0]
 ### Added
 - added support for taking viewport vs. fullpage screenshots
 - added support for screenshot output type selection
@@ -77,6 +78,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.7.0]: https://github.com/automate-website/jwebrobot/compare/0.6.0...0.7.0
 [0.7.1]: https://github.com/automate-website/jwebrobot/compare/0.7.0...0.7.1
 [0.7.2]: https://github.com/automate-website/jwebrobot/compare/0.7.1...0.7.2
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.7.2...master
+[0.8.0]: https://github.com/automate-website/jwebrobot/compare/0.7.2...0.8.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.8.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
