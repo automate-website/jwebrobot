@@ -28,7 +28,7 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 | *timeout* | optional | Timeout waiting for conditions to be fulfilled in seconds. Globally overrides timeout settings defined in the scenarios. | `-` | `5` |
 | *screenshotPath*  | optional | Path to the directory where created screenshots must be saved. | `./` | `./` |
 | *screenshotType*  | optional | Defines the way screenshots must be taken - fullscreen vs. viewport. | `VIEW_PORT` | `FULLSCREEN` |
-| *screenshotFormat*  | optional | Defines the screenshot format. | `gif` | `png` |
+| *screenshotFormat*  | optional | Defines the screenshot format. | `png` | `gif` |
 | *takeScreenshots*  | optional | Defines when to take screenshots: NEVER, ON_FAILURE, ON_EVERY_STEP | `ON_FAILURE` | `./` |
 | *browser*  | optional | A browser can be selected by passing this option when running JWebRobot. Please consider that some browsers require additional configuration parameters. WAML scenarios are executed with Mozilla Firefox per default. Firefox must be installed on the same machine. E.g.: Chrome does not provide embedded webdriver so that it has to be [downloaded manually](webdriver-chrome). The path to the downloaded executable has to be forwarded via the system property `webdriver.chrome.driver`. Of course, Chrome must be present on the same machine. | `firefox` | `chrome` |
 | *reportPath*  | optional  | Path to which the report is written to. | `./report.yaml` | `./myreport.yaml` |
