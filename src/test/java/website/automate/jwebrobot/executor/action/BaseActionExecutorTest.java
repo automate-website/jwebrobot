@@ -75,6 +75,15 @@ public class BaseActionExecutorTest {
     }
     
     @Test
+    public void defaultTimeoutChoosenIfNothingSet(){
+    	when(options.getTimeout()).thenReturn(null);
+    	
+    	Long actualTimeout = executor.getActionTimeout(action, context);
+    	
+    	assertThat(actualTimeout, is(1L));
+    }
+    
+    @Test
     public void actionTimeoutChoosenIfSet(){
         when(scenario.getTimeout()).thenReturn(SCENARIO_TIMEOUT);
         when(options.getTimeout()).thenReturn(null);

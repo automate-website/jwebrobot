@@ -35,8 +35,8 @@ public class ConfigurationProperties {
     @Parameter(names = "-screenshotFormat", description = "Defines the screenshot format")
     private String screenshotFormat = "gif";
     
-    @Parameter(names = "-timeout", description = "Default timeout waiting for conditions to be fulfilled in seconds.", required = false)
-    private Long timeout = 1L;
+    @Parameter(names = "-timeout", description = "Timeout waiting for conditions to be fulfilled in seconds.", required = false)
+    private Long timeout;
     
     @Parameter(names = "-scenarioPattern", description = "Scenario name pattern. If set, only non fragment scenarios matching the pattern are executed.", required = false)
     private String scenarioPattern;

@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- fixed timeout propagation, global timeout overrides those defined in the scenarios only if set
+
 ## [0.8.0]
 ### Added
 - added support for taking viewport vs. fullpage screenshots

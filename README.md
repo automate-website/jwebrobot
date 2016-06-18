@@ -25,7 +25,7 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 | *scenarioPath*  | mandatory  | Scenario path may be a directory or a single scenario file. | `-` |`../path/to/my/scenario` |
 | *scenarioPattern*  | optional | If set, only non fragment scenarios with a name matching the pattern are executed. | `-` | `'^desired-scenario$'` |
 | context  | optional | Context is a multi value argument that populates the context utilized during expression evaluation. | `-` |`baseUrl=http://www.wikipedia.com language=en` |
-| *timeout* | optional | Default timeout waiting for conditions to be fulfilled in seconds. | `1` | `5` |
+| *timeout* | optional | Timeout waiting for conditions to be fulfilled in seconds. Globally overrides timeout settings defined in the scenarios. | `-` | `5` |
 | *screenshotPath*  | optional | Path to the directory where created screenshots must be saved. | `./` | `./` |
 | *screenshotType*  | optional | Defines the way screenshots must be taken - fullscreen vs. viewport. | `VIEW_PORT` | `FULLSCREEN` |
 | *screenshotFormat*  | optional | Defines the screenshot format. | `gif` | `png` |

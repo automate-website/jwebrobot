@@ -7,6 +7,8 @@ import website.automate.waml.io.model.action.TimeLimitedAction;
 
 public abstract class BaseActionExecutor<T extends Action> implements ActionExecutor<T> {
 
+	static final long DEFAULT_TIMEOUT_S = 1;
+	
     private ExecutionEventListeners listener;
     
     public BaseActionExecutor(ExecutionEventListeners listener) {
@@ -48,6 +50,11 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
             return Long.parseLong(actionTimeout);
         }
         
-        return Long.parseLong(context.getScenario().getTimeout());
+        String scenarioTimeout = context.getScenario().getTimeout();
+        if(scenarioTimeout != null){
+        	return Long.parseLong(scenarioTimeout);
+        }
+        
+        return DEFAULT_TIMEOUT_S;
     }
 }
