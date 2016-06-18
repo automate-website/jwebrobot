@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.AbstractTest;
+import website.automate.jwebrobot.ConfigurationProperties;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.loader.ScenarioFile;
@@ -146,7 +147,7 @@ public class ScenarioExecutorIT extends AbstractTest {
     }
 
     private GlobalExecutionContext asContext(List<Scenario> scenarios, Map<String, Object> memory){
-        return new GlobalExecutionContext(asScenarioFiles(scenarios), new ExecutorOptions(), memory);
+        return new GlobalExecutionContext(asScenarioFiles(scenarios), ExecutorOptions.of(new ConfigurationProperties()), memory);
     }
 
     private List<ScenarioFile> asScenarioFiles(List<Scenario> scenarios){

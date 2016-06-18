@@ -7,13 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import website.automate.jwebrobot.executor.ExecutorOptions.ScreenshotType;
 import website.automate.jwebrobot.executor.ExecutorOptions.TakeScreenshots;
 
 import com.beust.jcommander.Parameter;
 
 public class ConfigurationProperties {
 
-    @Parameter(names = "-scenarioPath", description = "Path to a single WAML scenario or WAML project root directory.", required = true)
+	@Parameter(names = "-scenarioPath", description = "Path to a single WAML scenario or WAML project root directory.", required = true)
     private String scenarioPath;
 
     @Parameter(names = "-browser", description = "Browser to use for execution (e.g firefox or chrome).", required = false)
@@ -27,6 +28,12 @@ public class ConfigurationProperties {
 
     @Parameter(names = "-screenshotPath", description = "Path to the directory where created screeshots must be saved.", required = false)
     private String screenshotPath = "./";
+    
+    @Parameter(names = "-screenshotType", description = "Defines the way screenshots must be taken: fullscreen vs. viewport")
+    private String screenshotType = ScreenshotType.VIEW_PORT.getName();
+    
+    @Parameter(names = "-screenshotFormat", description = "Defines the screenshot format")
+    private String screenshotFormat = "gif";
     
     @Parameter(names = "-timeout", description = "Default timeout waiting for conditions to be fulfilled in seconds.", required = false)
     private Long timeout = 1L;
@@ -108,4 +115,20 @@ public class ConfigurationProperties {
     public void setScenarioPattern(String scenarioPattern) {
         this.scenarioPattern = scenarioPattern;
     }
+
+    public String getScreenshotType() {
+		return screenshotType;
+	}
+
+	public void setScreenshotType(String screenshotType) {
+		this.screenshotType = screenshotType;
+	}
+
+	public String getScreenshotFormat() {
+		return screenshotFormat;
+	}
+
+	public void setScreenshotFormat(String screenshotFormat) {
+		this.screenshotFormat = screenshotFormat;
+	}
 }

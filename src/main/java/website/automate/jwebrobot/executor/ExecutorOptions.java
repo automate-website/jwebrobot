@@ -4,7 +4,7 @@ import website.automate.jwebrobot.ConfigurationProperties;
 
 public class ExecutorOptions {
 
-    public enum TakeScreenshots {
+	public enum TakeScreenshots {
         NEVER("NEVER"), ON_FAILURE("ON_FAILURE"), ON_EVERY_STEP("ON_EVERY_STEP");
 
         private String name;
@@ -26,6 +26,30 @@ public class ExecutorOptions {
             return null;
         }
     }
+    
+    public enum ScreenshotType {
+    	VIEW_PORT("VIEW_PORT"),
+    	FULLSCREEN("FULLSCREEN");
+    	
+    	private String name;
+
+        private ScreenshotType(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public static ScreenshotType findByName(String name) {
+            for (ScreenshotType screenshotType : values()) {
+                if (screenshotType.getName().equalsIgnoreCase(name)) {
+                    return screenshotType;
+                }
+            }
+            return null;
+        }
+    }
 
     private WebDriverProvider.Type webDriverType = WebDriverProvider.Type.FIREFOX;
 
@@ -33,12 +57,16 @@ public class ExecutorOptions {
 
     private TakeScreenshots takeScreenshots;
 
+    private ScreenshotType screenshotType;
+    
     private Long timeout;
 
     private String scenarioPattern;
     
     private String reportPath;
 
+    private String screenshotFormat;
+    
     public static ExecutorOptions of(
             ConfigurationProperties configurationProperties) {
         ExecutorOptions executorOptions = new ExecutorOptions();
@@ -52,7 +80,9 @@ public class ExecutorOptions {
         executorOptions.setTimeout(configurationProperties.getTimeout());
         executorOptions.setScenarioPattern(configurationProperties.getScenarioPattern());
         executorOptions.setReportPath(configurationProperties.getReportPath());
-
+        executorOptions.setScreenshotType(ScreenshotType.findByName(configurationProperties.getScreenshotType()));
+        executorOptions.setScreenshotFormat(configurationProperties.getScreenshotFormat());
+        
         return executorOptions;
     }
 
@@ -103,4 +133,20 @@ public class ExecutorOptions {
     public void setReportPath(String reportPath) {
         this.reportPath = reportPath;
     }
+
+    public ScreenshotType getScreenshotType() {
+		return screenshotType;
+	}
+
+	public void setScreenshotType(ScreenshotType screenshotType) {
+		this.screenshotType = screenshotType;
+	}
+
+	public String getScreenshotFormat() {
+		return screenshotFormat;
+	}
+
+	public void setScreenshotFormat(String screenshotFormat) {
+		this.screenshotFormat = screenshotFormat;
+	}
 }

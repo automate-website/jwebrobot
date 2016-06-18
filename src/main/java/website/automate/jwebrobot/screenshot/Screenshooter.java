@@ -2,41 +2,62 @@ package website.automate.jwebrobot.screenshot;
 
 import static website.automate.waml.io.model.ActionType.findByClazz;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
+import javax.imageio.ImageIO;
+
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategy;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
+import website.automate.jwebrobot.executor.ExecutorOptions.ScreenshotType;
+import website.automate.jwebrobot.utils.ViewPortShootingStrategy;
 import website.automate.waml.io.model.action.Action;
 
 public class Screenshooter {
     
-    public void takeScreenshot(ScenarioExecutionContext context, Action action){
-        WebDriver driver = context.getDriver();
+    public void takeScreenshot(ScenarioExecutionContext scenarioContext, Action action){
+        WebDriver driver = scenarioContext.getDriver();
 
         if(driver instanceof TakesScreenshot){
-            TakesScreenshot screenshotCapableDriver = (TakesScreenshot)driver;
-            File sourceFile = screenshotCapableDriver.getScreenshotAs(OutputType.FILE);
-            String targetFileName = getFileName(context, action);
+        	ScenarioExecutionContext scenarioRootContext = scenarioContext.getRoot();
+            BufferedImage screenshot = new AShot()
+	            .shootingStrategy(getShootingStrategy(scenarioRootContext))
+	            .takeScreenshot(driver).getImage();
+            String format = getScreenshotFormat(scenarioRootContext);
+            String targetFileName = getFileName(scenarioRootContext, action, format);
             try {
-                FileUtils.copyFile(sourceFile, new File(getFileName(context, action)));
+            	ImageIO.write(screenshot, format, new File(targetFileName));
             } catch (IOException e) {
                 throw new NonReadableFileException(targetFileName, e);
             }
         }
     }
     
-    private String getFileName(ScenarioExecutionContext context,  Action action){
-        GlobalExecutionContext globalContext = context.getGlobalContext();
+    private String getScreenshotFormat(ScenarioExecutionContext context){
+    	return context.getGlobalContext().getOptions().getScreenshotFormat();
+    }
+    
+    private ShootingStrategy getShootingStrategy(ScenarioExecutionContext context){
+    	ScreenshotType type = context.getGlobalContext().getOptions().getScreenshotType();
+    	if(type == ScreenshotType.FULLSCREEN){
+    		return ShootingStrategies.viewportPasting(100);
+    	} else {
+    		return new ViewPortShootingStrategy();
+    	}
+    }
+    
+    private String getFileName(ScenarioExecutionContext scenarioRootContext,  Action action, String format){
+        GlobalExecutionContext globalContext = scenarioRootContext.getGlobalContext();
         String targetPath = globalContext.getOptions().getScreenshotPath();
-        ScenarioExecutionContext rootContext = context.getRoot();
         
-        return targetPath + rootContext.getScenario().getName() + "_" + rootContext.getStepCount() + "_" + findByClazz(action.getClass()).getName() + ".png"; 
+        return targetPath + scenarioRootContext.getScenario().getName() + "_" + scenarioRootContext.getStepCount() + "_" + findByClazz(action.getClass()).getName() + "." + format; 
     }
 }
