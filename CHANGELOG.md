@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- added support for taking viewport vs. fullpage screenshots
+- added support for screenshot output type selection
+
 ## [0.7.2]
 ### Fixed
 - upgraded to selenium-java 2.53.0
