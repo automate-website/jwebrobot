@@ -33,7 +33,7 @@ public class ConfigurationProperties {
     private String screenshotType = ScreenshotType.VIEW_PORT.getName();
     
     @Parameter(names = "-screenshotFormat", description = "Defines the screenshot format")
-    private String screenshotFormat = "gif";
+    private String screenshotFormat = "png";
     
     @Parameter(names = "-timeout", description = "Timeout waiting for conditions to be fulfilled in seconds.", required = false)
     private Long timeout;
