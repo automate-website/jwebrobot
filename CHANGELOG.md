@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- context parameter must be preferred over scenario stored parameters
+
 ## [0.8.1]
 ### Fixed
 - fixed timeout propagation, global timeout overrides those defined in the scenarios only if set
