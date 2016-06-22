@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [0.9.0]
 ### Added
 - url criteria value without protocol defaults to http
 
@@ -90,7 +91,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.7.2]: https://github.com/automate-website/jwebrobot/compare/0.7.1...0.7.2
 [0.8.0]: https://github.com/automate-website/jwebrobot/compare/0.7.2...0.8.0
 [0.8.1]: https://github.com/automate-website/jwebrobot/compare/0.8.0...0.8.1
-[0.8.2]: https://github.com/automate-website/jwebrobot/compare/0.8.1...0.8.2
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.8.2...master
+[0.9.0]: https://github.com/automate-website/jwebrobot/compare/0.8.1...0.9.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.9.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
