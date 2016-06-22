@@ -100,6 +100,13 @@ public class ScenarioExecutorIT extends AbstractTest {
     }
     
     @Test
+    public void clickByParentSelectorAndTextShouldWork() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-parent-selector-and-text-should-work.yaml");
+
+        scenarioExecutor.execute(asContext(scenarios));
+    }
+    
+    @Test
     public void clickBySelectorAndTextShouldWork() {
         List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-partial-text-and-selector-should-work.yaml");
 
