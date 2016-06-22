@@ -6,6 +6,7 @@ import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
 import website.automate.waml.io.model.action.IncludeAction;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ScenarioExecutionContext {
@@ -16,7 +17,7 @@ public class ScenarioExecutionContext {
 
     private WebDriver driver;
 
-    private Map<String, Object> memory;
+    private Map<String, Object> memory = new HashMap<>();
     
     private ScenarioExecutionContext parent;
     
@@ -24,11 +25,10 @@ public class ScenarioExecutionContext {
 
     public ScenarioExecutionContext(GlobalExecutionContext globalContext,
             Scenario scenario,
-            WebDriver driver, Map<String, Object> memory) {
+            WebDriver driver) {
         this.globalContext = globalContext;
         this.scenario = scenario;
         this.driver = driver;
-        this.memory = memory;
     }
     
     public ScenarioExecutionContext createChildContext(Scenario scenario){
@@ -39,7 +39,8 @@ public class ScenarioExecutionContext {
             Scenario scenario,
             WebDriver driver, Map<String, Object> memory,
             ScenarioExecutionContext parent) {
-        this(globalContext, scenario, driver, memory);
+        this(globalContext, scenario, driver);
+        this.memory = memory;
         this.parent = parent;
     }
     
@@ -54,7 +55,14 @@ public class ScenarioExecutionContext {
     public Map<String, Object> getMemory() {
         return memory;
     }
-
+    
+    public Map<String, Object> getTotalMemory(){
+    	Map<String, Object> totalMemory = new HashMap<>();
+    	totalMemory.putAll(memory);
+    	totalMemory.putAll(getGlobalContext().getMemory());
+    	return totalMemory;
+    }
+    
     public ScenarioExecutionContext getParent() {
         return parent;
     }

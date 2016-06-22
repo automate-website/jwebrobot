@@ -1,9 +1,12 @@
 package website.automate.jwebrobot.context;
 
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonMap;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
@@ -25,16 +28,18 @@ public class ScenarioExecutionContextTest {
     @Mock private GlobalExecutionContext globalContext;
     @Mock private Scenario scenario;
     @Mock private WebDriver driver;
-    @Mock private Map<String, Object> memory;
     @Mock private Scenario childScenario;
     @Mock private Scenario separateScenario;
+    
+    private Map<String, Object> globalMemory = emptyMap();
+    private Map<String, Object> memory = emptyMap();
 
     private ScenarioExecutionContext context;
     private ScenarioExecutionContext childContext;
     
     @Before
     public void init(){
-        context = new ScenarioExecutionContext(globalContext, scenario, driver, memory);
+        context = new ScenarioExecutionContext(globalContext, scenario, driver);
         childContext = context.createChildContext(childScenario);
         when(scenario.getName()).thenReturn(SCENARIO_NAME);
         when(childScenario.getName()).thenReturn(CHILD_SCENARIO_NAME);
@@ -97,5 +102,25 @@ public class ScenarioExecutionContextTest {
     @Test
     public void memoryIsSet(){
         assertThat(context.getMemory(), is(memory));
+    }
+    
+    @Test
+    public void globalKeyPreferredInTotalMemory(){
+    	globalMemory = singletonMap("global.key", (Object)"global.value");
+    	context.getMemory().put("global.key", "scenario.value");
+    	when(globalContext.getMemory()).thenReturn(globalMemory);
+    	
+    	assertThat(context.getTotalMemory(), is(globalMemory));
+    }
+    
+    @Test
+    public void allUniqueEntriesPresentInTotalMemory(){
+    	globalMemory = singletonMap("global.key", (Object)"global.value");
+    	context.getMemory().put("scenario.key", "scenario.value");
+    	Map<String, Object> totalMemory = new HashMap<>(context.getMemory());
+    	totalMemory.putAll(globalMemory);
+    	when(globalContext.getMemory()).thenReturn(globalMemory);
+    	
+    	assertThat(context.getTotalMemory(), is(totalMemory));
     }
 }

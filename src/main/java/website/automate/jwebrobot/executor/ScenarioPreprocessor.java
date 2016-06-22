@@ -35,6 +35,6 @@ public class ScenarioPreprocessor {
         if(value == null){
             return null;
         }
-        return expressionEvaluator.evaluate(value, context.getMemory());
+        return expressionEvaluator.evaluate(value, context.getTotalMemory());
     }
 }

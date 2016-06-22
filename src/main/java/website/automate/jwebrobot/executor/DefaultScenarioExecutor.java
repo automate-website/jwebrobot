@@ -82,7 +82,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
             logger.info("Starting scenario {}...", scenario.getName());
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
 
-            ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver, context.getMemory());
+            ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver);
             try {
                 runScenario(scenario, scenarioExecutionContext);
             } catch (Exception e){

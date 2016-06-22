@@ -31,6 +31,7 @@ import java.util.Map;
 
 import static java.lang.ClassLoader.getSystemResourceAsStream;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonMap;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ScenarioExecutorIT extends AbstractTest {
@@ -142,10 +143,17 @@ public class ScenarioExecutorIT extends AbstractTest {
         scenarioExecutor.execute(asContext(scenarios));
     }
     
+    @Test
+    public void cmdContextIsPreferred() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/cmd-context-is-preferred.yaml");
+
+        scenarioExecutor.execute(asContext(scenarios, singletonMap("url", (Object)"http://localhost:8089")));
+    }
+    
     private GlobalExecutionContext asContext(List<Scenario> scenarios){
         return asContext(scenarios, new HashMap<String, Object>());
     }
-
+    
     private GlobalExecutionContext asContext(List<Scenario> scenarios, Map<String, Object> memory){
         return new GlobalExecutionContext(asScenarioFiles(scenarios), ExecutorOptions.of(new ConfigurationProperties()), memory);
     }

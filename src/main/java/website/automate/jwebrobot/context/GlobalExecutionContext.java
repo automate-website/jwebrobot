@@ -1,5 +1,7 @@
 package website.automate.jwebrobot.context;
 
+import static java.util.Collections.unmodifiableMap;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +30,7 @@ public class GlobalExecutionContext {
     public GlobalExecutionContext(Collection<ScenarioFile> scenarioFiles, ExecutorOptions options,
             Map<String, Object> memory) {
         this.options = options;
-        this.memory = memory;
+        this.memory = unmodifiableMap(memory);
         addScenarios(scenarioFiles);
     }
     
@@ -64,8 +66,6 @@ public class GlobalExecutionContext {
     }
     
     public Map<String, Object> getMemory() {
-        Map<String, Object> copy = new HashMap<>();
-        copy.putAll(memory);
-        return copy;
+        return memory;
     }
 }

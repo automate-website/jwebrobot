@@ -38,7 +38,7 @@ public class ScenarioPreprocessorTest {
     
     @Mock private Scenario scenario;
     @Mock private ExpressionEvaluator expressionEvaluator;
-    @Mock private Map<String, Object> memory;
+    @Mock private Map<String, Object> totalMemory;
     @Mock private ScenarioExecutionContext context;
     @Mock private List<Action> actions;
     
@@ -48,14 +48,14 @@ public class ScenarioPreprocessorTest {
     public void init(){
         scenarioPreprocessor = new ScenarioPreprocessor(expressionEvaluator);
         
-        when(context.getMemory()).thenReturn(memory);
+        when(context.getTotalMemory()).thenReturn(totalMemory);
         when(scenario.getSteps()).thenReturn(actions);
     }
     
     @Test
     public void timeoutIsProcessed(){
         when(scenario.getTimeout()).thenReturn(TIMEOUT);
-        when(expressionEvaluator.evaluate(TIMEOUT, memory)).thenReturn(PROCESSED_TIMEOUT);
+        when(expressionEvaluator.evaluate(TIMEOUT, totalMemory)).thenReturn(PROCESSED_TIMEOUT);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
@@ -65,7 +65,7 @@ public class ScenarioPreprocessorTest {
     @Test
     public void ifIsProcessed(){
         when(scenario.getWhen()).thenReturn(IF);
-        when(expressionEvaluator.evaluate(IF, memory)).thenReturn(PROCESSED_IF);
+        when(expressionEvaluator.evaluate(IF, totalMemory)).thenReturn(PROCESSED_IF);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
@@ -75,7 +75,7 @@ public class ScenarioPreprocessorTest {
     @Test
     public void unlessIsProcessed(){
         when(scenario.getUnless()).thenReturn(UNLESS);
-        when(expressionEvaluator.evaluate(UNLESS, memory)).thenReturn(PROCESSED_UNLESS);
+        when(expressionEvaluator.evaluate(UNLESS, totalMemory)).thenReturn(PROCESSED_UNLESS);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
