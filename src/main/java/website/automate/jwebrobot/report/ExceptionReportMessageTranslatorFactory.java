@@ -25,8 +25,8 @@ public class ExceptionReportMessageTranslatorFactory {
         }
     }
     
-    public ExceptionReportMessageTranslator<? extends Throwable> getInstance(Class<? extends Throwable> actionClazz) {
-    	ExceptionReportMessageTranslator<? extends Throwable> translator = translatorRegistry.get(actionClazz);
+    public ExceptionReportMessageTranslator<? extends Throwable> getInstance(Class<? extends Throwable> translatorClazz) {
+    	ExceptionReportMessageTranslator<? extends Throwable> translator = translatorRegistry.get(translatorClazz);
     	if(translator == null){
     		translator = translatorRegistry.get(Exception.class);
     	}
