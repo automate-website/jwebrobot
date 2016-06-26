@@ -19,7 +19,8 @@ public class GuiceInjector {
         new ScenarioExecutorModule(),
         new ScenarioLoaderModule(),
         new ActionMapperModule(),
-        new ActionExpressionEvaluatorModule()
+        new ActionExpressionEvaluatorModule(),
+        new ExceptionReportMessageTranslatorModule()
     );
 
     private static Injector INSTANCE = null;

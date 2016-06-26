@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import website.automate.jwebrobot.config.logger.InjectLogger;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.exceptions.StepsMustBePresentException;
+import website.automate.jwebrobot.exceptions.StepsAbsenceException;
 import website.automate.jwebrobot.executor.action.ActionExecutor;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.executor.action.ActionPreprocessor;
@@ -110,7 +110,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         scenarioExecutionContext.setScenario(preprocessedScenario);
         
         if (scenario.getSteps() == null) {
-            throw new StepsMustBePresentException(scenario.getName());
+            throw new StepsAbsenceException(scenarioExecutionContext);
         }
 
         for (Action action : scenario.getSteps()) {
