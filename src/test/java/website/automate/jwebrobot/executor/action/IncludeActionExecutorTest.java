@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.inject.Provider;
@@ -66,6 +67,7 @@ public class IncludeActionExecutorTest<CriteriaValue> {
     @Test(expected=RecursiveScenarioInclusionException.class)
     public void recursiveIncludedScenarioCausesException(){
         when(scenarioContext.containsScenario(childScenario)).thenReturn(true);
+        when(translator.translate(Mockito.any(RuntimeException.class))).thenCallRealMethod();
         
         executor.execute(action, scenarioContext);
     }
