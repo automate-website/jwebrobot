@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.exceptions;
 
-import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import static java.text.MessageFormat.format;
+
 import website.automate.waml.io.model.Scenario;
 
 public class RecursiveScenarioInclusionException extends ScenarioExecutionException {
@@ -9,8 +10,8 @@ public class RecursiveScenarioInclusionException extends ScenarioExecutionExcept
 
     private Scenario includedScenario;
     
-    public RecursiveScenarioInclusionException(ScenarioExecutionContext context, Scenario includedScenario) {
-        super(context);
+    public RecursiveScenarioInclusionException(String scenarioName) {
+        super(format("Scenario {0} is included recursively", scenarioName));
     }
 
     public Scenario getIncludedScenario() {

@@ -33,7 +33,7 @@ public class IncludeActionExecutor extends ConditionalActionExecutor<IncludeActi
         Scenario scenario = globalContext.getScenario(scenarioName);
         
         if(context.containsScenario(scenario)){
-            throw new RecursiveScenarioInclusionException(context, scenario);
+            throw new RecursiveScenarioInclusionException(scenario.getName());
         }
         
         ScenarioExecutionContext includedScenarioContext = context.createChildContext(scenario);

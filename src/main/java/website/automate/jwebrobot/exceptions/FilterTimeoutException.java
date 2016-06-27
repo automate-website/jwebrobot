@@ -1,6 +1,6 @@
 package website.automate.jwebrobot.exceptions;
 
-public class FilterTimeoutException extends RuntimeException {
+public class FilterTimeoutException extends ScenarioExecutionException {
 
 	private static final long serialVersionUID = 3479228038349781644L;
 

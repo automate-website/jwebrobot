@@ -2,7 +2,7 @@ package website.automate.jwebrobot.exceptions;
 
 import static java.text.MessageFormat.format;
 
-public class ExpressionEvaluationException extends RuntimeException {
+public class ExpressionEvaluationException extends ScenarioExecutionException {
 
     private static final long serialVersionUID = -8420061435007979181L;
     
