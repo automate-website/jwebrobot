@@ -111,7 +111,12 @@ public class Reporter implements ExecutionEventListener {
     public void errorExecution(GlobalExecutionContext context,
             Exception exception) {
         WamlReport report = afterExecutionOrError(context);
-        report.setMessage(exception.getMessage());
+        String reportMessage = report.getMessage();
+        if(reportMessage == null){
+        	reportMessage = "";
+        }
+        reportMessage+=exception.getMessage();
+        report.setMessage(reportMessage);
         try {
             writer.write(new FileOutputStream(getReportPath(context)), report);
         } catch (FileNotFoundException e) {
