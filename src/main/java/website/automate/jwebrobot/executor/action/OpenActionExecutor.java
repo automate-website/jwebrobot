@@ -1,5 +1,7 @@
 package website.automate.jwebrobot.executor.action;
 
+import static java.text.MessageFormat.format;
+
 import java.net.URL;
 
 import org.openqa.selenium.WebDriver;
@@ -42,7 +44,7 @@ public class OpenActionExecutor extends ConditionalActionExecutor<OpenAction> {
 		try {
 			url = new URL(urlStr);
 		} catch (java.net.MalformedURLException e) {
-			throw new website.automate.jwebrobot.exceptions.MalformedURLException(malformedUrlStr, e);
+			throw new website.automate.jwebrobot.exceptions.MalformedURLException(format("Failed parsing open action url {0}", malformedUrlStr), e);
 		}
     	return url.toString();
     }

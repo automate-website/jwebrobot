@@ -29,8 +29,6 @@ public class Reporter implements ExecutionEventListener {
 
     private WamlReportWriter writer;
     
-    private ExceptionReportMessageTranslatorFactory translatorFactory;
-    
     private Map<Action, Long> actionStartTimeMap = new HashMap<>();
     
     private Map<Action, ActionReport> actionReportMap = new HashMap<>();
@@ -38,9 +36,8 @@ public class Reporter implements ExecutionEventListener {
     private Map<Scenario, ScenarioReport> scenarioReportMap = new LinkedHashMap<>();
     
     @Inject
-    public Reporter(WamlReportWriter writer, ExceptionReportMessageTranslatorFactory translatorFactory) {
+    public Reporter(WamlReportWriter writer) {
         this.writer = writer;
-        this.translatorFactory = translatorFactory;
     }
     
     @Override
@@ -61,12 +58,11 @@ public class Reporter implements ExecutionEventListener {
 
     @Override
     public void errorScenario(ScenarioExecutionContext context, Exception exception) {
-    	ExceptionReportMessageTranslator<? extends Throwable> translator  = getTranslator(exception);
         Scenario contextScenario = context.getScenario();
         
         ScenarioReport report = scenarioReportMap.get(contextScenario);
-        report.setMessage(translator.translateToMessage(exception));
-        report.setStatus(translator.translateToStatus(exception));
+        report.setMessage(exception.getMessage());
+        report.setStatus(exceptionToStatus(exception));
     }
 
     @Override
@@ -90,10 +86,9 @@ public class Reporter implements ExecutionEventListener {
 
     @Override
     public void errorAction(ScenarioExecutionContext context, Action action, Exception exception) {
-    	ExceptionReportMessageTranslator<? extends Throwable> translator  = getTranslator(exception);
         ActionReport report = afterActionOrError(context, action);
-        report.setStatus(translator.translateToStatus(exception));
-        report.setMessage(translator.translateToMessage(exception));
+        report.setStatus(exceptionToStatus(exception));
+        report.setMessage(exception.getMessage());
     }
 
     @Override
@@ -115,10 +110,8 @@ public class Reporter implements ExecutionEventListener {
     @Override
     public void errorExecution(GlobalExecutionContext context,
             Exception exception) {
-    	ExceptionReportMessageTranslator<? extends Throwable> translator  = getTranslator(exception);
         WamlReport report = afterExecutionOrError(context);
-        report.setMessage(translator.translateToMessage(exception));
-        report.setMessage(translator.translateToMessage(exception));
+        report.setMessage(exception.getMessage());
         try {
             writer.write(new FileOutputStream(getReportPath(context)), report);
         } catch (FileNotFoundException e) {
@@ -140,6 +133,10 @@ public class Reporter implements ExecutionEventListener {
         return report;
     }
     
+    private ExecutionStatus exceptionToStatus(Exception exception){
+        return ExecutionStatus.ERROR;
+    }
+    
     private String getReportPath(GlobalExecutionContext context){
         String reportPath = context.getOptions().getReportPath();
         if(reportPath != null){
@@ -159,9 +156,5 @@ public class Reporter implements ExecutionEventListener {
         target.setWhen(source.getWhen());
         target.setMeta(source.getMeta());
         return target;
-    }
-    
-    private ExceptionReportMessageTranslator<? extends Throwable> getTranslator(Throwable e){
-    	return translatorFactory.getInstance(e.getClass());
     }
 }
