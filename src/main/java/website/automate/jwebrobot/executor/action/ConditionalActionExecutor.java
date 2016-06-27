@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.executor.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
@@ -14,8 +15,9 @@ public abstract class ConditionalActionExecutor<T extends ConditionalAction> ext
     
     public ConditionalActionExecutor(ExpressionEvaluator expressionEvaluator,
             ExecutionEventListeners listener,
-            ConditionalExpressionEvaluator conditionalExpressionEvaluator){
-        super(listener);
+            ConditionalExpressionEvaluator conditionalExpressionEvaluator,
+            ExceptionTranslator exceptionTranslator){
+        super(listener, exceptionTranslator);
         this.expressionEvaluator = expressionEvaluator;
         this.conditionalExpressionEvaluator = conditionalExpressionEvaluator;
     }

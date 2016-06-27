@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
@@ -19,8 +20,9 @@ public class IncludeActionExecutor extends ConditionalActionExecutor<IncludeActi
     
     @Inject
     public IncludeActionExecutor(ExpressionEvaluator expressionEvaluator, Provider<ScenarioExecutor> scenarioExecutor,
-            ExecutionEventListeners listener, ConditionalExpressionEvaluator conditionalExpressionEvaluator) {
-        super(expressionEvaluator, listener, conditionalExpressionEvaluator);
+            ExecutionEventListeners listener, ConditionalExpressionEvaluator conditionalExpressionEvaluator,
+            ExceptionTranslator exceptionTranslator) {
+        super(expressionEvaluator, listener, conditionalExpressionEvaluator, exceptionTranslator);
         this.scenarioExecutor = scenarioExecutor;
     }
     

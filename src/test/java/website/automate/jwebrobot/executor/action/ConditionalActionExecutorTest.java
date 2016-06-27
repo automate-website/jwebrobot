@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
@@ -25,12 +26,15 @@ public class ConditionalActionExecutorTest {
     @Mock private ScenarioExecutionContext context;
     @Mock private ExecutionEventListeners listener;
     @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
+    @Mock private ExceptionTranslator translator;
     
     private TestConditionalActionExecutor executor;
     
     @Before
     public void init(){
-        executor = new TestConditionalActionExecutor(expressionEvaluator, execution, listener, conditionalExpressionEvaluator);
+        executor = new TestConditionalActionExecutor(expressionEvaluator, execution,
+        		listener, conditionalExpressionEvaluator,
+        		translator);
     }
     
     @Test
@@ -59,8 +63,9 @@ public class ConditionalActionExecutorTest {
                 ExpressionEvaluator expressionEvaluator,
                 TestActionExecution execution,
                 ExecutionEventListeners listener,
-                ConditionalExpressionEvaluator conditionalExpressionEvaluator) {
-            super(expressionEvaluator, listener, conditionalExpressionEvaluator);
+                ConditionalExpressionEvaluator conditionalExpressionEvaluator,
+                ExceptionTranslator translator) {
+            super(expressionEvaluator, listener, conditionalExpressionEvaluator, translator);
             this.execution = execution;
         }
 

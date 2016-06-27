@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
@@ -16,9 +17,11 @@ public class StoreActionExecutor extends ConditionalActionExecutor<StoreAction> 
     @Inject
     public StoreActionExecutor(ExpressionEvaluator expressionEvaluator,
             ExecutionEventListeners listener,
-            ConditionalExpressionEvaluator conditionalExpressionEvaluator) {
+            ConditionalExpressionEvaluator conditionalExpressionEvaluator,
+            ExceptionTranslator exceptionTranslator) {
         super(expressionEvaluator, listener,
-                conditionalExpressionEvaluator);
+                conditionalExpressionEvaluator,
+                exceptionTranslator);
     }
 
     @Override

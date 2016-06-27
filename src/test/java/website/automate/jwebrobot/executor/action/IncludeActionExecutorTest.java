@@ -12,6 +12,7 @@ import com.google.inject.Provider;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
@@ -36,6 +37,7 @@ public class IncludeActionExecutorTest<CriteriaValue> {
     @Mock private ExpressionEvaluator expressionEvaluator;
     @Mock private ExecutionEventListeners listener;
     @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
+    @Mock private ExceptionTranslator translator;
 
     private IncludeActionExecutor executor;
 
@@ -51,7 +53,7 @@ public class IncludeActionExecutorTest<CriteriaValue> {
         when(expressionEvaluator.evaluate(eq(SCENARIO_TITLE), anyMap())).thenReturn(SCENARIO_TITLE);
         
         executor = new IncludeActionExecutor(expressionEvaluator, scenarioExecutorProvider, listener,
-                conditionalExpressionEvaluator);
+                conditionalExpressionEvaluator, translator);
     }
 
     @Test

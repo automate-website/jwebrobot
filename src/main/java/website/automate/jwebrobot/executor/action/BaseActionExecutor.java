@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.executor.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.Action;
 import website.automate.waml.io.model.action.TimeLimitedAction;
@@ -11,8 +12,12 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
 	
     private ExecutionEventListeners listener;
     
-    public BaseActionExecutor(ExecutionEventListeners listener) {
+    private ExceptionTranslator exceptionTranslator;
+    
+    public BaseActionExecutor(ExecutionEventListeners listener,
+    		ExceptionTranslator exceptionTranslator) {
         this.listener = listener;
+        this.exceptionTranslator = exceptionTranslator;
     }
     
     @Override
@@ -25,9 +30,10 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
                 perform(action, context);
                 context.countStep(action);
             }
-        } catch (Exception e) {
-            listener.errorAction(context, action, e);
-            throw e;
+        } catch (RuntimeException e) {
+        	RuntimeException translatedException = exceptionTranslator.translate(e);
+            listener.errorAction(context, action, translatedException);
+            throw translatedException;
         }
         
         listener.afterAction(context, resultAction);

@@ -15,6 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.Scenario;
@@ -39,12 +40,13 @@ public class BaseActionExecutorTest {
     @Mock private Scenario scenario;
     @Mock private ExecutorOptions options;
     @Mock private RuntimeException exception;
+    @Mock private ExceptionTranslator translator;
     
     private BaseActionExecutor<TimeLimitedAction> executor;
     
     @Before
     public void init(){
-        executor = new TestBaseActionExecutor(listener);
+        executor = new TestBaseActionExecutor(listener, translator);
         when(context.getScenario()).thenReturn(scenario);
         when(context.getGlobalContext()).thenReturn(globalContext);
         when(globalContext.getOptions()).thenReturn(options);
@@ -66,7 +68,7 @@ public class BaseActionExecutorTest {
     
     @Test
     public void listenerIsCalledAfterExecutionError(){
-        executor = new ExceptionalTestBaseActionExecutor(listener, exception);
+        executor = new ExceptionalTestBaseActionExecutor(listener, exception, translator);
         exceptionExpectation.expect(RuntimeException.class);
         
         executor.execute(action, context);
@@ -119,8 +121,9 @@ public class BaseActionExecutorTest {
         
         public ExceptionalTestBaseActionExecutor(
                 ExecutionEventListeners listener,
-                RuntimeException exception) {
-            super(listener);
+                RuntimeException exception,
+                ExceptionTranslator translator) {
+            super(listener, translator);
             this.exception = exception;
         }
 
@@ -138,8 +141,9 @@ public class BaseActionExecutorTest {
     
     private static class TestBaseActionExecutor extends BaseActionExecutor<TimeLimitedAction> {
 
-        public TestBaseActionExecutor(ExecutionEventListeners listener) {
-            super(listener);
+        public TestBaseActionExecutor(ExecutionEventListeners listener,
+        		ExceptionTranslator translator) {
+            super(listener, translator);
         }
 
         @Override

@@ -17,7 +17,7 @@ import website.automate.waml.io.model.action.OpenAction;
 @RunWith(MockitoJUnitRunner.class)
 public class OpenActionExecutorTest {
 
-	private OpenActionExecutor executor = new OpenActionExecutor(null, null, null);
+	private OpenActionExecutor executor = new OpenActionExecutor(null, null, null, null);
 	
 	@Mock
 	private ScenarioExecutionContext context;

@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
@@ -29,6 +30,7 @@ public class StoreActionExecutorTest {
     @Mock private Map<String, Object> memory;
     @Mock private ExecutionEventListeners listener;
     @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
+    @Mock private ExceptionTranslator translator;
     
     private static final CriterionType CRITERIA_TYPE = CriterionType.SELECTOR;
     
@@ -39,7 +41,7 @@ public class StoreActionExecutorTest {
     @SuppressWarnings("unchecked")
     @Before
     public void init(){
-        executor = new StoreActionExecutor(expressionEvaluator, listener, conditionalExpressionEvaluator);
+        executor = new StoreActionExecutor(expressionEvaluator, listener, conditionalExpressionEvaluator, translator);
         when(conditionalExpressionEvaluator.isExecutable(action, context)).thenReturn(true);
         when(action.getValue()).thenReturn(Collections.singletonMap(CRITERIA_TYPE.getName(), EXPRESSION));
         when(context.getMemory()).thenReturn(memory);

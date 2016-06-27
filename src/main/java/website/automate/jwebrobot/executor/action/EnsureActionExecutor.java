@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.executor.filter.ElementFilterChain;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
@@ -20,10 +21,12 @@ public class EnsureActionExecutor extends FilterActionExecutor<EnsureAction> {
     public EnsureActionExecutor(ExpressionEvaluator expressionEvaluator,
             ExecutionEventListeners listener,
             ElementFilterChain elementFilterChain,
-            ConditionalExpressionEvaluator conditionalExpressionEvaluator) {
+            ConditionalExpressionEvaluator conditionalExpressionEvaluator,
+            ExceptionTranslator exceptionTranslator) {
         super(expressionEvaluator, listener,
                 elementFilterChain,
-                conditionalExpressionEvaluator);
+                conditionalExpressionEvaluator,
+                exceptionTranslator);
     }
 
     @Override

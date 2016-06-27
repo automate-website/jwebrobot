@@ -5,6 +5,7 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.executor.filter.ElementFilterChain;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
@@ -17,9 +18,11 @@ public abstract class FilterActionExecutor<T extends FilterAction> extends Condi
     
     public FilterActionExecutor(ExpressionEvaluator expressionEvaluator,
             ExecutionEventListeners listener, ElementFilterChain elementFilterChain,
-            ConditionalExpressionEvaluator conditionalExpressionEvaluator) {
+            ConditionalExpressionEvaluator conditionalExpressionEvaluator,
+            ExceptionTranslator exceptionTranslator) {
         super(expressionEvaluator, listener,
-                conditionalExpressionEvaluator);
+                conditionalExpressionEvaluator,
+                exceptionTranslator);
         this.elementFilterChain = elementFilterChain;
     }
     
