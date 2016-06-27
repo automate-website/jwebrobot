@@ -38,8 +38,7 @@ public class JWebRobotTest extends AbstractTest {
             new ContextValidatorModule(),
             new ExecutionEventListenerModule(),
             new MockScenarioExecutorModule(),
-            new MockScenarioLoaderModule(),
-            new ExceptionReportMessageTranslatorModule()
+            new MockScenarioLoaderModule()
         ));
     }
 
