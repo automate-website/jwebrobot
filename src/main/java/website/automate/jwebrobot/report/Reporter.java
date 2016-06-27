@@ -10,7 +10,6 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import website.automate.jwebrobot.context.ExceptionContext;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
@@ -64,11 +63,10 @@ public class Reporter implements ExecutionEventListener {
     public void errorScenario(ScenarioExecutionContext context, Exception exception) {
     	ExceptionReportMessageTranslator<? extends Throwable> translator  = getTranslator(exception);
         Scenario contextScenario = context.getScenario();
-        ExceptionContext exceptionContext = new ExceptionContext(context);
         
         ScenarioReport report = scenarioReportMap.get(contextScenario);
-        report.setMessage(translator.translateToMessage(exception, exceptionContext));
-        report.setStatus(translator.translateToStatus(exception, exceptionContext));
+        report.setMessage(translator.translateToMessage(exception));
+        report.setStatus(translator.translateToStatus(exception));
     }
 
     @Override
@@ -93,11 +91,9 @@ public class Reporter implements ExecutionEventListener {
     @Override
     public void errorAction(ScenarioExecutionContext context, Action action, Exception exception) {
     	ExceptionReportMessageTranslator<? extends Throwable> translator  = getTranslator(exception);
-    	ExceptionContext exceptionContext = new ExceptionContext(context, action);
-    	
         ActionReport report = afterActionOrError(context, action);
-        report.setStatus(translator.translateToStatus(exception, exceptionContext));
-        report.setMessage(translator.translateToMessage(exception, exceptionContext));
+        report.setStatus(translator.translateToStatus(exception));
+        report.setMessage(translator.translateToMessage(exception));
     }
 
     @Override
@@ -121,10 +117,8 @@ public class Reporter implements ExecutionEventListener {
             Exception exception) {
     	ExceptionReportMessageTranslator<? extends Throwable> translator  = getTranslator(exception);
         WamlReport report = afterExecutionOrError(context);
-        ExceptionContext exceptionContext = new ExceptionContext(context);
-    	
-        report.setMessage(translator.translateToMessage(exception, exceptionContext));
-        report.setMessage(translator.translateToMessage(exception, exceptionContext));
+        report.setMessage(translator.translateToMessage(exception));
+        report.setMessage(translator.translateToMessage(exception));
         try {
             writer.write(new FileOutputStream(getReportPath(context)), report);
         } catch (FileNotFoundException e) {
