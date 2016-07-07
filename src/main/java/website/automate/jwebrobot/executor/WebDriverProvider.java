@@ -3,6 +3,7 @@ package website.automate.jwebrobot.executor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.opera.OperaDriver;
 
 public class WebDriverProvider {
 
@@ -12,6 +13,8 @@ public class WebDriverProvider {
                 return new FirefoxDriver();
             case CHROME:
                 return new ChromeDriver();
+            case OPERA:
+                return new OperaDriver();
             default:
                 throw new RuntimeException("Unsupported web driver type.");
         }
@@ -19,7 +22,8 @@ public class WebDriverProvider {
 
     public enum Type {
         FIREFOX,
-        CHROME;
+        CHROME,
+        OPERA;
 
         public static Type fromString(String typeString) {
             if (typeString != null) {
