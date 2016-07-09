@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.0]
+###
+- added opera browser support
+
 ## [0.10.0]
 ### Changed
 - updated to waml-io 0.4.0 and waml-report-io 0.5.0
@@ -98,6 +102,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.8.1]: https://github.com/automate-website/jwebrobot/compare/0.8.0...0.8.1
 [0.9.0]: https://github.com/automate-website/jwebrobot/compare/0.8.1...0.9.0
 [0.10.0]: https://github.com/automate-website/jwebrobot/compare/0.9.0...0.10.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.10.0...master
+[0.11.0]: https://github.com/automate-website/jwebrobot/compare/0.10.0...0.11.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.11.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
