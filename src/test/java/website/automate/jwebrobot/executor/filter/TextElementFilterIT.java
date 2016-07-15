@@ -16,6 +16,6 @@ public class TextElementFilterIT extends ElementFilterTestBase {
     public void elementsAreSelectedByText(){
         List<WebElement> webElements = filter.filter("The Free Encyclopedia", getBody());
         
-        assertThat(webElements.size(), is(1));
+        assertThat(webElements.size(), is(4));
     }
 }
