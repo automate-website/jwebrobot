@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.11.2]
 ### Fixed
 - updated selenium webdriver to fix firefox browser communication issue
 - repaired report generation for included scenarios
@@ -112,6 +114,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.10.0]: https://github.com/automate-website/jwebrobot/compare/0.9.0...0.10.0
 [0.11.0]: https://github.com/automate-website/jwebrobot/compare/0.10.0...0.11.0
 [0.11.1]: https://github.com/automate-website/jwebrobot/compare/0.11.0...0.11.1
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.11.1...master
+[0.11.2]: https://github.com/automate-website/jwebrobot/compare/0.11.1...0.11.2
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.11.2...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
