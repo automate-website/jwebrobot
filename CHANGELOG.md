@@ -3,9 +3,17 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- updated selenium webdriver to fix firefox browser communication issue
+- repaired report generation for included scenarios
+- screenshots for implicit steps are not generated any more
+
+## [0.11.1]
+### Fixed
+- fixed xpath expression for text element filter
 
 ## [0.11.0]
-###
+### Added
 - added opera browser support
 
 ## [0.10.0]
