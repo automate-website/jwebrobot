@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.11.3]
 ### Fixed
 - included include steps into the step count utilized for the screenshot naming
 
@@ -117,6 +119,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.11.0]: https://github.com/automate-website/jwebrobot/compare/0.10.0...0.11.0
 [0.11.1]: https://github.com/automate-website/jwebrobot/compare/0.11.0...0.11.1
 [0.11.2]: https://github.com/automate-website/jwebrobot/compare/0.11.1...0.11.2
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.11.2...master
+[0.11.3]: https://github.com/automate-website/jwebrobot/compare/0.11.2...0.11.3
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.11.3...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
