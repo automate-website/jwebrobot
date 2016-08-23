@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
-import website.automate.waml.io.model.action.IncludeAction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -102,11 +101,9 @@ public class ScenarioExecutionContext {
     }
     
     public void countStep(Action action){
-        if(!(action instanceof IncludeAction)){
-            this.stepCount++;
-            if(this.getParent() != null){
-                this.getParent().countStep(action);
-            }
+        this.stepCount++;
+        if(this.getParent() != null){
+            this.getParent().countStep(action);
         }
     }
 
