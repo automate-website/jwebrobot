@@ -14,7 +14,7 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.executor.ExecutorOptions.TakeScreenshots;
-import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.action.ClickAction;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ScreenshotEventListenerTest {
@@ -23,9 +23,9 @@ public class ScreenshotEventListenerTest {
     @Mock private ScenarioExecutionContext context;
     @Mock private GlobalExecutionContext globalContext;
     @Mock private ExecutorOptions options;
-    @Mock private Action action;
     @Mock private Exception exception;
     
+    private ClickAction action = new ClickAction();
     private ScreenshotEventListener listener;
     
     @Before
