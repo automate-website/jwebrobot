@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- included include steps into the step count utilized for the screenshot naming
 
 ## [0.11.2]
 ### Fixed
