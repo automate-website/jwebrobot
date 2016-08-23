@@ -42,14 +42,16 @@ public class Reporter implements ExecutionEventListener {
     
     @Override
     public void beforeScenario(ScenarioExecutionContext context) {
-        Scenario contextScenario = context.getScenario();
-        File contextScenarioFile = context.getGlobalContext().getFile(contextScenario);
-        
-        ScenarioReport report = new SimpleScenarioReport();
-        report.setScenario(copyScenario(contextScenario));
-        report.setPath(contextScenarioFile.getAbsolutePath());
-        
-        scenarioReportMap.put(contextScenario, report);
+        if(context.getParent() == null){
+            Scenario contextScenario = context.getScenario();
+            File contextScenarioFile = context.getGlobalContext().getFile(contextScenario);
+            
+            ScenarioReport report = new SimpleScenarioReport();
+            report.setScenario(copyScenario(contextScenario));
+            report.setPath(contextScenarioFile.getAbsolutePath());
+            
+            scenarioReportMap.put(contextScenario, report);
+        }
     }
 
     @Override
