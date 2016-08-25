@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- repaired screenshot indexing
+
 ## [0.11.3]
 ### Fixed
 - included include steps into the step count utilized for the screenshot naming
