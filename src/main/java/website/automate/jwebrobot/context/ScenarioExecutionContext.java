@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ScenarioExecutionContext {
 
-    private Integer stepCount = 0;
+    private Integer stepCount = -1;
     
     private Scenario scenario;
 

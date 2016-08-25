@@ -27,8 +27,8 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
         T resultAction = action;
         try {
             if(preHandle(action, context)){
-                perform(action, context);
                 context.countStep(action);
+                perform(action, context);
             }
         } catch (RuntimeException e) {
         	RuntimeException translatedException = exceptionTranslator.translate(e);
