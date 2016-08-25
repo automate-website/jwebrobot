@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-### Fixed
+### [0.11.4]
 - repaired screenshot indexing
 
 ## [0.11.3]
@@ -123,6 +123,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.11.1]: https://github.com/automate-website/jwebrobot/compare/0.11.0...0.11.1
 [0.11.2]: https://github.com/automate-website/jwebrobot/compare/0.11.1...0.11.2
 [0.11.3]: https://github.com/automate-website/jwebrobot/compare/0.11.2...0.11.3
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.11.3...master
+[0.11.4]: https://github.com/automate-website/jwebrobot/compare/0.11.3...0.11.4
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.11.4...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
