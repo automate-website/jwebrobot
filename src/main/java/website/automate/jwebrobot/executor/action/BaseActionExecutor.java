@@ -23,11 +23,12 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
     @Override
     public void execute(T action, ScenarioExecutionContext context){
         listener.beforeAction(context, action);
-        
+
+        context.countStep(action);
+
         T resultAction = action;
         try {
             if(preHandle(action, context)){
-                context.countStep(action);
                 perform(action, context);
             }
         } catch (RuntimeException e) {
