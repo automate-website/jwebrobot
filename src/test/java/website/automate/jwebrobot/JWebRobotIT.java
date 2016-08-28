@@ -12,7 +12,7 @@ public class JWebRobotIT {
 
     @Test
     public void simpleScenarioIsExecuted() {
-        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml"});
+        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.waml"});
     }
 
     @Test
@@ -23,7 +23,7 @@ public class JWebRobotIT {
     @Test
     public void contextArgumentScenarioIsExecuted(){
         JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, 
-                ROOT_PACKAGE_DIRECTORY_PATH + "context-argument-test.yaml",
+                ROOT_PACKAGE_DIRECTORY_PATH + "context-argument-test.waml",
                 "-context",
                 "baseUrl=https://en.wikipedia.org"});
     }
@@ -31,13 +31,13 @@ public class JWebRobotIT {
     @Test
     public void storeActionScenarioIsExecuted(){
         JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, 
-                ROOT_PACKAGE_DIRECTORY_PATH + "store-action-test.yaml"});
+                ROOT_PACKAGE_DIRECTORY_PATH + "store-action-test.waml"});
     }
     
     @Test
     public void moveActionScenarioIsExecuted(){
         JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, 
-                ROOT_PACKAGE_DIRECTORY_PATH + "move-action-test.yaml"});
+                ROOT_PACKAGE_DIRECTORY_PATH + "move-action-test.waml"});
     }
     
     @Ignore
@@ -45,7 +45,7 @@ public class JWebRobotIT {
     @Category(ChromeTests.class)
     public void simpleScenarioShouldBeExecutedWithChrome() {
         JWebRobot.main(new String [] {
-            "-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml",
+            "-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.waml",
             "-browser", "chrome"
         });
     }

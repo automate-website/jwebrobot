@@ -80,56 +80,56 @@ public class ScenarioExecutorIT extends AbstractTest {
 
     @Test
     public void clickByDefaultSelectorShouldWork() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-selector-should-work.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-selector-should-work.waml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
 
     @Test
     public void clickByTextShouldWork() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-text-should-work.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-text-should-work.waml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
     
     @Test
     public void clickByParentSelectorShouldWork() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-parent-selector-should-work.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-parent-selector-should-work.waml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
     
     @Test
     public void clickByParentSelectorAndTextShouldWork() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-parent-selector-and-text-should-work.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-parent-selector-and-text-should-work.waml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
     
     @Test
     public void clickBySelectorAndTextShouldWork() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-partial-text-and-selector-should-work.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-partial-text-and-selector-should-work.waml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
 
     @Test
     public void disabledConditionalScenarioIsNotExecuted() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/included-disabled-conditional-scenario-is-not-executed.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/included-disabled-conditional-scenario-is-not-executed.waml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
     
     @Test
     public void includedDisabledConditionalScenarioIsNotExecuted() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/disabled-conditional-scenario-is-not-executed.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/disabled-conditional-scenario-is-not-executed.waml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
     
     @Test
     public void timeoutPropertyOnScenarioIsPreprocessed() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/timeout-property-on-scenario-is-preprocessed.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/timeout-property-on-scenario-is-preprocessed.waml");
         GlobalExecutionContext context = asContext(scenarios, Collections.singletonMap("timeout", (Object)"1"));
         
         scenarioExecutor.execute(context);
@@ -137,7 +137,7 @@ public class ScenarioExecutorIT extends AbstractTest {
     
     @Test(expected = RecursiveScenarioInclusionException.class)
     public void shouldDetectCircularDependency() {
-        InputStream stream = getSystemResourceAsStream("./failing_scenarios/circular-dependency.yaml");
+        InputStream stream = getSystemResourceAsStream("./failing_scenarios/circular-dependency.waml");
         List<Scenario> scenarios = scenarioLoader.createFromInputStream(stream);
 
         scenarioExecutor.execute(asContext(scenarios));
@@ -145,14 +145,14 @@ public class ScenarioExecutorIT extends AbstractTest {
     
     @Test
     public void ensureAbsentWorks() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/ensure-absent-works.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/ensure-absent-works.waml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
     
     @Test
     public void cmdContextIsPreferred() {
-        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/cmd-context-is-preferred.yaml");
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/cmd-context-is-preferred.waml");
 
         scenarioExecutor.execute(asContext(scenarios, singletonMap("url", (Object)"http://localhost:8089")));
     }
