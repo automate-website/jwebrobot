@@ -71,7 +71,7 @@ public class ConfigurationProperties {
     public Map<String, Object> getContext(){
         Map<String, Object> contextMap = new HashMap<>();
         for(String contextEntry : contextEntries){
-            String [] contextPair = contextEntry.split("=");
+            String [] contextPair = contextEntry.split("=", 2);
             if(contextPair.length != 2){
                 throw new IllegalArgumentException(format("Context entry {0} is incomplete.", contextEntry));
             }
