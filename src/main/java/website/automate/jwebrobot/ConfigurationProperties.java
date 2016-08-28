@@ -72,10 +72,12 @@ public class ConfigurationProperties {
         Map<String, Object> contextMap = new HashMap<>();
         for(String contextEntry : contextEntries){
             String [] contextPair = contextEntry.split("=", 2);
-            if(contextPair.length != 2){
+            String contextKey = contextPair[0];
+            String contextValue = contextPair[1];
+            if(contextPair.length != 2 || contextKey.isEmpty() || contextValue.isEmpty()){
                 throw new IllegalArgumentException(format("Context entry {0} is incomplete.", contextEntry));
             }
-            contextMap.put(contextPair[0], contextPair[1]);
+            contextMap.put(contextKey, contextValue);
         }
         return contextMap;
     }

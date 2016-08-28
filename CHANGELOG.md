@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- fixed delegation of context parameters through command line containing equality sign in the value
+
+### Changed
+- enforced waml as file extension to prevent parsing issues of the non waml formatted yaml files
+- updated to waml-io 0.5.1
+
 ### [0.11.4]
 - repaired screenshot indexing
 
