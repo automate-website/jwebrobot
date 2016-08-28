@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.0]
 ### Fixed
 - fixed delegation of context parameters through command line containing equality sign in the value
 
@@ -131,6 +132,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.11.2]: https://github.com/automate-website/jwebrobot/compare/0.11.1...0.11.2
 [0.11.3]: https://github.com/automate-website/jwebrobot/compare/0.11.2...0.11.3
 [0.11.4]: https://github.com/automate-website/jwebrobot/compare/0.11.3...0.11.4
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/0.11.4...master
+[1.0.0]: https://github.com/automate-website/jwebrobot/compare/0.11.4...1.0.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.0.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
