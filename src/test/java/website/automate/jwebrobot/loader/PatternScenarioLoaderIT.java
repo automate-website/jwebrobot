@@ -33,7 +33,7 @@ public class PatternScenarioLoaderIT extends AbstractTest {
     
     @Test
     public void loadSingleScenarioFromPath(){
-        List<ScenarioFile> scenarioFiles = scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/multi.waml");
+        List<ScenarioFile> scenarioFiles = scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/multi.yaml");
         
         assertThat(scenarioFiles.size(), is(1));
         assertThat(totalNumberOfScenarios(scenarioFiles), is(2));
@@ -41,19 +41,19 @@ public class PatternScenarioLoaderIT extends AbstractTest {
     
     @Test(expected=NonReadableFileException.class)
     public void failLoadingNonExistingFile(){
-        scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/non-existent.waml");
+        scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/non-existent.yaml");
     }
     
     @Test(expected = WamlDeserializationException.class)
     public void shouldThrowUnknownActionException() {
-        InputStream stream = getSystemResourceAsStream("./failing_scenarios/unknown-action.waml");
+        InputStream stream = getSystemResourceAsStream("./failing_scenarios/unknown-action.yaml");
 
         scenarioLoader.createFromInputStream(stream);
     }
 
     @Test(expected = WamlDeserializationException.class)
     public void shouldThrowTooManyActionsException() {
-        InputStream stream = getSystemResourceAsStream("./failing_scenarios/too-many-actions.waml");
+        InputStream stream = getSystemResourceAsStream("./failing_scenarios/too-many-actions.yaml");
 
         scenarioLoader.createFromInputStream(stream);
     }
@@ -61,7 +61,7 @@ public class PatternScenarioLoaderIT extends AbstractTest {
     @Test
     public void scenarioListShouldBeLoaded() throws IOException {
         // given
-        InputStream inputStream = getSystemResourceAsStream("./scenarios/multi-document.waml");
+        InputStream inputStream = getSystemResourceAsStream("./scenarios/multi-document.yaml");
 
         // when
         List<Scenario> scenarioList = scenarioLoader.createFromInputStream(inputStream);

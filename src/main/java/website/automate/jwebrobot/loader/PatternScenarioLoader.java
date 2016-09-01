@@ -24,7 +24,7 @@ import java.util.List;
 
 public class PatternScenarioLoader implements ScenarioLoader {
 
-    private static final IOFileFilter SCENARIO_FORMAT_FILTER = new WildcardFileFilter(new String[] {"**.waml"});
+    private static final IOFileFilter SCENARIO_FORMAT_FILTER = new WildcardFileFilter(new String[] {"**.yaml", "**.json"});
 
     private static final Logger LOG = LoggerFactory.getLogger(PatternScenarioLoader.class);
 
