@@ -171,7 +171,7 @@ public class ScenarioExecutorIT extends AbstractTest {
 
     private List<Scenario> getScenarios(String scenarioPath) {
         return scenarioLoader
-            .load(scenarioPath)
+            .load(scenarioPath, ConfigurationProperties.DEFAULT_REPORT_PATH)
             .get(0)
             .getScenarios();
     }

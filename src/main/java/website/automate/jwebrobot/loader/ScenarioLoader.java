@@ -7,7 +7,7 @@ import website.automate.waml.io.model.Scenario;
 
 public interface ScenarioLoader {
 
-    List<ScenarioFile> load(String scenarioPath);
+    List<ScenarioFile> load(String scenarioPath, String reportPath);
 
     List<Scenario> createFromInputStream(InputStream inputStream);
 }

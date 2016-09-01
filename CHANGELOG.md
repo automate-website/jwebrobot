@@ -9,7 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - fixed delegation of context parameters through command line containing equality sign in the value
 
 ### Changed
-- enforced waml as file extension to prevent parsing issues of the non waml formatted yaml files
+- added default for scenario path command line argument
+- prevented loading of existing report file from the scenario root directory
 - updated to waml-io 0.5.1
 
 ### [0.11.4]

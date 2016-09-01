@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.Test;
 
 import website.automate.jwebrobot.AbstractTest;
+import website.automate.jwebrobot.ConfigurationProperties;
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
 import website.automate.waml.io.WamlDeserializationException;
 import website.automate.waml.io.model.Scenario;
@@ -25,7 +26,8 @@ public class PatternScenarioLoaderIT extends AbstractTest {
     
     @Test
     public void loadScenariosFromTheBaseDirectoryRecursively(){
-        List<ScenarioFile> scenarioFiles = scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader");
+        List<ScenarioFile> scenarioFiles = scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader",
+                ConfigurationProperties.DEFAULT_REPORT_PATH);
         
         assertThat(scenarioFiles.size(), is(3));
         assertThat(totalNumberOfScenarios(scenarioFiles), is(4));
@@ -33,7 +35,8 @@ public class PatternScenarioLoaderIT extends AbstractTest {
     
     @Test
     public void loadSingleScenarioFromPath(){
-        List<ScenarioFile> scenarioFiles = scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/multi.yaml");
+        List<ScenarioFile> scenarioFiles = scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/multi.yaml",
+                ConfigurationProperties.DEFAULT_REPORT_PATH);
         
         assertThat(scenarioFiles.size(), is(1));
         assertThat(totalNumberOfScenarios(scenarioFiles), is(2));
@@ -41,7 +44,8 @@ public class PatternScenarioLoaderIT extends AbstractTest {
     
     @Test(expected=NonReadableFileException.class)
     public void failLoadingNonExistingFile(){
-        scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/non-existent.yaml");
+        scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/non-existent.yaml",
+                ConfigurationProperties.DEFAULT_REPORT_PATH);
     }
     
     @Test(expected = WamlDeserializationException.class)

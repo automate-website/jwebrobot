@@ -14,8 +14,12 @@ import com.beust.jcommander.Parameter;
 
 public class ConfigurationProperties {
 
+    public static final String 
+        DEFAULT_REPORT_PATH = "./report.yaml",
+        DEFAULT_SCENARIO_PATH = "./";
+    
 	@Parameter(names = "-scenarioPath", description = "Path to a single WAML scenario or WAML project root directory.", required = true)
-    private String scenarioPath;
+    private String scenarioPath = DEFAULT_SCENARIO_PATH;
 
     @Parameter(names = "-browser", description = "Browser to use for execution (e.g firefox or chrome).", required = false)
     private String browser = "firefox";
@@ -42,7 +46,7 @@ public class ConfigurationProperties {
     private String scenarioPattern;
     
     @Parameter(names = "-reportPath", description = "Path to which the execution report is written to.", required = false)
-    private String reportPath;
+    private String reportPath = DEFAULT_REPORT_PATH;
     
     public String getScenarioPath() {
         return scenarioPath;

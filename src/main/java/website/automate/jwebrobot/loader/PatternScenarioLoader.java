@@ -16,6 +16,7 @@ import website.automate.waml.io.model.Scenario;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -35,32 +36,41 @@ public class PatternScenarioLoader implements ScenarioLoader {
         this.wamlReader = wamlReader;
     }
 
-    public List<ScenarioFile> load(String scenarioPath){
+    public List<ScenarioFile> load(String scenarioPath, String reportPath){
         String currentPath = scenarioPath;
         List<ScenarioFile> loadedScenarioFiles = new ArrayList<>();
 
         try {
             File baseScenarioFile = new File(scenarioPath);
+            File reportFile = new File(reportPath);
+            String reportCanonicalPath = reportFile.exists() ? reportFile.getCanonicalPath() : null;
+            
             if(baseScenarioFile.canRead()){
                 if(baseScenarioFile.isDirectory()){
                     Collection<File> scenarioFiles = FileUtils.listFiles(baseScenarioFile, SCENARIO_FORMAT_FILTER, TrueFileFilter.INSTANCE);
                     for(File scenarioFile : scenarioFiles){
                         currentPath = scenarioFile.getAbsolutePath();
-                        loadedScenarioFiles.add(new ScenarioFile(load(scenarioFile), scenarioFile));
+                        addScenarioFile(reportCanonicalPath, scenarioFile, loadedScenarioFiles);
                     }
                 } else {
-                    loadedScenarioFiles.add(new ScenarioFile(load(baseScenarioFile), baseScenarioFile));
+                    addScenarioFile(reportCanonicalPath, baseScenarioFile, loadedScenarioFiles);
                 }
             } else {
                 throw new NonReadableFileException(currentPath);
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             throw new NonReadableFileException(currentPath, e);
         }
 
         return loadedScenarioFiles;
     }
 
+    private void addScenarioFile(String reportCanonicalPath, File scenarioFile, List<ScenarioFile> loadedScenarioFiles) throws IOException{
+        if(!scenarioFile.getCanonicalPath().equals(reportCanonicalPath)){
+           loadedScenarioFiles.add(new ScenarioFile(load(scenarioFile), scenarioFile));
+        }
+    }
+    
     private List<Scenario> load(File scenarioFile) throws FileNotFoundException{
         LOG.debug(MessageFormat.format("Reading scenario file {0} ...", scenarioFile.getAbsolutePath()));
         return createFromInputStream(new FileInputStream(scenarioFile));

@@ -25,8 +25,6 @@ import website.automate.waml.report.io.model.WamlReport;
 
 public class Reporter implements ExecutionEventListener {
 
-    private static final String DEFAULT_REPORT_PATH = "./report.yaml";
-
     private WamlReportWriter writer;
     
     private Map<Action, Long> actionStartTimeMap = new HashMap<>();
@@ -145,11 +143,7 @@ public class Reporter implements ExecutionEventListener {
     }
     
     private String getReportPath(GlobalExecutionContext context){
-        String reportPath = context.getOptions().getReportPath();
-        if(reportPath != null){
-            return reportPath;
-        }
-        return DEFAULT_REPORT_PATH;
+        return context.getOptions().getReportPath();
     }
     
     private Scenario copyScenario(Scenario source){

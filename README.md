@@ -22,7 +22,7 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 
 | Name  | Type | Description | Default | Example |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| *scenarioPath*  | mandatory  | Scenario path may be a directory or a single scenario file. | `-` |`../path/to/my/scenario` |
+| *scenarioPath*  | optional  | Scenario path may be a directory or a single scenario file. | `./` |`../path/to/my/scenario` |
 | *scenarioPattern*  | optional | If set, only non fragment scenarios with a name matching the pattern are executed. | `-` | `'^desired-scenario$'` |
 | context  | optional | Context is a multi value argument that populates the context utilized during expression evaluation. | `-` |`baseUrl=http://www.wikipedia.com language=en` |
 | *timeout* | optional | Timeout waiting for conditions to be fulfilled in seconds. Globally overrides timeout settings defined in the scenarios. | `-` | `5` |
