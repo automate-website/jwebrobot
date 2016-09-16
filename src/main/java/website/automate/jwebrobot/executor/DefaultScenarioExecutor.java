@@ -60,7 +60,6 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     @Override
     public void execute(GlobalExecutionContext context) {
         listener.beforeExecution(context);
-
         validator.validate(context);
 
         try{
@@ -81,7 +80,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         if (!scenario.getFragment() && scenarioPatternFilter.isExecutable(options.getScenarioPattern(), scenario.getName())){
             logger.info("Starting scenario {}...", scenario.getName());
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
-
+            
             ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver);
             try {
                 runScenario(scenario, scenarioExecutionContext);

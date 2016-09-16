@@ -19,11 +19,9 @@ public abstract class FilterActionMapper<T extends FilterAction> extends TimeLim
         
         ParentCriteria sourceParent = source.getParent();
         if(sourceParent != null){
-            ParentCriteria targetParent = new ParentCriteria();
+            ParentCriteria targetParent = new ParentCriteria(sourceParent.getSelector(),
+                sourceParent.getText(), sourceParent.getValue());
             target.setParent(targetParent);
-            targetParent.setSelector(sourceParent.getSelector());
-            targetParent.setText(sourceParent.getText());
-            targetParent.setValue(sourceParent.getValue());
         }
     }
 

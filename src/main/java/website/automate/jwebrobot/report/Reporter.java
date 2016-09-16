@@ -4,9 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+
+import org.openqa.selenium.logging.LogEntry;
 
 import com.google.inject.Inject;
 
@@ -32,6 +37,8 @@ public class Reporter implements ExecutionEventListener {
     private Map<Action, ActionReport> actionReportMap = new HashMap<>();
     
     private Map<Scenario, ScenarioReport> scenarioReportMap = new LinkedHashMap<>();
+    
+    private Map<Scenario, Integer> scenarioLogCountMap = new HashMap<>();
     
     @Inject
     public Reporter(WamlReportWriter writer) {
@@ -67,7 +74,8 @@ public class Reporter implements ExecutionEventListener {
 
     @Override
     public void beforeAction(ScenarioExecutionContext context, Action action) {
-        ScenarioReport scenarioReport = scenarioReportMap.get(context.getRootScenario());
+        Scenario rootScenario = context.getRootScenario();
+        ScenarioReport scenarioReport = scenarioReportMap.get(rootScenario);
         
         ActionReport actionReport = new SimpleActionReport();
         actionReport.setPath(context.getScenarioInclusionPath());
@@ -77,11 +85,49 @@ public class Reporter implements ExecutionEventListener {
         actionStartTimeMap.put(action, System.currentTimeMillis());
         actionReportMap.put(action, actionReport);
     }
+    
+    private void processLogEntries(ScenarioExecutionContext context, ActionReport actionReport){
+      Scenario rootScenario = context.getRootScenario();
+      Integer logCount = scenarioLogCountMap.get(context.getRootScenario());
+      if(logCount == null){
+        logCount = 0;
+      }
+      List<LogEntry> logEntries = context.getDriver().manage().logs().get("browser").getAll();
+      
+      int logEntriesSize = logEntries.size();
+      if(logEntriesSize > logCount){
+        List<LogEntry> actionLogEntries = logEntries.subList(logCount, logEntriesSize);
+        List<website.automate.waml.report.io.model.LogEntry> wamlLogEntries = new ArrayList<>();
+        
+        for(LogEntry logEntry : actionLogEntries){
+          wamlLogEntries.add(new website.automate.waml.report.io.model.LogEntry(
+              convertLogLevel(logEntry.getLevel()), 
+              new Date(logEntry.getTimestamp()), 
+              logEntry.getMessage()));
+        }
+        
+        logCount =  logEntriesSize;
+        scenarioLogCountMap.put(rootScenario, logCount);
+      }
+      
+    }
+    
+    private website.automate.waml.report.io.model.LogEntry.LogLevel convertLogLevel(Level logLevel){
+      if(logLevel == Level.SEVERE){
+        return website.automate.waml.report.io.model.LogEntry.LogLevel.ERROR;
+      } else if(logLevel == Level.INFO) {
+        return website.automate.waml.report.io.model.LogEntry.LogLevel.INFO;
+      } else if(logLevel == Level.WARNING){
+        return website.automate.waml.report.io.model.LogEntry.LogLevel.WARN;
+      }
+      return website.automate.waml.report.io.model.LogEntry.LogLevel.DEBUG;
+    }
 
     @Override
     public void afterAction(ScenarioExecutionContext context, Action action) {
         ActionReport report = afterActionOrError(context, action);
         report.setStatus(ExecutionStatus.SUCCESS);
+        processLogEntries(context, report);
     }
 
     @Override
