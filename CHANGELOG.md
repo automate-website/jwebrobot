@@ -4,6 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- added browser log gathering and serialization into the report
+
+### Changed
+- updated to waml-io 0.6.1 and waml-report-io 0.7.0
+
 ## [1.0.0]
 ### Fixed
 - fixed delegation of context parameters through command line containing equality sign in the value
