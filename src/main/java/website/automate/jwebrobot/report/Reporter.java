@@ -31,30 +31,28 @@ import website.automate.waml.report.io.model.WamlReport;
 public class Reporter implements ExecutionEventListener {
 
     private WamlReportWriter writer;
-    
+
     private Map<Action, Long> actionStartTimeMap = new HashMap<>();
-    
+
     private Map<Action, ActionReport> actionReportMap = new HashMap<>();
-    
+
     private Map<Scenario, ScenarioReport> scenarioReportMap = new LinkedHashMap<>();
-    
-    private Map<Scenario, Integer> scenarioLogCountMap = new HashMap<>();
-    
+
     @Inject
     public Reporter(WamlReportWriter writer) {
         this.writer = writer;
     }
-    
+
     @Override
     public void beforeScenario(ScenarioExecutionContext context) {
-        if(context.getParent() == null){
+        if (context.getParent() == null) {
             Scenario contextScenario = context.getScenario();
             File contextScenarioFile = context.getGlobalContext().getFile(contextScenario);
-            
+
             ScenarioReport report = new SimpleScenarioReport();
             report.setScenario(copyScenario(contextScenario));
             report.setPath(contextScenarioFile.getAbsolutePath());
-            
+
             scenarioReportMap.put(contextScenario, report);
         }
     }
@@ -66,7 +64,7 @@ public class Reporter implements ExecutionEventListener {
     @Override
     public void errorScenario(ScenarioExecutionContext context, Exception exception) {
         Scenario contextScenario = context.getScenario();
-        
+
         ScenarioReport report = scenarioReportMap.get(contextScenario);
         report.setMessage(exception.getMessage());
         report.setStatus(exceptionToStatus(exception));
@@ -76,51 +74,38 @@ public class Reporter implements ExecutionEventListener {
     public void beforeAction(ScenarioExecutionContext context, Action action) {
         Scenario rootScenario = context.getRootScenario();
         ScenarioReport scenarioReport = scenarioReportMap.get(rootScenario);
-        
+
         ActionReport actionReport = new SimpleActionReport();
         actionReport.setPath(context.getScenarioInclusionPath());
         actionReport.setAction(action);
-        
+
         scenarioReport.getSteps().add(actionReport);
         actionStartTimeMap.put(action, System.currentTimeMillis());
         actionReportMap.put(action, actionReport);
     }
-    
-    private void processLogEntries(ScenarioExecutionContext context, ActionReport actionReport){
-      Scenario rootScenario = context.getRootScenario();
-      Integer logCount = scenarioLogCountMap.get(context.getRootScenario());
-      if(logCount == null){
-        logCount = 0;
-      }
-      List<LogEntry> logEntries = context.getDriver().manage().logs().get("browser").getAll();
-      
-      int logEntriesSize = logEntries.size();
-      if(logEntriesSize > logCount){
-        List<LogEntry> actionLogEntries = logEntries.subList(logCount, logEntriesSize);
-        List<website.automate.waml.report.io.model.LogEntry> wamlLogEntries = new ArrayList<>();
-        
-        for(LogEntry logEntry : actionLogEntries){
-          wamlLogEntries.add(new website.automate.waml.report.io.model.LogEntry(
-              convertLogLevel(logEntry.getLevel()), 
-              new Date(logEntry.getTimestamp()), 
-              logEntry.getMessage()));
+
+    private void processLogEntries(ScenarioExecutionContext context, ActionReport actionReport) {
+        List<LogEntry> logEntries = context.getDriver().manage().logs().get("browser").getAll();
+
+        List<website.automate.waml.report.io.model.LogEntry> convertedLogEntries = new ArrayList<>();
+
+        for (LogEntry logEntry : logEntries) {
+            convertedLogEntries.add(new website.automate.waml.report.io.model.LogEntry(
+                    convertLogLevel(logEntry.getLevel()), new Date(logEntry.getTimestamp()), logEntry.getMessage()));
         }
-        
-        logCount =  logEntriesSize;
-        scenarioLogCountMap.put(rootScenario, logCount);
-      }
-      
+
+        actionReport.setLogEntries(convertedLogEntries);
     }
-    
-    private website.automate.waml.report.io.model.LogEntry.LogLevel convertLogLevel(Level logLevel){
-      if(logLevel == Level.SEVERE){
-        return website.automate.waml.report.io.model.LogEntry.LogLevel.ERROR;
-      } else if(logLevel == Level.INFO) {
-        return website.automate.waml.report.io.model.LogEntry.LogLevel.INFO;
-      } else if(logLevel == Level.WARNING){
-        return website.automate.waml.report.io.model.LogEntry.LogLevel.WARN;
-      }
-      return website.automate.waml.report.io.model.LogEntry.LogLevel.DEBUG;
+
+    private website.automate.waml.report.io.model.LogEntry.LogLevel convertLogLevel(Level logLevel) {
+        if (logLevel == Level.SEVERE) {
+            return website.automate.waml.report.io.model.LogEntry.LogLevel.ERROR;
+        } else if (logLevel == Level.INFO) {
+            return website.automate.waml.report.io.model.LogEntry.LogLevel.INFO;
+        } else if (logLevel == Level.WARNING) {
+            return website.automate.waml.report.io.model.LogEntry.LogLevel.WARN;
+        }
+        return website.automate.waml.report.io.model.LogEntry.LogLevel.DEBUG;
     }
 
     @Override
@@ -154,14 +139,13 @@ public class Reporter implements ExecutionEventListener {
     }
 
     @Override
-    public void errorExecution(GlobalExecutionContext context,
-            Exception exception) {
+    public void errorExecution(GlobalExecutionContext context, Exception exception) {
         WamlReport report = afterExecutionOrError(context);
         String reportMessage = report.getMessage();
-        if(reportMessage == null){
-        	reportMessage = "";
+        if (reportMessage == null) {
+            reportMessage = "";
         }
-        reportMessage+=exception.getMessage();
+        reportMessage += exception.getMessage();
         report.setMessage(reportMessage);
         try {
             writer.write(new FileOutputStream(getReportPath(context)), report);
@@ -169,30 +153,30 @@ public class Reporter implements ExecutionEventListener {
             throw new RuntimeException(e);
         }
     }
-    
-    private WamlReport afterExecutionOrError(GlobalExecutionContext context){
+
+    private WamlReport afterExecutionOrError(GlobalExecutionContext context) {
         WamlReport report = new WamlReport();
         report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
         report.updateStats();
         return report;
     }
-    
-    private ActionReport afterActionOrError(ScenarioExecutionContext context, Action action){
+
+    private ActionReport afterActionOrError(ScenarioExecutionContext context, Action action) {
         Long startTime = actionStartTimeMap.get(action);
         ActionReport report = actionReportMap.get(action);
         report.setTime((System.currentTimeMillis() - startTime) / 1000.0);
         return report;
     }
-    
-    private ExecutionStatus exceptionToStatus(Exception exception){
+
+    private ExecutionStatus exceptionToStatus(Exception exception) {
         return ExecutionStatus.ERROR;
     }
-    
-    private String getReportPath(GlobalExecutionContext context){
+
+    private String getReportPath(GlobalExecutionContext context) {
         return context.getOptions().getReportPath();
     }
-    
-    private Scenario copyScenario(Scenario source){
+
+    private Scenario copyScenario(Scenario source) {
         Scenario target = new Scenario();
         target.setDescription(source.getDescription());
         target.setName(source.getName());
