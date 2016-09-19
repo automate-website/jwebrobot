@@ -16,7 +16,8 @@ public class ConfigurationProperties {
 
     public static final String 
         DEFAULT_REPORT_PATH = "./report.yaml",
-        DEFAULT_SCENARIO_PATH = "./";
+        DEFAULT_SCENARIO_PATH = "./",
+        DEFAULT_BROWSER_LOG_LEVEL = "error";
     
 	@Parameter(names = "-scenarioPath", description = "Path to a single WAML scenario or WAML project root directory.", required = true)
     private String scenarioPath = DEFAULT_SCENARIO_PATH;
@@ -47,6 +48,9 @@ public class ConfigurationProperties {
     
     @Parameter(names = "-reportPath", description = "Path to which the execution report is written to.", required = false)
     private String reportPath = DEFAULT_REPORT_PATH;
+    
+    @Parameter(names = "-browserLogLevel", description = "Log level at which browser logs are included into the reports.", required = false)
+    private String browserLogLevel = DEFAULT_BROWSER_LOG_LEVEL;
     
     public String getScenarioPath() {
         return scenarioPath;
@@ -137,4 +141,12 @@ public class ConfigurationProperties {
 	public void setScreenshotFormat(String screenshotFormat) {
 		this.screenshotFormat = screenshotFormat;
 	}
+
+    public String getBrowserLogLevel() {
+        return browserLogLevel;
+    }
+
+    public void setBrowserLogLevel(String browserLogLevel) {
+        this.browserLogLevel = browserLogLevel;
+    }
 }

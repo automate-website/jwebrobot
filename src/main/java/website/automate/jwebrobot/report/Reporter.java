@@ -9,20 +9,20 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-
-import org.openqa.selenium.logging.LogEntry;
 
 import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
 import website.automate.waml.report.io.WamlReportWriter;
 import website.automate.waml.report.io.model.ActionReport;
 import website.automate.waml.report.io.model.ExecutionStatus;
+import website.automate.waml.report.io.model.LogEntry;
+import website.automate.waml.report.io.model.LogEntry.LogLevel;
 import website.automate.waml.report.io.model.ScenarioReport;
 import website.automate.waml.report.io.model.SimpleActionReport;
 import website.automate.waml.report.io.model.SimpleScenarioReport;
@@ -85,27 +85,32 @@ public class Reporter implements ExecutionEventListener {
     }
 
     private void processLogEntries(ScenarioExecutionContext context, ActionReport actionReport) {
-        List<LogEntry> logEntries = context.getDriver().manage().logs().get("browser").getAll();
+        List<org.openqa.selenium.logging.LogEntry> logEntries = context.getDriver().manage().logs().get("browser").getAll();
+        ExecutorOptions options = context.getGlobalContext().getOptions();
+        
+        List<LogEntry> convertedLogEntries = new ArrayList<>();
 
-        List<website.automate.waml.report.io.model.LogEntry> convertedLogEntries = new ArrayList<>();
+        for (org.openqa.selenium.logging.LogEntry logEntry : logEntries) {
+            LogLevel actualLevel = convertLogLevel(logEntry.getLevel());
 
-        for (LogEntry logEntry : logEntries) {
-            convertedLogEntries.add(new website.automate.waml.report.io.model.LogEntry(
-                    convertLogLevel(logEntry.getLevel()), new Date(logEntry.getTimestamp()), logEntry.getMessage()));
+            if(LogEntry.isIncluded(options.getBrowserLogLevel(), actualLevel)){
+                convertedLogEntries.add(new LogEntry(
+                    actualLevel, new Date(logEntry.getTimestamp()), logEntry.getMessage()));
+            }
         }
 
         actionReport.setLogEntries(convertedLogEntries);
     }
 
-    private website.automate.waml.report.io.model.LogEntry.LogLevel convertLogLevel(Level logLevel) {
-        if (logLevel == Level.SEVERE) {
-            return website.automate.waml.report.io.model.LogEntry.LogLevel.ERROR;
-        } else if (logLevel == Level.INFO) {
-            return website.automate.waml.report.io.model.LogEntry.LogLevel.INFO;
-        } else if (logLevel == Level.WARNING) {
-            return website.automate.waml.report.io.model.LogEntry.LogLevel.WARN;
+    private LogLevel convertLogLevel(java.util.logging.Level logLevel) {
+        if (logLevel == java.util.logging.Level.SEVERE) {
+            return LogLevel.ERROR;
+        } else if (logLevel == java.util.logging.Level.INFO) {
+            return LogLevel.INFO;
+        } else if (logLevel == java.util.logging.Level.WARNING) {
+            return LogLevel.WARN;
         }
-        return website.automate.waml.report.io.model.LogEntry.LogLevel.DEBUG;
+        return LogLevel.DEBUG;
     }
 
     @Override

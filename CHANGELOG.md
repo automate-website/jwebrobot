@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- updated waml-report-io to 0.8.0 and added browser log filter option
+
 ## [1.1.0]
 ### Added
 - added browser log gathering and serialization into the report

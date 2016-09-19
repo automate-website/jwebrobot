@@ -1,10 +1,11 @@
 package website.automate.jwebrobot.executor;
 
 import website.automate.jwebrobot.ConfigurationProperties;
+import website.automate.waml.report.io.model.LogEntry.LogLevel;
 
 public class ExecutorOptions {
 
-	public enum TakeScreenshots {
+    public enum TakeScreenshots {
         NEVER("NEVER"), ON_FAILURE("ON_FAILURE"), ON_EVERY_STEP("ON_EVERY_STEP");
 
         private String name;
@@ -67,6 +68,8 @@ public class ExecutorOptions {
 
     private String screenshotFormat;
     
+    private LogLevel browserLogLevel;
+    
     public static ExecutorOptions of(
             ConfigurationProperties configurationProperties) {
         ExecutorOptions executorOptions = new ExecutorOptions();
@@ -82,6 +85,7 @@ public class ExecutorOptions {
         executorOptions.setReportPath(configurationProperties.getReportPath());
         executorOptions.setScreenshotType(ScreenshotType.findByName(configurationProperties.getScreenshotType()));
         executorOptions.setScreenshotFormat(configurationProperties.getScreenshotFormat());
+        executorOptions.setBrowserLogLevel(LogLevel.valueOf(configurationProperties.getBrowserLogLevel().toUpperCase()));
         
         return executorOptions;
     }
@@ -149,4 +153,12 @@ public class ExecutorOptions {
 	public void setScreenshotFormat(String screenshotFormat) {
 		this.screenshotFormat = screenshotFormat;
 	}
+
+    public LogLevel getBrowserLogLevel() {
+        return browserLogLevel;
+    }
+
+    public void setBrowserLogLevel(LogLevel browserLogLevel) {
+        this.browserLogLevel = browserLogLevel;
+    }
 }
