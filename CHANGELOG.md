@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.2.0]
 ### Changed
 - updated waml-report-io to 0.8.0 and added browser log filter option
 
@@ -145,6 +146,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [0.11.4]: https://github.com/automate-website/jwebrobot/compare/0.11.3...0.11.4
 [1.0.0]: https://github.com/automate-website/jwebrobot/compare/0.11.4...1.0.0
 [1.1.0]: https://github.com/automate-website/jwebrobot/compare/1.0.0...1.1.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.1.0...master
+[1.2.0]: https://github.com/automate-website/jwebrobot/compare/1.1.0...1.2.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.2.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
