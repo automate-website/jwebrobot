@@ -74,7 +74,7 @@ mvn package
 [waml-schema]: http://waml-schema.org
 [web automation markup language]: https://github.com/automate-website/waml
 [draft-02]: http://waml-schema.org/draft-02/schema#
-[here]: http://repo1.maven.org/maven2/website/automate/jwebrobot/1.2.0/jwebrobot-1.2.0.jar
+[here]: http://repo1.maven.org/maven2/website/automate/jwebrobot/1.3.0/jwebrobot-1.3.0.jar
 [freemarker]: http://freemarker.org
 [template-tester]: http://freemarker-online.kenshoo.com/
 [jfairy]: https://github.com/Codearte/jfairy

@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.0]
 ### Changed
 - allowed setting multiple scenario paths as cmd line argument values (#50)
 
@@ -154,6 +155,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [1.0.0]: https://github.com/automate-website/jwebrobot/compare/0.11.4...1.0.0
 [1.1.0]: https://github.com/automate-website/jwebrobot/compare/1.0.0...1.1.0
 [1.2.0]: https://github.com/automate-website/jwebrobot/compare/1.1.0...1.2.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.2.0...master
+[1.3.0]: https://github.com/automate-website/jwebrobot/compare/1.2.0...1.3.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.3.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
