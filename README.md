@@ -37,16 +37,14 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 ## Expressions
 Expression are evaluated by the [freemarker] templating engine. The expression syntax and result may be tested using online [template-tester].
 
-| Expression | Description |
-
-### Reserved Namespace
-
-The lodash (`_`) name space is reserved for utility functions.
-
 | Expression | Context | Result | Description |
 | ------------- | ------------- | ------------- | ------------- |
 | ${foo} | foo="bar" | bar | Renders the context parameter value |
 | ${(foo=="bar")?c} | foo="bar" | true | Tests context parameter foo for having the value "bar" and rendering the boolean value. |
+
+### Reserved Namespace
+
+The lodash (`_`) name space is reserved for utility functions.
 
 #### Mock
 
