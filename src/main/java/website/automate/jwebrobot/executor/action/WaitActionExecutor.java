@@ -25,7 +25,7 @@ public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
     public void perform(final WaitAction action, ScenarioExecutionContext context) {
         Long time = Long.parseLong(action.getTime());
         try {
-            Thread.sleep(time);
+            Thread.sleep(time * 1000);
         } catch (InterruptedException e) {
 
         }
