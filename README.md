@@ -34,6 +34,35 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 | *browser*  | optional | A browser can be selected by passing this option when running JWebRobot. Please consider that some browsers require additional configuration parameters. WAML scenarios are executed with Mozilla Firefox per default. Firefox must be installed on the same machine. E.g.: Chrome does not provide embedded webdriver so that it has to be [downloaded manually](webdriver-chrome). The path to the downloaded executable has to be forwarded via the system property `webdriver.chrome.driver`. Of course, Chrome must be present on the same machine. | `firefox` | `chrome` |
 | *reportPath*  | optional  | Path to which the report is written to. | `./report.yaml` | `./myreport.yaml` |
 
+## Expressions
+Expression are evaluated by the [freemarker] templating engine. The expression syntax and result may be tested using online [template-tester].
+
+| Expression | Description |
+
+### Reserved Namespace
+
+The lodash (`_`) name space is reserved for utility functions.
+
+| Expression | Context | Result | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| ${foo} | foo="bar" | bar | Renders the context parameter value |
+| ${(foo=="bar")?c} | foo="bar" | true | Tests context parameter foo for having the value "bar" and rendering the boolean value. |
+
+#### Mock
+
+Mock utility provides an easy way to create test data required during test execution.
+
+Find some examples below:
+
+| Expression | Description |
+| ------------- | ------------- |
+| ${ _.mock.person().fullName() } | Creates a sane person full name |
+| ${ _.mock.person().email() } | Creates a valid email address |
+| ${ _.mock.person().telephoneNumber() } | Creates a valid phone number |
+| ${ _.mock.company().name() } | Creates a sane company name |
+
+Behind the scenes a powerful test data framework [jfairy] is doing the job. More usage examples may be found there.
+
 ## Source Build
 
 An executable JAR can be created by executing the _package_ Maven goal:
@@ -48,3 +77,6 @@ mvn package
 [web automation markup language]: https://github.com/automate-website/waml
 [draft-02]: http://waml-schema.org/draft-02/schema#
 [here]: http://repo1.maven.org/maven2/website/automate/jwebrobot/1.2.0/jwebrobot-1.2.0.jar
+[freemarker]: http://freemarker.org
+[template-tester]: http://freemarker-online.kenshoo.com/
+[jfairy]: https://github.com/Codearte/jfairy
