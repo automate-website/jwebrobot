@@ -40,7 +40,7 @@ Expression are evaluated by the [freemarker] templating engine. The expression s
 | Expression | Context | Result | Description |
 | ------------- | ------------- | ------------- | ------------- |
 | ${foo} | foo="bar" | bar | Renders the context parameter value |
-| ${(foo=="bar")?c} | foo="bar" | true | Tests context parameter foo for having the value "bar" and rendering the boolean value. |
+| ${(foo=="bar")?c} | foo="bar" | true | Tests context parameter foo for having the value "bar" and renders the boolean value. |
 
 ### Reserved Namespace
 
