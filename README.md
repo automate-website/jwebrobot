@@ -35,7 +35,7 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 | *reportPath*  | optional  | Path to which the report is written to. | `./report.yaml` | `./myreport.yaml` |
 
 ## Expressions
-Expression are evaluated by the [freemarker] templating engine. The expression syntax and result may be tested using online [template-tester].
+Expression are evaluated by the [freemarker] awesome templating engine. The expression syntax and result may be tested using online [template-tester].
 
 | Expression | Context | Result | Description |
 | ------------- | ------------- | ------------- | ------------- |
