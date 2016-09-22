@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- allowed setting multiple scenario paths as cmd line argument values (#50)
+
 ### Fixed
 - fixed interpretation of the timeout step criteria value as seconds (#49)
 

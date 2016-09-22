@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.loader;
 
 import static java.lang.ClassLoader.getSystemResourceAsStream;
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -26,7 +27,7 @@ public class PatternScenarioLoaderIT extends AbstractTest {
     
     @Test
     public void loadScenariosFromTheBaseDirectoryRecursively(){
-        List<ScenarioFile> scenarioFiles = scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader",
+        List<ScenarioFile> scenarioFiles = scenarioLoader.load(asList("./src/test/resources/website/automate/jwebrobot/loader"),
                 ConfigurationProperties.DEFAULT_REPORT_PATH);
         
         assertThat(scenarioFiles.size(), is(3));
@@ -35,7 +36,7 @@ public class PatternScenarioLoaderIT extends AbstractTest {
     
     @Test
     public void loadSingleScenarioFromPath(){
-        List<ScenarioFile> scenarioFiles = scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/multi.yaml",
+        List<ScenarioFile> scenarioFiles = scenarioLoader.load(asList("./src/test/resources/website/automate/jwebrobot/loader/multi.yaml"),
                 ConfigurationProperties.DEFAULT_REPORT_PATH);
         
         assertThat(scenarioFiles.size(), is(1));
@@ -44,7 +45,7 @@ public class PatternScenarioLoaderIT extends AbstractTest {
     
     @Test(expected=NonReadableFileException.class)
     public void failLoadingNonExistingFile(){
-        scenarioLoader.load("./src/test/resources/website/automate/jwebrobot/loader/non-existent.yaml",
+        scenarioLoader.load(asList("./src/test/resources/website/automate/jwebrobot/loader/non-existent.yaml"),
                 ConfigurationProperties.DEFAULT_REPORT_PATH);
     }
     

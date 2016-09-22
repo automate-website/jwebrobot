@@ -36,7 +36,18 @@ public class PatternScenarioLoader implements ScenarioLoader {
         this.wamlReader = wamlReader;
     }
 
-    public List<ScenarioFile> load(String scenarioPath, String reportPath){
+    @Override
+    public List<ScenarioFile> load(Collection<String> scenarioPaths, String reportPath){
+        List<ScenarioFile> scenarioFiles = new ArrayList<>();
+        
+        for(String scenarioPath : scenarioPaths){
+            scenarioFiles.addAll(load(scenarioPath, reportPath));
+        }
+        
+        return scenarioFiles;
+    }
+    
+    private List<ScenarioFile> load(String scenarioPath, String reportPath){
         String currentPath = scenarioPath;
         List<ScenarioFile> loadedScenarioFiles = new ArrayList<>();
 

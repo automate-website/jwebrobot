@@ -25,7 +25,7 @@ public class JWebRobot {
     }
 
     public void run(ConfigurationProperties configurationProperties) {
-        List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getScenarioPath(),
+        List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getAllScenarioPaths(),
                 configurationProperties.getReportPath());
         ExecutorOptions executorOptions = ExecutorOptions.of(configurationProperties);
         GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, executorOptions,

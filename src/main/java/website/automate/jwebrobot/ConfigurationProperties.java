@@ -3,9 +3,12 @@ package website.automate.jwebrobot;
 import static java.text.MessageFormat.format;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import website.automate.jwebrobot.executor.ExecutorOptions.ScreenshotType;
 import website.automate.jwebrobot.executor.ExecutorOptions.TakeScreenshots;
@@ -18,9 +21,12 @@ public class ConfigurationProperties {
         DEFAULT_REPORT_PATH = "./report.yaml",
         DEFAULT_SCENARIO_PATH = "./",
         DEFAULT_BROWSER_LOG_LEVEL = "error";
-    
-	@Parameter(names = "-scenarioPath", description = "Path to a single WAML scenario or WAML project root directory.", required = true)
+
+    @Parameter(names = "-scenarioPath", description = "Path to a single WAML scenario or WAML project root directory.", required = false)
     private String scenarioPath = DEFAULT_SCENARIO_PATH;
+    
+	@Parameter(names = "-scenarioPaths", variableArity = true, description = "Path to a single WAML scenario or WAML project root directory.", required = false)
+    private List<String> scenarioPaths = new ArrayList<>();
 
     @Parameter(names = "-browser", description = "Browser to use for execution (e.g firefox or chrome).", required = false)
     private String browser = "firefox";
@@ -52,12 +58,12 @@ public class ConfigurationProperties {
     @Parameter(names = "-browserLogLevel", description = "Log level at which browser logs are included into the reports.", required = false)
     private String browserLogLevel = DEFAULT_BROWSER_LOG_LEVEL;
     
-    public String getScenarioPath() {
-        return scenarioPath;
+    public List<String> getScenarioPaths() {
+        return scenarioPaths;
     }
 
-    public void setScenarioPath(String scenarioPath) {
-        this.scenarioPath = scenarioPath;
+    public void setScenarioPaths(List<String> scenarioPaths) {
+        this.scenarioPaths = scenarioPaths;
     }
 
     public String getBrowser() {
@@ -148,5 +154,23 @@ public class ConfigurationProperties {
 
     public void setBrowserLogLevel(String browserLogLevel) {
         this.browserLogLevel = browserLogLevel;
+    }
+
+    public String getScenarioPath() {
+        return scenarioPath;
+    }
+    
+    public Collection<String> getAllScenarioPaths(){
+        Set<String> scenarioPaths = new HashSet<>();
+        String scenarioPath = getScenarioPath();
+        if(!ConfigurationProperties.DEFAULT_SCENARIO_PATH.equals(scenarioPath)){
+            scenarioPaths.add(scenarioPath);
+        }
+        scenarioPaths.addAll(getScenarioPaths());
+        return scenarioPaths;
+    }
+
+    public void setScenarioPath(String scenarioPath) {
+        this.scenarioPath = scenarioPath;
     }
 }
