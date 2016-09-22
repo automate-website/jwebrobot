@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- fixed interpretation of the timeout step criteria value as seconds (#49)
+
 ## [1.2.0]
 ### Changed
 - updated waml-report-io to 0.8.0 and added browser log filter option
