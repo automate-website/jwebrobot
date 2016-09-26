@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.4.0]
 ### Added
 - added experimental support for store criteria to be able to persist the element reference of the filtered element in the memory and reuse it during the scenario execution.
 
@@ -159,6 +160,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [1.1.0]: https://github.com/automate-website/jwebrobot/compare/1.0.0...1.1.0
 [1.2.0]: https://github.com/automate-website/jwebrobot/compare/1.1.0...1.2.0
 [1.3.0]: https://github.com/automate-website/jwebrobot/compare/1.2.0...1.3.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.3.0...master
+[1.4.0]: https://github.com/automate-website/jwebrobot/compare/1.3.0...1.4.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.4.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
