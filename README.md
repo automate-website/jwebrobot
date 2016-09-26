@@ -61,8 +61,8 @@ Find some examples below:
 
 Behind the scenes a powerful test data framework [jfairy] is doing the job. More usage examples may be found there.
 
-### Store Criteria & Element Reference
-While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `select`, `move`) the reference to the filtered element may be stored using the `store` criteria, e.g.:
+### Store Criterion & Element Reference
+While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `select`, `move`) the reference to the filtered element may be stored using the `store` criterion, e.g.:
 
     ensure:
         selector: input[type=text]
