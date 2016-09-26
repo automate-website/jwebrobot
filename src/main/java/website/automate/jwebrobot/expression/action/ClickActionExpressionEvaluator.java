@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.ClickAction;
 
-public class ClickActionExpressionEvaluator extends FilterActionExpressionEvaluator<ClickAction> {
+public class ClickActionExpressionEvaluator extends ElementStoreActionExpressionEvaluator<ClickAction> {
 
     @Inject
     public ClickActionExpressionEvaluator(

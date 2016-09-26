@@ -15,7 +15,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.EnsureAction;
 
-public class EnsureActionExecutor extends FilterActionExecutor<EnsureAction> {
+public class EnsureActionExecutor extends ElementStoreActionExecutor<EnsureAction> {
 
     @Inject
     public EnsureActionExecutor(ExpressionEvaluator expressionEvaluator,

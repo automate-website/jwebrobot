@@ -2,7 +2,7 @@ package website.automate.jwebrobot.mapper.action;
 
 import website.automate.waml.io.model.action.EnterAction;
 
-public class EnterActionMapper extends FilterActionMapper<EnterAction> {
+public class EnterActionMapper extends ElementStoreActionMapper<EnterAction> {
 
     @Override
     public EnterAction map(EnterAction source) {

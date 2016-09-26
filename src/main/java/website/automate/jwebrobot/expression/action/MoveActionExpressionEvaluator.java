@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.MoveAction;
 
-public class MoveActionExpressionEvaluator extends FilterActionExpressionEvaluator<MoveAction> {
+public class MoveActionExpressionEvaluator extends ElementStoreActionExpressionEvaluator<MoveAction> {
 
     @Inject
     public MoveActionExpressionEvaluator(

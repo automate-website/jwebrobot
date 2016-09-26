@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.EnsureAction;
 
-public class EnsureActionExpressionEvaluator extends FilterActionExpressionEvaluator<EnsureAction> {
+public class EnsureActionExpressionEvaluator extends ElementStoreActionExpressionEvaluator<EnsureAction> {
 
     @Inject
     public EnsureActionExpressionEvaluator(

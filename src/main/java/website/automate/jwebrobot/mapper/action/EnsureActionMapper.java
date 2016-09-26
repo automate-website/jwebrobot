@@ -2,7 +2,7 @@ package website.automate.jwebrobot.mapper.action;
 
 import website.automate.waml.io.model.action.EnsureAction;
 
-public class EnsureActionMapper extends FilterActionMapper<EnsureAction> {
+public class EnsureActionMapper extends ElementStoreActionMapper<EnsureAction> {
 
     @Override
     public EnsureAction map(EnsureAction source) {

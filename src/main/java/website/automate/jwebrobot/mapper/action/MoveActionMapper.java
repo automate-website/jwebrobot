@@ -2,7 +2,7 @@ package website.automate.jwebrobot.mapper.action;
 
 import website.automate.waml.io.model.action.MoveAction;
 
-public class MoveActionMapper extends FilterActionMapper<MoveAction> {
+public class MoveActionMapper extends ElementStoreActionMapper<MoveAction> {
 
     @Override
     public MoveAction map(MoveAction source) {

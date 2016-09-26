@@ -2,7 +2,7 @@ package website.automate.jwebrobot.mapper.action;
 
 import website.automate.waml.io.model.action.ClickAction;
 
-public class ClickActionMapper extends FilterActionMapper<ClickAction> {
+public class ClickActionMapper extends ElementStoreActionMapper<ClickAction> {
 
     @Override
     public ClickAction map(ClickAction source) {

@@ -6,7 +6,7 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.EnterAction;
 
-public class EnterActionExpressionEvaluator extends FilterActionExpressionEvaluator<EnterAction> {
+public class EnterActionExpressionEvaluator extends ElementStoreActionExpressionEvaluator<EnterAction> {
 
     @Inject
     public EnterActionExpressionEvaluator(

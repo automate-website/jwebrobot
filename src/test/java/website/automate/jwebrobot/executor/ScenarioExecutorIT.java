@@ -84,6 +84,13 @@ public class ScenarioExecutorIT extends AbstractTest {
 
         scenarioExecutor.execute(asContext(scenarios));
     }
+    
+    @Test
+    public void ensureElementStoredBySelectorAndText() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/ensure-element-stored-by-selector-and-text.yaml");
+
+        scenarioExecutor.execute(asContext(scenarios));
+    }
 
     @Test
     public void clickByTextShouldWork() {

@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- added experimental support for store criteria to be able to persist the element reference of the filtered element in the memory and reuse it during the scenario execution.
+
 ## [1.3.0]
 ### Changed
 - allowed setting multiple scenario paths as cmd line argument values (#50)

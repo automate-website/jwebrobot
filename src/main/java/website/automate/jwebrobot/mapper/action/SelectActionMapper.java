@@ -2,7 +2,7 @@ package website.automate.jwebrobot.mapper.action;
 
 import website.automate.waml.io.model.action.SelectAction;
 
-public class SelectActionMapper extends FilterActionMapper<SelectAction> {
+public class SelectActionMapper extends ElementStoreActionMapper<SelectAction> {
 
     @Override
     public SelectAction map(SelectAction source) {

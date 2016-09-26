@@ -17,7 +17,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.SelectAction;
 
-public class SelectActionExecutor extends FilterActionExecutor<SelectAction> {
+public class SelectActionExecutor extends ElementStoreActionExecutor<SelectAction> {
 
     private static final String OPTION = "option";
 

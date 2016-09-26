@@ -16,7 +16,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.MoveAction;
 
-public class MoveActionExecutor extends FilterActionExecutor<MoveAction> {
+public class MoveActionExecutor extends ElementStoreActionExecutor<MoveAction> {
 
     @Inject
     public MoveActionExecutor(ExpressionEvaluator expressionEvaluator,

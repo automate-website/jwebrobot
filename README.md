@@ -61,6 +61,17 @@ Find some examples below:
 
 Behind the scenes a powerful test data framework [jfairy] is doing the job. More usage examples may be found there.
 
+### Store Criteria & Element Reference
+While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `select`, `move`) the reference to the filtered element may be stored using the `store` criteria, e.g.:
+
+    ensure:
+        selector: input[type=text]
+        store: userEmailInput
+    store:
+        userEmailInputEnabled: ${userEmailInput.isEnabled()}
+
+Note that the element reference currently exports the underlying [selenium webelement api]. The direct access is an experimental feature and may be subject to change in the future releases.
+
 ## Source Build
 
 An executable JAR can be created by executing the _package_ Maven goal:
@@ -78,3 +89,4 @@ mvn package
 [freemarker]: http://freemarker.org
 [template-tester]: http://freemarker-online.kenshoo.com/
 [jfairy]: https://github.com/Codearte/jfairy
+[selenium webelement api]: https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html
