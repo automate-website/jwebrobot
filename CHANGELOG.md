@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [1.5.0]
 ### Added
 - added configuration parameter that toggles window maximization before scenario execution
 
@@ -163,6 +165,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [1.2.0]: https://github.com/automate-website/jwebrobot/compare/1.1.0...1.2.0
 [1.3.0]: https://github.com/automate-website/jwebrobot/compare/1.2.0...1.3.0
 [1.4.0]: https://github.com/automate-website/jwebrobot/compare/1.3.0...1.4.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.4.0...master
+[1.5.0]: https://github.com/automate-website/jwebrobot/compare/1.4.0...1.5.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.5.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
