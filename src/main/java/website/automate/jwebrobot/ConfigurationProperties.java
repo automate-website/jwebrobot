@@ -58,6 +58,9 @@ public class ConfigurationProperties {
     @Parameter(names = "-browserLogLevel", description = "Log level at which browser logs are included into the reports.", required = false)
     private String browserLogLevel = DEFAULT_BROWSER_LOG_LEVEL;
     
+    @Parameter(names = "-maximizeWindow", description = "Triggers window maximization.", required = false)
+    private String maximizeWindow = Boolean.FALSE.toString();
+    
     public List<String> getScenarioPaths() {
         return scenarioPaths;
     }
@@ -172,5 +175,13 @@ public class ConfigurationProperties {
 
     public void setScenarioPath(String scenarioPath) {
         this.scenarioPath = scenarioPath;
+    }
+
+    public String getMaximizeWindow() {
+        return maximizeWindow;
+    }
+
+    public void setMaximizeWindow(String maximizeWindow) {
+        this.maximizeWindow = maximizeWindow;
     }
 }

@@ -1,5 +1,7 @@
 package website.automate.jwebrobot.executor;
 
+import static java.lang.Boolean.parseBoolean;
+
 import website.automate.jwebrobot.ConfigurationProperties;
 import website.automate.waml.report.io.model.LogEntry.LogLevel;
 
@@ -70,6 +72,8 @@ public class ExecutorOptions {
     
     private LogLevel browserLogLevel;
     
+    private boolean maximizeWindow;
+    
     public static ExecutorOptions of(
             ConfigurationProperties configurationProperties) {
         ExecutorOptions executorOptions = new ExecutorOptions();
@@ -86,6 +90,7 @@ public class ExecutorOptions {
         executorOptions.setScreenshotType(ScreenshotType.findByName(configurationProperties.getScreenshotType()));
         executorOptions.setScreenshotFormat(configurationProperties.getScreenshotFormat());
         executorOptions.setBrowserLogLevel(LogLevel.valueOf(configurationProperties.getBrowserLogLevel().toUpperCase()));
+        executorOptions.setMaximizeWindow(parseBoolean(configurationProperties.getMaximizeWindow()));
         
         return executorOptions;
     }
@@ -160,5 +165,13 @@ public class ExecutorOptions {
 
     public void setBrowserLogLevel(LogLevel browserLogLevel) {
         this.browserLogLevel = browserLogLevel;
+    }
+
+    public boolean isMaximizeWindow() {
+        return maximizeWindow;
+    }
+
+    public void setMaximizeWindow(boolean maximizeWindow) {
+        this.maximizeWindow = maximizeWindow;
     }
 }
