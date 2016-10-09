@@ -34,6 +34,7 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 | *browser*  | optional | A browser can be selected by passing this option when running JWebRobot. Please consider that some browsers require additional configuration parameters. WAML scenarios are executed with Mozilla Firefox per default. Firefox must be installed on the same machine. E.g.: Chrome does not provide embedded webdriver so that it has to be [downloaded manually](webdriver-chrome). The path to the downloaded executable has to be forwarded via the system property `webdriver.chrome.driver`. Of course, Chrome must be present on the same machine. | `firefox` | `chrome` |
 | *reportPath*  | optional  | Path to which the report is written to. | `./report.yaml` | `./myreport.yaml` |
 | *maximizeWindow* | optional | Toggles window maximization before scenario execution. | `false` | `true` |
+| *mode* | optional | Selects the execution mode. Currently legacy non-interactive and interactive mode with the possibility to pause/step-wise execution are supported. | `non-interactive` | `interactive` |
 
 ## Expressions
 Expression are evaluated by the awesome templating engine [freemarker]. The expression syntax and result may be tested using online [template-tester].
