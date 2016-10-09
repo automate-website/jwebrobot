@@ -12,6 +12,8 @@ import website.automate.jwebrobot.GuiceInjector;
 
 public class ConsoleListener implements Runnable {
 
+    private volatile boolean shutdown = false;
+    
     private static ConsoleListener INSTANCE;
     
     private static final String STANDARD_CONSOLE_APPENDER = "STDOUT";
@@ -35,7 +37,7 @@ public class ConsoleListener implements Runnable {
         
         printAvailableCommands();
         
-        while( command != QUIT ){
+        while( command != QUIT || !shutdown){
             if(scanner.hasNextLine()){
                 command = scanner.nextLine().charAt(0);
                 player.executeCommand(command);
@@ -73,5 +75,9 @@ public class ConsoleListener implements Runnable {
 
     public void setPlayer(ExecutionStagnator player) {
         this.player = player;
+    }
+    
+    public void shutdown() {
+        this.shutdown = true;
     }
 }

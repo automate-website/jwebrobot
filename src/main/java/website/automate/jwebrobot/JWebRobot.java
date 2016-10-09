@@ -19,6 +19,8 @@ import website.automate.jwebrobot.player.ExecutionStagnator;
 
 public class JWebRobot {
 
+    private static ConsoleListener consoleListener;
+    
     @Inject
     private ScenarioLoader scenarioLoader;
 
@@ -44,14 +46,16 @@ public class JWebRobot {
         Injector injector = GuiceInjector.getInstance();
 
         if(configurationProperties.isInteractive()){
-            ConsoleListener consoleListener = ConsoleListener.getInstance();
+            consoleListener = ConsoleListener.getInstance();
             consoleListener.getPlayer().executeCommand(ExecutionStagnator.STOP);
         }
         
         JWebRobot jWebRobot = injector.getInstance(JWebRobot.class);
         jWebRobot.run(configurationProperties);
         
-        System.exit(0);
+        if(configurationProperties.isInteractive()){
+            consoleListener.shutdown();
+        }
     }
     
     private static void bridgeJULToSLF4(){
