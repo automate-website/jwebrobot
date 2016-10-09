@@ -152,6 +152,12 @@
             <artifactId>ashot</artifactId>
             <version>1.5.2</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>1.7.21</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

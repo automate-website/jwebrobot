@@ -53,6 +53,31 @@ public class ExecutorOptions {
             return null;
         }
     }
+    
+    public enum Mode {
+        
+        NON_INTERACTIVE("NON_INTERACTIVE"),
+        INTERACTIVE("INTERACTIVE");
+        
+        private Mode(String name){
+            this.name = name;
+        }
+        
+        private String name;
+        
+        public String getName(){
+            return name;
+        }
+        
+        public static Mode findByName(String name) {
+            for (Mode mode : values()) {
+                if (mode.getName().equalsIgnoreCase(name)) {
+                    return mode;
+                }
+            }
+            return null;
+        }
+    }
 
     private WebDriverProvider.Type webDriverType = WebDriverProvider.Type.FIREFOX;
 
@@ -74,6 +99,8 @@ public class ExecutorOptions {
     
     private boolean maximizeWindow;
     
+    private Mode mode;
+    
     public static ExecutorOptions of(
             ConfigurationProperties configurationProperties) {
         ExecutorOptions executorOptions = new ExecutorOptions();
@@ -91,6 +118,7 @@ public class ExecutorOptions {
         executorOptions.setScreenshotFormat(configurationProperties.getScreenshotFormat());
         executorOptions.setBrowserLogLevel(LogLevel.valueOf(configurationProperties.getBrowserLogLevel().toUpperCase()));
         executorOptions.setMaximizeWindow(parseBoolean(configurationProperties.getMaximizeWindow()));
+        executorOptions.setMode(Mode.findByName(configurationProperties.getMode()));
         
         return executorOptions;
     }
@@ -173,5 +201,13 @@ public class ExecutorOptions {
 
     public void setMaximizeWindow(boolean maximizeWindow) {
         this.maximizeWindow = maximizeWindow;
+    }
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
     }
 }

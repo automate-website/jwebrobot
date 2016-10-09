@@ -13,6 +13,7 @@ import website.automate.jwebrobot.executor.action.ActionPreprocessor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
+import website.automate.jwebrobot.player.ExecutionStagnator;
 import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
@@ -33,6 +34,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final ActionPreprocessor actionPreprocessor;
     private final AbstractActionMapper abstractActionMapper;
     private final ScenarioPatternFilter scenarioPatternFilter;
+    private final ExecutionStagnator executionStagnator;
     
     @Inject
     public DefaultScenarioExecutor(
@@ -44,7 +46,8 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ScenarioPreprocessor scenarioPreprocessor,
         ActionPreprocessor actionPreprocessor,
         AbstractActionMapper abstractActionMapper,
-        ScenarioPatternFilter scenarioPatternFilter
+        ScenarioPatternFilter scenarioPatternFilter,
+        ExecutionStagnator scenarioPlayer
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
@@ -55,6 +58,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         this.actionPreprocessor = actionPreprocessor;
         this.abstractActionMapper = abstractActionMapper;
         this.scenarioPatternFilter =scenarioPatternFilter;
+        this.executionStagnator = scenarioPlayer;
     }
 
     @Override
@@ -117,6 +121,8 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         }
 
         for (Action action : scenario.getSteps()) {
+            executionStagnator.pauseIfRequired();
+            
             ActionExecutor<Action> actionExecutor = actionExecutorFactory.getInstance(action.getClass());
             
             Action preprocessedAction = actionPreprocessor.preprocess(abstractActionMapper.map(action), scenarioExecutionContext);

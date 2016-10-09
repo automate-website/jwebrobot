@@ -20,7 +20,8 @@ public class ConfigurationProperties {
     public static final String 
         DEFAULT_REPORT_PATH = "./report.yaml",
         DEFAULT_SCENARIO_PATH = "./",
-        DEFAULT_BROWSER_LOG_LEVEL = "error";
+        DEFAULT_BROWSER_LOG_LEVEL = "error",
+        DEFAULT_MODE = "non_interactive";
 
     @Parameter(names = "-scenarioPath", description = "Path to a single WAML scenario or WAML project root directory.", required = false)
     private String scenarioPath = DEFAULT_SCENARIO_PATH;
@@ -60,6 +61,9 @@ public class ConfigurationProperties {
     
     @Parameter(names = "-maximizeWindow", description = "Triggers window maximization.", required = false)
     private String maximizeWindow = Boolean.FALSE.toString();
+    
+    @Parameter(names = "-mode", description = "Defines the working mode of the jwebrobot.", required = false)
+    private String mode = DEFAULT_MODE;
     
     public List<String> getScenarioPaths() {
         return scenarioPaths;
@@ -183,5 +187,17 @@ public class ConfigurationProperties {
 
     public void setMaximizeWindow(String maximizeWindow) {
         this.maximizeWindow = maximizeWindow;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+    
+    public boolean isInteractive(){
+        return !DEFAULT_MODE.equals(mode);
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }
