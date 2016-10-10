@@ -24,10 +24,10 @@ public class ConsoleListener implements Runnable {
   
     private static final String AVAILABLE_COMMANDS = "Next(N|n), Continue(C|c), Stop(S|s):";
     
-    private ExecutionStagnator player;
+    private ScenarioPlayer player;
     
     @Inject
-    public ConsoleListener(ExecutionStagnator player) {
+    public ConsoleListener(ScenarioPlayer player) {
         super();
         this.player = player;
     }
@@ -62,7 +62,7 @@ public class ConsoleListener implements Runnable {
     }
     
     private void printSuccessMessage(){
-        System.out.println("Execution completed. Enter any key to exit...");
+        System.out.println("Execution completed. Enter any key to exit:");
     }
     
     public static ConsoleListener getInstance(){
@@ -78,11 +78,11 @@ public class ConsoleListener implements Runnable {
         return INSTANCE;
     }
     
-    public ExecutionStagnator getPlayer() {
+    public ScenarioPlayer getPlayer() {
         return player;
     }
 
-    public void setPlayer(ExecutionStagnator player) {
+    public void setPlayer(ScenarioPlayer player) {
         this.player = player;
     }
     

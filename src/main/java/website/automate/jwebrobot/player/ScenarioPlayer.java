@@ -7,7 +7,7 @@ import java.util.concurrent.Semaphore;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ExecutionStagnator {
+public class ScenarioPlayer {
 
     public static final char NEXT = 'n';
     public static final char CONTINUE = 'c';
@@ -43,6 +43,6 @@ public class ExecutionStagnator {
     }
     
     public boolean isValid(char command){
-        return VALID_COMMANDS.contains(command);
+        return VALID_COMMANDS.contains(Character.toLowerCase(command));
     }
 }

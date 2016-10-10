@@ -13,7 +13,7 @@ import website.automate.jwebrobot.executor.action.ActionPreprocessor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
-import website.automate.jwebrobot.player.ExecutionStagnator;
+import website.automate.jwebrobot.player.ScenarioPlayer;
 import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
@@ -34,7 +34,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final ActionPreprocessor actionPreprocessor;
     private final AbstractActionMapper abstractActionMapper;
     private final ScenarioPatternFilter scenarioPatternFilter;
-    private final ExecutionStagnator executionStagnator;
+    private final ScenarioPlayer scenarioPlayer;
     
     @Inject
     public DefaultScenarioExecutor(
@@ -47,7 +47,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ActionPreprocessor actionPreprocessor,
         AbstractActionMapper abstractActionMapper,
         ScenarioPatternFilter scenarioPatternFilter,
-        ExecutionStagnator scenarioPlayer
+        ScenarioPlayer scenarioPlayer
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
@@ -58,7 +58,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         this.actionPreprocessor = actionPreprocessor;
         this.abstractActionMapper = abstractActionMapper;
         this.scenarioPatternFilter =scenarioPatternFilter;
-        this.executionStagnator = scenarioPlayer;
+        this.scenarioPlayer = scenarioPlayer;
     }
 
     @Override
@@ -121,7 +121,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         }
 
         for (Action action : scenario.getSteps()) {
-            executionStagnator.pauseIfRequired();
+            scenarioPlayer.pauseIfRequired();
             
             ActionExecutor<Action> actionExecutor = actionExecutorFactory.getInstance(action.getClass());
             

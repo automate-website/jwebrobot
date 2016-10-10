@@ -15,7 +15,7 @@ import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
 import website.automate.jwebrobot.player.ConsoleListener;
-import website.automate.jwebrobot.player.ExecutionStagnator;
+import website.automate.jwebrobot.player.ScenarioPlayer;
 
 public class JWebRobot {
 
@@ -47,7 +47,7 @@ public class JWebRobot {
 
         if(configurationProperties.isInteractive()){
             consoleListener = ConsoleListener.getInstance();
-            consoleListener.getPlayer().executeCommand(ExecutionStagnator.STOP);
+            consoleListener.getPlayer().executeCommand(ScenarioPlayer.STOP);
         }
         
         JWebRobot jWebRobot = injector.getInstance(JWebRobot.class);

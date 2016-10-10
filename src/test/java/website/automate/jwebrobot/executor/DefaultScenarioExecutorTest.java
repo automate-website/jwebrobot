@@ -19,7 +19,7 @@ import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
 import website.automate.jwebrobot.mapper.action.ActionMapperProvider;
-import website.automate.jwebrobot.player.ExecutionStagnator;
+import website.automate.jwebrobot.player.ScenarioPlayer;
 import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.Scenario;
 
@@ -40,7 +40,7 @@ public class DefaultScenarioExecutorTest {
     @Mock private ScenarioExecutionContext context;
     @Mock private AbstractActionMapper abstractActionMapper;
     @Mock private ScenarioPatternFilter scenarioPatternFilter;
-    @Mock private ExecutionStagnator executionStagnator;
+    @Mock private ScenarioPlayer scenarioPlayer;
     
     private DefaultScenarioExecutor scenarioExecutor;
     
@@ -50,7 +50,7 @@ public class DefaultScenarioExecutorTest {
                 validator, conditionalExpressionEvaluator,
                 scenarioPreprocessor, actionPreprocessor, abstractActionMapper,
                 scenarioPatternFilter,
-                executionStagnator);
+                scenarioPlayer);
         
         when(scenarioPreprocessor.preprocess(scenario, context)).thenReturn(preprocessedScenario);
     }

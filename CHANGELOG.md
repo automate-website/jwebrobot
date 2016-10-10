@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- bridged java util logging to unify logging output
+
+### Added
+- introduced mode option and stepwise/pausable interactive playback mode
 
 ## [1.5.0]
 ### Added
