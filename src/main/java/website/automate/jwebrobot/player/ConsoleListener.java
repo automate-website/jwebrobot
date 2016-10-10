@@ -16,6 +16,8 @@ public class ConsoleListener implements Runnable {
     
     private static ConsoleListener INSTANCE;
     
+    private static ExecutorService EXECUTOR_SERVICE;
+    
     private static final String STANDARD_CONSOLE_APPENDER = "STDOUT";
     private static final char NOOP  = '0';
     private static final char QUIT  = 'q';
@@ -23,7 +25,7 @@ public class ConsoleListener implements Runnable {
     private static final String AVAILABLE_COMMANDS = "Next(N|n), Continue(C|c), Stop(S|s):";
     
     private ExecutionStagnator player;
-
+    
     @Inject
     public ConsoleListener(ExecutionStagnator player) {
         super();
@@ -37,15 +39,18 @@ public class ConsoleListener implements Runnable {
         
         printAvailableCommands();
         
-        while( command != QUIT || !shutdown){
+        while( command != QUIT && !shutdown){
             if(scanner.hasNextLine()){
                 command = scanner.nextLine().charAt(0);
-                player.executeCommand(command);
-                printAvailableCommands();
+                if(player.isValid(command)){
+                    player.executeCommand(command);
+                    printAvailableCommands();
+                }
             }
         }
 
         scanner.close();
+        EXECUTOR_SERVICE.shutdown();
     }
     
     private static void disableConsoleAppender(){
@@ -56,11 +61,15 @@ public class ConsoleListener implements Runnable {
         System.out.println(AVAILABLE_COMMANDS);
     }
     
+    private void printSuccessMessage(){
+        System.out.println("Execution completed. Enter any key to exit...");
+    }
+    
     public static ConsoleListener getInstance(){
         if(INSTANCE == null){
             ConsoleListener consoleListener = GuiceInjector.getInstance().getInstance(ConsoleListener.class);
-            ExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-            executorService.execute(consoleListener);
+            EXECUTOR_SERVICE = Executors.newFixedThreadPool(1);
+            EXECUTOR_SERVICE.execute(consoleListener);
             
             disableConsoleAppender();
             
@@ -79,5 +88,6 @@ public class ConsoleListener implements Runnable {
     
     public void shutdown() {
         this.shutdown = true;
+        printSuccessMessage();
     }
 }

@@ -20,9 +20,6 @@ public class ExecutionStagnator {
     private Semaphore lock = new Semaphore(0);
     
     public void executeCommand(char command){
-        if(!VALID_COMMANDS.contains(command)){
-            return;
-        }
         if(command == NEXT || command == CONTINUE){
             lock.release();
         }
@@ -43,5 +40,9 @@ public class ExecutionStagnator {
 
     public char getCommand() {
         return command;
+    }
+    
+    public boolean isValid(char command){
+        return VALID_COMMANDS.contains(command);
     }
 }
