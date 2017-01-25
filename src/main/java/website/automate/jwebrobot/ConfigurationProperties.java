@@ -1,70 +1,64 @@
 package website.automate.jwebrobot;
 
-import static java.text.MessageFormat.format;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.beust.jcommander.Parameter;
 import website.automate.jwebrobot.executor.ExecutorOptions.ScreenshotType;
 import website.automate.jwebrobot.executor.ExecutorOptions.TakeScreenshots;
 
-import com.beust.jcommander.Parameter;
+import java.util.*;
+
+import static java.text.MessageFormat.format;
 
 public class ConfigurationProperties {
 
-    public static final String 
+    public static final String
         DEFAULT_REPORT_PATH = "./report.yaml",
         DEFAULT_SCENARIO_PATH = "./",
         DEFAULT_BROWSER_LOG_LEVEL = "error",
         DEFAULT_MODE = "non_interactive";
+    public static final String FIREFOX = "firefox";
 
     @Parameter(names = "-scenarioPath", description = "Path to a single WAML scenario or WAML project root directory.", required = false)
     private String scenarioPath = DEFAULT_SCENARIO_PATH;
-    
+
 	@Parameter(names = "-scenarioPaths", variableArity = true, description = "Path to a single WAML scenario or WAML project root directory.", required = false)
     private List<String> scenarioPaths = new ArrayList<>();
 
     @Parameter(names = "-browser", description = "Browser to use for execution (e.g firefox or chrome).", required = false)
-    private String browser = "firefox";
-    
+    private String browser = System.getProperty("jwebrobot.browser", FIREFOX);
+
     @Parameter(names = "-context", variableArity = true, required = false)
     private List<String> contextEntries = new ArrayList<>();
-    
+
     @Parameter(names = "-takeScreenshots", description = "Determines if any and under which condition screenshots must be taken.", required = false)
     private String takeScreenshots = TakeScreenshots.ON_FAILURE.getName();
 
     @Parameter(names = "-screenshotPath", description = "Path to the directory where created screeshots must be saved.", required = false)
     private String screenshotPath = "./";
-    
+
     @Parameter(names = "-screenshotType", description = "Defines the way screenshots must be taken: fullscreen vs. viewport")
     private String screenshotType = ScreenshotType.VIEW_PORT.getName();
-    
+
     @Parameter(names = "-screenshotFormat", description = "Defines the screenshot format")
     private String screenshotFormat = "png";
-    
+
     @Parameter(names = "-timeout", description = "Timeout waiting for conditions to be fulfilled in seconds.", required = false)
     private Long timeout;
-    
+
     @Parameter(names = "-scenarioPattern", description = "Scenario name pattern. If set, only non fragment scenarios matching the pattern are executed.", required = false)
     private String scenarioPattern;
-    
+
     @Parameter(names = "-reportPath", description = "Path to which the execution report is written to.", required = false)
     private String reportPath = DEFAULT_REPORT_PATH;
-    
+
     @Parameter(names = "-browserLogLevel", description = "Log level at which browser logs are included into the reports.", required = false)
     private String browserLogLevel = DEFAULT_BROWSER_LOG_LEVEL;
-    
+
     @Parameter(names = "-maximizeWindow", description = "Triggers window maximization.", required = false)
     private String maximizeWindow = Boolean.FALSE.toString();
-    
+
     @Parameter(names = "-mode", description = "Defines the working mode of the jwebrobot.", required = false)
     private String mode = DEFAULT_MODE;
-    
+
     public List<String> getScenarioPaths() {
         return scenarioPaths;
     }
@@ -88,7 +82,7 @@ public class ConfigurationProperties {
     public void setTimeout(Long timeout) {
         this.timeout = timeout;
     }
-    
+
     public Map<String, Object> getContext(){
         Map<String, Object> contextMap = new HashMap<>();
         for(String contextEntry : contextEntries){
@@ -166,7 +160,7 @@ public class ConfigurationProperties {
     public String getScenarioPath() {
         return scenarioPath;
     }
-    
+
     public Collection<String> getAllScenarioPaths(){
         Set<String> scenarioPaths = new HashSet<>();
         String scenarioPath = getScenarioPath();
@@ -192,7 +186,7 @@ public class ConfigurationProperties {
     public String getMode() {
         return mode;
     }
-    
+
     public boolean isInteractive(){
         return !DEFAULT_MODE.equals(mode);
     }

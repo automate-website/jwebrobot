@@ -35,7 +35,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final AbstractActionMapper abstractActionMapper;
     private final ScenarioPatternFilter scenarioPatternFilter;
     private final ScenarioPlayer scenarioPlayer;
-    
+
     @Inject
     public DefaultScenarioExecutor(
         WebDriverProvider webDriverProvider,
@@ -82,13 +82,13 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ExecutorOptions options = context.getOptions();
 
         if (!scenario.getFragment() && scenarioPatternFilter.isExecutable(options.getScenarioPattern(), scenario.getName())){
-            logger.info("Starting scenario {}...", scenario.getName());
+            logger.info("Starting scenario \"{}\"...", scenario.getName());
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
-            
+
             if(options.isMaximizeWindow() == Boolean.TRUE){
                 driver.manage().window().maximize();
             }
-            
+
             ScenarioExecutionContext scenarioExecutionContext = new ScenarioExecutionContext(context, scenario, driver);
             try {
                 runScenario(scenario, scenarioExecutionContext);
@@ -106,31 +106,31 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     @Override
     public void runScenario(Scenario scenario, ScenarioExecutionContext scenarioExecutionContext) {
         boolean executable = conditionalExpressionEvaluator.isExecutable(scenario, scenarioExecutionContext);
-        
+
         if(!executable){
             return;
         }
-        
+
         listener.beforeScenario(scenarioExecutionContext);
-        
+
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, scenarioExecutionContext);
         scenarioExecutionContext.setScenario(preprocessedScenario);
-        
+
         if (scenario.getSteps() == null) {
             throw new StepsMustBePresentException(scenario.getName());
         }
 
         for (Action action : scenario.getSteps()) {
             scenarioPlayer.pauseIfRequired();
-            
+
             ActionExecutor<Action> actionExecutor = actionExecutorFactory.getInstance(action.getClass());
-            
+
             Action preprocessedAction = actionPreprocessor.preprocess(abstractActionMapper.map(action), scenarioExecutionContext);
-            
+
             logger.debug("Executing {}", actionExecutor.getClass().getName());
             actionExecutor.execute(preprocessedAction, scenarioExecutionContext);
         }
-        
+
         listener.afterScenario(scenarioExecutionContext);
     }
 }

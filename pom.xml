@@ -28,6 +28,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <selenium-java.version>2.53.1</selenium-java.version>
     </properties>
 
     <licenses>
@@ -53,7 +54,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>2.53.1</version>
+            <version>${selenium-java.version}</version>
         </dependency>
 
         <dependency>
@@ -152,7 +153,7 @@
             <artifactId>ashot</artifactId>
             <version>1.5.2</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
