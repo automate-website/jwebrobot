@@ -70,7 +70,7 @@ While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `
         selector: input[type=text]
         store: userEmailInput
     store:
-        userEmailInputEnabled: ${userEmailInput.isEnabled()}
+        userEmailInputEnabled: ${userEmailInput.isEnabled()?c}
 
 Note that the element reference currently exports the underlying [selenium webelement api]. The direct access is an experimental feature and may be subject to change in the future releases.
 
