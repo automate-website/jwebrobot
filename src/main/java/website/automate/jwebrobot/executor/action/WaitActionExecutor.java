@@ -3,13 +3,17 @@ package website.automate.jwebrobot.executor.action;
 import com.google.inject.Inject;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.DecimalNumberExpectedException;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
+import website.automate.jwebrobot.exceptions.WaitTimeTooBigException;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.WaitAction;
 
 public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
+
+    private static final int WAIT_TIME_LIMIT = 1000;
 
     @Inject
     public WaitActionExecutor(ExpressionEvaluator expressionEvaluator,
@@ -23,13 +27,20 @@ public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
 
     @Override
     public void perform(final WaitAction action, ScenarioExecutionContext context) {
-        Long time = Long.parseLong(action.getTime());
+        String waitTimeStr = action.getTime();
         try {
-            Thread.sleep(time * 1000);
+            Double waitTime = Double.parseDouble(waitTimeStr);
+
+            if (waitTime >= WAIT_TIME_LIMIT) {
+                throw new WaitTimeTooBigException(action.getClass(), waitTime);
+            }
+
+            Thread.sleep(Math.round(waitTime * 1000));
+        } catch (NumberFormatException e) {
+            throw new DecimalNumberExpectedException(action.getClass(), waitTimeStr);
         } catch (InterruptedException e) {
-
+            // This should never happen
         }
-
     }
 
     @Override
