@@ -4,6 +4,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added 
+- browser name as system property
+- support for decimals in the wait step
+
+### Changed
+- upgraded to selenium-java 2.53.1
+
 ## [1.6.0]
 ### Changed
 - bridged java util logging to unify logging output
