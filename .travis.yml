@@ -35,10 +35,9 @@ after_success:
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push automatewebsite/jwebrobot-chrome;
     fi
-  # Remove after tests
-  - if [ "$TRAVIS_BRANCH" == "59-docker-container" ]; then
+  - if [ ! -z "$TRAVIS_TAG" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push automatewebsite/jwebrobot-chrome;
+    docker push automatewebsite/jwebrobot-chrome:$TRAVIS_TAG;
     fi
 
 env:
