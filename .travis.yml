@@ -22,7 +22,6 @@ script:
   - JWEBROBOT_TEST_REPORT_DIR=$JWEBROBOT_TEST_DIR/report
   - if [ "$(ls -1 $JWEBROBOT_TEST_REPORT_DIR | wc -l)" < "1" ]; then
     ls -l $JWEBROBOT_TEST_REPORT_DIR
-    echo "ERROR: No report found after container execution!"
     exit 1
     fi
 
