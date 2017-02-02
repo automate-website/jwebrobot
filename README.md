@@ -82,6 +82,31 @@ An executable JAR can be created by executing the _package_ Maven goal:
 mvn package
 ```
 
+## Run JWebRobot as Docker Container
+
+For easier bootstrapping, the JWebRobot is [available as Docker image](https://hub.docker.com/r/automatewebsite/jwebrobot-chrome/) 
+on Docker Hub. The _automatewebsite/jwebrobot-chrome_ image is based on the official [selenium/node-chrome](https://github.com/SeleniumHQ/docker-selenium/tree/master/NodeChrome)
+image.
+
+### Usage
+
+It is assumed that you already have a scenario file which is placed in a certain `<scenario folder>`. Thus, 
+_jwebrobot-chrome_ container can be executed as following:
+
+    docker run -v <scenario folder>:/var/jwebrobot automatewebsite/jwebrobot-chrome
+    
+In complex setup, you may want to pass additional parameters to the container, e.g.:
+
+    docker run -v <scenario folder>:/var/jwebrobot \
+        -e JWEBROBOT_OPTS="-timeout 10 -takeScreenshots ON_EVERY_STEP" \
+        -e SCREEN_WIDTH=800 \
+        -e SCREEN_HEIGHT=600 \
+        -e JAVA_OPTS="-Dhttp.proxyHost=proxy.example.com -Dhttp.proxyPort=1234" \
+        automatewebsite/jwebrobot-chrome
+        
+The execution report will be stored in `<scenario folder>/report`.
+
+
 [webdriver-chrome]: http://chromedriver.storage.googleapis.com/index.html
 [changelog]: CHANGELOG.md
 [waml-schema]: http://waml-schema.org
