@@ -15,7 +15,8 @@ before_script:
 script:
   - mvn clean verify
   - JWEBROBOT_JAR=$(ls -1 target/*.jar | grep -E 'target/jwebrobot-[0-9]+\.[0-9]+\.[0-9]+?(-SNAPSHOT)\.jar$')
-  - ln -s "$(pwd)/$JWEBROBOT_JAR" .travis/jwebrobot-chrome/jwebrobot.jar
+  - cp $JWEBROBOT_JAR .travis/jwebrobot-chrome/jwebrobot.jar
+  - ls .travis/jwebrobot-chrome/ # debug
   - docker build -t automatewebsite/jwebrobot-chrome .travis/jwebrobot-chrome
   - JWEBROBOT_TEST_DIR=$TRAVIS_BUILD_DIR/.travis/jwebrobot-docker-test
   - docker run -v $JWEBROBOT_TEST_DIR:/var/jwebrobot automatewebsite/jwebrobot-chrome
