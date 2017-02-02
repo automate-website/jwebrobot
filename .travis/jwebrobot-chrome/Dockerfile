@@ -15,7 +15,14 @@ ENV JAVA_OPTS ""
 
 VOLUME ["$JWEBROBOT_SCENARIOS"]
 
+USER root
+
 COPY entry_point.sh /opt/jwebrobot/entry_point.sh
+RUN chmod +x /opt/jwebrobot/entry_point.sh
+
 COPY jwebrobot.jar /opt/jwebrobot/jwebrobot.jar
+
+RUN chown -R seluser:seluser /opt/jwebrobot
+USER seluser
 
 CMD ["/opt/jwebrobot/entry_point.sh"]
