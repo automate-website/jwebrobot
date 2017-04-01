@@ -1,0 +1,12 @@
+name: Wikipedia Test
+steps:
+  - store:
+      baseUrl: 'https://en.wikipedia.org'
+  - open: ${baseUrl}
+  - store:
+      selector: 'a[title="Not Existent"]'
+      store: link
+  - click:
+      unless: "${ (link!false)?c }"
+      selector: 'a[title="Wikipedia:About"]'
+  - ensure: '#About_Wikipedia'

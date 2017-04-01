@@ -85,7 +85,7 @@ public class StoreActionExecutor extends ElementStoreActionExecutor<StoreAction>
     
     private boolean isTimeout(long startTimeInMillis, long timeoutInMillis){
       long currentTimeInMillis = System.currentTimeMillis();
-      return (startTimeInMillis + timeoutInMillis) >= currentTimeInMillis;
+      return (startTimeInMillis + timeoutInMillis) < currentTimeInMillis;
     }
 
     @Override
