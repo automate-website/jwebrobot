@@ -65,13 +65,25 @@ Find some examples below:
 Behind the scenes a powerful test data framework [jfairy] is doing the job. More usage examples may be found there.
 
 ### Store Criterion & Element Reference
-While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `select`, `move`) the reference to the filtered element may be stored using the `store` criterion, e.g.:
+While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `select`, `move`, `store`) the reference to the filtered element may be stored using the `store` criterion, e.g.:
 
     ensure:
         selector: input[type=text]
         store: userEmailInput
     store:
         userEmailInputEnabled: ${userEmailInput.isEnabled()?c}
+
+Store step has an exceptional functionality that allows to store references on elements in case they exist (without breaking the execution if the element wasn't found), e.g.:
+
+    store:
+        selector: input[type=text]
+        store: userEmailInput
+    click:
+        if: ${ (userEmailInput!false)?c }
+        userEmailInputEnabled: ${userEmailInput.isEnabled()?c}
+
+In the sample the userEmailInput key may not be set. The click step is executed conditionally (if the key exists).
+
 
 Note that the element reference currently exports the underlying [selenium webelement api]. The direct access is an experimental feature and may be subject to change in the future releases.
 
