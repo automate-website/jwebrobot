@@ -4,6 +4,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- experimental iframe element usage support within filter criteria
+
 ## [1.7.0]
 ### Added 
 - browser name as system property

@@ -75,6 +75,14 @@ While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `
 
 Note that the element reference currently exports the underlying [selenium webelement api]. The direct access is an experimental feature and may be subject to change in the future releases.
 
+## IFrame Scoped Elements
+A single set of filter criteria can not be applied across multiple documents, thus if the desired element is located within a different document on the same page (e.g. iframe), it might be accessed by pointing to the target document within the parent filter criteria):
+
+    ensure:
+        selector: input[type=username]
+        parent:
+            selector: iframe[src=login]
+
 ## Source Build
 
 An executable JAR can be created by executing the _package_ Maven goal:
