@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.executor.filter;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.google.inject.Inject;
@@ -36,7 +38,7 @@ public class ElementFilterChain {
             return Collections.emptyList();
         }
 
-        WebElement html = context.getDriver().findElement(By.tagName("html"));
+        WebElement html = getDefaultFrameElement(context.getDriver().switchTo().defaultContent());
 
         List<WebElement> filteredWebElements = asList(html);
 
@@ -45,7 +47,7 @@ public class ElementFilterChain {
                     .entrySet()) {
                 ElementFilter elementFilter = elementFilterProvider
                         .getInstance(filterCriteriaValueEntry.getKey());
-                filteredWebElements = getDisplayed(elementFilter
+                filteredWebElements = getDisplayed(context, elementFilter
                         .filter(filterCriteriaValueEntry.getValue(),
                                 filteredWebElements));
             }
@@ -53,7 +55,7 @@ public class ElementFilterChain {
 
         return filteredWebElements;
     }
-
+    
     private List<Map<CriterionType, String>> getParentCriteriaValueMapsInReverseOrder(
             FilterAction action) {
         List<Map<CriterionType, String>> groupedFilterCriteria = new ArrayList<>();
@@ -103,13 +105,28 @@ public class ElementFilterChain {
         return filterCriteria;
     }
 
-    private List<WebElement> getDisplayed(List<WebElement> webElements) {
+    private List<WebElement> getDisplayed(ScenarioExecutionContext context, List<WebElement> webElements) {
         List<WebElement> displayedElements = new ArrayList<>();
         for (WebElement webElement : webElements) {
             if (webElement.isDisplayed()) {
+                if(isIframe(webElement)){
+                  return singletonList(switchToFrame(context, webElement));
+                }
                 displayedElements.add(webElement);
             }
         }
         return displayedElements;
+    }
+    
+    private boolean isIframe(WebElement webElement){
+      return webElement.getTagName().equalsIgnoreCase("iframe");
+    }
+    
+    private WebElement switchToFrame(ScenarioExecutionContext context, WebElement webElement){
+       return getDefaultFrameElement(context.getDriver().switchTo().frame(webElement));
+    }
+    
+    private WebElement getDefaultFrameElement(WebDriver driver){
+      return driver.findElement(By.tagName("html"));
     }
 }
