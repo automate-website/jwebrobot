@@ -187,6 +187,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [1.5.0]: https://github.com/automate-website/jwebrobot/compare/1.4.0...1.5.0
 [1.6.0]: https://github.com/automate-website/jwebrobot/compare/1.5.0...1.6.0
 [1.7.0]: https://github.com/automate-website/jwebrobot/compare/1.6.0...1.7.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.7.0...master
+[1.8.0]: https://github.com/automate-website/jwebrobot/compare/1.7.0...1.8.0
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.8.0...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
