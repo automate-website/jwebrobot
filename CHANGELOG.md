@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.8.0]
 ### Added
 - experimental iframe element usage support within filter criteria
 
