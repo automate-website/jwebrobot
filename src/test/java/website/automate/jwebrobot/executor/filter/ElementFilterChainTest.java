@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.WebElement;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
@@ -33,6 +34,7 @@ public class ElementFilterChainTest {
     @Mock private WebElement body;
     @Mock private WebElement parent;
     @Mock private WebElement target;
+    @Mock private TargetLocator locator;
     
     private ElementFilterChain chain;
     
@@ -55,6 +57,10 @@ public class ElementFilterChainTest {
         when(provider.getInstance(CriterionType.SELECTOR)).thenReturn(selectorElementFilter);
         when(provider.getInstance(CriterionType.TEXT)).thenReturn(textElementFilter);
         when(context.getDriver()).thenReturn(driver);
+        when(driver.switchTo()).thenReturn(locator);
+        when(locator.defaultContent()).thenReturn(driver);
+        when(parent.getTagName()).thenReturn("div");
+        when(target.getTagName()).thenReturn("a");
         when(driver.findElement(By.tagName("html"))).thenReturn(body);
         when(selectorElementFilter.filter(selectorValue, asList(parent))).thenReturn(asList(target));
         when(textElementFilter.filter(textValue, asList(body))).thenReturn(asList(parent));
