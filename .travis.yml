@@ -19,6 +19,8 @@ script:
   - ls -l .travis/jwebrobot-chrome/
   - docker build -t automatewebsite/jwebrobot-chrome .travis/jwebrobot-chrome
   - JWEBROBOT_TEST_DIR=$TRAVIS_BUILD_DIR/.travis/jwebrobot-docker-test
+  - ls -l $JWEBROBOT_TEST_DIR
+  - chmod -R 777 $JWEBROBOT_TEST_DIR
   - docker run -v $JWEBROBOT_TEST_DIR:/var/jwebrobot automatewebsite/jwebrobot-chrome
   - JWEBROBOT_TEST_REPORT_DIR=$JWEBROBOT_TEST_DIR/report
   - JWEBROBOT_TEST_REPORT_FILES_COUNT=$(ls -1 $JWEBROBOT_TEST_REPORT_DIR | wc -l)
