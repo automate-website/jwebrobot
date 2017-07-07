@@ -1,17 +1,10 @@
 package website.automate.jwebrobot.report;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
-
+import org.openqa.selenium.UnsupportedCommandException;
+import org.openqa.selenium.logging.LogType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
@@ -19,16 +12,17 @@ import website.automate.jwebrobot.listener.ExecutionEventListener;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
 import website.automate.waml.report.io.WamlReportWriter;
-import website.automate.waml.report.io.model.ActionReport;
-import website.automate.waml.report.io.model.ExecutionStatus;
-import website.automate.waml.report.io.model.LogEntry;
+import website.automate.waml.report.io.model.*;
 import website.automate.waml.report.io.model.LogEntry.LogLevel;
-import website.automate.waml.report.io.model.ScenarioReport;
-import website.automate.waml.report.io.model.SimpleActionReport;
-import website.automate.waml.report.io.model.SimpleScenarioReport;
-import website.automate.waml.report.io.model.WamlReport;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.*;
 
 public class Reporter implements ExecutionEventListener {
+    private static final Logger LOG = LoggerFactory.getLogger(Reporter.class);
+
 
     private WamlReportWriter writer;
 
@@ -85,21 +79,26 @@ public class Reporter implements ExecutionEventListener {
     }
 
     private void processLogEntries(ScenarioExecutionContext context, ActionReport actionReport) {
-        List<org.openqa.selenium.logging.LogEntry> logEntries = context.getDriver().manage().logs().get("browser").getAll();
-        ExecutorOptions options = context.getGlobalContext().getOptions();
-        
-        List<LogEntry> convertedLogEntries = new ArrayList<>();
+        try {
+            List<org.openqa.selenium.logging.LogEntry> logEntries = context.getDriver().manage().logs().get(LogType.BROWSER).getAll();
+            ExecutorOptions options = context.getGlobalContext().getOptions();
 
-        for (org.openqa.selenium.logging.LogEntry logEntry : logEntries) {
-            LogLevel actualLevel = convertLogLevel(logEntry.getLevel());
+            List<LogEntry> convertedLogEntries = new ArrayList<>();
 
-            if(LogEntry.isIncluded(options.getBrowserLogLevel(), actualLevel)){
-                convertedLogEntries.add(new LogEntry(
-                    actualLevel, new Date(logEntry.getTimestamp()), logEntry.getMessage()));
+            for (org.openqa.selenium.logging.LogEntry logEntry : logEntries) {
+                LogLevel actualLevel = convertLogLevel(logEntry.getLevel());
+
+                if (LogEntry.isIncluded(options.getBrowserLogLevel(), actualLevel)) {
+                    convertedLogEntries.add(new LogEntry(
+                        actualLevel, new Date(logEntry.getTimestamp()), logEntry.getMessage()));
+                }
             }
-        }
 
-        actionReport.setLogEntries(convertedLogEntries);
+            actionReport.setLogEntries(convertedLogEntries);
+        } catch (UnsupportedCommandException e) {
+            // TODO set flag on the report: https://github.com/automate-website/waml-io/issues/2
+            LOG.warn("Current WebDriver does not support browser logging!");
+        }
     }
 
     private LogLevel convertLogLevel(java.util.logging.Level logLevel) {
