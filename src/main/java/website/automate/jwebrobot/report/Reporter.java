@@ -78,7 +78,7 @@ public class Reporter implements ExecutionEventListener {
         actionReportMap.put(action, actionReport);
     }
 
-    private void processLogEntries(ScenarioExecutionContext context, ActionReport actionReport) {
+    void processLogEntries(ScenarioExecutionContext context, ActionReport actionReport) {
         try {
             List<org.openqa.selenium.logging.LogEntry> logEntries = context.getDriver().manage().logs().get(LogType.BROWSER).getAll();
             ExecutorOptions options = context.getGlobalContext().getOptions();
