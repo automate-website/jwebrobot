@@ -11,17 +11,22 @@ public class WebDriverProvider {
 
     public WebDriver createInstance(Type type) {
         switch (type) {
-            case FIREFOX:
-                return new FirefoxDriver();
             case CHROME:
                 return new ChromeDriver();
+            case CHROME_HEADLESS:
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--headless", "--disable-gpu");
+                ChromeDriver chromeDriver = new ChromeDriver(options);
+
+                return chromeDriver;
             case OPERA:
                 return new OperaDriver(getOperaCapabilities());
+            case FIREFOX:
             default:
-                throw new RuntimeException("Unsupported web driver type.");
+                return new FirefoxDriver();
         }
     }
-    
+
     private DesiredCapabilities getOperaCapabilities(){
         DesiredCapabilities capabilities = DesiredCapabilities.operaBlink();
         String operaBinaryPath = System.getProperty("webdriver.opera.binary");
@@ -34,16 +39,21 @@ public class WebDriverProvider {
     }
 
     public enum Type {
-        FIREFOX,
-        CHROME,
-        OPERA;
+        FIREFOX("firefox"),
+        CHROME("chrome"),
+        CHROME_HEADLESS("chrome-headless"),
+        OPERA("opera");
+
+        private final String canonicalName;
+
+        Type(String canonicalName) {
+            this.canonicalName = canonicalName;
+        }
 
         public static Type fromString(String typeString) {
-            if (typeString != null) {
-                for (Type type : Type.values()) {
-                    if (typeString.equalsIgnoreCase(type.name())) {
-                        return type;
-                    }
+            for (Type type : Type.values()) {
+                if (type.canonicalName.equalsIgnoreCase(typeString)) {
+                    return type;
                 }
             }
 
