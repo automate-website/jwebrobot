@@ -13,11 +13,11 @@ There are two options how to execute JWebRobot:
 1. In Docker (easiest)
 2. Using the JAR
 
-It is assumend that your alredy have a test scenario in [WAML format](waml-git) which is stored in 
+It is assumed that your already have a test scenario in which is stored in 
 
     /var/scenarios/checkout-test.yaml
      
-E.g.:
+and having a valid content in [WAML format](waml-git), e.g.
 
 ```yaml
 name: Checkout Button Presence Test
@@ -35,41 +35,47 @@ image.
 You can easily execute it by starting the _jwebrobot-chrome_ Docker container 
 while the volume`/var/scenarios` is bound to `/var/jwebrobot`:
 
-    $ docker run -v /var/scenarios:/var/jwebrobot automatewebsite/jwebrobot-chrome
+```bash
+$ docker run -v /var/scenarios:/var/jwebrobot automatewebsite/jwebrobot-chrome
+```
 
 In complex setup, you may want to pass additional parameters to the container, e.g.:
 
-    $ docker run -v /var/scenarios:/var/jwebrobot \
-        -e JWEBROBOT_OPTS="-timeout 10 -takeScreenshots ON_EVERY_STEP" \
-        -e SCREEN_WIDTH=800 \
-        -e SCREEN_HEIGHT=600 \
-        -e JAVA_OPTS="-Dhttp.proxyHost=proxy.example.com -Dhttp.proxyPort=1234" \
-        automatewebsite/jwebrobot-chrome
+```bash
+$ docker run -v /var/scenarios:/var/jwebrobot \
+    -e JWEBROBOT_OPTS="-timeout 10 -takeScreenshots ON_EVERY_STEP" \
+    -e SCREEN_WIDTH=800 \
+    -e SCREEN_HEIGHT=600 \
+    -e JAVA_OPTS="-Dhttp.proxyHost=proxy.example.com -Dhttp.proxyPort=1234" \
+    automatewebsite/jwebrobot-chrome 
+```
         
-The execution report will be stored in `/var/scenarios/report`.
+The execution report will be stored in `/var/scenarios/report.yaml`.
 
 ### Run JWebRobot from JAR
 
 1. Download the latest release from [the releases page](download) or from [Maven repository].
 2. Install of the supported browsers (_please consider that browsers usually require a running X server, consider to use 
-[Xvfb] if you do not have any).
+[Xvfb] if you do not have any_).
 3. Download a WebDriver for your browser (e.g. [geckodriver] for Firefox or [ChromeDriver] for Chrome) and save it to 
 `/bin` folder.
 4. Start execution by passing the browser, the driver path the scenario path and :
  
 ```bash
-    $ java \
-        -Djwebrobot.browser=firefox \
-        -Dwebdriver.gecko.driver=/bin/geckodriver \
-        # -Dwebdriver.chrome.driver=/bin/chromedriver \
-        # -Dwebdriver.opera.driver=/bin/operadriver \
-        -jar jwebrobot-<version>.jar \
-        -scenarioPath /var/scenarios
+$ java \
+    -Djwebrobot.browser=firefox \
+    -Dwebdriver.gecko.driver=/bin/geckodriver \
+    # -Dwebdriver.chrome.driver=/bin/chromedriver \
+    # -Dwebdriver.opera.driver=/bin/operadriver \
+    -jar jwebrobot-<version>.jar \
+    -scenarioPath /var/scenarios
 ```
 This will perform execution using Firefox (communicating via the [gekodriver]) and publish results to 
 `report.yaml` in the current folder.
 
-If the path to your browser is not on the default location, you can provide it by passing the following JVM parameter: `-Dwebdriver.firefox.bin="/bin/firefox-unstable"`.
+If the path to your browser is not on the default location, you can provide it by passing the following JVM parameter:
+    
+    -Dwebdriver.firefox.bin="/bin/firefox-unstable"
 
 #### Options
 Options may be passed to the **JWebRobot** using single hyphen notation:
