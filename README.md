@@ -1,20 +1,77 @@
-# JWebRobot
+# JWebRobot – The Reference Implementation of WAML Executor
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot/badge.svg)](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot) [![Build Status](https://travis-ci.org/automate-website/jwebrobot.svg?branch=master)](https://travis-ci.org/automate-website/jwebrobot) [![codecov.io](https://codecov.io/github/automate-website/jwebrobot/coverage.svg?branch=master)](https://codecov.io/github/automate-website/jwebrobot?branch=master) [![Gitter](https://badges.gitter.im/automate-website/jwebrobot.svg)](https://gitter.im/automate-website/jwebrobot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Docker Hub](https://img.shields.io/docker/pulls/automatewebsite/jwebrobot-chrome.svg)](https://hub.docker.com/r/automatewebsite/jwebrobot-chrome) 
 
 
-Latest release can be downloaded directly from [here].
+**JWebRobot** is the reference implementation of executor which processes the [Web Automation Markup Language](waml-git). Currently the it is based on the [draft-02] schema.
 
-## Short Description
 
-**JWebRobot** is the reference implementation of [web automation markup language]. Currently the implementation is based on the [draft-02] schema.
+## How to Run
 
-## References
-Refer to the [changelog] for recent notable changes and modifications.
+There are two options how to execute JWebRobot:
 
-Refer to the [waml-schema] for schema sources.
+1. In Docker (easiest)
+2. Using the JAR
 
-## Options
+It is assumend that your alredy have a test scenario in [WAML format](waml-git) which is stored in 
+
+    /var/scenarios/checkout-test.yaml
+     
+E.g.:
+
+```yaml
+name: Checkout Button Presence Test
+steps:
+  - open: 'https://example.com/checkout'
+  - ensure: 'button#buy-now'
+```
+
+### Run JWebRobot Docker Container
+
+For easier bootstrapping, the JWebRobot is [available as Docker image](docker-jwebrobot) 
+on Docker Hub. The _automatewebsite/jwebrobot-chrome_ image is based on the official [selenium/node-chrome](https://github.com/SeleniumHQ/docker-selenium/tree/master/NodeChrome)
+image.
+
+You can easily execute it by starting the _jwebrobot-chrome_ Docker container 
+while the volume`/var/scenarios` is bound to `/var/jwebrobot`:
+
+    $ docker run -v /var/scenarios:/var/jwebrobot automatewebsite/jwebrobot-chrome
+
+In complex setup, you may want to pass additional parameters to the container, e.g.:
+
+    $ docker run -v /var/scenarios:/var/jwebrobot \
+        -e JWEBROBOT_OPTS="-timeout 10 -takeScreenshots ON_EVERY_STEP" \
+        -e SCREEN_WIDTH=800 \
+        -e SCREEN_HEIGHT=600 \
+        -e JAVA_OPTS="-Dhttp.proxyHost=proxy.example.com -Dhttp.proxyPort=1234" \
+        automatewebsite/jwebrobot-chrome
+        
+The execution report will be stored in `/var/scenarios/report`.
+
+### Run JWebRobot from JAR
+
+1. Download the latest release from [the releases page](download) or from [Maven repository].
+2. Install of the supported browsers (_please consider that browsers usually require a running X server, consider to use 
+[Xvfb] if you do not have any).
+3. Download a WebDriver for your browser (e.g. [geckodriver] for Firefox or [ChromeDriver] for Chrome) and save it to 
+`/bin` folder.
+4. Start execution by passing the browser, the driver path the scenario path and :
+ 
+```bash
+    $ java \
+        -Djwebrobot.browser=firefox \
+        -Dwebdriver.gecko.driver=/bin/geckodriver \
+        # -Dwebdriver.chrome.driver=/bin/chromedriver \
+        # -Dwebdriver.opera.driver=/bin/operadriver \
+        -jar jwebrobot-<version>.jar \
+        -scenarioPath /var/scenarios
+```
+This will perform execution using Firefox (communicating via the [gekodriver]) and publish results to 
+`report.yaml` in the current folder.
+
+If the path to your browser is not on the default location, you can provide it by passing the following JVM parameter: `-Dwebdriver.firefox.bin="/bin/firefox-unstable"`.
+
+#### Options
 Options may be passed to the **JWebRobot** using single hyphen notation:
 
 ```
@@ -26,7 +83,7 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 | *scenarioPath*  | optional  | Scenario path may be a directory or a single scenario file. | `./` |`../path/to/my/scenario` |
 | *scenarioPaths*  | optional | Scenario paths may be a directory, a single scenario file or a set of both. |  |`../path/to/my/scenario` `../path/to/my/another/scenario` |
 | *scenarioPattern*  | optional | If set, only non fragment scenarios with a name matching the pattern are executed. | `-` | `'^desired-scenario$'` |
-| context  | optional | Context is a multi value argument that populates the context utilized during expression evaluation. | `-` |`baseUrl=http://www.wikipedia.com language=en` |
+| *context*  | optional | Context is a multi value argument that populates the context utilized during expression evaluation. | `-` |`baseUrl=http://www.wikipedia.com language=en` |
 | *timeout* | optional | Timeout waiting for conditions to be fulfilled in seconds. Globally overrides timeout settings defined in the scenarios. | `-` | `5` |
 | *screenshotPath*  | optional | Path to the directory where created screenshots must be saved. | `./` | `./` |
 | *screenshotType*  | optional | Defines the way screenshots must be taken - fullscreen vs. viewport. | `VIEW_PORT` | `FULLSCREEN` |
@@ -91,38 +148,24 @@ An executable JAR can be created by executing the _package_ Maven goal:
 mvn package
 ```
 
-## Run JWebRobot as Docker Container
+## References
+Refer to the [changelog] for recent notable changes and modifications.
 
-For easier bootstrapping, the JWebRobot is [available as Docker image](https://hub.docker.com/r/automatewebsite/jwebrobot-chrome/) 
-on Docker Hub. The _automatewebsite/jwebrobot-chrome_ image is based on the official [selenium/node-chrome](https://github.com/SeleniumHQ/docker-selenium/tree/master/NodeChrome)
-image.
-
-### Usage
-
-It is assumed that you already have a scenario file which is placed in a certain `<scenario folder>`. Thus, 
-_jwebrobot-chrome_ container can be executed as following:
-
-    docker run -v <scenario folder>:/var/jwebrobot automatewebsite/jwebrobot-chrome
-    
-In complex setup, you may want to pass additional parameters to the container, e.g.:
-
-    docker run -v <scenario folder>:/var/jwebrobot \
-        -e JWEBROBOT_OPTS="-timeout 10 -takeScreenshots ON_EVERY_STEP" \
-        -e SCREEN_WIDTH=800 \
-        -e SCREEN_HEIGHT=600 \
-        -e JAVA_OPTS="-Dhttp.proxyHost=proxy.example.com -Dhttp.proxyPort=1234" \
-        automatewebsite/jwebrobot-chrome
-        
-The execution report will be stored in `<scenario folder>/report`.
+Refer to the [waml-schema] for schema sources.
 
 
 [webdriver-chrome]: http://chromedriver.storage.googleapis.com/index.html
 [changelog]: CHANGELOG.md
 [waml-schema]: http://waml-schema.org
-[web automation markup language]: https://github.com/automate-website/waml
+[waml-git]: https://github.com/automate-website/waml
 [draft-02]: http://waml-schema.org/draft-02/schema#
-[here]: http://repo1.maven.org/maven2/website/automate/jwebrobot/1.8.0/jwebrobot-1.8.0.jar
+[download]: https://github.com/automate-website/jwebrobot/releases
 [freemarker]: http://freemarker.org
 [template-tester]: http://freemarker-online.kenshoo.com/
 [jfairy]: https://github.com/Codearte/jfairy
 [selenium webelement api]: https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html
+[docker-jwebrobot]: https://hub.docker.com/r/automatewebsite/jwebrobot-chrome/
+[Maven repository]: https://mvnrepository.com/artifact/website.automate/jwebrobot
+[geckodriver]: https://github.com/mozilla/geckodriver/releases
+[ChromeDriver]: https://sites.google.com/a/chromium.org/chromedriver/downloads
+[Xvfb]: https://www.x.org/archive/X11R7.7/doc/man/man1/Xvfb.1.xhtml
