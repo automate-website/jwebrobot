@@ -83,6 +83,7 @@ public class Reporter implements ExecutionEventListener {
             List<org.openqa.selenium.logging.LogEntry> logEntries = context.getDriver().manage().logs().get(LogType.BROWSER).getAll();
             ExecutorOptions options = context.getGlobalContext().getOptions();
 
+            // TODO extract mapper
             List<LogEntry> convertedLogEntries = new ArrayList<>();
 
             for (org.openqa.selenium.logging.LogEntry logEntry : logEntries) {
