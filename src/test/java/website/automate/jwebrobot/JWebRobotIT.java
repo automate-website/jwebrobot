@@ -64,4 +64,14 @@ public class JWebRobotIT {
             "-browser", "chrome"
         });
     }
+
+    @Ignore
+    @Test
+    @Category(ChromeHeadlessTests.class)
+    public void simpleScenarioShouldBeExecutedWithChromeHeadless() {
+        JWebRobot.main(new String [] {
+            "-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml",
+            "-browser", "chrome-headless"
+        });
+    }
 }
