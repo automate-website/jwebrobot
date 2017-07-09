@@ -28,7 +28,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <selenium-java.version>2.53.1</selenium-java.version>
+        <selenium-java.version>3.4.0</selenium-java.version>
     </properties>
 
     <licenses>

@@ -32,10 +32,21 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 | *screenshotType*  | optional | Defines the way screenshots must be taken - fullscreen vs. viewport. | `VIEW_PORT` | `FULLSCREEN` |
 | *screenshotFormat*  | optional | Defines the screenshot format. | `png` | `gif` |
 | *takeScreenshots*  | optional | Defines when to take screenshots: NEVER, ON_FAILURE, ON_EVERY_STEP | `ON_FAILURE` | `./` |
-| *browser*  | optional | A browser can be selected by passing this option when running JWebRobot. Please consider that some browsers require additional configuration parameters. WAML scenarios are executed with Mozilla Firefox per default. Firefox must be installed on the same machine. E.g.: Chrome does not provide embedded webdriver so that it has to be [downloaded manually](webdriver-chrome). The path to the downloaded executable has to be forwarded via the system property `webdriver.chrome.driver`. Of course, Chrome must be present on the same machine. | `firefox` | `chrome` |
+| *browser*  | optional | A browser can be selected by passing this option when running JWebRobot. Please consider that some browsers require additional configuration parameters. WAML scenarios are executed with Mozilla Firefox per default. Firefox must be installed on the same machine. E.g.: Chrome does not provide embedded webdriver so that it has to be [downloaded manually](webdriver-chrome). The path to the downloaded executable has to be forwarded via the system property `webdriver.chrome.driver`. Of course, Chrome must be present on the same machine. | `firefox` | `chrome`, `chrome-headless`, `opera`  |
 | *reportPath*  | optional  | Path to which the report is written to. | `./report.yaml` | `./myreport.yaml` |
 | *maximizeWindow* | optional | Toggles window maximization before scenario execution. | `false` | `true` |
 | *mode* | optional | Selects the execution mode. Currently legacy non-interactive and interactive mode with the possibility to pause/step-wise execution are supported. | `non-interactive` | `interactive` |
+
+## Supported Browses
+
+Currently, the following browses-webdriver combinations are supported:
+
+| Browser | Version | WebDriver |
+|---------|---------|-----------|
+| Chrome  | 59.0.3071.115 | [2.30](http://chromedriver.storage.googleapis.com/index.html?path=2.30/) |
+| Firefox | 54.0.1  | [v0.17.0](https://github.com/mozilla/geckodriver/releases) |
+| Opera   | 46.0.2597.39 | [2.29](https://github.com/operasoftware/operachromiumdriver/releases) |
+
 
 ## Expressions
 Expression are evaluated by the awesome templating engine [freemarker]. The expression syntax and result may be tested using online [template-tester].
