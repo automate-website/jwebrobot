@@ -1,14 +1,12 @@
 package website.automate.jwebrobot.executor;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.ConfigurationProperties;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
@@ -23,11 +21,7 @@ import website.automate.waml.io.model.action.OpenAction;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.ClassLoader.getSystemResourceAsStream;
 import static java.util.Arrays.asList;
@@ -48,6 +42,7 @@ public class ScenarioExecutorIT extends AbstractTest {
 
     @Mock private File file;
 
+    // Create web server using resources/__files folder
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(MOCK_SERVER_PORT);
 
@@ -84,7 +79,7 @@ public class ScenarioExecutorIT extends AbstractTest {
 
         scenarioExecutor.execute(asContext(scenarios));
     }
-    
+
     @Test
     public void ensureElementStoredBySelectorAndText() {
         List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/ensure-element-stored-by-selector-and-text.yaml");
@@ -98,21 +93,21 @@ public class ScenarioExecutorIT extends AbstractTest {
 
         scenarioExecutor.execute(asContext(scenarios));
     }
-    
+
     @Test
     public void clickByParentSelectorShouldWork() {
         List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-parent-selector-should-work.yaml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
-    
+
     @Test
     public void clickByParentSelectorAndTextShouldWork() {
         List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-parent-selector-and-text-should-work.yaml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
-    
+
     @Test
     public void clickBySelectorAndTextShouldWork() {
         List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/click-by-partial-text-and-selector-should-work.yaml");
@@ -126,22 +121,22 @@ public class ScenarioExecutorIT extends AbstractTest {
 
         scenarioExecutor.execute(asContext(scenarios));
     }
-    
+
     @Test
     public void includedDisabledConditionalScenarioIsNotExecuted() {
         List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/disabled-conditional-scenario-is-not-executed.yaml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
-    
+
     @Test
     public void timeoutPropertyOnScenarioIsPreprocessed() {
         List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/timeout-property-on-scenario-is-preprocessed.yaml");
         GlobalExecutionContext context = asContext(scenarios, Collections.singletonMap("timeout", (Object)"1"));
-        
+
         scenarioExecutor.execute(context);
     }
-    
+
     @Test(expected = RecursiveScenarioInclusionException.class)
     public void shouldDetectCircularDependency() {
         InputStream stream = getSystemResourceAsStream("./failing_scenarios/circular-dependency.yaml");
@@ -149,25 +144,46 @@ public class ScenarioExecutorIT extends AbstractTest {
 
         scenarioExecutor.execute(asContext(scenarios));
     }
-    
+
     @Test
     public void ensureAbsentWorks() {
         List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/ensure-absent-works.yaml");
 
         scenarioExecutor.execute(asContext(scenarios));
     }
-    
+
     @Test
     public void cmdContextIsPreferred() {
         List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/cmd-context-is-preferred.yaml");
 
         scenarioExecutor.execute(asContext(scenarios, singletonMap("url", (Object)"http://localhost:8089")));
     }
-    
+
+    @Test
+    public void shouldHandleAlert() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/alert-alert-should-be-dismissed.yaml");
+
+        scenarioExecutor.execute(asContext(scenarios));
+    }
+
+    @Test
+    public void shouldHandleConfirm() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/alert-confirm-should-be-dismissed.yaml");
+
+        scenarioExecutor.execute(asContext(scenarios));
+    }
+
+    @Test
+    public void shouldHandlePrompt() {
+        List<Scenario> scenarios = getScenarios(PACKAGE + "/executor/alert-prompt-should-be-dismissed.yaml");
+
+        scenarioExecutor.execute(asContext(scenarios));
+    }
+
     private GlobalExecutionContext asContext(List<Scenario> scenarios){
         return asContext(scenarios, new HashMap<String, Object>());
     }
-    
+
     private GlobalExecutionContext asContext(List<Scenario> scenarios, Map<String, Object> memory){
         return new GlobalExecutionContext(asScenarioFiles(scenarios), ExecutorOptions.of(new ConfigurationProperties()), memory);
     }
