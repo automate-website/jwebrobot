@@ -3,5 +3,8 @@ steps:
   - store:
       baseUrl: 'https://en.wikipedia.org'
   - open: ${baseUrl}
-  - click: 'a[title="Wikipedia:About"]'
+  - store:
+      selector: 'a[title="Wikipedia:About"]'
+      store: link
+  - click: '${link.getTagName()}[title="Wikipedia:About"]'
   - ensure: '#About_Wikipedia'
