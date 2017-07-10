@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 export GEOMETRY="$SCREEN_WIDTH""x""$SCREEN_HEIGHT""x""$SCREEN_DEPTH"
 
 function shutdown {
@@ -17,6 +19,7 @@ rm -f /tmp/.X*lock
 
 JWEBROBOT_SCENARIOS_DIR=/var/jwebrobot
 JWEBROBOT_REPORT_DIR=$JWEBROBOT_SCENARIOS_DIR/report
+
 mkdir -p $JWEBROBOT_REPORT_DIR
 
 JWEBROBOT_REPORT_FILE=$JWEBROBOT_REPORT_DIR/report.yaml
