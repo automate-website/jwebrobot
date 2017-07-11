@@ -3,7 +3,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot/badge.svg)](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot) [![Build Status](https://travis-ci.org/automate-website/jwebrobot.svg?branch=master)](https://travis-ci.org/automate-website/jwebrobot) [![codecov.io](https://codecov.io/github/automate-website/jwebrobot/coverage.svg?branch=master)](https://codecov.io/github/automate-website/jwebrobot?branch=master) [![Gitter](https://badges.gitter.im/automate-website/jwebrobot.svg)](https://gitter.im/automate-website/jwebrobot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Docker Hub](https://img.shields.io/docker/pulls/automatewebsite/jwebrobot-chrome.svg)](https://hub.docker.com/r/automatewebsite/jwebrobot-chrome) 
 
 
-**JWebRobot** is the reference implementation of executor which processes the [Web Automation Markup Language](waml-git). Currently the it is based on the [draft-02] schema.
+**JWebRobot** is the reference implementation of executor which processes the [Web Automation Markup Language][waml-git]. Currently the it is based on the [draft-02] schema.
 
 
 ## How to Run
@@ -17,7 +17,7 @@ It is assumed that your already have a test scenario in which is stored in
 
     /var/scenarios/checkout-test.yaml
      
-and having a valid content in [WAML format](waml-git), e.g.
+and having a valid content in [WAML format][waml-git], e.g.
 
 ```yaml
 name: Checkout Button Presence Test
@@ -28,7 +28,7 @@ steps:
 
 ### Run JWebRobot Docker Container
 
-For easier bootstrapping, the JWebRobot is [available as Docker image](docker-jwebrobot) 
+For easier bootstrapping, the JWebRobot is [available as Docker image][docker-jwebrobot] 
 on Docker Hub. The _automatewebsite/jwebrobot-chrome_ image is based on the official [selenium/node-chrome](https://github.com/SeleniumHQ/docker-selenium/tree/master/NodeChrome)
 image.
 
@@ -54,7 +54,7 @@ The execution report will be stored in `/var/scenarios/report.yaml`.
 
 ### Run JWebRobot from JAR
 
-1. Download the latest release from [the releases page](download) or from [Maven repository].
+1. Download the latest release from [the releases page][download] or from [Maven repository].
 2. Install of the supported browsers (_please consider that browsers usually require a running X server, consider to use 
 [Xvfb] if you do not have any_).
 3. Download a WebDriver for your browser (e.g. [geckodriver] for Firefox or [ChromeDriver] for Chrome) and save it to 
