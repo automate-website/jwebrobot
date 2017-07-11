@@ -3,10 +3,10 @@ package website.automate.jwebrobot.executor.action;
 import com.google.inject.Inject;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.AlertTextMismatchException;
 import website.automate.jwebrobot.exceptions.BooleanExpectedException;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
@@ -38,9 +38,9 @@ public class AlertActionExecutor extends ConditionalActionExecutor<AlertAction> 
 
         // Validate text
         String expectedAlertText = action.getText();
-        if (expectedAlertText != null && !expectedAlertText.equals(alert.getText())) {
-            // TODO throw proper exception
-            throw new WebDriverException();
+        String alertText = alert.getText();
+        if (expectedAlertText != null && !expectedAlertText.equals(alertText)) {
+            throw new AlertTextMismatchException(action.getClass(), expectedAlertText, alertText);
         }
 
         // Enter text (in the prompt)

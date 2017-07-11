@@ -56,7 +56,7 @@ public class AlertActionExpressionEvaluatorTest {
     }
 
     @Test
-    public void shoudReturnAlertActionType() {
+    public void shouldReturnAlertActionType() {
         Class<?> actualType = actionExpressionEvaluator.getSupportedType();
 
         assertEquals(AlertAction.class, actualType);
