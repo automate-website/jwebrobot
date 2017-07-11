@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.exceptions.BooleanExpectedException;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
@@ -48,10 +49,15 @@ public class AlertActionExecutor extends ConditionalActionExecutor<AlertAction> 
             alert.sendKeys(promptInput);
         }
 
-        if (BooleanMapper.isTrue(action, action.getConfirm())) {
-            alert.accept();
-        } else {
-            alert.dismiss();
+        String confirmValue = action.getConfirm();
+        try {
+            if (BooleanMapper.isTrue(confirmValue)) {
+                alert.accept();
+            } else {
+                alert.dismiss();
+            }
+        } catch (BooleanExpectedException e) {
+            throw new BooleanExpectedException(action.getClass(), confirmValue);
         }
     }
 
