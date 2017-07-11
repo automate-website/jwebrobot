@@ -4,6 +4,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.9.0]
+### Added
+- "alert" action
+- support for Chrome headless
+
+### Changed
+- upgraded to selenium-java 3.4.0
+- improved documentation
+
+### Fixed
+- Docker build on Travis CI
+
+
 ## [1.8.0]
 ### Added
 - experimental iframe element usage support within filter criteria
