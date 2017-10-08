@@ -69,6 +69,7 @@ public class ReporterTest {
         when(globalContext.getOptions()).thenReturn(executorOptions);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void shouldNotThrowErrorIfBrowserLogForwardingIsNotSupportedByTheDriver() {
         when(logs.get(LogType.BROWSER)).thenThrow(UnsupportedCommandException.class);

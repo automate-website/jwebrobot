@@ -4,8 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.google.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
@@ -15,9 +15,10 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.EnterAction;
 
+@Service
 public class EnterActionExecutor extends ElementStoreActionExecutor<EnterAction> {
 
-    @Inject
+	@Autowired
     public EnterActionExecutor(ExpressionEvaluator expressionEvaluator,
             ExecutionEventListeners listener,
             ElementFilterChain elementFilterChain,

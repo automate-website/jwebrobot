@@ -6,7 +6,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.springframework.stereotype.Service;
 
+@Service
 public class WebDriverProvider {
 
     public WebDriver createInstance(Type type) {

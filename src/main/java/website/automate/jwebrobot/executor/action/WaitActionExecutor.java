@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.executor.action;
 
-import com.google.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.DecimalNumberExpectedException;
@@ -11,11 +12,12 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.WaitAction;
 
+@Service
 public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
 
     private static final int WAIT_TIME_LIMIT = 1000;
 
-    @Inject
+    @Autowired
     public WaitActionExecutor(ExpressionEvaluator expressionEvaluator,
             ExecutionEventListeners listener,
             ConditionalExpressionEvaluator conditionalExpressionEvaluator,

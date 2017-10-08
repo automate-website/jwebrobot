@@ -1,13 +1,14 @@
 package website.automate.jwebrobot.expression.action;
 
-import com.google.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.ClickAction;
 
+@Service
 public class ClickActionExpressionEvaluator extends ElementStoreActionExpressionEvaluator<ClickAction> {
 
-    @Inject
+    @Autowired
     public ClickActionExpressionEvaluator(
             ExpressionEvaluator expressionEvaluator) {
         super(expressionEvaluator);

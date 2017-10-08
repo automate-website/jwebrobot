@@ -3,19 +3,20 @@ package website.automate.jwebrobot.executor.action;
 import website.automate.jwebrobot.exceptions.ActionExecutorMissingException;
 import website.automate.waml.io.model.action.Action;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Service
 public class ActionExecutorFactory {
 
     private final Map<Class<? extends Action>, ActionExecutor<? extends Action>> executorRegistry = new HashMap<>();
 
     private final Set<ActionExecutor<? extends Action>> executors;
 
-    @Inject
+    @Autowired
     public ActionExecutorFactory(Set<ActionExecutor<? extends Action>> executors) {
         this.executors = executors;
 

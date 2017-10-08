@@ -1,7 +1,9 @@
 package website.automate.jwebrobot.mapper.action;
 
+import org.springframework.stereotype.Service;
 import website.automate.waml.io.model.action.ClickAction;
 
+@Service
 public class ClickActionMapper extends ElementStoreActionMapper<ClickAction> {
 
     @Override

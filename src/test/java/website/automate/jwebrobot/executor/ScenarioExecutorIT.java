@@ -4,9 +4,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.ConfigurationProperties;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
@@ -19,7 +17,6 @@ import website.automate.waml.io.model.action.ClickAction;
 import website.automate.waml.io.model.action.EnsureAction;
 import website.automate.waml.io.model.action.OpenAction;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 
@@ -27,31 +24,25 @@ import static java.lang.ClassLoader.getSystemResourceAsStream;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ScenarioExecutorIT extends AbstractTest {
 
     public static final int MOCK_SERVER_PORT = 8089;
     public static final String PACKAGE = "./src/test/resources/website/automate/jwebrobot";
 
+    @Autowired
     private ScenarioExecutor scenarioExecutor;
+    @Autowired
     private ScenarioLoader scenarioLoader;
 
     private OpenAction openAction;
     private ClickAction clickAction;
     private EnsureAction ensureAction;
 
-    @Mock private File file;
-
-    // Create web server using resources/__files folder
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(MOCK_SERVER_PORT);
 
     @Before
     public void setUp() {
-        scenarioLoader = injector.getInstance(ScenarioLoader.class);
-
-        scenarioExecutor = injector.getInstance(ScenarioExecutor.class);
-
         openAction = new OpenAction();
         openAction.setUrl("http://localhost:" + MOCK_SERVER_PORT);
 
@@ -189,7 +180,7 @@ public class ScenarioExecutorIT extends AbstractTest {
     }
 
     private List<ScenarioFile> asScenarioFiles(List<Scenario> scenarios){
-        return asList(new ScenarioFile(scenarios, file));
+        return Arrays.asList(new ScenarioFile(scenarios, null));
     }
 
     private List<Scenario> getScenarios(String scenarioPath) {

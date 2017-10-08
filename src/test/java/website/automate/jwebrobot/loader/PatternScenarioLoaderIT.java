@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.junit.Test;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.ConfigurationProperties;
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
@@ -23,7 +23,8 @@ import website.automate.waml.io.model.action.OpenAction;
 
 public class PatternScenarioLoaderIT extends AbstractTest {
 
-    private ScenarioLoader scenarioLoader = injector.getInstance(ScenarioLoader.class);
+    @Autowired
+    private ScenarioLoader scenarioLoader;
     
     @Test
     public void loadScenariosFromTheBaseDirectoryRecursively(){

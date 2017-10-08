@@ -9,8 +9,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.google.inject.Provider;
-
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
@@ -34,7 +32,6 @@ public class IncludeActionExecutorTest<CriteriaValue> {
     @Mock private GlobalExecutionContext globalContext;
     @Mock private Scenario childScenario;
     @Mock private CriteriaValue scenarioCriterion;
-    @Mock private Provider<ScenarioExecutor> scenarioExecutorProvider;
     @Mock private ExpressionEvaluator expressionEvaluator;
     @Mock private ExecutionEventListeners listener;
     @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
@@ -50,10 +47,9 @@ public class IncludeActionExecutorTest<CriteriaValue> {
         when(scenarioContext.getGlobalContext()).thenReturn(globalContext);
         when(globalContext.getScenario(SCENARIO_TITLE)).thenReturn(childScenario);
         when(scenarioContext.createChildContext(childScenario)).thenReturn(childScenarioContext);
-        when(scenarioExecutorProvider.get()).thenReturn(scenarioExecutor);
         when(expressionEvaluator.evaluate(eq(SCENARIO_TITLE), anyMap())).thenReturn(SCENARIO_TITLE);
         
-        executor = new IncludeActionExecutor(expressionEvaluator, scenarioExecutorProvider, listener,
+        executor = new IncludeActionExecutor(expressionEvaluator, scenarioExecutor, listener,
                 conditionalExpressionEvaluator, translator);
     }
 

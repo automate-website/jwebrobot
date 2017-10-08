@@ -1,20 +1,23 @@
 package website.automate.jwebrobot.expression;
 
-import com.google.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.ConditionalAction;
 
+
+@Service
 public class ConditionalExpressionEvaluator {
 
     private ExpressionEvaluator expressionEvaluator;
-    
-    @Inject
+
+    @Autowired
     public ConditionalExpressionEvaluator(ExpressionEvaluator expressionEvaluator){
         this.expressionEvaluator = expressionEvaluator;
     }
-    
+
     public boolean isExecutable(Scenario scenario, ScenarioExecutionContext context){
         String whenCondition = scenario.getWhen();
         String unlessCondition = scenario.getUnless();

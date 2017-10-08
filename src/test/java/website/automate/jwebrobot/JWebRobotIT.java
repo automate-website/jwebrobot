@@ -3,63 +3,73 @@ package website.automate.jwebrobot;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import website.automate.jwebrobot.exceptions.DecimalNumberExpectedException;
 import website.automate.jwebrobot.exceptions.WaitTimeTooBigException;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
 public class JWebRobotIT {
 
+    @Autowired
+    private JWebRobot jWebRobot;
+  
     public static final String ROOT_PACKAGE_DIRECTORY_PATH =  "./src/test/resources/website/automate/jwebrobot/";
     public static final String SCENARIO_PATH_PARAM_NAME = "scenarioPath";
     public static final String BROWSER_PARAM_NAME = "browser";
 
     @Test
-    public void simpleScenarioIsExecuted() {
-        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml"});
+    public void simpleScenarioIsExecuted() throws Exception {
+      jWebRobot.run(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml"});
     }
 
     @Test
-    public void threeLevelInclusionScenarioIsExecuted(){
-        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "inclusion" });
+    public void threeLevelInclusionScenarioIsExecuted() throws Exception {
+      jWebRobot.run(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "inclusion" });
     }
 
     @Test
-    public void contextArgumentScenarioIsExecuted(){
-        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
+    public void contextArgumentScenarioIsExecuted() throws Exception {
+      System.setProperty("webdriver.chrome.driver","C:\\Program Files (x86)\\Google\\Chrome\\driver\\chromedriver.exe");
+      jWebRobot.run(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
                 ROOT_PACKAGE_DIRECTORY_PATH + "context-argument-test.yaml",
                 "-context",
                 "baseUrl=https://en.wikipedia.org"});
     }
 
     @Test
-    public void storeActionScenarioIsExecuted(){
-        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
+    public void storeActionScenarioIsExecuted() throws Exception {
+      jWebRobot.run(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
                 ROOT_PACKAGE_DIRECTORY_PATH + "store-action-test.yaml"});
     }
 
     @Test
-    public void moveActionScenarioIsExecuted(){
-        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
+    public void moveActionScenarioIsExecuted() throws Exception {
+      jWebRobot.run(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
                 ROOT_PACKAGE_DIRECTORY_PATH + "move-action-test.yaml"});
     }
 
     @Test(expected = DecimalNumberExpectedException.class)
-    public void shouldNotAcceptWaitTimeWithWrongFormat() {
-        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
+    public void shouldNotAcceptWaitTimeWithWrongFormat() throws Exception {
+      jWebRobot.run(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
             ROOT_PACKAGE_DIRECTORY_PATH + "failing/wait-time-wrong-format.yaml"});
     }
 
 
     @Test(expected = WaitTimeTooBigException.class)
-    public void shouldNotAcceptTooBigWaitTimeFormat() {
-        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
+    public void shouldNotAcceptTooBigWaitTimeFormat() throws Exception {
+      jWebRobot.run(new String [] {"-" + SCENARIO_PATH_PARAM_NAME,
             ROOT_PACKAGE_DIRECTORY_PATH + "failing/wait-time-too-big.yaml"});
     }
 
     @Ignore
     @Test
     @Category(ChromeTests.class)
-    public void simpleScenarioShouldBeExecutedWithChrome() {
-        JWebRobot.main(new String [] {
+    public void simpleScenarioShouldBeExecutedWithChrome() throws Exception {
+      jWebRobot.run(new String [] {
             "-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml",
             "-browser", "chrome"
         });
@@ -68,8 +78,8 @@ public class JWebRobotIT {
     @Ignore
     @Test
     @Category(ChromeHeadlessTests.class)
-    public void simpleScenarioShouldBeExecutedWithChromeHeadless() {
-        JWebRobot.main(new String [] {
+    public void simpleScenarioShouldBeExecutedWithChromeHeadless() throws Exception {
+      jWebRobot.run(new String [] {
             "-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml",
             "-browser", "chrome-headless"
         });

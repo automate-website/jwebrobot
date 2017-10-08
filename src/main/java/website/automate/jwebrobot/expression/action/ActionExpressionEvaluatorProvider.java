@@ -3,16 +3,16 @@ package website.automate.jwebrobot.expression.action;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import website.automate.waml.io.model.action.Action;
 
+@Service
 public class ActionExpressionEvaluatorProvider {
 
     private Map<Class<? extends Action>, ActionExpressionEvaluator<?>> actionExpressionEvaluatorMap = new HashMap<>();
     
-    @Inject
+    @Autowired
     public ActionExpressionEvaluatorProvider(Set<ActionExpressionEvaluator<?>> actionExpressionEvaluators){
         for(ActionExpressionEvaluator<?> actionExpressionEvaluator : actionExpressionEvaluators){
             actionExpressionEvaluatorMap.put(actionExpressionEvaluator.getSupportedType(), actionExpressionEvaluator);

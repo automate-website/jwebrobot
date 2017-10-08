@@ -1,16 +1,18 @@
 package website.automate.jwebrobot.executor;
 
-import com.google.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.Scenario;
 
+@Service
 public class ScenarioPreprocessor {
 
     private final ExpressionEvaluator expressionEvaluator;
     
-    @Inject
+    @Autowired
     public ScenarioPreprocessor(ExpressionEvaluator expressionEvaluator) {
         this.expressionEvaluator = expressionEvaluator;
     }

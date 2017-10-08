@@ -2,8 +2,9 @@ package website.automate.jwebrobot.executor;
 
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
-
-import website.automate.jwebrobot.config.logger.InjectLogger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.StepsMustBePresentException;
@@ -13,17 +14,14 @@ import website.automate.jwebrobot.executor.action.ActionPreprocessor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
-import website.automate.jwebrobot.player.ScenarioPlayer;
 import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
 
-import javax.inject.Inject;
-
+@Service
 public class DefaultScenarioExecutor implements ScenarioExecutor {
 
-    @InjectLogger
-    private Logger logger;
+    private Logger logger = LoggerFactory.getLogger(DefaultScenarioExecutor.class);
 
     private final WebDriverProvider webDriverProvider;
     private final ActionExecutorFactory actionExecutorFactory;
@@ -34,9 +32,8 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final ActionPreprocessor actionPreprocessor;
     private final AbstractActionMapper abstractActionMapper;
     private final ScenarioPatternFilter scenarioPatternFilter;
-    private final ScenarioPlayer scenarioPlayer;
 
-    @Inject
+    @Autowired
     public DefaultScenarioExecutor(
         WebDriverProvider webDriverProvider,
         ActionExecutorFactory actionExecutorFactory,
@@ -46,8 +43,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ScenarioPreprocessor scenarioPreprocessor,
         ActionPreprocessor actionPreprocessor,
         AbstractActionMapper abstractActionMapper,
-        ScenarioPatternFilter scenarioPatternFilter,
-        ScenarioPlayer scenarioPlayer
+        ScenarioPatternFilter scenarioPatternFilter
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
@@ -58,7 +54,6 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         this.actionPreprocessor = actionPreprocessor;
         this.abstractActionMapper = abstractActionMapper;
         this.scenarioPatternFilter =scenarioPatternFilter;
-        this.scenarioPlayer = scenarioPlayer;
     }
 
     @Override
@@ -121,8 +116,6 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         }
 
         for (Action action : scenario.getSteps()) {
-            scenarioPlayer.pauseIfRequired();
-
             ActionExecutor<Action> actionExecutor = actionExecutorFactory.getInstance(action.getClass());
 
             Action preprocessedAction = actionPreprocessor.preprocess(abstractActionMapper.map(action), scenarioExecutionContext);

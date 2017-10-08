@@ -1,7 +1,8 @@
 package website.automate.jwebrobot.executor.action;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
@@ -14,12 +15,14 @@ import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.IncludeAction;
 
+@Service
 public class IncludeActionExecutor extends ConditionalActionExecutor<IncludeAction> {
 
-    private Provider<ScenarioExecutor> scenarioExecutor;
+    private ScenarioExecutor scenarioExecutor;
     
-    @Inject
-    public IncludeActionExecutor(ExpressionEvaluator expressionEvaluator, Provider<ScenarioExecutor> scenarioExecutor,
+    @Autowired
+    @Lazy
+    public IncludeActionExecutor(ExpressionEvaluator expressionEvaluator, ScenarioExecutor scenarioExecutor,
             ExecutionEventListeners listener, ConditionalExpressionEvaluator conditionalExpressionEvaluator,
             ExceptionTranslator exceptionTranslator) {
         super(expressionEvaluator, listener, conditionalExpressionEvaluator, exceptionTranslator);
@@ -37,7 +40,7 @@ public class IncludeActionExecutor extends ConditionalActionExecutor<IncludeActi
         }
         
         ScenarioExecutionContext includedScenarioContext = context.createChildContext(scenario);
-        scenarioExecutor.get().runScenario(scenario, includedScenarioContext);
+        scenarioExecutor.runScenario(scenario, includedScenarioContext);
     }
 
     @Override
