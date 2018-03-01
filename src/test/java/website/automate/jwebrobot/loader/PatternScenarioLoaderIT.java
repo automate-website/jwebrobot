@@ -15,11 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import website.automate.jwebrobot.AbstractTest;
 import website.automate.jwebrobot.ConfigurationProperties;
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
-import website.automate.waml.io.WamlDeserializationException;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
 import website.automate.waml.io.model.action.ClickAction;
 import website.automate.waml.io.model.action.OpenAction;
+import website.automate.waml.io.reader.WamlDeserializationException;
 
 public class PatternScenarioLoaderIT extends AbstractTest {
 
@@ -81,28 +81,27 @@ public class PatternScenarioLoaderIT extends AbstractTest {
         assertThat(scenario1.getName(), is("Scenario A"));
         assertThat(scenario2.getName(), is("Scenario B"));
 
-        List<Action> steps1 = scenario1.getSteps();
+        List<Action> steps1 = scenario1.getActions();
         assertThat(steps1, hasSize(2));
-        List<Action> steps2 = scenario2.getSteps();
+        List<Action> steps2 = scenario2.getActions();
         assertThat(steps2, hasSize(3));
 
         OpenAction openAction1 = OpenAction.class.cast(steps1.get(0));
-        assertThat(openAction1.getUrl(), is("www.example.com"));
+        assertThat(openAction1.getOpen().getUrl(), is("www.example.com"));
         
         ClickAction clickAction1 = ClickAction.class.cast(steps1.get(1));
-        assertThat(clickAction1.getSelector(), is("button[type=submit]"));
+        assertThat(clickAction1.getClick().getSelector(), is("button[type=submit]"));
 
         OpenAction openAction2 = OpenAction.class.cast(steps2.get(0));
-        assertThat(openAction2.getUrl(), is("www.example.com"));
+        assertThat(openAction2.getOpen().getUrl(), is("www.example.com"));
         
         OpenAction openAction3 = OpenAction.class.cast(steps2.get(1));
-        assertThat(openAction3.getUrl(), is("www.example2.com"));
+        assertThat(openAction3.getOpen().getUrl(), is("www.example2.com"));
         
         ClickAction clickAction2 = ClickAction.class.cast(steps2.get(2));
-        assertThat(clickAction2.getSelector(), is("button[type=submit2]"));
-
+        assertThat(clickAction2.getClick().getSelector(), is("button[type=submit2]"));
     }
-    
+
     private int totalNumberOfScenarios(List<ScenarioFile> scenarioFiles){
         int result = 0;
         for(ScenarioFile scenarioFile : scenarioFiles){

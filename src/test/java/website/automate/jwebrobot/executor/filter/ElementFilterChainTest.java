@@ -17,19 +17,18 @@ import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.WebElement;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.waml.io.model.CriterionType;
 import website.automate.waml.io.model.action.FilterAction;
-import website.automate.waml.io.model.action.ParentCriteria;
+import website.automate.waml.io.model.criteria.FilterCriteria;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ElementFilterChainTest {
 
-    @Mock private ElementFilter selectorElementFilter;
-    @Mock private ElementFilter textElementFilter;
-    @Mock private ElementFilterProvider provider;
+    @Mock private SelectorElementFilter selectorElementFilter;
+    @Mock private TextElementFilter textElementFilter;
+    @Mock private ValueElementFilter valueElementFilter;
     @Mock private ScenarioExecutionContext context;
-    @Mock private FilterAction action;
-    @Mock private ParentCriteria parentCriteria;
+    @Mock private FilterAction<FilterCriteria> action;
+    @Mock private FilterCriteria criteria;
     @Mock private WebDriver driver;
     @Mock private WebElement body;
     @Mock private WebElement parent;
@@ -40,22 +39,20 @@ public class ElementFilterChainTest {
     
     private static final String 
             SELECTOR = "h2",
-            PARENT_TEXT = "interesting article";
+            PARENT = "parent-element";
     
     private String selectorValue = "h2";
     private String textValue = "interesting article";
     
     @Test
     public void elementDescribedByActionAndParentCriteriaIsFound(){
-        chain = new ElementFilterChain(provider);
+        chain = new ElementFilterChain(selectorElementFilter, textElementFilter, valueElementFilter);
         when(parent.isDisplayed()).thenReturn(Boolean.TRUE);
         when(target.isDisplayed()).thenReturn(Boolean.TRUE);
-        when(action.getSelector()).thenReturn(SELECTOR);
-        when(action.getParent()).thenReturn(parentCriteria);
-        when(parentCriteria.getText()).thenReturn(PARENT_TEXT);
-        
-        when(provider.getInstance(CriterionType.SELECTOR)).thenReturn(selectorElementFilter);
-        when(provider.getInstance(CriterionType.TEXT)).thenReturn(textElementFilter);
+        when(action.getFilter()).thenReturn(criteria);
+        when(criteria.getSelector()).thenReturn(SELECTOR);
+        when(criteria.getParent()).thenReturn(PARENT);
+
         when(context.getDriver()).thenReturn(driver);
         when(driver.switchTo()).thenReturn(locator);
         when(locator.defaultContent()).thenReturn(driver);

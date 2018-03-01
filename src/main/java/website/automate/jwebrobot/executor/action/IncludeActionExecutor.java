@@ -14,6 +14,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.IncludeAction;
+import website.automate.waml.io.model.criteria.IncludeCriteria;
 
 @Service
 public class IncludeActionExecutor extends ConditionalActionExecutor<IncludeAction> {
@@ -32,7 +33,9 @@ public class IncludeActionExecutor extends ConditionalActionExecutor<IncludeActi
     @Override
     public void perform(IncludeAction action, ScenarioExecutionContext context) {
         GlobalExecutionContext globalContext = context.getGlobalContext();
-        String scenarioName = action.getScenario();
+        IncludeCriteria criteria = action.getInclude();
+
+        String scenarioName = criteria.getScenario();
         Scenario scenario = globalContext.getScenario(scenarioName);
         
         if(context.containsScenario(scenario)){

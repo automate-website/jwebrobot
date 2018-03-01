@@ -5,20 +5,23 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.IncludeAction;
+import website.automate.waml.io.model.criteria.IncludeCriteria;
 
 @Service
-public class IncludeActionExpressionEvaluator extends ConditionalActionExpressionEvaluator<IncludeAction> {
+public class IncludeActionExpressionEvaluator
+        extends ConditionalActionExpressionEvaluator<IncludeAction> {
 
     @Autowired
-    public IncludeActionExpressionEvaluator(
-            ExpressionEvaluator expressionEvaluator) {
+    public IncludeActionExpressionEvaluator(ExpressionEvaluator expressionEvaluator) {
         super(expressionEvaluator);
     }
 
     @Override
     public void evaluate(IncludeAction action, ScenarioExecutionContext context) {
         super.evaluate(action, context);
-        action.setScenario(evaluate(action.getScenario(), context));
+        IncludeCriteria criteria = action.getInclude();
+
+        criteria.setScenario(evaluate(criteria.getScenario(), context));
     }
 
     @Override

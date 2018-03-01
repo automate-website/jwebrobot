@@ -22,7 +22,7 @@ public class ScenarioPreprocessor {
         preprocessedScenario.setDescription(scenario.getDescription());
         preprocessedScenario.setFragment(scenario.getFragment());
         preprocessedScenario.setName(scenario.getName());
-        preprocessedScenario.setSteps(scenario.getSteps());
+        preprocessedScenario.setActions(scenario.getActions());
         preprocessedScenario.setPrecedence(scenario.getPrecedence());
         
         preprocessedScenario.setMeta(scenario.getMeta());

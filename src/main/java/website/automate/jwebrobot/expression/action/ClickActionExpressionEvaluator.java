@@ -6,7 +6,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.ClickAction;
 
 @Service
-public class ClickActionExpressionEvaluator extends ElementStoreActionExpressionEvaluator<ClickAction> {
+public class ClickActionExpressionEvaluator extends FilterActionExpressionEvaluator<ClickAction> {
 
     @Autowired
     public ClickActionExpressionEvaluator(

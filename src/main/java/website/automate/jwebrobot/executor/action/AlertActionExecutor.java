@@ -16,6 +16,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.BooleanMapper;
 import website.automate.waml.io.model.action.AlertAction;
+import website.automate.waml.io.model.criteria.AlertCriteria;
 
 @Service
 public class AlertActionExecutor extends ConditionalActionExecutor<AlertAction> {
@@ -38,21 +39,22 @@ public class AlertActionExecutor extends ConditionalActionExecutor<AlertAction> 
         WebDriverWait wait = new WebDriverWait(driver, getActionTimeout(action, context));
         wait.until(ExpectedConditions.alertIsPresent());
         Alert alert = driver.switchTo().alert();
+        AlertCriteria criteria = action.getAlert();
 
         // Validate text
-        String expectedAlertText = action.getText();
+        String expectedAlertText = criteria.getText();
         String alertText = alert.getText();
         if (expectedAlertText != null && !expectedAlertText.equals(alertText)) {
             throw new AlertTextMismatchException(action.getClass(), expectedAlertText, alertText);
         }
 
         // Enter text (in the prompt)
-        String promptInput = action.getInput();
+        String promptInput = criteria.getInput();
         if (promptInput != null ) {
             alert.sendKeys(promptInput);
         }
 
-        String confirmValue = action.getConfirm();
+        String confirmValue = criteria.getConfirm();
         try {
             if (BooleanMapper.isTrue(confirmValue)) {
                 alert.accept();

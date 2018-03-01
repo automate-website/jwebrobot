@@ -3,7 +3,7 @@ package website.automate.jwebrobot.executor;
 import static java.lang.Boolean.parseBoolean;
 
 import website.automate.jwebrobot.ConfigurationProperties;
-import website.automate.waml.report.io.model.LogEntry.LogLevel;
+import website.automate.waml.io.model.report.LogEntry.LogLevel;
 
 public class ExecutorOptions {
 

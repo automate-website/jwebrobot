@@ -16,7 +16,7 @@ import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.EnsureAction;
 
 @Service
-public class EnsureActionExecutor extends ElementStoreActionExecutor<EnsureAction> {
+public class EnsureActionExecutor extends FilterActionExecutor<EnsureAction> {
 
     @Autowired
     public EnsureActionExecutor(ExpressionEvaluator expressionEvaluator,
@@ -34,7 +34,7 @@ public class EnsureActionExecutor extends ElementStoreActionExecutor<EnsureActio
     public void perform(final EnsureAction action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
 
-        final Boolean absent = Boolean.parseBoolean(action.getAbsent());
+        final Boolean absent = Boolean.parseBoolean(action.getInvert());
         (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 WebElement webElement = filter(context, action);

@@ -19,6 +19,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.IncludeAction;
+import website.automate.waml.io.model.criteria.IncludeCriteria;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IncludeActionExecutorTest<CriteriaValue> {
@@ -27,6 +28,7 @@ public class IncludeActionExecutorTest<CriteriaValue> {
 
     @Mock private ScenarioExecutor scenarioExecutor;
     @Mock private IncludeAction action;
+    @Mock private IncludeCriteria criteria;
     @Mock private ScenarioExecutionContext scenarioContext;
     @Mock private ScenarioExecutionContext childScenarioContext;
     @Mock private GlobalExecutionContext globalContext;
@@ -43,7 +45,8 @@ public class IncludeActionExecutorTest<CriteriaValue> {
     @Before
     public void init(){
         when(conditionalExpressionEvaluator.isExecutable(action, scenarioContext)).thenReturn(true);
-        when(action.getScenario()).thenReturn(SCENARIO_TITLE);
+        when(action.getInclude()).thenReturn(criteria);
+        when(criteria.getScenario()).thenReturn(SCENARIO_TITLE);
         when(scenarioContext.getGlobalContext()).thenReturn(globalContext);
         when(globalContext.getScenario(SCENARIO_TITLE)).thenReturn(childScenario);
         when(scenarioContext.createChildContext(childScenario)).thenReturn(childScenarioContext);

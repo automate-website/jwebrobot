@@ -5,8 +5,8 @@ import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.waml.io.model.action.StoreAction;
-
+import website.automate.waml.io.model.action.DefineAction;
+import website.automate.waml.io.model.criteria.DefineCriteria;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StoreActionExecutor extends ConditionalActionExecutor<StoreAction> {
+public class StoreActionExecutor extends ConditionalActionExecutor<DefineAction> {
 
 	@Autowired
     public StoreActionExecutor(ExpressionEvaluator expressionEvaluator,
@@ -27,19 +27,20 @@ public class StoreActionExecutor extends ConditionalActionExecutor<StoreAction> 
     }
 
     @Override
-    public void perform(StoreAction action, ScenarioExecutionContext context) {
+    public void perform(DefineAction action, ScenarioExecutionContext context) {
         Map<String, Object> memory = context.getMemory();
+        DefineCriteria criteria = action.getDefine();
 
-        Map<String, String> criteriaValueMap = action.getFacts();
+        Map<String, Object> criteriaValueMap = criteria.getFacts();
 
-        for(Entry<String, String> criteriaValueEntry : criteriaValueMap.entrySet()){
+        for(Entry<String, Object> criteriaValueEntry : criteriaValueMap.entrySet()){
             memory.put(criteriaValueEntry.getKey(), criteriaValueEntry.getValue());
         }
     }
 
     @Override
-    public Class<StoreAction> getSupportedType() {
-        return StoreAction.class;
+    public Class<DefineAction> getSupportedType() {
+        return DefineAction.class;
     }
 
 }

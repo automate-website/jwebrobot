@@ -12,7 +12,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.FilterAction;
 
-public abstract class FilterActionExecutor<T extends FilterAction> extends ConditionalActionExecutor<T> {
+public abstract class FilterActionExecutor<T extends FilterAction<?>> extends ConditionalActionExecutor<T> {
 
     private ElementFilterChain elementFilterChain;
     

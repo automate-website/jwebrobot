@@ -2,131 +2,108 @@ package website.automate.jwebrobot.executor.filter;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.waml.io.model.CriterionType;
 import website.automate.waml.io.model.action.FilterAction;
-import website.automate.waml.io.model.action.ParentCriteria;
+import website.automate.waml.io.model.criteria.FilterCriteria;
 
 @Service
 public class ElementFilterChain {
 
-    private ElementFilterProvider elementFilterProvider;
+    private SelectorElementFilter selectorElementFilter;
+
+    private TextElementFilter textElementFilter;
+
+    private ValueElementFilter valueElementFilter;
 
     @Autowired
-    public ElementFilterChain(ElementFilterProvider elementFilterProvider) {
-        this.elementFilterProvider = elementFilterProvider;
+    public ElementFilterChain(SelectorElementFilter selectorElementFilter,
+            TextElementFilter textElementFilter, ValueElementFilter valueElementFilter) {
+        this.selectorElementFilter = selectorElementFilter;
+        this.textElementFilter = textElementFilter;
+        this.valueElementFilter = valueElementFilter;
     }
 
-    public List<WebElement> filter(ScenarioExecutionContext context,
-            FilterAction action) {
-        List<Map<CriterionType, String>> filterCriteriaValueMaps = getParentCriteriaValueMapsInReverseOrder(action);
-
-        if (filterCriteriaValueMaps.isEmpty()) {
-            return Collections.emptyList();
-        }
-
+    public List<WebElement> filter(ScenarioExecutionContext context, FilterAction<?> action) {
         WebElement html = getDefaultFrameElement(context.getDriver().switchTo().defaultContent());
+        FilterCriteria criteria = action.getFilter();
 
-        List<WebElement> filteredWebElements = asList(html);
+        List<WebElement> webElements = getParentIfSetOrHtmlRoot(html, criteria, context);
 
-        for (Map<CriterionType, String> filterCriteriaValueMap : filterCriteriaValueMaps) {
-            for (Entry<CriterionType, String> filterCriteriaValueEntry : filterCriteriaValueMap
-                    .entrySet()) {
-                ElementFilter elementFilter = elementFilterProvider
-                        .getInstance(filterCriteriaValueEntry.getKey());
-                filteredWebElements = getDisplayed(context, elementFilter
-                        .filter(filterCriteriaValueEntry.getValue(),
-                                filteredWebElements));
-            }
-        }
+        webElements = filterBySelectorIfSet(criteria, context, webElements);
 
-        return filteredWebElements;
-    }
-    
-    private List<Map<CriterionType, String>> getParentCriteriaValueMapsInReverseOrder(
-            FilterAction action) {
-        List<Map<CriterionType, String>> groupedFilterCriteria = new ArrayList<>();
+        webElements = filterByTextIfSet(criteria, context, webElements);
 
-        ParentCriteria parent = action.getParent();
-        if (parent != null) {
-            groupedFilterCriteria.add(getParentFilterCriteria(parent));
-        }
-        groupedFilterCriteria.add(getActionFilterCriteria(action));
+        webElements = filterByValueIfSet(criteria, context, webElements);
 
-        return groupedFilterCriteria;
+        return webElements;
     }
 
-    private Map<CriterionType, String> getActionFilterCriteria(
-            FilterAction action) {
-        Map<CriterionType, String> filterCriteria = new LinkedHashMap<>();
-        String selector = action.getSelector();
-        String text = action.getText();
-        String value = action.getValue();
-        if (selector != null) {
-            filterCriteria.put(CriterionType.SELECTOR, selector);
+    private List<WebElement> filterByValueIfSet(FilterCriteria criteria,
+            ScenarioExecutionContext context, List<WebElement> webElements) {
+        if (!isBlank(criteria.getValue())) {
+            return getDisplayed(context,
+                    valueElementFilter.filter(criteria.getValue(), webElements));
         }
-        if (text != null) {
-            filterCriteria.put(CriterionType.TEXT, text);
-        }
-        if (value != null) {
-            filterCriteria.put(CriterionType.VALUE, value);
-        }
-        return filterCriteria;
+        return webElements;
     }
 
-    private Map<CriterionType, String> getParentFilterCriteria(
-            ParentCriteria parent) {
-        Map<CriterionType, String> filterCriteria = new LinkedHashMap<>();
-        String selector = parent.getSelector();
-        String text = parent.getText();
-        String value = parent.getValue();
-        if (selector != null) {
-            filterCriteria.put(CriterionType.SELECTOR, selector);
+    private List<WebElement> filterByTextIfSet(FilterCriteria criteria,
+            ScenarioExecutionContext context, List<WebElement> webElements) {
+        if (!isBlank(criteria.getText())) {
+            return getDisplayed(context, textElementFilter.filter(criteria.getText(), webElements));
         }
-        if (text != null) {
-            filterCriteria.put(CriterionType.TEXT, text);
-        }
-        if (value != null) {
-            filterCriteria.put(CriterionType.VALUE, value);
-        }
-        return filterCriteria;
+        return webElements;
     }
 
-    private List<WebElement> getDisplayed(ScenarioExecutionContext context, List<WebElement> webElements) {
+    private List<WebElement> filterBySelectorIfSet(FilterCriteria criteria,
+            ScenarioExecutionContext context, List<WebElement> webElements) {
+        if (!isBlank(criteria.getSelector())) {
+            return getDisplayed(context,
+                    selectorElementFilter.filter(criteria.getSelector(), webElements));
+        }
+        return webElements;
+    }
+
+    private List<WebElement> getParentIfSetOrHtmlRoot(WebElement html, FilterCriteria criteria,
+            ScenarioExecutionContext context) {
+        if (!isBlank(criteria.getParent())) {
+            return asList(
+                    WebElement.class.cast(context.getTotalMemory().get(criteria.getParent())));
+        }
+        return asList(html);
+    }
+
+    private List<WebElement> getDisplayed(ScenarioExecutionContext context,
+            List<WebElement> webElements) {
         List<WebElement> displayedElements = new ArrayList<>();
         for (WebElement webElement : webElements) {
             if (webElement.isDisplayed()) {
-                if(isIframe(webElement)){
-                  return singletonList(switchToFrame(context, webElement));
+                if (isIframe(webElement)) {
+                    return singletonList(switchToFrame(context, webElement));
                 }
                 displayedElements.add(webElement);
             }
         }
         return displayedElements;
     }
-    
-    private boolean isIframe(WebElement webElement){
-      return webElement.getTagName().equalsIgnoreCase("iframe");
+
+    private boolean isIframe(WebElement webElement) {
+        return webElement.getTagName().equalsIgnoreCase("iframe");
     }
-    
-    private WebElement switchToFrame(ScenarioExecutionContext context, WebElement webElement){
-       return getDefaultFrameElement(context.getDriver().switchTo().frame(webElement));
+
+    private WebElement switchToFrame(ScenarioExecutionContext context, WebElement webElement) {
+        return getDefaultFrameElement(context.getDriver().switchTo().frame(webElement));
     }
-    
-    private WebElement getDefaultFrameElement(WebDriver driver){
-      return driver.findElement(By.tagName("html"));
+
+    private WebElement getDefaultFrameElement(WebDriver driver) {
+        return driver.findElement(By.tagName("html"));
     }
 }

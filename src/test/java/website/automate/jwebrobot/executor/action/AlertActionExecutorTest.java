@@ -13,7 +13,7 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.AlertTextMismatchException;
 import website.automate.jwebrobot.exceptions.BooleanExpectedException;
 import website.automate.waml.io.model.action.AlertAction;
-
+import website.automate.waml.io.model.criteria.AlertCriteria;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -32,6 +32,9 @@ public class AlertActionExecutorTest {
 
     @Mock
     private AlertAction action;
+    
+    @Mock
+    private AlertCriteria criteria;
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private ScenarioExecutionContext context;
@@ -49,9 +52,10 @@ public class AlertActionExecutorTest {
         when(context.getGlobalContext().getOptions().getTimeout()).thenReturn(10L);
         when(alert.getText()).thenReturn(VALUE_TEXT);
 
-        when(action.getConfirm()).thenReturn(VALUE_CONFIRM);
-        when(action.getText()).thenReturn(VALUE_TEXT);
-        when(action.getInput()).thenReturn(VALUE_INPUT);
+        when(action.getAlert()).thenReturn(criteria);
+        when(criteria.getConfirm()).thenReturn(VALUE_CONFIRM);
+        when(criteria.getText()).thenReturn(VALUE_TEXT);
+        when(criteria.getInput()).thenReturn(VALUE_INPUT);
     }
 
     @Test
@@ -63,7 +67,7 @@ public class AlertActionExecutorTest {
 
     @Test
     public void shouldDismissAlert() {
-        when(action.getConfirm()).thenReturn("no");
+        when(criteria.getConfirm()).thenReturn("no");
 
         alertActionExecutor.perform(action, context);
 
@@ -81,14 +85,14 @@ public class AlertActionExecutorTest {
 
     @Test(expected = AlertTextMismatchException.class)
     public void shouldVerifyAlertText() {
-        when(action.getText()).thenReturn(UUID.randomUUID().toString());
+        when(criteria.getText()).thenReturn(UUID.randomUUID().toString());
 
         alertActionExecutor.perform(action, context);
     }
 
     @Test(expected = BooleanExpectedException.class)
     public void shouldClaimAboutUnknownConfirmCriteria() {
-        when(action.getConfirm()).thenReturn(UUID.randomUUID().toString());
+        when(criteria.getConfirm()).thenReturn(UUID.randomUUID().toString());
 
         alertActionExecutor.perform(action, context);
     }

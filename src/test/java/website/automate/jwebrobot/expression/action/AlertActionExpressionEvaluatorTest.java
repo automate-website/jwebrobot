@@ -8,7 +8,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.AlertAction;
-
+import website.automate.waml.io.model.criteria.AlertCriteria;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -38,11 +38,15 @@ public class AlertActionExpressionEvaluatorTest {
     @Mock
     private AlertAction action;
 
+    @Mock
+    private AlertCriteria criteria;
+    
     @Test
     public void shouldEvaluateCriteria() {
-        when(action.getConfirm()).thenReturn(VALUE_CONFIRM);
-        when(action.getText()).thenReturn(VALUE_TEXT);
-        when(action.getInput()).thenReturn(VALUE_INPUT);
+        when(action.getAlert()).thenReturn(criteria);
+        when(criteria.getConfirm()).thenReturn(VALUE_CONFIRM);
+        when(criteria.getText()).thenReturn(VALUE_TEXT);
+        when(criteria.getInput()).thenReturn(VALUE_INPUT);
 
         when(expressionEvaluator.evaluate(VALUE_CONFIRM, context.getTotalMemory())).thenReturn(VALUE_CONFIRM_PROCESSED);
         when(expressionEvaluator.evaluate(VALUE_TEXT, context.getTotalMemory())).thenReturn(VALUE_TEXT_PROCESSED);
@@ -50,9 +54,9 @@ public class AlertActionExpressionEvaluatorTest {
 
         actionExpressionEvaluator.evaluate(action, context);
 
-        verify(action).setConfirm(VALUE_CONFIRM_PROCESSED);
-        verify(action).setText(VALUE_TEXT_PROCESSED);
-        verify(action).setInput(VALUE_INPUT_PROCESSED);
+        verify(criteria).setConfirm(VALUE_CONFIRM_PROCESSED);
+        verify(criteria).setText(VALUE_TEXT_PROCESSED);
+        verify(criteria).setInput(VALUE_INPUT_PROCESSED);
     }
 
     @Test

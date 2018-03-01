@@ -10,12 +10,16 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
+import website.automate.waml.io.mappers.ActionMapper;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
-import website.automate.waml.report.io.WamlReportWriter;
-import website.automate.waml.report.io.model.*;
-import website.automate.waml.report.io.model.LogEntry.LogLevel;
-
+import website.automate.waml.io.model.report.ActionReport;
+import website.automate.waml.io.model.report.ExecutionStatus;
+import website.automate.waml.io.model.report.LogEntry;
+import website.automate.waml.io.model.report.LogEntry.LogLevel;
+import website.automate.waml.io.model.report.ScenarioReport;
+import website.automate.waml.io.model.report.WamlReport;
+import website.automate.waml.io.writer.WamlWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,18 +30,20 @@ public class Reporter implements ExecutionEventListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(Reporter.class);
 
+    private WamlWriter writer;
 
-    private WamlReportWriter writer;
+    private ActionMapper actionMapper;
 
     private Map<Action, Long> actionStartTimeMap = new HashMap<>();
 
-    private Map<Action, ActionReport> actionReportMap = new HashMap<>();
+    private Map<Action, Action> actionReportMap = new HashMap<>();
 
-    private Map<Scenario, ScenarioReport> scenarioReportMap = new LinkedHashMap<>();
+    private Map<Scenario, Scenario> scenarioReportMap = new LinkedHashMap<>();
 
     @Autowired
-    public Reporter(WamlReportWriter writer) {
+    public Reporter(WamlWriter writer, ActionMapper actionMapper) {
         this.writer = writer;
+        this.actionMapper = actionMapper;
     }
 
     @Override
@@ -46,11 +52,13 @@ public class Reporter implements ExecutionEventListener {
             Scenario contextScenario = context.getScenario();
             File contextScenarioFile = context.getGlobalContext().getFile(contextScenario);
 
-            ScenarioReport report = new SimpleScenarioReport();
-            report.setScenario(copyScenario(contextScenario));
+            ScenarioReport report = new ScenarioReport();
             report.setPath(contextScenarioFile.getAbsolutePath());
 
-            scenarioReportMap.put(contextScenario, report);
+            Scenario reportScenario = copyScenario(contextScenario);
+            reportScenario.setReport(report);
+
+            scenarioReportMap.put(contextScenario, reportScenario);
         }
     }
 
@@ -62,7 +70,9 @@ public class Reporter implements ExecutionEventListener {
     public void errorScenario(ScenarioExecutionContext context, Exception exception) {
         Scenario contextScenario = context.getScenario();
 
-        ScenarioReport report = scenarioReportMap.get(contextScenario);
+        Scenario reportScenario = scenarioReportMap.get(contextScenario);
+        ScenarioReport report = reportScenario.getReport();
+
         report.setMessage(exception.getMessage());
         report.setStatus(exceptionToStatus(exception));
     }
@@ -70,15 +80,16 @@ public class Reporter implements ExecutionEventListener {
     @Override
     public void beforeAction(ScenarioExecutionContext context, Action action) {
         Scenario rootScenario = context.getRootScenario();
-        ScenarioReport scenarioReport = scenarioReportMap.get(rootScenario);
+        Scenario reportScenario = scenarioReportMap.get(rootScenario);
 
-        ActionReport actionReport = new SimpleActionReport();
+        Action reportAction = actionMapper.map(action);
+        ActionReport actionReport = new ActionReport();
         actionReport.setPath(context.getScenarioInclusionPath());
-        actionReport.setAction(action);
+        reportAction.setReport(actionReport);
 
-        scenarioReport.getSteps().add(actionReport);
+        reportScenario.getActions().add(reportAction);
         actionStartTimeMap.put(action, System.currentTimeMillis());
-        actionReportMap.put(action, actionReport);
+        actionReportMap.put(action, reportAction);
     }
 
     void processLogEntries(ScenarioExecutionContext context, ActionReport actionReport) {
@@ -137,7 +148,7 @@ public class Reporter implements ExecutionEventListener {
     @Override
     public void afterExecution(GlobalExecutionContext context) {
         WamlReport report = new WamlReport();
-        report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
+        report.setScenarios(new ArrayList<Scenario>(scenarioReportMap.values()));
         report.updateStats();
         try {
             writer.write(new FileOutputStream(getReportPath(context)), report);
@@ -164,14 +175,16 @@ public class Reporter implements ExecutionEventListener {
 
     private WamlReport afterExecutionOrError(GlobalExecutionContext context) {
         WamlReport report = new WamlReport();
-        report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
+        report.setScenarios(new ArrayList<Scenario>(scenarioReportMap.values()));
         report.updateStats();
         return report;
     }
 
     private ActionReport afterActionOrError(ScenarioExecutionContext context, Action action) {
         Long startTime = actionStartTimeMap.get(action);
-        ActionReport report = actionReportMap.get(action);
+        Action reportAction = actionReportMap.get(action);
+        ActionReport report = reportAction.getReport();
+
         report.setTime((System.currentTimeMillis() - startTime) / 1000.0);
         return report;
     }

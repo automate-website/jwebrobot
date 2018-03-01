@@ -34,8 +34,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <selenium-java.version>3.6.0</selenium-java.version>
-        <waml-io.version>1.1.0</waml-io.version>
+        <selenium-java.version>3.9.1</selenium-java.version>
+        <waml-io.version>2.0.1-SNAPSHOT</waml-io.version>
     </properties>
 
     <licenses>
@@ -61,12 +61,6 @@
             <groupId>website.automate</groupId>
             <artifactId>waml-io</artifactId>
             <version>${waml-io.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>website.automate</groupId>
-            <artifactId>waml-report-io</artifactId>
-            <version>0.9.0</version>
         </dependency>
 
         <dependency>

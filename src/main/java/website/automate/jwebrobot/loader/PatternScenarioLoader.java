@@ -9,9 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
-import website.automate.waml.io.WamlReader;
 import website.automate.waml.io.model.Scenario;
-
+import website.automate.waml.io.reader.WamlReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

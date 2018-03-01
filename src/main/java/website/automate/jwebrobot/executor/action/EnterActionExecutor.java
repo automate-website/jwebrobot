@@ -14,9 +14,10 @@ import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.EnterAction;
+import website.automate.waml.io.model.criteria.EnterCriteria;
 
 @Service
-public class EnterActionExecutor extends ElementStoreActionExecutor<EnterAction> {
+public class EnterActionExecutor extends FilterActionExecutor<EnterAction> {
 
 	@Autowired
     public EnterActionExecutor(ExpressionEvaluator expressionEvaluator,
@@ -33,10 +34,11 @@ public class EnterActionExecutor extends ElementStoreActionExecutor<EnterAction>
     @Override
     public void perform(final EnterAction action, final ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
+        EnterCriteria criteria = action.getEnter();
 
         final WebElement element;
-        
-        boolean hasFilterCriteria = action.hasFilterCriteria();
+
+        boolean hasFilterCriteria = criteria.hasFilterCriteria();
         if (hasFilterCriteria) {
             element = (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<WebElement>() {
                 public WebElement apply(WebDriver d) {
@@ -48,14 +50,14 @@ public class EnterActionExecutor extends ElementStoreActionExecutor<EnterAction>
         }
 
         // Make clear
-        if (Boolean.parseBoolean(action.getClear())) {
+        if (Boolean.parseBoolean(criteria.getClear())) {
             element.clear();
         }
 
         /**
          * See {@link org.openqa.selenium.Keys} to send keys.
          */
-        element.sendKeys(action.getInput().toString());
+        element.sendKeys(criteria.getInput().toString());
 
     }
 

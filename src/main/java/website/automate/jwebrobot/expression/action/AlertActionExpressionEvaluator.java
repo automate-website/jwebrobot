@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.AlertAction;
+import website.automate.waml.io.model.criteria.AlertCriteria;
 
 @Service
 public class AlertActionExpressionEvaluator extends ConditionalActionExpressionEvaluator<AlertAction> {
@@ -18,9 +19,11 @@ public class AlertActionExpressionEvaluator extends ConditionalActionExpressionE
     @Override
     public void evaluate(AlertAction action, ScenarioExecutionContext context) {
         super.evaluate(action, context);
-        action.setConfirm(evaluate(action.getConfirm(), context));
-        action.setText(evaluate(action.getText(), context));
-        action.setInput(evaluate(action.getInput(), context));
+        
+        AlertCriteria criteria = action.getAlert();
+        criteria.setConfirm(evaluate(criteria.getConfirm(), context));
+        criteria.setText(evaluate(criteria.getText(), context));
+        criteria.setInput(evaluate(criteria.getInput(), context));
     }
 
     @Override

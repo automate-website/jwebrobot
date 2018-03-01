@@ -16,9 +16,10 @@ import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.SelectAction;
+import website.automate.waml.io.model.criteria.FilterCriteria;
 
 @Service
-public class SelectActionExecutor extends ElementStoreActionExecutor<SelectAction> {
+public class SelectActionExecutor extends FilterActionExecutor<SelectAction> {
 
     private static final String OPTION = "option";
 
@@ -50,8 +51,9 @@ public class SelectActionExecutor extends ElementStoreActionExecutor<SelectActio
         if (element.getTagName().equalsIgnoreCase(OPTION)) {
             element.click();
         } else {
+            FilterCriteria criteria = action.getSelect();
             Select select = new Select(element);
-            select.selectByValue(action.getValue());
+            select.selectByValue(criteria.getValue());
         }
 
     }

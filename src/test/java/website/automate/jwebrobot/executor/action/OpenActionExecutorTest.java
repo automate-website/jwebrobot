@@ -13,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.MalformedURLException;
 import website.automate.waml.io.model.action.OpenAction;
+import website.automate.waml.io.model.criteria.OpenCriteria;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OpenActionExecutorTest {
@@ -24,6 +25,9 @@ public class OpenActionExecutorTest {
 	
 	@Mock
 	private OpenAction action;
+
+	@Mock
+	private OpenCriteria criteria;
 	
 	@Mock
 	private WebDriver driver;
@@ -31,11 +35,12 @@ public class OpenActionExecutorTest {
 	@Before
 	public void init(){
 		when(context.getDriver()).thenReturn(driver);
+		when(action.getOpen()).thenReturn(criteria);
 	}
 	
 	@Test
 	public void validUrlPassValidation(){
-		when(action.getUrl()).thenReturn("https://www.wikipedia.de");
+		when(criteria.getUrl()).thenReturn("https://www.wikipedia.de");
 		
 		executor.perform(action, context);
 		
@@ -44,7 +49,7 @@ public class OpenActionExecutorTest {
 	
 	@Test
 	public void missingProtocolDefaultsToHttp(){
-		when(action.getUrl()).thenReturn("www.wikipedia.de");
+		when(criteria.getUrl()).thenReturn("www.wikipedia.de");
 		
 		executor.perform(action, context);
 		
@@ -53,7 +58,7 @@ public class OpenActionExecutorTest {
 	
 	@Test(expected=MalformedURLException.class)
 	public void malformedUrlThrowsException(){
-		when(action.getUrl()).thenReturn("htttp://wiki pedia.de");
+		when(criteria.getUrl()).thenReturn("htttp://wiki pedia.de");
 		
 		executor.perform(action, context);
 	}

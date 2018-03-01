@@ -2,7 +2,6 @@ package website.automate.jwebrobot.executor.action;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.DecimalNumberExpectedException;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
@@ -11,6 +10,7 @@ import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.WaitAction;
+import website.automate.waml.io.model.criteria.WaitCriteria;
 
 @Service
 public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
@@ -22,14 +22,14 @@ public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
             ExecutionEventListeners listener,
             ConditionalExpressionEvaluator conditionalExpressionEvaluator,
             ExceptionTranslator exceptionTranslator) {
-        super(expressionEvaluator, listener,
-                conditionalExpressionEvaluator,
-                exceptionTranslator);
+        super(expressionEvaluator, listener, conditionalExpressionEvaluator, exceptionTranslator);
     }
 
     @Override
     public void perform(final WaitAction action, ScenarioExecutionContext context) {
-        String waitTimeStr = action.getTime();
+        WaitCriteria criteria = action.getWait();
+
+        String waitTimeStr = criteria.getTime();
         try {
             Double waitTime = Double.parseDouble(waitTimeStr);
 

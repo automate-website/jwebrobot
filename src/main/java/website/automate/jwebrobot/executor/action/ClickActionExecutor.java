@@ -17,7 +17,7 @@ import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.ClickAction;
 
 @Service
-public class ClickActionExecutor extends ElementStoreActionExecutor<ClickAction> {
+public class ClickActionExecutor extends FilterActionExecutor<ClickAction> {
 
     @Autowired
     public ClickActionExecutor(ExpressionEvaluator expressionEvaluator, ExecutionEventListeners listener,

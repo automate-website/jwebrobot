@@ -17,7 +17,7 @@ import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.MoveAction;
 
 @Service
-public class MoveActionExecutor extends ElementStoreActionExecutor<MoveAction> {
+public class MoveActionExecutor extends FilterActionExecutor<MoveAction> {
 
     @Autowired
     public MoveActionExecutor(ExpressionEvaluator expressionEvaluator,

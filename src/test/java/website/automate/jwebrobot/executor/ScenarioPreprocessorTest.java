@@ -49,7 +49,7 @@ public class ScenarioPreprocessorTest {
         scenarioPreprocessor = new ScenarioPreprocessor(expressionEvaluator);
         
         when(context.getTotalMemory()).thenReturn(totalMemory);
-        when(scenario.getSteps()).thenReturn(actions);
+        when(scenario.getActions()).thenReturn(actions);
     }
     
     @Test
@@ -120,10 +120,10 @@ public class ScenarioPreprocessorTest {
     
     @Test
     public void actionsAreNotProcessed(){
-        when(scenario.getSteps()).thenReturn(actions);
+        when(scenario.getActions()).thenReturn(actions);
         
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, context);
         
-        assertThat(preprocessedScenario.getSteps(), is(actions));
+        assertThat(preprocessedScenario.getActions(), is(actions));
     }
 }

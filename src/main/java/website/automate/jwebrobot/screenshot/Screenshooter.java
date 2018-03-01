@@ -1,7 +1,5 @@
 package website.automate.jwebrobot.screenshot;
 
-import static website.automate.waml.io.model.ActionType.findByClazz;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +57,6 @@ public class Screenshooter {
         GlobalExecutionContext globalContext = scenarioRootContext.getGlobalContext();
         String targetPath = globalContext.getOptions().getScreenshotPath();
         
-        return targetPath + scenarioRootContext.getScenario().getName() + "_" + scenarioRootContext.getStepCount() + "_" + findByClazz(action.getClass()).getName() + "." + format; 
+        return targetPath + scenarioRootContext.getScenario().getName() + "_" + scenarioRootContext.getStepCount() + "_" + Action.findNameByClazz(action.getClass()) + "." + format; 
     }
 }

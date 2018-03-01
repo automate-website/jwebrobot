@@ -1,35 +1,34 @@
 package website.automate.jwebrobot.executor.action;
 
 import java.net.URL;
-
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.OpenAction;
+import website.automate.waml.io.model.criteria.OpenCriteria;
 
 @Service
 public class OpenActionExecutor extends ConditionalActionExecutor<OpenAction> {
 
-	@Autowired
+    @Autowired
     public OpenActionExecutor(ExpressionEvaluator expressionEvaluator,
             ExecutionEventListeners listener,
             ConditionalExpressionEvaluator conditionalExpressionEvaluator,
             ExceptionTranslator exceptionTranslator) {
-        super(expressionEvaluator, listener,
-                conditionalExpressionEvaluator,
-                exceptionTranslator);
+        super(expressionEvaluator, listener, conditionalExpressionEvaluator, exceptionTranslator);
     }
 
     @Override
     public void perform(final OpenAction action, ScenarioExecutionContext context) {
         WebDriver driver = context.getDriver();
-        driver.get(safeGetUrl(action.getUrl()));
+        OpenCriteria criteria = action.getOpen();
+
+        driver.get(safeGetUrl(criteria.getUrl()));
     }
 
     @Override
@@ -37,17 +36,18 @@ public class OpenActionExecutor extends ConditionalActionExecutor<OpenAction> {
         return OpenAction.class;
     }
 
-    private String safeGetUrl(String malformedUrlStr){
-    	String urlStr = malformedUrlStr;
-    	if (!urlStr.toLowerCase().matches("^\\w+://.*")) {
-    		urlStr = "http://" + urlStr;
+    private String safeGetUrl(String malformedUrlStr) {
+        String urlStr = malformedUrlStr;
+        if (!urlStr.toLowerCase().matches("^\\w+://.*")) {
+            urlStr = "http://" + urlStr;
         }
-    	URL url;
-		try {
-			url = new URL(urlStr);
-		} catch (java.net.MalformedURLException e) {
-			throw new website.automate.jwebrobot.exceptions.MalformedURLException(malformedUrlStr, e);
-		}
-    	return url.toString();
+        URL url;
+        try {
+            url = new URL(urlStr);
+        } catch (java.net.MalformedURLException e) {
+            throw new website.automate.jwebrobot.exceptions.MalformedURLException(malformedUrlStr,
+                    e);
+        }
+        return url.toString();
     }
 }

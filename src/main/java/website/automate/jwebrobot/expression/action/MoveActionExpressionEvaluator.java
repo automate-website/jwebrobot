@@ -6,7 +6,7 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.MoveAction;
 
 @Service
-public class MoveActionExpressionEvaluator extends ElementStoreActionExpressionEvaluator<MoveAction> {
+public class MoveActionExpressionEvaluator extends FilterActionExpressionEvaluator<MoveAction> {
 
     @Autowired
     public MoveActionExpressionEvaluator(

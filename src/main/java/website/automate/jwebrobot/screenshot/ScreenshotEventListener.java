@@ -7,7 +7,6 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions.TakeScreenshots;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
-import website.automate.waml.io.model.ActionType;
 import website.automate.waml.io.model.action.Action;
 
 @Service
@@ -23,7 +22,7 @@ public class ScreenshotEventListener implements ExecutionEventListener {
     @Override
     public void afterAction(ScenarioExecutionContext context, Action action) {
         if(context.getGlobalContext().getOptions().getTakeScreenshots() == TakeScreenshots.ON_EVERY_STEP
-                && ActionType.isExplicit(action.getClass())){
+                && Action.isExplicit(action.getClass())){
             screenshooter.takeScreenshot(context, action);
         }
     }
@@ -32,7 +31,7 @@ public class ScreenshotEventListener implements ExecutionEventListener {
     public void errorAction(ScenarioExecutionContext context, Action action,
             Exception exception) {
         if(context.getGlobalContext().getOptions().getTakeScreenshots() != TakeScreenshots.NEVER
-                && ActionType.isExplicit(action.getClass())){
+                && Action.isExplicit(action.getClass())){
             screenshooter.takeScreenshot(context, action);
         }
     }

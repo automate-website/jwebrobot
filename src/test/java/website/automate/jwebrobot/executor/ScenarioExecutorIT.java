@@ -16,7 +16,8 @@ import website.automate.waml.io.model.action.Action;
 import website.automate.waml.io.model.action.ClickAction;
 import website.automate.waml.io.model.action.EnsureAction;
 import website.automate.waml.io.model.action.OpenAction;
-
+import website.automate.waml.io.model.criteria.FilterCriteria;
+import website.automate.waml.io.model.criteria.OpenCriteria;
 import java.io.InputStream;
 import java.util.*;
 
@@ -44,14 +45,19 @@ public class ScenarioExecutorIT extends AbstractTest {
     @Before
     public void setUp() {
         openAction = new OpenAction();
-        openAction.setUrl("http://localhost:" + MOCK_SERVER_PORT);
+        OpenCriteria openCriteria = new OpenCriteria();
+        openCriteria.setUrl("http://localhost:" + MOCK_SERVER_PORT);
+        openAction.setOpen(openCriteria);
 
         clickAction = new ClickAction();
-        clickAction.setSelector("a[title=\"About\"]");
+        FilterCriteria clickCriteria = new FilterCriteria();
+        clickCriteria.setSelector("a[title=\"About\"]");
+        clickAction.setClick(clickCriteria);
 
         ensureAction = new EnsureAction();
-        ensureAction.setSelector("#About");
-
+        FilterCriteria ensureCriteria = new FilterCriteria();
+        ensureCriteria.setSelector("#About");
+        ensureAction.setEnsure(ensureCriteria);
     }
 
     @Test
@@ -59,7 +65,7 @@ public class ScenarioExecutorIT extends AbstractTest {
         Scenario scenario = new Scenario();
         scenario.setName("simpleScenario");
         scenario.setMeta("data");
-        scenario.setSteps(Arrays.<Action>asList(openAction, clickAction, ensureAction));
+        scenario.setActions(Arrays.<Action>asList(openAction, clickAction, ensureAction));
 
         scenarioExecutor.execute(asContext(Arrays.asList(scenario)));
     }

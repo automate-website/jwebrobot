@@ -13,8 +13,8 @@ import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.executor.action.ActionPreprocessor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
 import website.automate.jwebrobot.validator.ContextValidators;
+import website.automate.waml.io.mappers.ActionMapper;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
 
@@ -30,7 +30,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final ConditionalExpressionEvaluator conditionalExpressionEvaluator;
     private final ScenarioPreprocessor scenarioPreprocessor;
     private final ActionPreprocessor actionPreprocessor;
-    private final AbstractActionMapper abstractActionMapper;
+    private final ActionMapper actionMapper;
     private final ScenarioPatternFilter scenarioPatternFilter;
 
     @Autowired
@@ -42,7 +42,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ConditionalExpressionEvaluator conditionalExpressionEvaluator,
         ScenarioPreprocessor scenarioPreprocessor,
         ActionPreprocessor actionPreprocessor,
-        AbstractActionMapper abstractActionMapper,
+        ActionMapper actionMapper,
         ScenarioPatternFilter scenarioPatternFilter
     ) {
         this.webDriverProvider = webDriverProvider;
@@ -52,7 +52,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         this.conditionalExpressionEvaluator = conditionalExpressionEvaluator;
         this.scenarioPreprocessor = scenarioPreprocessor;
         this.actionPreprocessor = actionPreprocessor;
-        this.abstractActionMapper = abstractActionMapper;
+        this.actionMapper = actionMapper;
         this.scenarioPatternFilter =scenarioPatternFilter;
     }
 
@@ -111,14 +111,14 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, scenarioExecutionContext);
         scenarioExecutionContext.setScenario(preprocessedScenario);
 
-        if (scenario.getSteps() == null) {
+        if (scenario.getActions() == null) {
             throw new StepsMustBePresentException(scenario.getName());
         }
 
-        for (Action action : scenario.getSteps()) {
+        for (Action action : scenario.getActions()) {
             ActionExecutor<Action> actionExecutor = actionExecutorFactory.getInstance(action.getClass());
 
-            Action preprocessedAction = actionPreprocessor.preprocess(abstractActionMapper.map(action), scenarioExecutionContext);
+            Action preprocessedAction = actionPreprocessor.preprocess(actionMapper.map(action), scenarioExecutionContext);
 
             logger.debug("Executing {}", actionExecutor.getClass().getName());
             actionExecutor.execute(preprocessedAction, scenarioExecutionContext);
