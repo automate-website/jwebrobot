@@ -5,7 +5,6 @@ MAINTAINER automate.website <hello@automate.website>
 ARG JWEBROBOT_SCENARIOS
 
 ENV JWEBROBOT_SCENARIOS /var/jwebrobot
-ENV JWEBROBOT_BROWSER chrome
 ENV JWEBROBOT_OPTS ""
 
 ENV SCREEN_WIDTH 1366
@@ -17,12 +16,18 @@ VOLUME ["$JWEBROBOT_SCENARIOS"]
 
 USER root
 
-COPY entry_point.sh /opt/jwebrobot/entry_point.sh
-RUN chmod +x /opt/jwebrobot/entry_point.sh
+COPY entry-point.sh /opt/jwebrobot/entry-point.sh
+
+RUN apt-get update -qqy && \
+    apt-get -qqy install zip curl && \
+    rm -rf /var/lib/apt/lists/* && \
+    chmod +x /opt/jwebrobot/entry-point.sh
 
 COPY jwebrobot.jar /opt/jwebrobot/jwebrobot.jar
 
-RUN chown -R seluser:seluser /opt/jwebrobot
+RUN chown -R seluser:seluser /opt/jwebrobot && \
+    chown -R seluser:seluser $JWEBROBOT_SCENARIOS
+
 USER seluser
 
-CMD ["/opt/jwebrobot/entry_point.sh"]
+CMD ["/opt/jwebrobot/entry-point.sh"]
