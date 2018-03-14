@@ -27,7 +27,7 @@ function preHandleTestPayload(){
 	local workingDir=$2
 	local testPayloadPath="$workingDir/test-payload.zip"
 
-	mkdir -p "$sourceUrl"
+	mkdir -p "$workingDir"
 	echo "Downloading the execution payload"
 	wget -O "$testPayloadPath" "$sourceUrl"
 
