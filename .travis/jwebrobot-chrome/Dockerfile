@@ -12,20 +12,19 @@ ENV SCREEN_HEIGHT 768
 ENV SCREEN_DEPTH 16
 ENV JAVA_OPTS ""
 
-VOLUME ["$JWEBROBOT_SCENARIOS"]
-
 USER root
 
 COPY entry-point.sh /opt/jwebrobot/entry-point.sh
 
 RUN apt-get update -qqy && \
-    apt-get -qqy install zip curl && \
+    apt-get -qqy install zip curl wget && \
     rm -rf /var/lib/apt/lists/* && \
     chmod +x /opt/jwebrobot/entry-point.sh
 
 COPY jwebrobot.jar /opt/jwebrobot/jwebrobot.jar
 
 RUN chown -R seluser:seluser /opt/jwebrobot && \
+    mkdir -p $JWEBROBOT_SCENARIOS && \
     chown -R seluser:seluser $JWEBROBOT_SCENARIOS
 
 USER seluser
