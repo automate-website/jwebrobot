@@ -5,6 +5,9 @@ import static java.lang.Boolean.parseBoolean;
 import website.automate.jwebrobot.ConfigurationProperties;
 import website.automate.waml.report.io.model.LogEntry.LogLevel;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class ExecutorOptions {
 
     public enum TakeScreenshots {
@@ -81,6 +84,8 @@ public class ExecutorOptions {
 
     private WebDriverProvider.Type webDriverType = WebDriverProvider.Type.FIREFOX;
 
+    private URL webDriverUrl;
+
     public String screenshotPath;
 
     private TakeScreenshots takeScreenshots;
@@ -107,6 +112,7 @@ public class ExecutorOptions {
 
         executorOptions.setWebDriverType(WebDriverProvider.Type
                 .fromString(configurationProperties.getBrowser()));
+        executorOptions.setWebDriverUrl(toUrl(configurationProperties));
         executorOptions.setScreenshotPath(configurationProperties
                 .getScreenshotPath());
         executorOptions.setTakeScreenshots(TakeScreenshots
@@ -123,12 +129,28 @@ public class ExecutorOptions {
         return executorOptions;
     }
 
+    private static URL toUrl(ConfigurationProperties configurationProperties) {
+        try {
+            return new URL(configurationProperties.getBrowserDriverUrl());
+        } catch(MalformedURLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public WebDriverProvider.Type getWebDriverType() {
         return webDriverType;
     }
 
     public void setWebDriverType(WebDriverProvider.Type webDriverType) {
         this.webDriverType = webDriverType;
+    }
+
+    public void setWebDriverUrl(URL webDriverUrl){
+        this.webDriverUrl = webDriverUrl;
+    }
+
+    public URL getWebDriverUrl(){
+        return webDriverUrl;
     }
 
     public String getScreenshotPath() {
