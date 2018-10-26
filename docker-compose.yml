@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.3'
 services:
   firefox:
     image: selenium/standalone-firefox:3.14.0-helium
