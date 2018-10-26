@@ -1,0 +1,11 @@
+name: Ensure by Text, Selector and Click on stored Element Test
+steps:
+  - open: '${baseUrl}'
+  - ensure:
+      selector: '.secondary > a'
+      text: 'Read info'
+      store: infoAnchor
+  - click:
+      selector: '.secondary > a'
+      text: ${ infoAnchor.getText() }
+  - ensure: 'h1#Info'

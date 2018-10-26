@@ -1,8 +1,0 @@
-name: Click by Text Test
-steps:
-  - open: 'http://localhost:8089'
-  - click:
-      selector: a
-      text: 'Read about this project'
-  - ensure: 'h1#About'
-

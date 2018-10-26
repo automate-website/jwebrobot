@@ -1,6 +1,0 @@
-name: Ensure Absent Test
-steps:
-  - open: http://localhost:8089
-  - ensure: 
-      selector: div.another-article
-      absent: true

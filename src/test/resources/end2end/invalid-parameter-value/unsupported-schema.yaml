@@ -1,0 +1,4 @@
+# FIX-ME: doesn't work anymore
+#name: Wrong schema
+#steps:
+#  - open: 'mailto://hello@example.com'

@@ -1,4 +1,0 @@
-name: Wikipedia Test
-steps:
-  - open: 'https://en.wikipedia.org'
-  - move: 'a[title="Wikipedia:About"]'

@@ -1,3 +1,0 @@
-name: Wrong schema
-steps:
-  - open: 'mailto://hello@example.com'

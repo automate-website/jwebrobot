@@ -8,39 +8,17 @@ before_install:
   - pip install --user codecov
 
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
+  - docker-compose -f docker-compose.travis.yml up -d
 
 script:
   - mvn clean package
-  - JWEBROBOT_JAR=$(ls -1 target/*.jar | grep -E 'target/jwebrobot-[0-9]+\.[0-9]+\.[0-9]+?(-SNAPSHOT)\.jar$')
-  - cp $JWEBROBOT_JAR .travis/jwebrobot-chrome/jwebrobot.jar
-  - ls -l .travis/jwebrobot-chrome/
-  - docker build -t automatewebsite/jwebrobot-chrome .travis/jwebrobot-chrome
-  - JWEBROBOT_TEST_DIR=$TRAVIS_BUILD_DIR/.travis/jwebrobot-docker-test
-  - ls -l $JWEBROBOT_TEST_DIR
-  - chmod -R 777 $JWEBROBOT_TEST_DIR
-  - docker run -v $JWEBROBOT_TEST_DIR:/var/jwebrobot automatewebsite/jwebrobot-chrome
-  - JWEBROBOT_TEST_REPORT_DIR=$JWEBROBOT_TEST_DIR/report
-  - JWEBROBOT_TEST_REPORT_FILES_COUNT=$(ls -1 $JWEBROBOT_TEST_REPORT_DIR | wc -l)
-  - if [ "$JWEBROBOT_TEST_REPORT_FILES_COUNT" < "1" ]; then
-    ls -l $JWEBROBOT_TEST_REPORT_DIR;
-    exit 1;
-    fi
+#  - .travis/build-image.sh
 
 after_success:
   - codecov
   - .travis/prepare-gpg.sh
   - .travis/deploy.sh
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push automatewebsite/jwebrobot-chrome;
-    fi
-  - if [ ! -z "$TRAVIS_TAG" ]; then
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push automatewebsite/jwebrobot-chrome:$TRAVIS_TAG;
-    fi
+#  - .travis/deploy-image.sh
 
 env:
   global:
