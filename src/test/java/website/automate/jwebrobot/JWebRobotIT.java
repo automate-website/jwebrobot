@@ -13,11 +13,6 @@ public class JWebRobotIT {
     public static final String BROWSER_PARAM_NAME = "browser";
 
     @Test
-    public void simpleScenarioIsExecuted() {
-        JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "wikipedia-test.yaml"});
-    }
-
-    @Test
     public void threeLevelInclusionScenarioIsExecuted(){
         JWebRobot.main(new String [] {"-" + SCENARIO_PATH_PARAM_NAME, ROOT_PACKAGE_DIRECTORY_PATH + "inclusion" });
     }

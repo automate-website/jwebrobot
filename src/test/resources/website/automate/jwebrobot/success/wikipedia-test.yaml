@@ -2,8 +2,8 @@ name: Wikipedia Test
 meta: data
 steps:
   - open: 'https://en.wikipedia.org'
-  - click: 'a[title="Wikipedia:About"]'
-  - ensure: '#About_Wikipedia'
+  - click: 'a[title="Find out about Wikipedia"]'
+  - ensure: '.page-Wikipedia_About'
   - click: 'a[accesskey="j"]'
   - select: 'select#namespace > option:nth-child(3)'
   - wait: 1

@@ -5,8 +5,3 @@ services:
     shm_size: 2g
     ports:
     - "44441:4444"
-  chrome:
-    image: selenium/standalone-chrome:3.14.0-helium
-    shm_size: 2g
-    ports:
-    - "44442:4444"
