@@ -15,7 +15,7 @@ before_script:
   - docker-compose -f docker-compose.travis.yml up -d
 
 script:
-  - mvn clean package $MAVEN_CLI_OPTS
+  - mvn clean verify $MAVEN_CLI_OPTS
 #  - .travis/build-image.sh
 
 after_success:
