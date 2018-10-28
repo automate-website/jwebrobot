@@ -1,0 +1,7 @@
+name: ensure at info page
+steps:
+  - include: ensure at landing page
+  - click:
+      selector: a
+      text: Read information
+  - ensure: 'h1#Info'

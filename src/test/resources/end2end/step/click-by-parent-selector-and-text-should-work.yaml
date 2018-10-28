@@ -1,0 +1,9 @@
+name: Click by Parent Selector and Text Test
+steps:
+  - open: ${baseUrl}
+  - click:
+      selector: a
+      parent:
+        selector: div.second-article
+        text: You can read further
+  - ensure: h1#Info

@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  firefox:
+    image: selenium/standalone-firefox:3.14.0-helium
+    shm_size: 2g
+    links:
+    - testpage
+    ports:
+    - "44441:4444"
+  testpage:
+    image: automatewebsite/testpage:1.0.0
+    ports:
+    - "80:80"

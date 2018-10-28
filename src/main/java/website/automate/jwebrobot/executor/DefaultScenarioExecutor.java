@@ -78,7 +78,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
 
         if (!scenario.getFragment() && scenarioPatternFilter.isExecutable(options.getScenarioPattern(), scenario.getName())){
             logger.info("Starting scenario \"{}\"...", scenario.getName());
-            WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType());
+            WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType(), options.getWebDriverUrl());
 
             if(options.isMaximizeWindow() == Boolean.TRUE){
                 driver.manage().window().maximize();

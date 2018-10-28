@@ -5,7 +5,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.HttpCommandExecutor;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.URL;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +31,28 @@ public class WebDriverProvider {
             case FIREFOX:
             default:
                 return new FirefoxDriver();
+        }
+    }
+
+    public WebDriver createInstance(Type type, URL webDriverUrl){
+        if(webDriverUrl == null){
+            return createInstance(type);
+        }
+
+        return createRemoteInstance(type, webDriverUrl);
+    }
+
+    private WebDriver createRemoteInstance(Type type, URL webDriverUrl) {
+        CommandExecutor commandExecutor = new HttpCommandExecutor(webDriverUrl);
+        switch (type) {
+            case CHROME:
+            case CHROME_HEADLESS:
+                return new RemoteWebDriver(commandExecutor, DesiredCapabilities.chrome());
+            case OPERA:
+                return new RemoteWebDriver(commandExecutor, DesiredCapabilities.operaBlink());
+            case FIREFOX:
+            default:
+                return new RemoteWebDriver(commandExecutor, DesiredCapabilities.firefox());
         }
     }
 

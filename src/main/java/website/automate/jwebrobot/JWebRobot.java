@@ -19,7 +19,7 @@ public class JWebRobot implements CommandLineRunner {
   private ScenarioLoader scenarioLoader;
 
   private ScenarioExecutor scenarioExecutor;
-  
+
   @Autowired
   public JWebRobot(ScenarioLoader scenarioLoader,
       ScenarioExecutor scenarioExecutor) {
