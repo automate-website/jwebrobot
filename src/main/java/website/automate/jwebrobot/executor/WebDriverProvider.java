@@ -11,10 +11,12 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
+import org.springframework.stereotype.Service;
 
+@Service
 public class WebDriverProvider {
 
-    private WebDriver createInstance(Type type) {
+    public WebDriver createInstance(Type type) {
         switch (type) {
             case CHROME:
                 return new ChromeDriver();

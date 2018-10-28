@@ -1,10 +1,11 @@
 package website.automate.jwebrobot.report;
 
-import com.google.inject.Inject;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.logging.LogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
@@ -20,7 +21,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.*;
 
+@Service
 public class Reporter implements ExecutionEventListener {
+
     private static final Logger LOG = LoggerFactory.getLogger(Reporter.class);
 
 
@@ -32,7 +35,7 @@ public class Reporter implements ExecutionEventListener {
 
     private Map<Scenario, ScenarioReport> scenarioReportMap = new LinkedHashMap<>();
 
-    @Inject
+    @Autowired
     public Reporter(WamlReportWriter writer) {
         this.writer = writer;
     }

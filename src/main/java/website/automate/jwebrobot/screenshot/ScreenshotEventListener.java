@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.screenshot;
 
-import com.google.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
@@ -9,11 +10,12 @@ import website.automate.jwebrobot.listener.ExecutionEventListener;
 import website.automate.waml.io.model.ActionType;
 import website.automate.waml.io.model.action.Action;
 
+@Service
 public class ScreenshotEventListener implements ExecutionEventListener {
 
     private Screenshooter screenshooter;
     
-    @Inject
+    @Autowired
     public ScreenshotEventListener(Screenshooter screenshooter) {
         this.screenshooter = screenshooter;
     }

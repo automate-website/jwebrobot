@@ -1,65 +1,58 @@
 package website.automate.jwebrobot;
 
 import java.util.List;
-
-import javax.inject.Inject;
-
 import org.slf4j.bridge.SLF4JBridgeHandler;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.beust.jcommander.JCommander;
-import com.google.inject.Injector;
-
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
-import website.automate.jwebrobot.player.ConsoleListener;
-import website.automate.jwebrobot.player.ScenarioPlayer;
 
-public class JWebRobot {
+@SpringBootApplication
+public class JWebRobot implements CommandLineRunner {
 
-    private static ConsoleListener consoleListener;
-    
-    @Inject
-    private ScenarioLoader scenarioLoader;
+  private ScenarioLoader scenarioLoader;
 
-    @Inject
-    private ScenarioExecutor scenarioExecutor;
+  private ScenarioExecutor scenarioExecutor;
 
-    public void run(ConfigurationProperties configurationProperties) {
-        List<ScenarioFile> scenarioFiles = scenarioLoader.load(configurationProperties.getAllScenarioPaths(),
-                configurationProperties.getReportPath());
-        ExecutorOptions executorOptions = ExecutorOptions.of(configurationProperties);
-        GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles, executorOptions,
-                configurationProperties.getContext());
+  @Autowired
+  public JWebRobot(ScenarioLoader scenarioLoader,
+      ScenarioExecutor scenarioExecutor) {
+    this.scenarioLoader = scenarioLoader;
+    this.scenarioExecutor = scenarioExecutor;
+  }
 
-        scenarioExecutor.execute(globalContext);
-    }
-    
-    public static void main(String[] args) {
-        bridgeJULToSLF4();
-        
-        ConfigurationProperties configurationProperties = new ConfigurationProperties();
-        new JCommander(configurationProperties, args);
+  public static void main(String[] args) {
+    SpringApplication.run(JWebRobot.class, args);
+  }
 
-        Injector injector = GuiceInjector.getInstance();
+  private static void bridgeJULToSLF4() {
+    SLF4JBridgeHandler.removeHandlersForRootLogger();
+    SLF4JBridgeHandler.install();
+  }
 
-        if(configurationProperties.isInteractive()){
-            consoleListener = ConsoleListener.getInstance();
-            consoleListener.getPlayer().executeCommand(ScenarioPlayer.STOP);
-        }
-        
-        JWebRobot jWebRobot = injector.getInstance(JWebRobot.class);
-        jWebRobot.run(configurationProperties);
-        
-        if(configurationProperties.isInteractive()){
-            consoleListener.shutdown();
-        }
-    }
-    
-    private static void bridgeJULToSLF4(){
-        SLF4JBridgeHandler.removeHandlersForRootLogger();
-        SLF4JBridgeHandler.install();
-    }
+  public void run(ConfigurationProperties configurationProperties) {
+    List<ScenarioFile> scenarioFiles = scenarioLoader.load(
+        configurationProperties.getAllScenarioPaths(), configurationProperties.getReportPath());
+    ExecutorOptions executorOptions = ExecutorOptions.of(configurationProperties);
+    GlobalExecutionContext globalContext = new GlobalExecutionContext(scenarioFiles,
+        executorOptions, configurationProperties.getContext());
+
+    scenarioExecutor.execute(globalContext);
+  }
+
+  @Override
+  public void run(String... args) throws Exception {
+    bridgeJULToSLF4();
+
+    ConfigurationProperties configurationProperties = new ConfigurationProperties();
+    new JCommander(configurationProperties, args);
+
+    run(configurationProperties);
+  }
 }

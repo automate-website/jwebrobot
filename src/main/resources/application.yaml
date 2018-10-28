@@ -1,0 +1,7 @@
+spring:
+  main:
+    banner-mode: 'OFF'
+
+logging:
+  level:
+    org.springframework: WARN

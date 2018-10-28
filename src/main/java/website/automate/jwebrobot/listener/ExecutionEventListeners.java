@@ -2,18 +2,18 @@ package website.automate.jwebrobot.listener;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import com.google.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.waml.io.model.action.Action;
 
+@Service
 public class ExecutionEventListeners implements ExecutionEventListener {
 
     private Set<ExecutionEventListener> listeners = new HashSet<>();
     
-    @Inject
+    @Autowired
     public ExecutionEventListeners(Set<ExecutionEventListener> listeners){
         this.listeners = listeners;
     }

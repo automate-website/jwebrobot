@@ -1,7 +1,9 @@
 package website.automate.jwebrobot.mapper.action;
 
+import org.springframework.stereotype.Service;
 import website.automate.waml.io.model.action.EnterAction;
 
+@Service
 public class EnterActionMapper extends ElementStoreActionMapper<EnterAction> {
 
     @Override

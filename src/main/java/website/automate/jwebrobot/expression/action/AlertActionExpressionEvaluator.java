@@ -1,13 +1,15 @@
 package website.automate.jwebrobot.expression.action;
 
-import com.google.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.action.AlertAction;
 
+@Service
 public class AlertActionExpressionEvaluator extends ConditionalActionExpressionEvaluator<AlertAction> {
 
-    @Inject
+    @Autowired
     public AlertActionExpressionEvaluator(
         ExpressionEvaluator expressionEvaluator) {
         super(expressionEvaluator);

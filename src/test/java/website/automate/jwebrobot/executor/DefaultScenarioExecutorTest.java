@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.DefaultScenarioExecutor;
 import website.automate.jwebrobot.executor.WebDriverProvider;
@@ -19,7 +19,6 @@ import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
 import website.automate.jwebrobot.mapper.action.ActionMapperProvider;
-import website.automate.jwebrobot.player.ScenarioPlayer;
 import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.Scenario;
 
@@ -40,7 +39,6 @@ public class DefaultScenarioExecutorTest {
     @Mock private ScenarioExecutionContext context;
     @Mock private AbstractActionMapper abstractActionMapper;
     @Mock private ScenarioPatternFilter scenarioPatternFilter;
-    @Mock private ScenarioPlayer scenarioPlayer;
     
     private DefaultScenarioExecutor scenarioExecutor;
     
@@ -49,8 +47,7 @@ public class DefaultScenarioExecutorTest {
         scenarioExecutor = new DefaultScenarioExecutor(webDriverProvider, actionExecutorFactory, listener,
                 validator, conditionalExpressionEvaluator,
                 scenarioPreprocessor, actionPreprocessor, abstractActionMapper,
-                scenarioPatternFilter,
-                scenarioPlayer);
+                scenarioPatternFilter);
         
         when(scenarioPreprocessor.preprocess(scenario, context)).thenReturn(preprocessedScenario);
     }

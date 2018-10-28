@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-
+import org.springframework.stereotype.Service;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategy;
@@ -21,6 +21,7 @@ import website.automate.jwebrobot.executor.ExecutorOptions.ScreenshotType;
 import website.automate.jwebrobot.utils.ViewPortShootingStrategy;
 import website.automate.waml.io.model.action.Action;
 
+@Service
 public class Screenshooter {
     
     public void takeScreenshot(ScenarioExecutionContext scenarioContext, Action action){

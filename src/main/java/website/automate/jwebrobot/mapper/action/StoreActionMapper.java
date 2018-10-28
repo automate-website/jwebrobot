@@ -5,7 +5,9 @@ import website.automate.waml.io.model.action.StoreAction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StoreActionMapper extends ConditionalActionMapper<StoreAction> {
 
     @Override

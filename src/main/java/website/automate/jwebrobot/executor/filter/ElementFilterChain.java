@@ -13,19 +13,19 @@ import java.util.Map.Entry;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import com.google.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.waml.io.model.CriterionType;
 import website.automate.waml.io.model.action.FilterAction;
 import website.automate.waml.io.model.action.ParentCriteria;
 
+@Service
 public class ElementFilterChain {
 
     private ElementFilterProvider elementFilterProvider;
 
-    @Inject
+    @Autowired
     public ElementFilterChain(ElementFilterProvider elementFilterProvider) {
         this.elementFilterProvider = elementFilterProvider;
     }

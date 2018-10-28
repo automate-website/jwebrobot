@@ -3,14 +3,15 @@ package website.automate.jwebrobot.mapper.action;
 
 import website.automate.jwebrobot.utils.Mapper;
 import website.automate.waml.io.model.action.Action;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.google.inject.Inject;
-
+@Service
 public class AbstractActionMapper {
 
     private ActionMapperProvider actionMapperProvider;
     
-    @Inject
+    @Autowired
     public AbstractActionMapper(ActionMapperProvider actionMapperProvider){
         this.actionMapperProvider = actionMapperProvider;
     }

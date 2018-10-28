@@ -4,8 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
@@ -44,7 +43,6 @@ public class StoreActionExecutorTest {
         when(conditionalExpressionEvaluator.isExecutable(action, context)).thenReturn(true);
         when(action.getFacts()).thenReturn(Collections.singletonMap(CRITERIA_TYPE.getName(), EXPRESSION));
         when(context.getMemory()).thenReturn(memory);
-        when(expressionEvaluator.evaluate(Mockito.eq(EXPRESSION), Mockito.anyMap())).thenReturn(EXPRESSION);
     }
 
     @Test

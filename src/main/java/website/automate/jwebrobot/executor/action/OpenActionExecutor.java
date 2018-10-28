@@ -3,8 +3,8 @@ package website.automate.jwebrobot.executor.action;
 import java.net.URL;
 
 import org.openqa.selenium.WebDriver;
-
-import com.google.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
@@ -13,9 +13,10 @@ import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.OpenAction;
 
+@Service
 public class OpenActionExecutor extends ConditionalActionExecutor<OpenAction> {
 
-    @Inject
+	@Autowired
     public OpenActionExecutor(ExpressionEvaluator expressionEvaluator,
             ExecutionEventListeners listener,
             ConditionalExpressionEvaluator conditionalExpressionEvaluator,

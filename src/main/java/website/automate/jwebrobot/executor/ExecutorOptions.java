@@ -112,7 +112,7 @@ public class ExecutorOptions {
 
         executorOptions.setWebDriverType(WebDriverProvider.Type
                 .fromString(configurationProperties.getBrowser()));
-        executorOptions.setWebDriverUrl(toUrl(configurationProperties));
+        executorOptions.setWebDriverUrl(toUrl(configurationProperties.getBrowserDriverUrl()));
         executorOptions.setScreenshotPath(configurationProperties
                 .getScreenshotPath());
         executorOptions.setTakeScreenshots(TakeScreenshots
@@ -129,9 +129,13 @@ public class ExecutorOptions {
         return executorOptions;
     }
 
-    private static URL toUrl(ConfigurationProperties configurationProperties) {
+    private static URL toUrl(String urlStr) {
+        if(urlStr == null){
+            return null;
+        }
+
         try {
-            return new URL(configurationProperties.getBrowserDriverUrl());
+            return new URL(urlStr);
         } catch(MalformedURLException e){
             throw new RuntimeException(e);
         }

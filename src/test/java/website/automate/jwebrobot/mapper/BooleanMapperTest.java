@@ -29,6 +29,7 @@ public class BooleanMapperTest {
     }
 
 
+    @SuppressWarnings("rawtypes")
     @Parameterized.Parameters
     public static Collection booleanValues() {
         return Arrays.asList(new Object[][] {
