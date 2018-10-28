@@ -165,13 +165,10 @@ mvn package
 ```
 
 ## References
-Refer to the [changelog] for recent notable changes and modifications.
-
 Refer to the [waml-schema] for schema sources.
 
 
 [webdriver-chrome]: http://chromedriver.storage.googleapis.com/index.html
-[changelog]: CHANGELOG.md
 [waml-schema]: http://waml-schema.org
 [waml-git]: https://github.com/automate-website/waml
 [draft-02]: http://waml-schema.org/draft-02/schema#
