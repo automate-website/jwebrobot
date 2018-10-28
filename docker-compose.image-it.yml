@@ -22,6 +22,7 @@ services:
     - testpage
     ports:
     - "44441:4444"
+    - "5901:5900"
   testpage:
     image: automatewebsite/testpage:1.0.0
     ports:
