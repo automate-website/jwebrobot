@@ -20,4 +20,5 @@ services:
     - testpage
     ports:
     - "44441:4444"
+    - "5901:5900"
 
