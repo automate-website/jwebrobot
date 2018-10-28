@@ -1,0 +1,4 @@
+name: disabled conditional scenario
+if: ${isEnabled}
+steps:
+  - open: ${missing.parameter}

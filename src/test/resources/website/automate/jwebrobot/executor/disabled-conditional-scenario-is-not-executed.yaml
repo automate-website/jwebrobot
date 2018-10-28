@@ -1,4 +1,0 @@
-name: disabled conditional scenario
-if: false
-steps:
-  - open: ${missing.parameter}

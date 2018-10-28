@@ -26,6 +26,9 @@ public class ConfigurationProperties {
     @Parameter(names = "-browser", description = "Browser to use for execution (e.g firefox or chrome).", required = false)
     private String browser = System.getProperty("jwebrobot.browser", FIREFOX);
 
+    @Parameter(names = "-browserDriverUrl", description = "Browser driver url.", required = false)
+    private String browserDriverUrl = System.getProperty("jwebrobot.browserDriverUrl");
+
     @Parameter(names = "-context", variableArity = true, required = false)
     private List<String> contextEntries = new ArrayList<>();
 
@@ -69,6 +72,14 @@ public class ConfigurationProperties {
 
     public String getBrowser() {
         return browser;
+    }
+
+    public String getBrowserDriverUrl(){
+        return browserDriverUrl;
+    }
+
+    public void setBrowserDriverUrl(String browserDriverUrl){
+        this.browserDriverUrl = browserDriverUrl;
     }
 
     public void setBrowser(String browser) {

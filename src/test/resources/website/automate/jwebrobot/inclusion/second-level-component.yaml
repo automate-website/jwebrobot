@@ -1,5 +1,0 @@
-name: Ensure on Wikipedia Landing Page
-fragment: true
-steps:
-  - include: Goto Wikipedia Landing Page
-  - ensure: a.mw-wiki-logo

@@ -1,0 +1,9 @@
+name: scenario-b
+steps:
+  - include: go-to-example
+  - click: button[type=submitB]
+---
+name: scenario-c
+steps:
+  - include: go-to-example
+  - click: button[type=submitC]

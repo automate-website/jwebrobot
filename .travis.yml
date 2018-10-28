@@ -1,6 +1,10 @@
 language: java
 sudo: required
 
+cache:
+  directories:
+  - $HOME/.m2
+
 services:
   - docker
 
@@ -8,39 +12,17 @@ before_install:
   - pip install --user codecov
 
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
+  - docker-compose -f docker-compose.package-it-travis.yml up -d
 
 script:
-  - mvn clean package
-  - JWEBROBOT_JAR=$(ls -1 target/*.jar | grep -E 'target/jwebrobot-[0-9]+\.[0-9]+\.[0-9]+?(-SNAPSHOT)\.jar$')
-  - cp $JWEBROBOT_JAR .travis/jwebrobot-chrome/jwebrobot.jar
-  - ls -l .travis/jwebrobot-chrome/
-  - docker build -t automatewebsite/jwebrobot-chrome .travis/jwebrobot-chrome
-  - JWEBROBOT_TEST_DIR=$TRAVIS_BUILD_DIR/.travis/jwebrobot-docker-test
-  - ls -l $JWEBROBOT_TEST_DIR
-  - chmod -R 777 $JWEBROBOT_TEST_DIR
-  - docker run -v $JWEBROBOT_TEST_DIR:/var/jwebrobot automatewebsite/jwebrobot-chrome
-  - JWEBROBOT_TEST_REPORT_DIR=$JWEBROBOT_TEST_DIR/report
-  - JWEBROBOT_TEST_REPORT_FILES_COUNT=$(ls -1 $JWEBROBOT_TEST_REPORT_DIR | wc -l)
-  - if [ "$JWEBROBOT_TEST_REPORT_FILES_COUNT" < "1" ]; then
-    ls -l $JWEBROBOT_TEST_REPORT_DIR;
-    exit 1;
-    fi
+  - mvn clean package $MAVEN_CLI_OPTS
+  - docker-compose -f docker-compose.image-it-travis.yml run jwebrobot
 
 after_success:
   - codecov
   - .travis/prepare-gpg.sh
   - .travis/deploy.sh
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push automatewebsite/jwebrobot-chrome;
-    fi
-  - if [ ! -z "$TRAVIS_TAG" ]; then
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push automatewebsite/jwebrobot-chrome:$TRAVIS_TAG;
-    fi
+  - .travis/deploy-image.sh
 
 env:
   global:
@@ -48,3 +30,5 @@ env:
     - secure: ja1Mb8+SE41bOjt0YSGrNDSQdwwsRll8VC48PVABDU2lgU3xnFUSYWH5idxQHUcHZKP5XSe457shBtK/0/B+hlrRkh3V+nHhOXjD2GCKVWogcwH/Y/oTzA0cqXH2F4sOprhyLFZgzrJF2StlAkZ9hb4sEpriLqhqNEd5birNFKpJqRxQ5GlryyMqlgCowUaBUtLdS2+SYFt+AlWbHs7mwP031MPT5gRfduVyxx/tQcmVCJPWqTi4YDnnDrBY6jdIYHGrIIweU5IUKtjncl+8HNTpLgXNhJUnmZFqTHrJavOzDrydMmJbWqTdM3OFO7erB58ZHsYmtGQbBnPgTgyetqEoNlRGW313CiSZwaSCtkpM6spkKGKY1mceI5qj92XpxQ80JT8VWdYTdCWqXZFbZhDVacSYzu/d9bclAstV55Tre2X7LN4I0nOcfbzsLgZUIDJdjzTL650BWSGkE4DRf61eP5HQT/FnA9NE91WCZvHakbnToFulJ/pLrOqhcBx3CfIf3kYL2pAatukmIhKTBvqRRoFdwJdWTDtfg20Tar1VMfyHirtBqM34x16gx/Ip2vnLsZyu7pIZJL4qjgx1yY0loYMcS0Ghxwki4TPWOWjmu0qBr0wGMKrgMTfXZBWf+iIFEARwoJ2rZbsshmwp+kiwHpH1rEpxOrv92KmAi+o=
     - secure: polzfZSJPkER5M8MPyKjlF5KUs6rb7IHZqhA56RXEzSzjCsFtiUqOQPCOcthywIUi0t6NQhplisZJwuoH/Y6r9ZEZyNnSPI/ISYacwcGd1jYdk1TXzB7Gi3V+5QkWAc6i1NqXBUksC4RDqZKs+cWwuPUGjtKidCkBAFrl3HwGi8llpdp5Te0yi+thIVzEcZoRvCGAKsvH2VFEQvalgOC6biU5o1SQvewKSko7JiYxjH6miM5/ZPU9mnhIrJdGvq+TjYej5tuK61+XxeR01WGc8olq20CvwBT3L8Y9G7jvQpupzjcaaDSccyygmKlf9/7nXtOLyglbXfzsWVL4RTe9+/B+303BrunmLhnnqHaprYTErHpY9sOlUw6+7Gwbd/C8jskcmp0EmZu0S0B13EZCc46EFbdeIkexT6Zbl/KyxUrl1zy6QnnCG/9Q6N/9eqt893nnfSd2ujh7v4McMDH8wYgJ0blspCsm2ZL4pjNTLhEtbmVEz32oQ4J+z8D0DDQXB7vYr00+k3bBOlho9wrEtjHa1FyYiw1hv2nYWZmRF/Q7GLcbAmcVwjX25lgUpDRrDBbluQxnd8TjouiLUbvEaNMRH3cE8t4I2SfxHDuvevT88nsul050j0XPQW0aiqgILZERM7N+lK0dn/WePIUhClGM/St/rRQX+sL9jgVxIc=
     - secure: OtAifzIJoC/sqinClwTcp2uxQMot6tMiguTsvsc46egBlssvRg5mAweS/Hi0dt/Bcwp/wn8Llr/RbpLYvkcEhtuUsLCqQxofOUcE2bpirr8pN/glymI3T0e22LnCPfxK5Zf9ET1ubiAxOPuSRbOAUbpcOLPwdv7/Iaab+yr1CEj1LrGlU/zaLnwp1bAkpzOSTWSngypGHTOEDEKlmpnwhDDuyvDyQXRIg1qsUEyxadfMlei2r13f5Wt0GsG/G0yfwx/OPktete+isBqJdrV/pew5VmbvtRJ2x4rgzDGoEgTQCgYhfuElg9F9fgMaIC8FJrxlzcRu9YnIYhE3Bz/kcATMnXEbcOoosJfc1I3emhb5qMZjIDuWWKwBF4RicJFalxzarVLJvpn+huSIvG5v0BJrEubv+nTApyVGS2vHr+h2pMmETqrfsDXmDXxk58tBTndWKUOtTmzmgUSiKlDa5U9lJj3UIvjFQTjnjTVeg+tg989Jmk3TQdGUBDr+BxL7yG1ZAowJ0NclXbEph3Zo3wJzxbJrWiOdSH3uKHyqpLqg1nL9NCQvkYfd1HxptgtNopvYhhtV44jQaQDrGFchJg976d/zr0TDSoBCosRd1z3jWtzIHWfxqrZ0QPdJIcEmz+DLEWfbxemCpmjmldLX+115u1I8MaAdB7cEW5CbDN8=
+    - MAVEN_OPTS: "-Djava.awt.headless=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+    - MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"

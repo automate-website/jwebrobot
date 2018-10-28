@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  jwebrobot:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+    - firefox
+    links:
+    - firefox
+    volumes:
+    - ./.docker-compose.image-it/test:/test
+    environment:
+    - 'JWEBROBOT_ARGS=-scenarioPath /test -browserDriverUrl "http://firefox:4444/wd/hub" -context "baseUrl=http://testpage"'
+    entrypoint: /usr/bin/jwebrobot
+  firefox:
+    image: selenium/standalone-firefox-debug:3.14.0-helium
+    shm_size: 2g
+    depends_on:
+    - testpage
+    links:
+    - testpage
+    ports:
+    - "44441:4444"
+  testpage:
+    image: automatewebsite/testpage:1.0.0
+    ports:
+    - "80:80"
+

@@ -1,0 +1,11 @@
+name: S1
+steps:
+  - include: 'S2'
+---
+name: S2
+steps:
+  - include: 'S3'
+---
+name: S3
+steps:
+  - include: 'S1'
