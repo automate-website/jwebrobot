@@ -8,9 +8,6 @@ cache:
 services:
   - docker
 
-before_install:
-  - pip install --user codecov
-
 before_script:
   - docker-compose -f docker-compose.package-it-travis.yml up -d
 
@@ -19,7 +16,7 @@ script:
   - docker-compose -f docker-compose.image-it-travis.yml run jwebrobot
 
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
   - .travis/prepare-gpg.sh
   - .travis/deploy.sh
   - .travis/deploy-image.sh
