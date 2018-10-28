@@ -12,7 +12,7 @@ before_script:
   - docker-compose -f docker-compose.package-it-travis.yml up -d
 
 script:
-  - mvn clean package $MAVEN_CLI_OPTS
+  - mvn clean verify $MAVEN_CLI_OPTS
   - docker-compose -f docker-compose.image-it-travis.yml run jwebrobot
 
 after_success:
