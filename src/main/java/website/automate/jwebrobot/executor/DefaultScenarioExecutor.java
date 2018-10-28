@@ -1,5 +1,6 @@
 package website.automate.jwebrobot.executor;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import website.automate.jwebrobot.executor.action.ActionPreprocessor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
+import website.automate.jwebrobot.utils.SimpleNoNullValueStyle;
 import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.Action;
@@ -77,7 +79,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ExecutorOptions options = context.getOptions();
 
         if (!scenario.getFragment() && scenarioPatternFilter.isExecutable(options.getScenarioPattern(), scenario.getName())){
-            logger.info("Starting scenario \"{}\"...", scenario.getName());
+            logger.info(scenario.getName() + " > Start");
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType(), options.getWebDriverUrl());
 
             if(options.isMaximizeWindow() == Boolean.TRUE){
@@ -94,7 +96,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
             finally {
                 driver.quit();
             }
-            logger.info("Finished scenario {}.", scenario.getName());
+            logger.info(scenario.getName() + " > End");
         }
     }
 
@@ -120,10 +122,22 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
 
             Action preprocessedAction = actionPreprocessor.preprocess(abstractActionMapper.map(action), scenarioExecutionContext);
 
-            logger.debug("Executing {}", actionExecutor.getClass().getName());
+            logger.info(getActionLogMessage(scenario, preprocessedAction));
             actionExecutor.execute(preprocessedAction, scenarioExecutionContext);
         }
 
         listener.afterScenario(scenarioExecutionContext);
+    }
+
+    private String getActionLogMessage(Scenario scenario, Action action){
+        return scenario.getName() + " > " + getActionName(action) + getActionValue(action);
+    }
+
+    private String getActionName(Action action){
+        return action.getClass().getSimpleName().replaceFirst("Action", "");
+    }
+
+    private String getActionValue(Action action){
+        return ReflectionToStringBuilder.toString(action, SimpleNoNullValueStyle.INSTANCE);
     }
 }

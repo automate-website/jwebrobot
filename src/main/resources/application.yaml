@@ -3,5 +3,10 @@ spring:
     banner-mode: 'OFF'
 
 logging:
+  pattern:
+    console: '%msg%n'
   level:
+    root: ERROR
     org.springframework: WARN
+    website.automate.jwebrobot.executor: INFO
+    website.automate.jwebrobot.loader: INFO
