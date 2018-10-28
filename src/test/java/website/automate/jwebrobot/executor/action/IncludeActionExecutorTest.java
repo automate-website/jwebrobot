@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
@@ -47,8 +47,7 @@ public class IncludeActionExecutorTest<CriteriaValue> {
         when(scenarioContext.getGlobalContext()).thenReturn(globalContext);
         when(globalContext.getScenario(SCENARIO_TITLE)).thenReturn(childScenario);
         when(scenarioContext.createChildContext(childScenario)).thenReturn(childScenarioContext);
-        when(expressionEvaluator.evaluate(eq(SCENARIO_TITLE), anyMap())).thenReturn(SCENARIO_TITLE);
-        
+
         executor = new IncludeActionExecutor(expressionEvaluator, scenarioExecutor, listener,
                 conditionalExpressionEvaluator, translator);
     }

@@ -11,8 +11,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
+import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
@@ -87,7 +87,6 @@ public class BaseActionExecutorTest {
     
     @Test
     public void actionTimeoutChoosenIfSet(){
-        when(scenario.getTimeout()).thenReturn(SCENARIO_TIMEOUT);
         when(options.getTimeout()).thenReturn(null);
         when(action.getTimeout()).thenReturn(ACTION_TIMEOUT);
         
