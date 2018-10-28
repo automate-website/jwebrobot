@@ -12,7 +12,7 @@ before_install:
   - pip install --user codecov
 
 before_script:
-- docker-compose -f docker-compose.package-it-travis.yml up -d
+  - docker-compose -f docker-compose.package-it-travis.yml up -d
 
 script:
   - mvn clean package $MAVEN_CLI_OPTS
