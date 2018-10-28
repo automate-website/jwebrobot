@@ -4,6 +4,25 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.10.2]
+
+### Fixed
+- dist docker image deployment
+
+## [1.10.1]
+
+### Fixed
+- dist docker-compose
+
+## [1.10.0]
+
+### Changed
+- upgraded to selenium-java 3.14.0
+- integrate spring-boot 2.0.5
+- integrated standard selenium docker images for testing
+- add dist docker-compose for easy bootstrapping
+- improve console logging
+
 ## [1.9.0]
 ### Added
 - "alert" action
@@ -201,6 +220,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 [1.6.0]: https://github.com/automate-website/jwebrobot/compare/1.5.0...1.6.0
 [1.7.0]: https://github.com/automate-website/jwebrobot/compare/1.6.0...1.7.0
 [1.8.0]: https://github.com/automate-website/jwebrobot/compare/1.7.0...1.8.0
-[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.8.0...master
+[1.9.0]: https://github.com/automate-website/jwebrobot/compare/1.8.0...1.9.0
+[1.10.0]: https://github.com/automate-website/jwebrobot/compare/1.9.0...1.10.0
+[1.10.1]: https://github.com/automate-website/jwebrobot/compare/1.10.0...1.10.1
+[1.10.2]: https://github.com/automate-website/jwebrobot/compare/1.10.1...1.10.2
+[Unreleased]: https://github.com/automate-website/jwebrobot/compare/1.10.2...master
 [waml]: https://github.com/automate-website/waml
 [waml-io]: https://github.com/automate-website/waml-io
