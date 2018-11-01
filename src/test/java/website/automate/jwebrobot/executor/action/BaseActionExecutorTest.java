@@ -16,6 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
+import website.automate.jwebrobot.executor.StepExecutionUtils;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.Scenario;
@@ -41,6 +42,7 @@ public class BaseActionExecutorTest {
     @Mock private ExecutorOptions options;
     @Mock private RuntimeException exception;
     @Mock private ExceptionTranslator translator;
+    @Mock private StepExecutionUtils stepExecutionUtils;
     
     private BaseActionExecutor<TimeLimitedAction> executor;
     
@@ -54,14 +56,14 @@ public class BaseActionExecutorTest {
     
     @Test
     public void listenerIsCalledBeforeActionExecution(){
-        executor.execute(action, context);
+        executor.execute(action, context, stepExecutionUtils);
         
         verify(listener).beforeAction(context, action);
     }
     
     @Test
     public void listenerIsCalledAfterActionExecution(){
-        executor.execute(action, context);
+        executor.execute(action, context, stepExecutionUtils);
         
         verify(listener).afterAction(context, action);
     }
@@ -71,7 +73,7 @@ public class BaseActionExecutorTest {
         executor = new ExceptionalTestBaseActionExecutor(listener, exception, translator);
         exceptionExpectation.expect(RuntimeException.class);
         
-        executor.execute(action, context);
+        executor.execute(action, context, stepExecutionUtils);
         
         verify(listener).errorAction(context, action, exception);
     }

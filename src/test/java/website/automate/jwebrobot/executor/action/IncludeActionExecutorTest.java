@@ -14,6 +14,7 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
+import website.automate.jwebrobot.executor.StepExecutionUtils;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
@@ -36,6 +37,7 @@ public class IncludeActionExecutorTest<CriteriaValue> {
     @Mock private ExecutionEventListeners listener;
     @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
     @Mock private ExceptionTranslator translator;
+    @Mock private StepExecutionUtils stepExecutionUtils;
 
     private IncludeActionExecutor executor;
 
@@ -54,7 +56,7 @@ public class IncludeActionExecutorTest<CriteriaValue> {
 
     @Test
     public void includedScenarioShouldBeExecuted(){
-        executor.execute(action, scenarioContext);
+        executor.execute(action, scenarioContext, stepExecutionUtils);
         
         verify(scenarioExecutor).runScenario(childScenario, childScenarioContext);
     }
@@ -64,6 +66,6 @@ public class IncludeActionExecutorTest<CriteriaValue> {
         when(scenarioContext.containsScenario(childScenario)).thenReturn(true);
         when(translator.translate(Mockito.any(RuntimeException.class))).thenCallRealMethod();
         
-        executor.execute(action, scenarioContext);
+        executor.execute(action, scenarioContext, stepExecutionUtils);
     }
 }

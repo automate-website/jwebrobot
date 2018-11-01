@@ -34,6 +34,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final ActionPreprocessor actionPreprocessor;
     private final AbstractActionMapper abstractActionMapper;
     private final ScenarioPatternFilter scenarioPatternFilter;
+    private final StepExecutionUtils executionUtils;
 
     @Autowired
     public DefaultScenarioExecutor(
@@ -45,7 +46,8 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ScenarioPreprocessor scenarioPreprocessor,
         ActionPreprocessor actionPreprocessor,
         AbstractActionMapper abstractActionMapper,
-        ScenarioPatternFilter scenarioPatternFilter
+        ScenarioPatternFilter scenarioPatternFilter,
+        StepExecutionUtils executionUtils
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
@@ -55,7 +57,8 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         this.scenarioPreprocessor = scenarioPreprocessor;
         this.actionPreprocessor = actionPreprocessor;
         this.abstractActionMapper = abstractActionMapper;
-        this.scenarioPatternFilter =scenarioPatternFilter;
+        this.scenarioPatternFilter = scenarioPatternFilter;
+        this.executionUtils = executionUtils;
     }
 
     @Override
@@ -123,7 +126,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
             Action preprocessedAction = actionPreprocessor.preprocess(abstractActionMapper.map(action), scenarioExecutionContext);
 
             logger.info(getActionLogMessage(scenario, preprocessedAction));
-            actionExecutor.execute(preprocessedAction, scenarioExecutionContext);
+            actionExecutor.execute(preprocessedAction, scenarioExecutionContext, executionUtils);
         }
 
         listener.afterScenario(scenarioExecutionContext);

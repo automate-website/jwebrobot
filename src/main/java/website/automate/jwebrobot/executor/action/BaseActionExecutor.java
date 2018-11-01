@@ -2,6 +2,7 @@ package website.automate.jwebrobot.executor.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
+import website.automate.jwebrobot.executor.StepExecutionUtils;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.action.Action;
 import website.automate.waml.io.model.action.TimeLimitedAction;
@@ -21,7 +22,7 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
     }
     
     @Override
-    public void execute(T action, ScenarioExecutionContext context){
+    public void execute(T action, ScenarioExecutionContext context, StepExecutionUtils executionUtils){
         listener.beforeAction(context, action);
 
         context.countStep(action);
@@ -51,17 +52,17 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
         if(globalContextTimeout != null){
             return globalContextTimeout;
         }
-        
+
         String actionTimeout = action.getTimeout();
         if(actionTimeout != null){
             return Long.parseLong(actionTimeout);
         }
-        
+
         String scenarioTimeout = context.getScenario().getTimeout();
         if(scenarioTimeout != null){
         	return Long.parseLong(scenarioTimeout);
         }
-        
+
         return DEFAULT_TIMEOUT_S;
     }
 }

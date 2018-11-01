@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.ExceptionTranslator;
+import website.automate.jwebrobot.executor.StepExecutionUtils;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
@@ -27,6 +28,7 @@ public class ConditionalActionExecutorTest {
     @Mock private ExecutionEventListeners listener;
     @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
     @Mock private ExceptionTranslator translator;
+    @Mock private StepExecutionUtils stepExecutionUtils;
     
     private TestConditionalActionExecutor executor;
     
@@ -41,7 +43,7 @@ public class ConditionalActionExecutorTest {
     public void actionIsExecutedWhenIdentifiedAsExecutable(){
         when(conditionalExpressionEvaluator.isExecutable(action, context)).thenReturn(true);
         
-        executor.execute(action, context);
+        executor.execute(action, context, stepExecutionUtils);
         
         verify(execution).run();
     }
@@ -50,7 +52,7 @@ public class ConditionalActionExecutorTest {
     public void actionIsNotExecutedWhenIdentifiedAsExecutable(){
         when(conditionalExpressionEvaluator.isExecutable(action, context)).thenReturn(false);
         
-        executor.execute(action, context);
+        executor.execute(action, context, stepExecutionUtils);
         
         verify(execution, never()).run();
     }
