@@ -4,7 +4,7 @@ services:
     image: automatewebsite/jwebrobot
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ../Dockerfile
     depends_on:
     - firefox
     links:
