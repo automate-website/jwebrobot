@@ -12,6 +12,8 @@ import org.openqa.selenium.WebDriver;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.AlertTextMismatchException;
 import website.automate.jwebrobot.exceptions.BooleanExpectedException;
+import website.automate.jwebrobot.executor.ActionExecutorUtils;
+import website.automate.jwebrobot.executor.TimeoutResolver;
 import website.automate.waml.io.model.action.AlertAction;
 
 import java.util.UUID;
@@ -42,12 +44,20 @@ public class AlertActionExecutorTest {
     @Mock
     private Alert alert;
 
+    @Mock
+    private ActionExecutorUtils utils;
+
+    @Mock
+    private TimeoutResolver timeoutResolver;
+
     @Before
     public void setUpAlert() {
         when(context.getDriver()).thenReturn(driver);
         when(driver.switchTo().alert()).thenReturn(alert);
         when(context.getGlobalContext().getOptions().getTimeout()).thenReturn(10L);
         when(alert.getText()).thenReturn(VALUE_TEXT);
+        when(utils.getTimeoutResolver()).thenReturn(timeoutResolver);
+        when(timeoutResolver.resolve(action, context)).thenReturn(10L);
 
         when(action.getConfirm()).thenReturn(VALUE_CONFIRM);
         when(action.getText()).thenReturn(VALUE_TEXT);
@@ -56,7 +66,7 @@ public class AlertActionExecutorTest {
 
     @Test
     public void shouldConfirmAlert() {
-        alertActionExecutor.perform(action, context);
+        alertActionExecutor.execute(action, context, utils);
 
         verify(alert).accept();
     }
@@ -65,14 +75,14 @@ public class AlertActionExecutorTest {
     public void shouldDismissAlert() {
         when(action.getConfirm()).thenReturn("no");
 
-        alertActionExecutor.perform(action, context);
+        alertActionExecutor.execute(action, context, utils);
 
         verify(alert).dismiss();
     }
 
     @Test
     public void shouldEnterText() {
-        alertActionExecutor.perform(action, context);
+        alertActionExecutor.execute(action, context, utils);
 
         verify(alert).sendKeys(VALUE_INPUT);
         verify(alert).accept();
@@ -83,14 +93,14 @@ public class AlertActionExecutorTest {
     public void shouldVerifyAlertText() {
         when(action.getText()).thenReturn(UUID.randomUUID().toString());
 
-        alertActionExecutor.perform(action, context);
+        alertActionExecutor.execute(action, context, utils);
     }
 
     @Test(expected = BooleanExpectedException.class)
     public void shouldClaimAboutUnknownConfirmCriteria() {
         when(action.getConfirm()).thenReturn(UUID.randomUUID().toString());
 
-        alertActionExecutor.perform(action, context);
+        alertActionExecutor.execute(action, context, utils);
     }
 
     @Test

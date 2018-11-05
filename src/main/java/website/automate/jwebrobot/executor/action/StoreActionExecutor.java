@@ -1,33 +1,22 @@
 package website.automate.jwebrobot.executor.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.exceptions.ExceptionTranslator;
-import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
-import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.listener.ExecutionEventListeners;
+import website.automate.jwebrobot.executor.ActionExecutorUtils;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.action.StoreAction;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StoreActionExecutor extends ConditionalActionExecutor<StoreAction> {
-
-	@Autowired
-    public StoreActionExecutor(ExpressionEvaluator expressionEvaluator,
-            ExecutionEventListeners listener,
-            ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-            ExceptionTranslator exceptionTranslator) {
-        super(expressionEvaluator, listener,
-                conditionalExpressionEvaluator,
-                exceptionTranslator);
-    }
+public class StoreActionExecutor implements ActionExecutor<StoreAction> {
 
     @Override
-    public void perform(StoreAction action, ScenarioExecutionContext context) {
+    public ActionResult execute(final StoreAction action,
+                                final ScenarioExecutionContext context,
+                                final ActionExecutorUtils utils) {
         Map<String, Object> memory = context.getMemory();
 
         Map<String, String> criteriaValueMap = action.getFacts();
@@ -35,6 +24,8 @@ public class StoreActionExecutor extends ConditionalActionExecutor<StoreAction> 
         for(Entry<String, String> criteriaValueEntry : criteriaValueMap.entrySet()){
             memory.put(criteriaValueEntry.getKey(), criteriaValueEntry.getValue());
         }
+
+        return null;
     }
 
     @Override

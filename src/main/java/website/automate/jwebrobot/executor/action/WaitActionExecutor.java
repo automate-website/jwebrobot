@@ -1,34 +1,23 @@
 package website.automate.jwebrobot.executor.action;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.DecimalNumberExpectedException;
-import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.exceptions.WaitTimeTooBigException;
-import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
-import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.listener.ExecutionEventListeners;
+import website.automate.jwebrobot.executor.ActionExecutorUtils;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.action.WaitAction;
 
 @Service
-public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
+public class WaitActionExecutor implements ActionExecutor<WaitAction> {
 
     private static final int WAIT_TIME_LIMIT = 1000;
 
-    @Autowired
-    public WaitActionExecutor(ExpressionEvaluator expressionEvaluator,
-            ExecutionEventListeners listener,
-            ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-            ExceptionTranslator exceptionTranslator) {
-        super(expressionEvaluator, listener,
-                conditionalExpressionEvaluator,
-                exceptionTranslator);
-    }
-
     @Override
-    public void perform(final WaitAction action, ScenarioExecutionContext context) {
+    public ActionResult execute(final WaitAction action,
+                                final ScenarioExecutionContext context,
+                                final ActionExecutorUtils utils) {
         String waitTimeStr = action.getTime();
         try {
             Double waitTime = Double.parseDouble(waitTimeStr);
@@ -43,6 +32,8 @@ public class WaitActionExecutor extends ConditionalActionExecutor<WaitAction> {
         } catch (InterruptedException e) {
             // This should never happen
         }
+
+        return null;
     }
 
     @Override

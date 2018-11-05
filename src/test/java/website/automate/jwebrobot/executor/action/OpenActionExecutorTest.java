@@ -1,3 +1,4 @@
+/*
 package website.automate.jwebrobot.executor.action;
 
 import static org.mockito.Mockito.verify;
@@ -58,3 +59,4 @@ public class OpenActionExecutorTest {
 		executor.perform(action, context);
 	}
 }
+*/

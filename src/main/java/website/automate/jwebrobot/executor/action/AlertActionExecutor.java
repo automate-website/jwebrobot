@@ -4,38 +4,27 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.AlertTextMismatchException;
 import website.automate.jwebrobot.exceptions.BooleanExpectedException;
-import website.automate.jwebrobot.exceptions.ExceptionTranslator;
-import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
-import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.listener.ExecutionEventListeners;
+import website.automate.jwebrobot.executor.ActionExecutorUtils;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.jwebrobot.mapper.BooleanMapper;
 import website.automate.waml.io.model.action.AlertAction;
 
 @Service
-public class AlertActionExecutor extends ConditionalActionExecutor<AlertAction> {
-
-    @Autowired
-    public AlertActionExecutor(ExpressionEvaluator expressionEvaluator,
-                              ExecutionEventListeners listener,
-                              ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-                              ExceptionTranslator exceptionTranslator) {
-        super(expressionEvaluator, listener,
-            conditionalExpressionEvaluator,
-            exceptionTranslator);
-    }
+public class AlertActionExecutor implements ActionExecutor<AlertAction> {
 
     @Override
-    public void perform(final AlertAction action, final ScenarioExecutionContext context) {
+    public ActionResult execute(final AlertAction action,
+                                final ScenarioExecutionContext context,
+                                final ActionExecutorUtils utils) {
         WebDriver driver = context.getDriver();
 
         // Wait for the alert
-        WebDriverWait wait = new WebDriverWait(driver, getActionTimeout(action, context));
+        WebDriverWait wait = new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context));
         wait.until(ExpectedConditions.alertIsPresent());
         Alert alert = driver.switchTo().alert();
 
@@ -62,6 +51,11 @@ public class AlertActionExecutor extends ConditionalActionExecutor<AlertAction> 
         } catch (BooleanExpectedException e) {
             throw new BooleanExpectedException(action.getClass(), confirmValue);
         }
+
+        return new ActionResult.ActionResultBuilder()
+            .withCode(ActionResult.StatusCode.SUCCESS)
+            .withFailed(false)
+            .build();
     }
 
     @Override

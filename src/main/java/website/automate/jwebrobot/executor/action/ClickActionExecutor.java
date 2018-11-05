@@ -3,43 +3,36 @@ package website.automate.jwebrobot.executor.action;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.exceptions.ExceptionTranslator;
-import website.automate.jwebrobot.executor.filter.ElementFilterChain;
-import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
-import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.listener.ExecutionEventListeners;
+import website.automate.jwebrobot.executor.ActionExecutorUtils;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.action.ClickAction;
 
 @Service
-public class ClickActionExecutor extends ElementStoreActionExecutor<ClickAction> {
-
-    @Autowired
-    public ClickActionExecutor(ExpressionEvaluator expressionEvaluator, ExecutionEventListeners listener,
-            ElementFilterChain elementFilterChain, ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-            ExceptionTranslator exceptionTranslator) {
-        super(expressionEvaluator, listener, elementFilterChain,
-                conditionalExpressionEvaluator,
-                exceptionTranslator);
-    }
+public class ClickActionExecutor implements ActionExecutor<ClickAction> {
 
     @Override
-    public void perform(final ClickAction action, final ScenarioExecutionContext context) {
+    public ActionResult execute(final ClickAction action,
+                                final ScenarioExecutionContext context,
+                                final ActionExecutorUtils utils) {
         WebDriver driver = context.getDriver();
 
-        WebElement element = (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<WebElement>() {
-            public WebElement apply(WebDriver d) {
-                return filter(context, action);
-            }
-        });
+        WebElement element =  (
+            new WebDriverWait(
+                driver,
+                utils.getTimeoutResolver().resolve(action, context)
+            )
+        ).until(condition -> utils.getElementsFilter().filter(context, action));
+
+        utils.getElementStorage().store(action, context, element);
 
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
+
+        return null;
     }
 
     @Override

@@ -3,33 +3,23 @@ package website.automate.jwebrobot.executor.action;
 import java.net.URL;
 
 import org.openqa.selenium.WebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.exceptions.ExceptionTranslator;
-import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
-import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.listener.ExecutionEventListeners;
+import website.automate.jwebrobot.executor.ActionExecutorUtils;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.action.OpenAction;
 
 @Service
-public class OpenActionExecutor extends ConditionalActionExecutor<OpenAction> {
-
-	@Autowired
-    public OpenActionExecutor(ExpressionEvaluator expressionEvaluator,
-            ExecutionEventListeners listener,
-            ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-            ExceptionTranslator exceptionTranslator) {
-        super(expressionEvaluator, listener,
-                conditionalExpressionEvaluator,
-                exceptionTranslator);
-    }
+public class OpenActionExecutor implements ActionExecutor<OpenAction> {
 
     @Override
-    public void perform(final OpenAction action, ScenarioExecutionContext context) {
+    public ActionResult execute(final OpenAction action,
+                                final ScenarioExecutionContext context,
+                                final ActionExecutorUtils utils) {
         WebDriver driver = context.getDriver();
         driver.get(safeGetUrl(action.getUrl()));
+        return null;
     }
 
     @Override

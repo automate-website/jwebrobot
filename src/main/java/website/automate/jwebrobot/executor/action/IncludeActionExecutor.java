@@ -1,36 +1,22 @@
 package website.automate.jwebrobot.executor.action;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.exceptions.ExceptionTranslator;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
-import website.automate.jwebrobot.executor.ScenarioExecutor;
-import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
-import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.listener.ExecutionEventListeners;
+import website.automate.jwebrobot.executor.ActionExecutorUtils;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.Scenario;
 import website.automate.waml.io.model.action.IncludeAction;
 
 @Service
-public class IncludeActionExecutor extends ConditionalActionExecutor<IncludeAction> {
+public class IncludeActionExecutor implements ActionExecutor<IncludeAction> {
 
-    private ScenarioExecutor scenarioExecutor;
-    
-    @Autowired
-    @Lazy
-    public IncludeActionExecutor(ExpressionEvaluator expressionEvaluator, ScenarioExecutor scenarioExecutor,
-            ExecutionEventListeners listener, ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-            ExceptionTranslator exceptionTranslator) {
-        super(expressionEvaluator, listener, conditionalExpressionEvaluator, exceptionTranslator);
-        this.scenarioExecutor = scenarioExecutor;
-    }
-    
     @Override
-    public void perform(IncludeAction action, ScenarioExecutionContext context) {
+    public ActionResult execute(final IncludeAction action,
+                                final ScenarioExecutionContext context,
+                                final ActionExecutorUtils utils) {
         GlobalExecutionContext globalContext = context.getGlobalContext();
         String scenarioName = action.getScenario();
         Scenario scenario = globalContext.getScenario(scenarioName);
@@ -40,12 +26,13 @@ public class IncludeActionExecutor extends ConditionalActionExecutor<IncludeActi
         }
         
         ScenarioExecutionContext includedScenarioContext = context.createChildContext(scenario);
-        scenarioExecutor.runScenario(scenario, includedScenarioContext);
+        utils.getScenarioExecutor().runScenario(scenario, includedScenarioContext);
+
+        return null;
     }
 
     @Override
     public Class<IncludeAction> getSupportedType() {
         return IncludeAction.class;
     }
-
 }

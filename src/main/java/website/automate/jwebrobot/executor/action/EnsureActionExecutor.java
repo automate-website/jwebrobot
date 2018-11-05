@@ -4,43 +4,31 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.exceptions.ExceptionTranslator;
-import website.automate.jwebrobot.executor.filter.ElementFilterChain;
-import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
-import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.jwebrobot.listener.ExecutionEventListeners;
+import website.automate.jwebrobot.executor.ActionExecutorUtils;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.action.EnsureAction;
 
 @Service
-public class EnsureActionExecutor extends ElementStoreActionExecutor<EnsureAction> {
-
-    @Autowired
-    public EnsureActionExecutor(ExpressionEvaluator expressionEvaluator,
-            ExecutionEventListeners listener,
-            ElementFilterChain elementFilterChain,
-            ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-            ExceptionTranslator exceptionTranslator) {
-        super(expressionEvaluator, listener,
-                elementFilterChain,
-                conditionalExpressionEvaluator,
-                exceptionTranslator);
-    }
+public class EnsureActionExecutor implements ActionExecutor<EnsureAction> {
 
     @Override
-    public void perform(final EnsureAction action, final ScenarioExecutionContext context) {
+    public ActionResult execute(final EnsureAction action,
+                                final ScenarioExecutionContext context,
+                                final ActionExecutorUtils utils) {
         WebDriver driver = context.getDriver();
 
         final Boolean absent = Boolean.parseBoolean(action.getAbsent());
-        (new WebDriverWait(driver, getActionTimeout(action, context))).until(new ExpectedCondition<Boolean>() {
+        (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context))).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
-                WebElement webElement = filter(context, action);
+                WebElement webElement = utils.getElementsFilter().filter(context, action);
                 if(webElement == null){
                     return absent;
                 } else {
+                    utils.getElementStorage().store(action, context, webElement);
+
                     if(absent){
                         return Boolean.FALSE;
                     }
@@ -48,6 +36,8 @@ public class EnsureActionExecutor extends ElementStoreActionExecutor<EnsureActio
                 }
             }
         });
+
+        return null;
     }
 
     @Override

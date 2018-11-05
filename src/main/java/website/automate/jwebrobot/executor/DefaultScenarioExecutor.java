@@ -34,7 +34,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final ActionPreprocessor actionPreprocessor;
     private final AbstractActionMapper abstractActionMapper;
     private final ScenarioPatternFilter scenarioPatternFilter;
-    private final StepExecutionUtils executionUtils;
+    private final ActionExecutorUtils executionUtils;
 
     @Autowired
     public DefaultScenarioExecutor(
@@ -47,7 +47,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ActionPreprocessor actionPreprocessor,
         AbstractActionMapper abstractActionMapper,
         ScenarioPatternFilter scenarioPatternFilter,
-        StepExecutionUtils executionUtils
+        ActionExecutorUtils executionUtils
     ) {
         this.webDriverProvider = webDriverProvider;
         this.actionExecutorFactory = actionExecutorFactory;
