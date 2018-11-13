@@ -26,7 +26,22 @@ steps:
   - ensure: 'button#buy-now'
 ```
 
-### Run JWebRobot Docker Container
+### Run JWebRobot using Docker
+
+#### Run Container Toolkit
+
+Download the [docker-compose](docker-compose.yml).
+
+Run JWebRobot from the console:
+
+```
+$ docker-compose run jwebrobot
+```
+
+By default the directory of `docker-compose.yml` will be scanned for executable tests (`*.yml`, `*.yaml`).
+ 
+
+#### Run Standalone Container
 
 For easier bootstrapping, the JWebRobot is [available as Docker image][docker-jwebrobot] 
 on Docker Hub. The _automatewebsite/jwebrobot-chrome_ image is based on the official [selenium/node-chrome](https://github.com/SeleniumHQ/docker-selenium/tree/master/NodeChrome)
