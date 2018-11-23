@@ -2,7 +2,7 @@ package website.automate.jwebrobot.expression.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.main.action.Action;
 
 public abstract class ActionExpressionEvaluator<T extends Action> {
 

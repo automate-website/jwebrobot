@@ -1,8 +1,8 @@
 package website.automate.jwebrobot.exceptions;
 
-import static java.text.MessageFormat.format;
+import website.automate.waml.io.model.main.Scenario;
 
-import website.automate.waml.io.model.Scenario;
+import static java.text.MessageFormat.format;
 
 public class RecursiveScenarioInclusionException extends ScenarioExecutionException {
 

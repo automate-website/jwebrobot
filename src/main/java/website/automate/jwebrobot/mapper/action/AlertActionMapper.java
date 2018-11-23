@@ -1,7 +1,8 @@
 package website.automate.jwebrobot.mapper.action;
 
 import org.springframework.stereotype.Service;
-import website.automate.waml.io.model.action.AlertAction;
+import website.automate.waml.io.model.main.action.AlertAction;
+import website.automate.waml.io.model.main.criteria.AlertCriteria;
 
 @Service
 public class AlertActionMapper extends ConditionalActionMapper<AlertAction> {
@@ -16,9 +17,12 @@ public class AlertActionMapper extends ConditionalActionMapper<AlertAction> {
     @Override
     public void map(AlertAction source, AlertAction target) {
         super.map(source, target);
-        target.setConfirm(source.getConfirm());
-        target.setText(source.getText());
-        target.setInput(source.getInput());
+
+        AlertCriteria sourceAlert = new AlertCriteria();
+        AlertCriteria targetAlert = new AlertCriteria();
+        targetAlert.setConfirm(sourceAlert.getConfirm());
+        targetAlert.setInput(sourceAlert.getInput());
+        targetAlert.setText(sourceAlert.getText());
     }
 
     @Override

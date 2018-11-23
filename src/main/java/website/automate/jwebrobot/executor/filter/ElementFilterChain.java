@@ -16,9 +16,9 @@ import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.waml.io.model.CriterionType;
-import website.automate.waml.io.model.action.FilterAction;
-import website.automate.waml.io.model.action.ParentCriteria;
+import website.automate.waml.io.model.main.action.FilterAction;
+import website.automate.waml.io.model.main.criteria.FilterCriteria;
+import website.automate.waml.io.model.main.criteria.FilterCriteria.FilterType;
 
 @Service
 public class ElementFilterChain {
@@ -32,7 +32,7 @@ public class ElementFilterChain {
 
     public List<WebElement> filter(ScenarioExecutionContext context,
             FilterAction action) {
-        List<Map<CriterionType, String>> filterCriteriaValueMaps = getParentCriteriaValueMapsInReverseOrder(action);
+        List<Map<FilterType, String>> filterCriteriaValueMaps = getParentCriteriaValueMapsInReverseOrder(action);
 
         if (filterCriteriaValueMaps.isEmpty()) {
             return Collections.emptyList();
@@ -42,8 +42,8 @@ public class ElementFilterChain {
 
         List<WebElement> filteredWebElements = asList(html);
 
-        for (Map<CriterionType, String> filterCriteriaValueMap : filterCriteriaValueMaps) {
-            for (Entry<CriterionType, String> filterCriteriaValueEntry : filterCriteriaValueMap
+        for (Map<FilterType, String> filterCriteriaValueMap : filterCriteriaValueMaps) {
+            for (Entry<FilterType, String> filterCriteriaValueEntry : filterCriteriaValueMap
                     .entrySet()) {
                 ElementFilter elementFilter = elementFilterProvider
                         .getInstance(filterCriteriaValueEntry.getKey());
@@ -56,9 +56,9 @@ public class ElementFilterChain {
         return filteredWebElements;
     }
     
-    private List<Map<CriterionType, String>> getParentCriteriaValueMapsInReverseOrder(
+    private List<Map<FilterType, String>> getParentCriteriaValueMapsInReverseOrder(
             FilterAction action) {
-        List<Map<CriterionType, String>> groupedFilterCriteria = new ArrayList<>();
+        List<Map<FilterType, String>> groupedFilterCriteria = new ArrayList<>();
 
         ParentCriteria parent = action.getParent();
         if (parent != null) {
@@ -69,9 +69,9 @@ public class ElementFilterChain {
         return groupedFilterCriteria;
     }
 
-    private Map<CriterionType, String> getActionFilterCriteria(
+    private Map<FilterType, String> getActionFilterCriteria(
             FilterAction action) {
-        Map<CriterionType, String> filterCriteria = new LinkedHashMap<>();
+        Map<FilterType, String> filterCriteria = new LinkedHashMap<>();
         String selector = action.getSelector();
         String text = action.getText();
         String value = action.getValue();
@@ -87,20 +87,20 @@ public class ElementFilterChain {
         return filterCriteria;
     }
 
-    private Map<CriterionType, String> getParentFilterCriteria(
+    private Map<FilterType, String> getParentFilterCriteria(
             ParentCriteria parent) {
-        Map<CriterionType, String> filterCriteria = new LinkedHashMap<>();
+        Map<FilterType, String> filterCriteria = new LinkedHashMap<>();
         String selector = parent.getSelector();
         String text = parent.getText();
         String value = parent.getValue();
         if (selector != null) {
-            filterCriteria.put(CriterionType.SELECTOR, selector);
+            filterCriteria.put(FilterType.SELECTOR, selector);
         }
         if (text != null) {
-            filterCriteria.put(CriterionType.TEXT, text);
+            filterCriteria.put(FilterType.TEXT, text);
         }
         if (value != null) {
-            filterCriteria.put(CriterionType.VALUE, value);
+            filterCriteria.put(FilterType.VALUE, value);
         }
         return filterCriteria;
     }

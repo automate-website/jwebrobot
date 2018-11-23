@@ -1,10 +1,10 @@
 package website.automate.jwebrobot.loader;
 
+import website.automate.waml.io.model.main.Scenario;
+
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
-
-import website.automate.waml.io.model.Scenario;
 
 public interface ScenarioLoader {
 

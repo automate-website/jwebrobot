@@ -1,6 +1,6 @@
 package website.automate.jwebrobot.mapper.action;
 
-import website.automate.waml.io.model.action.TimeLimitedAction;
+import website.automate.waml.io.model.main.action.TimeLimitedAction;
 
 public abstract class TimeLimitedActionMapper<T extends TimeLimitedAction> extends ConditionalActionMapper<T> {
 

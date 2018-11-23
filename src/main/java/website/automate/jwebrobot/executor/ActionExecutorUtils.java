@@ -25,8 +25,6 @@ public class ActionExecutorUtils {
 
     private ElementsFilter elementsFilter;
 
-    private ElementStorage elementStorage;
-
     private WebElementProvider webElementProvider;
 
     private ScenarioExecutor scenarioExecutor;
@@ -75,10 +73,6 @@ public class ActionExecutorUtils {
 
     public ElementsFilter getElementsFilter() {
         return elementsFilter;
-    }
-
-    public ElementStorage getElementStorage() {
-        return elementStorage;
     }
 
     public WebElementProvider getWebElementProvider() {

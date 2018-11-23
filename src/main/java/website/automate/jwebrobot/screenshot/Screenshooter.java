@@ -1,7 +1,5 @@
 package website.automate.jwebrobot.screenshot;
 
-import static website.automate.waml.io.model.ActionType.findByClazz;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +17,7 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
 import website.automate.jwebrobot.executor.ExecutorOptions.ScreenshotType;
 import website.automate.jwebrobot.utils.ViewPortShootingStrategy;
-import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.main.action.Action;
 
 @Service
 public class Screenshooter {

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.action.ActionExpressionEvaluator;
 import website.automate.jwebrobot.expression.action.ActionExpressionEvaluatorProvider;
-import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.main.action.Action;
 
 @Service
 public class ActionPreprocessor {

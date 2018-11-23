@@ -7,7 +7,7 @@ import website.automate.jwebrobot.exceptions.DecimalNumberExpectedException;
 import website.automate.jwebrobot.exceptions.WaitTimeTooBigException;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
-import website.automate.waml.io.model.action.WaitAction;
+import website.automate.waml.io.model.main.action.WaitAction;
 
 @Service
 public class WaitActionExecutor implements ActionExecutor<WaitAction> {

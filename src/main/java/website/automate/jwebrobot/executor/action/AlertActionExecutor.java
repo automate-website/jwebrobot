@@ -12,7 +12,7 @@ import website.automate.jwebrobot.exceptions.BooleanExpectedException;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.jwebrobot.mapper.BooleanMapper;
-import website.automate.waml.io.model.action.AlertAction;
+import website.automate.waml.io.model.main.action.AlertAction;
 
 @Service
 public class AlertActionExecutor implements ActionExecutor<AlertAction> {

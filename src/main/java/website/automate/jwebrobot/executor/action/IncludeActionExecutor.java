@@ -7,8 +7,7 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
-import website.automate.waml.io.model.Scenario;
-import website.automate.waml.io.model.action.IncludeAction;
+import website.automate.waml.io.model.main.action.IncludeAction;
 
 @Service
 public class IncludeActionExecutor implements ActionExecutor<IncludeAction> {

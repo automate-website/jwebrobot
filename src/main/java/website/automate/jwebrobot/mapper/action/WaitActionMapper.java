@@ -1,7 +1,8 @@
 package website.automate.jwebrobot.mapper.action;
 
 import org.springframework.stereotype.Service;
-import website.automate.waml.io.model.action.WaitAction;
+import website.automate.waml.io.model.main.action.WaitAction;
+import website.automate.waml.io.model.main.criteria.WaitCriteria;
 
 @Service
 public class WaitActionMapper extends ConditionalActionMapper<WaitAction> {
@@ -16,7 +17,11 @@ public class WaitActionMapper extends ConditionalActionMapper<WaitAction> {
     @Override
     public void map(WaitAction source, WaitAction target) {
         super.map(source, target);
-        target.setTime(source.getTime());
+
+        WaitCriteria sourceWait = source.getWait();
+        WaitCriteria targetWait = new WaitCriteria();
+        targetWait.setTime(sourceWait.getTime());
+        target.setWait(targetWait);
     }
 
     @Override

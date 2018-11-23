@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.main.Scenario;
 
 @Service
 public class ScenarioPreprocessor {

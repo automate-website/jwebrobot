@@ -6,14 +6,14 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
-import website.automate.waml.io.model.CriterionType;
+import website.automate.waml.io.model.main.criteria.FilterCriteria.FilterType;
 
 @Service
 public class SelectorElementFilter extends BaseElementFilter {
 
     @Override
-    public CriterionType getSupportedType() {
-        return CriterionType.SELECTOR;
+    public FilterType getSupportedType() {
+        return FilterType.SELECTOR;
     }
 
     @Override

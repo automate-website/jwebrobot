@@ -2,7 +2,7 @@ package website.automate.jwebrobot.expression.action;
 
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.waml.io.model.action.TimeLimitedAction;
+import website.automate.waml.io.model.main.action.TimeLimitedAction;
 
 public abstract class TimeLimitedActionExpressionEvaluator<T extends TimeLimitedAction> extends ConditionalActionExpressionEvaluator<T> {
 

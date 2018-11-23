@@ -1,7 +1,8 @@
 package website.automate.jwebrobot.mapper.action;
 
 import org.springframework.stereotype.Service;
-import website.automate.waml.io.model.action.IncludeAction;
+import website.automate.waml.io.model.main.action.IncludeAction;
+import website.automate.waml.io.model.main.criteria.IncludeCriteria;
 
 @Service
 public class IncludeActionMapper extends ConditionalActionMapper<IncludeAction> {
@@ -16,7 +17,11 @@ public class IncludeActionMapper extends ConditionalActionMapper<IncludeAction> 
     @Override
     public void map(IncludeAction source, IncludeAction target) {
         super.map(source, target);
-        target.setScenario(source.getScenario());
+
+        IncludeCriteria sourceInclude = new IncludeCriteria();
+        IncludeCriteria targetInclude = new IncludeCriteria();
+        targetInclude.setScenario(sourceInclude.getScenario());
+        target.setInclude(targetInclude);
     }
 
     @Override

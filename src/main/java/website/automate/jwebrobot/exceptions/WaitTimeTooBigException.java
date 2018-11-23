@@ -1,6 +1,6 @@
 package website.automate.jwebrobot.exceptions;
 
-import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.main.action.Action;
 
 import java.text.MessageFormat;
 

@@ -5,12 +5,13 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import website.automate.waml.io.model.CriterionType;
+import website.automate.waml.io.model.main.criteria.FilterCriteria;
+import website.automate.waml.io.model.main.criteria.FilterCriteria.FilterType;
 
 @Service
 public class ElementFilterProvider {
 
-    private Map<CriterionType, ElementFilter> criteriaTypeElementFilterMap = new HashMap<>();
+    private Map<FilterType, ElementFilter> criteriaTypeElementFilterMap = new HashMap<>();
     
     @Autowired
     public ElementFilterProvider(Set<ElementFilter> elementFilters){
@@ -19,7 +20,7 @@ public class ElementFilterProvider {
         }
     }
     
-    public ElementFilter getInstance(CriterionType type){
+    public ElementFilter getInstance(FilterType type){
         return criteriaTypeElementFilterMap.get(type);
     }
 }

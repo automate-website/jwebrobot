@@ -1,38 +1,42 @@
 package website.automate.jwebrobot.mapper.action;
 
-import website.automate.waml.io.model.action.StoreAction;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.springframework.stereotype.Service;
+import website.automate.waml.io.model.main.action.DefineAction;
+import website.automate.waml.io.model.main.criteria.DefineCriteria;
 
 @Service
-public class StoreActionMapper extends ConditionalActionMapper<StoreAction> {
+public class StoreActionMapper extends ConditionalActionMapper<DefineAction> {
 
     @Override
-    public StoreAction map(StoreAction source) {
-        StoreAction target = new StoreAction();
+    public DefineAction map(DefineAction source) {
+        DefineAction target = new DefineAction();
         map(source, target);
         return target;
     }
 
     @Override
-    public void map(StoreAction source, StoreAction target) {
+    public void map(DefineAction source, DefineAction target) {
         super.map(source, target);
 
-        Map<String, String> sourceValue = source.getFacts();
-        Map<String, String> targetValue = new HashMap<>();
-        for(Entry<String, String> sourceValueEntry : sourceValue.entrySet()){
+        DefineCriteria sourceDefine = source.getDefine();
+        DefineCriteria targetDefine = new DefineCriteria();
+
+        Map<String, Object> sourceValue = sourceDefine.getFacts();
+        Map<String, Object> targetValue = new HashMap<>();
+        for(Entry<String, Object> sourceValueEntry : sourceValue.entrySet()){
             targetValue.put(sourceValueEntry.getKey(), sourceValueEntry.getValue());
         }
 
-        target.setFacts(targetValue);
+        targetDefine.setFacts(targetValue);
+        target.setDefine(targetDefine);
     }
 
     @Override
-    public Class<StoreAction> getSupportedType() {
-        return StoreAction.class;
+    public Class<DefineAction> getSupportedType() {
+        return DefineAction.class;
     }
 
 }

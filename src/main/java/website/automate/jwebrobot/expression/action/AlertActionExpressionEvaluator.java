@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.waml.io.model.action.AlertAction;
+import website.automate.waml.io.model.main.action.AlertAction;
+import website.automate.waml.io.model.main.criteria.AlertCriteria;
 
 @Service
 public class AlertActionExpressionEvaluator extends ConditionalActionExpressionEvaluator<AlertAction> {
@@ -18,9 +19,12 @@ public class AlertActionExpressionEvaluator extends ConditionalActionExpressionE
     @Override
     public void evaluate(AlertAction action, ScenarioExecutionContext context) {
         super.evaluate(action, context);
-        action.setConfirm(evaluate(action.getConfirm(), context));
-        action.setText(evaluate(action.getText(), context));
-        action.setInput(evaluate(action.getInput(), context));
+
+        AlertCriteria alert = new AlertCriteria();
+        alert.setConfirm(evaluate(action.getAlert().getConfirm(), context));
+        alert.setText(evaluate(action.getAlert().getText(), context));
+        alert.setInput(evaluate(action.getAlert().getInput(), context));
+        action.setAlert(alert);
     }
 
     @Override

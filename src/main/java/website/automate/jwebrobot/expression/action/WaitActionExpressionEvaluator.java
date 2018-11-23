@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.waml.io.model.action.WaitAction;
+import website.automate.waml.io.model.main.action.WaitAction;
 
 @Service
 public class WaitActionExpressionEvaluator extends ConditionalActionExpressionEvaluator<WaitAction> {

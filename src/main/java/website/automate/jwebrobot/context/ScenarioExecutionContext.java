@@ -1,9 +1,8 @@
 package website.automate.jwebrobot.context;
 
 import org.openqa.selenium.WebDriver;
-
-import website.automate.waml.io.model.Scenario;
-import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.main.Scenario;
+import website.automate.waml.io.model.main.action.Action;
 
 import java.util.HashMap;
 import java.util.Map;

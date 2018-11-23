@@ -6,14 +6,15 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
-import website.automate.waml.io.model.CriterionType;
+
+import static website.automate.waml.io.model.main.criteria.FilterCriteria.*;
 
 @Service
 public class TextElementFilter extends BaseElementFilter {
 
     @Override
-    public CriterionType getSupportedType() {
-        return CriterionType.TEXT;
+    public FilterType getSupportedType() {
+        return FilterType.TEXT;
     }
 
     @Override

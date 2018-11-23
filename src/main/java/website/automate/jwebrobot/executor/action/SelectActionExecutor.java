@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
-import website.automate.waml.io.model.action.SelectAction;
+import website.automate.waml.io.model.main.action.SelectAction;
 
 @Service
 public class SelectActionExecutor implements ActionExecutor<SelectAction> {

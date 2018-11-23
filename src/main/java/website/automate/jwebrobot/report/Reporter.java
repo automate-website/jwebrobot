@@ -10,11 +10,6 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
-import website.automate.waml.io.model.Scenario;
-import website.automate.waml.io.model.action.Action;
-import website.automate.waml.report.io.WamlReportWriter;
-import website.automate.waml.report.io.model.*;
-import website.automate.waml.report.io.model.LogEntry.LogLevel;
 
 import java.io.File;
 import java.io.FileNotFoundException;

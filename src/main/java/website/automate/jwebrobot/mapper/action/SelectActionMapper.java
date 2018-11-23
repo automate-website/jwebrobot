@@ -1,10 +1,10 @@
 package website.automate.jwebrobot.mapper.action;
 
 import org.springframework.stereotype.Service;
-import website.automate.waml.io.model.action.SelectAction;
+import website.automate.waml.io.model.main.action.SelectAction;
 
 @Service
-public class SelectActionMapper extends ElementStoreActionMapper<SelectAction> {
+public class SelectActionMapper extends FilterActionMapper<SelectAction> {
 
     @Override
     public SelectAction map(SelectAction source) {

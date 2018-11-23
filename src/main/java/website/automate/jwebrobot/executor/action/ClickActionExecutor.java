@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
-import website.automate.waml.io.model.action.ClickAction;
+import website.automate.waml.io.model.main.action.ClickAction;
 
 @Service
 public class ClickActionExecutor implements ActionExecutor<ClickAction> {

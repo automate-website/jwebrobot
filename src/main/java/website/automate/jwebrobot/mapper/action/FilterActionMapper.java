@@ -1,7 +1,7 @@
 package website.automate.jwebrobot.mapper.action;
 
-import website.automate.waml.io.model.action.FilterAction;
-import website.automate.waml.io.model.action.ParentCriteria;
+import website.automate.waml.io.model.main.action.FilterAction;
+import website.automate.waml.io.model.main.criteria.FilterCriteria;
 
 public abstract class FilterActionMapper<T extends FilterAction> extends TimeLimitedActionMapper<T> {
 
@@ -13,16 +13,15 @@ public abstract class FilterActionMapper<T extends FilterAction> extends TimeLim
     @Override
     public void map(T source, T target) {
         super.map(source, target);
-        target.setSelector(source.getSelector());
-        target.setText(source.getText());
-        target.setValue(source.getValue());
-        
-        ParentCriteria sourceParent = source.getParent();
-        if(sourceParent != null){
-            ParentCriteria targetParent = new ParentCriteria(sourceParent.getSelector(),
-                sourceParent.getText(), sourceParent.getValue());
-            target.setParent(targetParent);
-        }
+
+        FilterCriteria sourceFilter = new FilterCriteria();
+        FilterCriteria targetFilter = new FilterCriteria();
+        targetFilter.setText(sourceFilter.getText());
+        targetFilter.setSelector(sourceFilter.getSelector());
+        targetFilter.setValue(sourceFilter.getValue());
+        targetFilter.setElement(sourceFilter.getElement());
+        targetFilter.setParent(sourceFilter.getParent());
+        target.setFilter(targetFilter);
     }
 
 }
