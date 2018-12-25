@@ -2,7 +2,7 @@
 - ensure:
     selector: '.secondary > a'
     text: 'Read info'
-    store: infoAnchor
+  register: infoAnchor
 - click:
     selector: '.secondary > a'
     text: ${ infoAnchor.getText() }
