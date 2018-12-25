@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
@@ -22,13 +21,12 @@ public class EnterActionExecutor implements ActionExecutor<EnterAction> {
 
         final WebElement element;
         
-        boolean hasFilterCriteria = action.hasFilterCriteria();
+        boolean hasFilterCriteria = action.getFilter().hasFilterCriteria();
 
         if (hasFilterCriteria) {
             element = (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context))).until(new ExpectedCondition<WebElement>() {
                 public WebElement apply(WebDriver d) {
                     WebElement element = utils.getElementsFilter().filter(context, action);
-                    utils.getElementStorage().store(action, context, element);
                     return element;
                 }
             });
@@ -37,14 +35,14 @@ public class EnterActionExecutor implements ActionExecutor<EnterAction> {
         }
 
         // Make clear
-        if (Boolean.parseBoolean(action.getClear())) {
+        if (Boolean.parseBoolean(action.getEnter().getClear())) {
             element.clear();
         }
 
         /**
          * See {@link org.openqa.selenium.Keys} to send keys.
          */
-        element.sendKeys(action.getInput().toString());
+        element.sendKeys(action.getEnter().getInput());
 
         return null;
     }

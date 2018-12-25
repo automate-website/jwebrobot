@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.AlertTextMismatchException;
 import website.automate.jwebrobot.exceptions.BooleanExpectedException;
@@ -29,19 +28,19 @@ public class AlertActionExecutor implements ActionExecutor<AlertAction> {
         Alert alert = driver.switchTo().alert();
 
         // Validate text
-        String expectedAlertText = action.getText();
+        String expectedAlertText = action.getAlert().getText();
         String alertText = alert.getText();
         if (expectedAlertText != null && !expectedAlertText.equals(alertText)) {
             throw new AlertTextMismatchException(action.getClass(), expectedAlertText, alertText);
         }
 
         // Enter text (in the prompt)
-        String promptInput = action.getInput();
+        String promptInput = action.getAlert().getInput();
         if (promptInput != null ) {
             alert.sendKeys(promptInput);
         }
 
-        String confirmValue = action.getConfirm();
+        String confirmValue = action.getAlert().getConfirm();
         try {
             if (BooleanMapper.isTrue(confirmValue)) {
                 alert.accept();

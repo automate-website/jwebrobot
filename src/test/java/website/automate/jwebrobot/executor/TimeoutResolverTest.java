@@ -7,8 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.waml.io.model.Scenario;
-import website.automate.waml.io.model.action.TimeLimitedAction;
+import website.automate.waml.io.model.main.Scenario;
+import website.automate.waml.io.model.main.action.TimeLimitedAction;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -68,7 +68,6 @@ public class TimeoutResolverTest {
 
     @Test
     public void scenarioTimeoutChoosenIfActionTimeoutIsNotSet(){
-        when(scenario.getTimeout()).thenReturn(SCENARIO_TIMEOUT);
         when(options.getTimeout()).thenReturn(null);
 
         Long actualTimeout = resolver.resolve(action, context);

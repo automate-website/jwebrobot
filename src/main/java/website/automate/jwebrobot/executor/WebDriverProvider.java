@@ -9,9 +9,9 @@ import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.stereotype.Service;
 
 import java.net.URL;
-import org.springframework.stereotype.Service;
 
 @Service
 public class WebDriverProvider {

@@ -1,7 +1,8 @@
 package website.automate.jwebrobot.executor;
 
-import java.util.regex.Pattern;
 import org.springframework.stereotype.Service;
+
+import java.util.regex.Pattern;
 
 @Service
 public class ScenarioPatternFilter {

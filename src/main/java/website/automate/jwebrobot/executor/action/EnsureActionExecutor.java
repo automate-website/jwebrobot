@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
@@ -20,18 +19,12 @@ public class EnsureActionExecutor implements ActionExecutor<EnsureAction> {
                                 final ActionExecutorUtils utils) {
         WebDriver driver = context.getDriver();
 
-        final Boolean absent = Boolean.parseBoolean(action.getAbsent());
         (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context))).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 WebElement webElement = utils.getElementsFilter().filter(context, action);
                 if(webElement == null){
-                    return absent;
+                    return false;
                 } else {
-                    utils.getElementStorage().store(action, context, webElement);
-
-                    if(absent){
-                        return Boolean.FALSE;
-                    }
                     return webElement.isDisplayed();
                 }
             }

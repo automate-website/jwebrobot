@@ -21,11 +21,6 @@ public class TimeoutResolver {
                 return Long.parseLong(actionTimeout);
             }
 
-            String scenarioTimeout = context.getScenario().getTimeout();
-            if(scenarioTimeout != null){
-                return Long.parseLong(scenarioTimeout);
-            }
-
             return DEFAULT_TIMEOUT_S;
     }
 }

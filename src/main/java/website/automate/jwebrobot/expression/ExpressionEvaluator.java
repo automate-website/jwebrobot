@@ -1,8 +1,8 @@
 package website.automate.jwebrobot.expression;
 
-import java.util.Map;
-
 import website.automate.jwebrobot.exceptions.ExpressionEvaluationException;
+
+import java.util.Map;
 
 public interface ExpressionEvaluator {
 

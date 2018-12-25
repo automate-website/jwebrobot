@@ -1,12 +1,12 @@
 package website.automate.jwebrobot.executor.action;
 
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
+import website.automate.waml.io.model.main.Scenario;
 import website.automate.waml.io.model.main.action.IncludeAction;
 
 @Service
@@ -17,7 +17,7 @@ public class IncludeActionExecutor implements ActionExecutor<IncludeAction> {
                                 final ScenarioExecutionContext context,
                                 final ActionExecutorUtils utils) {
         GlobalExecutionContext globalContext = context.getGlobalContext();
-        String scenarioName = action.getScenario();
+        String scenarioName = action.getInclude().getScenario();
         Scenario scenario = globalContext.getScenario(scenarioName);
         
         if(context.containsScenario(scenario)){

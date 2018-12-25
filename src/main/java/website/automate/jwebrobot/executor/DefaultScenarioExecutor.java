@@ -17,8 +17,8 @@ import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
 import website.automate.jwebrobot.utils.SimpleNoNullValueStyle;
 import website.automate.jwebrobot.validator.ContextValidators;
-import website.automate.waml.io.model.Scenario;
-import website.automate.waml.io.model.action.Action;
+import website.automate.waml.io.model.main.Scenario;
+import website.automate.waml.io.model.main.action.Action;
 
 @Service
 public class DefaultScenarioExecutor implements ScenarioExecutor {
@@ -30,7 +30,6 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private final ExecutionEventListeners listener;
     private final ContextValidators validator;
     private final ConditionalExpressionEvaluator conditionalExpressionEvaluator;
-    private final ScenarioPreprocessor scenarioPreprocessor;
     private final ActionPreprocessor actionPreprocessor;
     private final AbstractActionMapper abstractActionMapper;
     private final ScenarioPatternFilter scenarioPatternFilter;
@@ -43,7 +42,6 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ExecutionEventListeners listener,
         ContextValidators validator,
         ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-        ScenarioPreprocessor scenarioPreprocessor,
         ActionPreprocessor actionPreprocessor,
         AbstractActionMapper abstractActionMapper,
         ScenarioPatternFilter scenarioPatternFilter,
@@ -54,7 +52,6 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         this.listener = listener;
         this.validator = validator;
         this.conditionalExpressionEvaluator = conditionalExpressionEvaluator;
-        this.scenarioPreprocessor = scenarioPreprocessor;
         this.actionPreprocessor = actionPreprocessor;
         this.abstractActionMapper = abstractActionMapper;
         this.scenarioPatternFilter = scenarioPatternFilter;
@@ -81,7 +78,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private void execute(GlobalExecutionContext context, Scenario scenario){
         ExecutorOptions options = context.getOptions();
 
-        if (!scenario.getFragment() && scenarioPatternFilter.isExecutable(options.getScenarioPattern(), scenario.getName())){
+        if (scenarioPatternFilter.isExecutable(options.getScenarioPattern(), scenario.getName())){
             logger.info(scenario.getName() + " > Start");
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType(), options.getWebDriverUrl());
 
@@ -105,16 +102,9 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
 
     @Override
     public void runScenario(Scenario scenario, ScenarioExecutionContext scenarioExecutionContext) {
-        boolean executable = conditionalExpressionEvaluator.isExecutable(scenario, scenarioExecutionContext);
-
-        if(!executable){
-            return;
-        }
-
         listener.beforeScenario(scenarioExecutionContext);
 
-        Scenario preprocessedScenario = scenarioPreprocessor.preprocess(scenario, scenarioExecutionContext);
-        scenarioExecutionContext.setScenario(preprocessedScenario);
+        scenarioExecutionContext.setScenario(scenario);
 
         if (scenario.getSteps() == null) {
             throw new StepsMustBePresentException(scenario.getName());

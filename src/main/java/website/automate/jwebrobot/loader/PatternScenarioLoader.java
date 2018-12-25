@@ -9,14 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.exceptions.NonReadableFileException;
-import website.automate.waml.io.WamlReader;
-import website.automate.waml.io.model.Scenario;
+import website.automate.waml.io.model.main.Scenario;
+import website.automate.waml.io.reader.WamlReader;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,16 +80,8 @@ public class PatternScenarioLoader implements ScenarioLoader {
         }
     }
     
-    private List<Scenario> load(File scenarioFile) throws FileNotFoundException{
+    private Scenario load(File scenarioFile) throws FileNotFoundException{
         LOG.debug(MessageFormat.format("Reading scenario file {0} ...", scenarioFile.getAbsolutePath()));
-        return createFromInputStream(new FileInputStream(scenarioFile));
-    }
-
-    public List<Scenario> createFromInputStream(InputStream inputStream) {
-        List<Scenario> scenarios = wamlReader.read(inputStream);
-
-        LOG.info("Loaded {} scenarios.", scenarios.size());
-
-        return scenarios;
+        return wamlReader.read(scenarioFile);
     }
 }

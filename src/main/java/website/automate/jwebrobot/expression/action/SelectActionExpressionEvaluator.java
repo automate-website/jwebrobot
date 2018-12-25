@@ -3,10 +3,10 @@ package website.automate.jwebrobot.expression.action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
-import website.automate.waml.io.model.action.SelectAction;
+import website.automate.waml.io.model.main.action.SelectAction;
 
 @Service
-public class SelectActionExpressionEvaluator extends ElementStoreActionExpressionEvaluator<SelectAction> {
+public class SelectActionExpressionEvaluator extends FilterActionExpressionEvaluator<SelectAction> {
 
     @Autowired
     public SelectActionExpressionEvaluator(

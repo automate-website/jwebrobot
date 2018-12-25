@@ -5,9 +5,10 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.main.action.EnterAction;
+import website.automate.waml.io.model.main.criteria.EnterCriteria;
 
 @Service
-public class EnterActionExpressionEvaluator extends ElementStoreActionExpressionEvaluator<EnterAction> {
+public class EnterActionExpressionEvaluator extends FilterActionExpressionEvaluator<EnterAction> {
 
     @Autowired
     public EnterActionExpressionEvaluator(
@@ -18,7 +19,9 @@ public class EnterActionExpressionEvaluator extends ElementStoreActionExpression
     @Override
     public void evaluate(EnterAction action, ScenarioExecutionContext context) {
         super.evaluate(action, context);
-        action.setInput(evaluate(action.getInput(), context));
+
+        EnterCriteria enterCriteria = action.getFilter();
+        enterCriteria.setInput(evaluate(enterCriteria.getInput(), context));
     }
 
     @Override

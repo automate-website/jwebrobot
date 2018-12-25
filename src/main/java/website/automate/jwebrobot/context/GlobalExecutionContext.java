@@ -1,19 +1,13 @@
 package website.automate.jwebrobot.context;
 
-import static java.util.Collections.unmodifiableMap;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.loader.ScenarioFile;
-import website.automate.jwebrobot.utils.PrecedenceComparator;
 import website.automate.waml.io.model.main.Scenario;
+
+import java.io.File;
+import java.util.*;
+
+import static java.util.Collections.unmodifiableMap;
 
 public class GlobalExecutionContext {
 
@@ -21,7 +15,7 @@ public class GlobalExecutionContext {
 
     private Map<Scenario, File> scenarioFileMap = new HashMap<>();
     
-    private Map<String, Object> memory = new HashMap<>();
+    private Map<String, Object> memory;
     
     private List<Scenario> scenarios = new ArrayList<>();
     
@@ -36,11 +30,8 @@ public class GlobalExecutionContext {
     
     private void addScenarios(Collection<ScenarioFile> scenarioFiles){
         for(ScenarioFile scenarioFile : scenarioFiles){
-            for(Scenario scenario : scenarioFile.getScenarios()){
-                addScenario(scenarioFile.getFile(), scenario);
-            }
+                addScenario(scenarioFile.getFile(), scenarioFile.getScenario());
         }
-        Collections.sort(scenarios, PrecedenceComparator.getInstance());
     }
     
     private void addScenario(File scenarioFile, Scenario scenario){

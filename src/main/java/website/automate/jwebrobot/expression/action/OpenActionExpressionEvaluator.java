@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
 import website.automate.waml.io.model.main.action.OpenAction;
+import website.automate.waml.io.model.main.criteria.OpenCriteria;
 
 @Service
 public class OpenActionExpressionEvaluator extends ConditionalActionExpressionEvaluator<OpenAction> {
@@ -18,7 +19,8 @@ public class OpenActionExpressionEvaluator extends ConditionalActionExpressionEv
     @Override
     public void evaluate(OpenAction action, ScenarioExecutionContext context) {
         super.evaluate(action, context);
-        action.setUrl(evaluate(action.getUrl(), context));
+        OpenCriteria openCriteria = action.getOpen();
+        openCriteria.setUrl(evaluate(openCriteria.getUrl(), context));
     }
 
     @Override

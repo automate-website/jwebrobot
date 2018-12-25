@@ -1,7 +1,6 @@
 package website.automate.jwebrobot.end2end;
 
 import org.junit.runners.Parameterized.Parameters;
-import website.automate.waml.io.WamlDeserializationException;
 
 import java.util.Collection;
 

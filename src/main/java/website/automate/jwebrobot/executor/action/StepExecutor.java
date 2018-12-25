@@ -6,8 +6,8 @@ import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.waml.io.model.action.Action;
-import website.automate.waml.io.model.action.ConditionalAction;
+import website.automate.waml.io.model.main.action.Action;
+import website.automate.waml.io.model.main.action.ConditionalAction;
 
 public abstract class StepExecutor {
 

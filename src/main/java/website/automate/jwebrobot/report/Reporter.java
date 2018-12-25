@@ -10,10 +10,13 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.listener.ExecutionEventListener;
+import website.automate.waml.io.model.main.Scenario;
+import website.automate.waml.io.model.main.action.Action;
+import website.automate.waml.io.model.report.*;
+import website.automate.waml.io.model.report.LogEntry.LogLevel;
+import website.automate.waml.io.writer.WamlWriter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.*;
 
 @Service
@@ -21,8 +24,7 @@ public class Reporter implements ExecutionEventListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(Reporter.class);
 
-
-    private WamlReportWriter writer;
+    private WamlWriter writer;
 
     private Map<Action, Long> actionStartTimeMap = new HashMap<>();
 
@@ -31,7 +33,7 @@ public class Reporter implements ExecutionEventListener {
     private Map<Scenario, ScenarioReport> scenarioReportMap = new LinkedHashMap<>();
 
     @Autowired
-    public Reporter(WamlReportWriter writer) {
+    public Reporter(WamlWriter writer) {
         this.writer = writer;
     }
 
@@ -41,8 +43,7 @@ public class Reporter implements ExecutionEventListener {
             Scenario contextScenario = context.getScenario();
             File contextScenarioFile = context.getGlobalContext().getFile(contextScenario);
 
-            ScenarioReport report = new SimpleScenarioReport();
-            report.setScenario(copyScenario(contextScenario));
+            ScenarioReport report = new ScenarioReport();
             report.setPath(contextScenarioFile.getAbsolutePath());
 
             scenarioReportMap.put(contextScenario, report);
@@ -67,9 +68,9 @@ public class Reporter implements ExecutionEventListener {
         Scenario rootScenario = context.getRootScenario();
         ScenarioReport scenarioReport = scenarioReportMap.get(rootScenario);
 
-        ActionReport actionReport = new SimpleActionReport();
+        ActionReport actionReport = new ActionReport();
         actionReport.setPath(context.getScenarioInclusionPath());
-        actionReport.setAction(action);
+        actionReport.setStep(action);
 
         scenarioReport.getSteps().add(actionReport);
         actionStartTimeMap.put(action, System.currentTimeMillis());
@@ -134,9 +135,10 @@ public class Reporter implements ExecutionEventListener {
         WamlReport report = new WamlReport();
         report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
         report.updateStats();
+        report.setPath(getReportPath(context));
         try {
-            writer.write(new FileOutputStream(getReportPath(context)), report);
-        } catch (FileNotFoundException e) {
+            writer.write(report);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -150,9 +152,10 @@ public class Reporter implements ExecutionEventListener {
         }
         reportMessage += exception.getMessage();
         report.setMessage(reportMessage);
+        report.setPath(getReportPath(context));
         try {
-            writer.write(new FileOutputStream(getReportPath(context)), report);
-        } catch (FileNotFoundException e) {
+            writer.write(report);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -177,18 +180,5 @@ public class Reporter implements ExecutionEventListener {
 
     private String getReportPath(GlobalExecutionContext context) {
         return context.getOptions().getReportPath();
-    }
-
-    private Scenario copyScenario(Scenario source) {
-        Scenario target = new Scenario();
-        target.setDescription(source.getDescription());
-        target.setName(source.getName());
-        target.setFragment(source.getFragment());
-        target.setPrecedence(source.getPrecedence());
-        target.setTimeout(source.getTimeout());
-        target.setUnless(source.getUnless());
-        target.setWhen(source.getWhen());
-        target.setMeta(source.getMeta());
-        return target;
     }
 }

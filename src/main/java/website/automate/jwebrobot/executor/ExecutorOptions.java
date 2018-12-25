@@ -1,12 +1,12 @@
 package website.automate.jwebrobot.executor;
 
-import static java.lang.Boolean.parseBoolean;
-
-import org.springframework.boot.logging.LogLevel;
 import website.automate.jwebrobot.ConfigurationProperties;
+import website.automate.waml.io.model.report.LogEntry.LogLevel;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import static java.lang.Boolean.parseBoolean;
 
 public class ExecutorOptions {
 

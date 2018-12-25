@@ -1,10 +1,10 @@
 package website.automate.jwebrobot.executor.filter;
 
-import static java.util.Arrays.asList;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import org.openqa.selenium.WebElement;
+import static java.util.Arrays.asList;
 
 public abstract class BaseElementFilter implements ElementFilter {
 
@@ -12,4 +12,5 @@ public abstract class BaseElementFilter implements ElementFilter {
     public List<WebElement> filter(String value, WebElement webElement) {
         return filter(value, asList(webElement));
     }
+
 }

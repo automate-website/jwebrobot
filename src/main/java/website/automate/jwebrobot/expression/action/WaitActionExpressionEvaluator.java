@@ -18,7 +18,7 @@ public class WaitActionExpressionEvaluator extends ConditionalActionExpressionEv
     @Override
     public void evaluate(WaitAction action, ScenarioExecutionContext context) {
         super.evaluate(action, context);
-        action.setTime(evaluate(action.getTime(), context));
+        action.getWait().setTime(evaluate(action.getWait().getTime(), context));
     }
 
     @Override

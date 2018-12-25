@@ -14,10 +14,10 @@ import website.automate.jwebrobot.exceptions.AlertTextMismatchException;
 import website.automate.jwebrobot.exceptions.BooleanExpectedException;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.TimeoutResolver;
-import website.automate.waml.io.model.action.AlertAction;
+import website.automate.waml.io.model.main.action.AlertAction;
+import website.automate.waml.io.model.main.criteria.AlertCriteria;
 
-import java.util.UUID;
-
+import static java.util.UUID.randomUUID;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,6 +45,9 @@ public class AlertActionExecutorTest {
     private Alert alert;
 
     @Mock
+    private AlertCriteria alertCriteria;
+
+    @Mock
     private ActionExecutorUtils utils;
 
     @Mock
@@ -58,10 +61,11 @@ public class AlertActionExecutorTest {
         when(alert.getText()).thenReturn(VALUE_TEXT);
         when(utils.getTimeoutResolver()).thenReturn(timeoutResolver);
         when(timeoutResolver.resolve(action, context)).thenReturn(10L);
+        when(action.getAlert()).thenReturn(alertCriteria);
 
-        when(action.getConfirm()).thenReturn(VALUE_CONFIRM);
-        when(action.getText()).thenReturn(VALUE_TEXT);
-        when(action.getInput()).thenReturn(VALUE_INPUT);
+        when(alertCriteria.getConfirm()).thenReturn(VALUE_CONFIRM);
+        when(alertCriteria.getText()).thenReturn(VALUE_TEXT);
+        when(alertCriteria.getInput()).thenReturn(VALUE_INPUT);
     }
 
     @Test
@@ -73,7 +77,7 @@ public class AlertActionExecutorTest {
 
     @Test
     public void shouldDismissAlert() {
-        when(action.getConfirm()).thenReturn("no");
+        when(alertCriteria.getConfirm()).thenReturn("no");
 
         alertActionExecutor.execute(action, context, utils);
 
@@ -91,14 +95,14 @@ public class AlertActionExecutorTest {
 
     @Test(expected = AlertTextMismatchException.class)
     public void shouldVerifyAlertText() {
-        when(action.getText()).thenReturn(UUID.randomUUID().toString());
+        when(alertCriteria.getText()).thenReturn(randomUUID().toString());
 
         alertActionExecutor.execute(action, context, utils);
     }
 
     @Test(expected = BooleanExpectedException.class)
     public void shouldClaimAboutUnknownConfirmCriteria() {
-        when(action.getConfirm()).thenReturn(UUID.randomUUID().toString());
+        when(alertCriteria.getConfirm()).thenReturn(randomUUID().toString());
 
         alertActionExecutor.execute(action, context, utils);
     }

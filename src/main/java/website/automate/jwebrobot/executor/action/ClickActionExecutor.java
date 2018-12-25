@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
@@ -26,8 +25,6 @@ public class ClickActionExecutor implements ActionExecutor<ClickAction> {
                 utils.getTimeoutResolver().resolve(action, context)
             )
         ).until(condition -> utils.getElementsFilter().filter(context, action));
-
-        utils.getElementStorage().store(action, context, element);
 
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();

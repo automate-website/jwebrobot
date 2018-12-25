@@ -1,17 +1,16 @@
 package website.automate.jwebrobot.utils;
 
-import static ru.yandex.qatools.ashot.util.InnerScript.VIEWPORT_HEIGHT_JS;
-import static ru.yandex.qatools.ashot.util.InnerScript.VIEWPORT_WIDTH_JS;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import ru.yandex.qatools.ashot.coordinates.Coords;
+import ru.yandex.qatools.ashot.shooting.SimpleShootingStrategy;
+import ru.yandex.qatools.ashot.util.InnerScript;
 
 import java.awt.image.BufferedImage;
 import java.util.Set;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-
-import ru.yandex.qatools.ashot.coordinates.Coords;
-import ru.yandex.qatools.ashot.shooting.SimpleShootingStrategy;
-import ru.yandex.qatools.ashot.util.InnerScript;
+import static ru.yandex.qatools.ashot.util.InnerScript.VIEWPORT_HEIGHT_JS;
+import static ru.yandex.qatools.ashot.util.InnerScript.VIEWPORT_WIDTH_JS;
 
 public class ViewPortShootingStrategy extends SimpleShootingStrategy {
 

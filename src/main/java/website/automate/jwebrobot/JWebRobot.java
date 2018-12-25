@@ -1,17 +1,18 @@
 package website.automate.jwebrobot;
 
-import java.util.List;
+import com.beust.jcommander.JCommander;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import com.beust.jcommander.JCommander;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.executor.ExecutorOptions;
 import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
+
+import java.util.List;
 
 @SpringBootApplication
 public class JWebRobot implements CommandLineRunner {

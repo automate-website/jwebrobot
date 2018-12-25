@@ -1,14 +1,14 @@
 package website.automate.jwebrobot.mapper.action;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.utils.Mapper;
 import website.automate.waml.io.model.main.action.Action;
 import website.automate.waml.io.model.main.action.ConditionalAction;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class ActionMapperProvider {

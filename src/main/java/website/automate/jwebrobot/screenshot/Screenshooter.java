@@ -1,11 +1,5 @@
 package website.automate.jwebrobot.screenshot;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
@@ -18,6 +12,11 @@ import website.automate.jwebrobot.exceptions.NonReadableFileException;
 import website.automate.jwebrobot.executor.ExecutorOptions.ScreenshotType;
 import website.automate.jwebrobot.utils.ViewPortShootingStrategy;
 import website.automate.waml.io.model.main.action.Action;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 @Service
 public class Screenshooter {
@@ -57,6 +56,6 @@ public class Screenshooter {
         GlobalExecutionContext globalContext = scenarioRootContext.getGlobalContext();
         String targetPath = globalContext.getOptions().getScreenshotPath();
         
-        return targetPath + scenarioRootContext.getScenario().getName() + "_" + scenarioRootContext.getStepCount() + "_" + findByClazz(action.getClass()).getName() + "." + format; 
+        return targetPath + scenarioRootContext.getScenario().getName() + "_" + scenarioRootContext.getStepCount() + "_" + action.getName() + "." + format;
     }
 }

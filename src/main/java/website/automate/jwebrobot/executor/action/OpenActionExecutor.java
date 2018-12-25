@@ -1,14 +1,13 @@
 package website.automate.jwebrobot.executor.action;
 
-import java.net.URL;
-
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.main.action.OpenAction;
+
+import java.net.URL;
 
 @Service
 public class OpenActionExecutor implements ActionExecutor<OpenAction> {
@@ -18,7 +17,7 @@ public class OpenActionExecutor implements ActionExecutor<OpenAction> {
                                 final ScenarioExecutionContext context,
                                 final ActionExecutorUtils utils) {
         WebDriver driver = context.getDriver();
-        driver.get(safeGetUrl(action.getUrl()));
+        driver.get(safeGetUrl(action.getOpen().getUrl()));
         return null;
     }
 

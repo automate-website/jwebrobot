@@ -3,21 +3,20 @@ package website.automate.jwebrobot.loader;
 import website.automate.waml.io.model.main.Scenario;
 
 import java.io.File;
-import java.util.List;
 
 public class ScenarioFile {
 
-    private List<Scenario> scenarios;
+    private Scenario scenario;
 
     private File file;
 
-    public ScenarioFile(List<Scenario> scenarios, File file) {
-        this.scenarios = scenarios;
+    public ScenarioFile(Scenario scenario, File file) {
+        this.scenario = scenario;
         this.file = file;
     }
     
-    public List<Scenario> getScenarios() {
-        return scenarios;
+    public Scenario getScenario() {
+        return scenario;
     }
 
     public File getFile() {

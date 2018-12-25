@@ -1,20 +1,16 @@
 package website.automate.jwebrobot.expression;
 
+import freemarker.cache.NullCacheStorage;
+import freemarker.template.*;
 import io.codearte.jfairy.Fairy;
+import org.springframework.stereotype.Service;
+import website.automate.jwebrobot.exceptions.ExpressionEvaluationException;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.stereotype.Service;
-import website.automate.jwebrobot.exceptions.ExpressionEvaluationException;
-import freemarker.cache.NullCacheStorage;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
-import freemarker.template.Version;
 
 @Service
 public class FreemarkerExpressionEvaluator implements ExpressionEvaluator {

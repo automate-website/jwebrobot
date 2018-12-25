@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
@@ -30,8 +29,6 @@ public class SelectActionExecutor implements ActionExecutor<SelectAction> {
             }
         });
 
-        utils.getElementStorage().store(action, context, element);
-
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
 
@@ -39,7 +36,7 @@ public class SelectActionExecutor implements ActionExecutor<SelectAction> {
             element.click();
         } else {
             Select select = new Select(element);
-            select.selectByValue(action.getValue());
+            select.selectByValue(action.getSelect().getValue());
         }
 
         return null;

@@ -15,8 +15,8 @@ import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.Logs;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.waml.report.io.WamlReportWriter;
-import website.automate.waml.report.io.model.ActionReport;
+import website.automate.waml.io.model.report.ActionReport;
+import website.automate.waml.io.writer.WamlWriter;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -33,7 +33,7 @@ public class ReporterTest {
     private Reporter reporter;
 
     @Mock
-    private WamlReportWriter writer;
+    private WamlWriter writer;
 
     @Mock
     private ScenarioExecutionContext context;
@@ -57,7 +57,7 @@ public class ReporterTest {
     private website.automate.jwebrobot.executor.ExecutorOptions executorOptions;
 
     @Captor
-    private ArgumentCaptor<List<website.automate.waml.report.io.model.LogEntry>> logEntryListCaptor;
+    private ArgumentCaptor<List<website.automate.waml.io.model.report.LogEntry>> logEntryListCaptor;
 
     @Before
     public void setUpContext() {
@@ -85,14 +85,14 @@ public class ReporterTest {
         when(logEntries.getAll()).thenReturn(asList(logEntry));
 
         when(logEntry.getLevel()).thenReturn(Level.FINEST);
-        when(executorOptions.getBrowserLogLevel()).thenReturn(website.automate.waml.report.io.model.LogEntry.LogLevel.DEBUG);
+        when(executorOptions.getBrowserLogLevel()).thenReturn(website.automate.waml.io.model.report.LogEntry.LogLevel.DEBUG);
 
         reporter.processLogEntries(context, actionReport);
 
         verify(logEntries).getAll();
 
         verify(actionReport).setLogEntries(logEntryListCaptor.capture());
-        List<website.automate.waml.report.io.model.LogEntry> logEntryList = logEntryListCaptor.getValue();
+        List<website.automate.waml.io.model.report.LogEntry> logEntryList = logEntryListCaptor.getValue();
         assertThat(logEntryList, hasSize(1));
     }
 }

@@ -1,20 +1,14 @@
 package website.automate.jwebrobot.executor.filter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
-import website.automate.waml.io.model.main.criteria.FilterCriteria.FilterType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ValueElementFilter extends BaseElementFilter {
-
-    @Override
-    public FilterType getSupportedType() {
-        return FilterType.VALUE;
-    }
 
     @Override
     public List<WebElement> filter(String value,

@@ -1,11 +1,12 @@
 package website.automate.jwebrobot.mapper.action;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import org.springframework.stereotype.Service;
 import website.automate.waml.io.model.main.action.DefineAction;
 import website.automate.waml.io.model.main.criteria.DefineCriteria;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Service
 public class StoreActionMapper extends ConditionalActionMapper<DefineAction> {

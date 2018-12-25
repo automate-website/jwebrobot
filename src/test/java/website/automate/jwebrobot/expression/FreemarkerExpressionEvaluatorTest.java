@@ -1,13 +1,13 @@
 package website.automate.jwebrobot.expression;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
 
 import java.util.Collections;
 import java.util.HashMap;
 
-import org.junit.Test;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 
 public class FreemarkerExpressionEvaluatorTest {
 

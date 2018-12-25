@@ -6,11 +6,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
-
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
-import website.automate.waml.io.model.action.MoveAction;
+import website.automate.waml.io.model.main.action.MoveAction;
 
 @Service
 public class MoveActionExecutor implements ActionExecutor<MoveAction> {
@@ -24,7 +23,6 @@ public class MoveActionExecutor implements ActionExecutor<MoveAction> {
         WebElement element = (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context))).until(new ExpectedCondition<WebElement>() {
             public WebElement apply(WebDriver d) {
                 WebElement element = utils.getElementsFilter().filter(context, action);
-                utils.getElementStorage().store(action, context, element);
                 return element;
             }
         });
