@@ -1,6 +1,4 @@
-name: Ensure Absent Test
-steps:
-  - open: ${baseUrl}
-  - ensure: 
-      selector: div.another-article
-      absent: true
+- open: ${baseUrl}
+- ensure:
+    selector: div.another-article
+    absent: true

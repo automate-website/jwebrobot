@@ -1,7 +1,5 @@
-name: Click by Text Regex Test
-steps:
-  - open: '${baseUrl}'
-  - click:
-      selector: '.secondary > a'
-      text: 'Read info'
-  - ensure: 'h1#Info'
+- open: '${baseUrl}'
+- click:
+    selector: '.secondary > a'
+    text: 'Read info'
+- ensure: 'h1#Info'

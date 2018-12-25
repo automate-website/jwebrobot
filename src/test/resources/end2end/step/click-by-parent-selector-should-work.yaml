@@ -1,8 +1,8 @@
-name: Click by Text Test
-steps:
-  - open: ${baseUrl}
-  - click:
-      selector: a
-      parent:
-        selector: div.second-article
-  - ensure: h1#Info
+- open: ${baseUrl}
+- ensure:
+    selector: div.second-article
+  register: parent-element
+- click:
+    selector: a
+    parent: parent-element
+- ensure: h1#Info

@@ -1,6 +1,4 @@
-name: Click by Text Test
-steps:
-  - open: '${baseUrl}'
-  - click:
-      selector: 'a[title="About"]'
-  - ensure: '#About'
+- open: '${baseUrl}'
+- click:
+    selector: 'a[title="About"]'
+- ensure: '#About'

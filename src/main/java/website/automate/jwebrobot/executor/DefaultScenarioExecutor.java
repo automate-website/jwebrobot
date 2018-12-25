@@ -9,16 +9,14 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.StepsMustBePresentException;
-import website.automate.jwebrobot.executor.action.ActionExecutor;
-import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.executor.action.ActionPreprocessor;
-import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
+import website.automate.jwebrobot.executor.action.StepExecutor;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
 import website.automate.jwebrobot.utils.SimpleNoNullValueStyle;
 import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.main.Scenario;
 import website.automate.waml.io.model.main.action.Action;
+
 
 @Service
 public class DefaultScenarioExecutor implements ScenarioExecutor {
@@ -26,36 +24,24 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
     private Logger logger = LoggerFactory.getLogger(DefaultScenarioExecutor.class);
 
     private final WebDriverProvider webDriverProvider;
-    private final ActionExecutorFactory actionExecutorFactory;
     private final ExecutionEventListeners listener;
     private final ContextValidators validator;
-    private final ConditionalExpressionEvaluator conditionalExpressionEvaluator;
-    private final ActionPreprocessor actionPreprocessor;
-    private final AbstractActionMapper abstractActionMapper;
     private final ScenarioPatternFilter scenarioPatternFilter;
-    private final ActionExecutorUtils executionUtils;
+    private final StepExecutor stepExecutor;
 
     @Autowired
     public DefaultScenarioExecutor(
         WebDriverProvider webDriverProvider,
-        ActionExecutorFactory actionExecutorFactory,
         ExecutionEventListeners listener,
         ContextValidators validator,
-        ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-        ActionPreprocessor actionPreprocessor,
-        AbstractActionMapper abstractActionMapper,
         ScenarioPatternFilter scenarioPatternFilter,
-        ActionExecutorUtils executionUtils
+        StepExecutor stepExecutor
     ) {
         this.webDriverProvider = webDriverProvider;
-        this.actionExecutorFactory = actionExecutorFactory;
         this.listener = listener;
         this.validator = validator;
-        this.conditionalExpressionEvaluator = conditionalExpressionEvaluator;
-        this.actionPreprocessor = actionPreprocessor;
-        this.abstractActionMapper = abstractActionMapper;
         this.scenarioPatternFilter = scenarioPatternFilter;
-        this.executionUtils = executionUtils;
+        this.stepExecutor = stepExecutor;
     }
 
     @Override
@@ -111,26 +97,9 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         }
 
         for (Action action : scenario.getSteps()) {
-            ActionExecutor<Action> actionExecutor = actionExecutorFactory.getInstance(action.getClass());
-
-            Action preprocessedAction = actionPreprocessor.preprocess(abstractActionMapper.map(action), scenarioExecutionContext);
-
-            logger.info(getActionLogMessage(scenario, preprocessedAction));
-            actionExecutor.execute(preprocessedAction, scenarioExecutionContext, executionUtils);
+            stepExecutor.execute(action, scenarioExecutionContext);
         }
 
         listener.afterScenario(scenarioExecutionContext);
-    }
-
-    private String getActionLogMessage(Scenario scenario, Action action){
-        return scenario.getName() + " > " + getActionName(action) + getActionValue(action);
-    }
-
-    private String getActionName(Action action){
-        return action.getClass().getSimpleName().replaceFirst("Action", "");
-    }
-
-    private String getActionValue(Action action){
-        return ReflectionToStringBuilder.toString(action, SimpleNoNullValueStyle.INSTANCE);
     }
 }

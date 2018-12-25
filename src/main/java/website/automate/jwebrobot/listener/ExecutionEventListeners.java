@@ -12,7 +12,7 @@ import java.util.Set;
 @Service
 public class ExecutionEventListeners implements ExecutionEventListener {
 
-    private Set<ExecutionEventListener> listeners = new HashSet<>();
+    private Set<ExecutionEventListener> listeners;
     
     @Autowired
     public ExecutionEventListeners(Set<ExecutionEventListener> listeners){

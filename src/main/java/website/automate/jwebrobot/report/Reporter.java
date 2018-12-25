@@ -44,6 +44,7 @@ public class Reporter implements ExecutionEventListener {
             File contextScenarioFile = context.getGlobalContext().getFile(contextScenario);
 
             ScenarioReport report = new ScenarioReport();
+            report.setSteps(new ArrayList<>());
             report.setPath(contextScenarioFile.getAbsolutePath());
 
             scenarioReportMap.put(contextScenario, report);

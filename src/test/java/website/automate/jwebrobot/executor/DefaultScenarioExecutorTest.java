@@ -8,6 +8,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.executor.action.ActionPreprocessor;
+import website.automate.jwebrobot.executor.action.StepExecutor;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
@@ -25,25 +26,25 @@ public class DefaultScenarioExecutorTest {
     @Mock private ActionExecutorFactory actionExecutorFactory;
     @Mock private ExecutionEventListeners listener;
     @Mock private ContextValidators validator;
-    @Mock private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
     @Mock private ActionPreprocessor actionPreprocessor;
-    @Mock private ActionMapperProvider actionMapperProvider;
-    
+
     @Mock private Scenario scenario;
-    @Mock private Scenario preprocessedScenario;
     @Mock private ScenarioExecutionContext context;
     @Mock private AbstractActionMapper abstractActionMapper;
     @Mock private ScenarioPatternFilter scenarioPatternFilter;
     @Mock private ActionExecutorUtils actionExecutorUtils;
+    @Mock private StepExecutor stepExecutor;
     
     private DefaultScenarioExecutor scenarioExecutor;
     
     @Before
     public void init(){
-        scenarioExecutor = new DefaultScenarioExecutor(webDriverProvider, actionExecutorFactory, listener,
-                validator, conditionalExpressionEvaluator,
-                actionPreprocessor, abstractActionMapper,
-                scenarioPatternFilter, actionExecutorUtils);
+        scenarioExecutor = new DefaultScenarioExecutor(
+            webDriverProvider,
+            listener,
+            validator,
+            scenarioPatternFilter,
+            stepExecutor);
     }
     
     @Test

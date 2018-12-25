@@ -1,6 +1,4 @@
-name: Unknown action (failing)
-steps:
-  - unknown: 'action'
-  - open: 'www.example.com'
+- unknown: 'action'
+- open: 'www.example.com'
 
 

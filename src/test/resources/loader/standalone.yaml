@@ -1,4 +1,2 @@
-name: scenario-a
-steps:
-  - include: go-to-example
-  - click: button[type=submitA]
+- include: go-to
+- click: button[type=submitA]

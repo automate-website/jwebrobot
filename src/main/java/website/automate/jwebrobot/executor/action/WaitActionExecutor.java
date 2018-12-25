@@ -4,8 +4,9 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.DecimalNumberExpectedException;
 import website.automate.jwebrobot.exceptions.WaitTimeTooBigException;
+import website.automate.jwebrobot.executor.ActionExecutionResult.ActionResultBuilder;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
-import website.automate.jwebrobot.executor.ActionResult;
+import website.automate.jwebrobot.executor.ActionExecutionResult;
 import website.automate.waml.io.model.main.action.WaitAction;
 
 @Service
@@ -14,9 +15,10 @@ public class WaitActionExecutor implements ActionExecutor<WaitAction> {
     private static final int WAIT_TIME_LIMIT = 1000;
 
     @Override
-    public ActionResult execute(final WaitAction action,
-                                final ScenarioExecutionContext context,
-                                final ActionExecutorUtils utils) {
+    public ActionExecutionResult execute(final WaitAction action,
+                                         final ScenarioExecutionContext context,
+                                         final ActionExecutorUtils utils) {
+        final ActionResultBuilder resultBuilder = new ActionResultBuilder();
         String waitTimeStr = action.getWait().getTime();
         try {
             Double waitTime = Double.parseDouble(waitTimeStr);
@@ -32,7 +34,8 @@ public class WaitActionExecutor implements ActionExecutor<WaitAction> {
             // This should never happen
         }
 
-        return null;
+        return resultBuilder
+            .build();
     }
 
     @Override

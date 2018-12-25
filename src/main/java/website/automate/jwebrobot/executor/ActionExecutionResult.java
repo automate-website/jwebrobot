@@ -1,6 +1,6 @@
 package website.automate.jwebrobot.executor;
 
-public class ActionResult {
+public class ActionExecutionResult {
 
     public enum StatusCode {
         SUCCESS,
@@ -72,7 +72,7 @@ public class ActionResult {
 
         private boolean failed;
 
-        private StatusCode code;
+        private StatusCode code = StatusCode.SUCCESS;
 
         private String message;
 
@@ -112,8 +112,8 @@ public class ActionResult {
             return this;
         }
 
-        public ActionResult build(){
-            ActionResult result = new ActionResult();
+        public ActionExecutionResult build(){
+            ActionExecutionResult result = new ActionExecutionResult();
 
             result.setCode(code);
             result.setFailed(failed);

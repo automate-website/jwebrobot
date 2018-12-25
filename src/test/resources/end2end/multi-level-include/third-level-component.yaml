@@ -1,5 +1,2 @@
-name: goto landing page
-fragment: true
-steps:
-  - open: ${baseUrl}
+- open: ${baseUrl}
 

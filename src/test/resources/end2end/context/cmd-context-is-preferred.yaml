@@ -1,5 +1,3 @@
-name: Cmd Context Is Preferred
-steps:
-  - store:
-      url: brokenUrl
-  - open: ${url}
+- store:
+    url: brokenUrl
+- open: ${url}

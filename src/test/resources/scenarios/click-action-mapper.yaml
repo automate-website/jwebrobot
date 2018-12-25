@@ -1,8 +1,5 @@
-$schema: http://waml-schema.org/draft-02/scenario-schema#
-name: Comple
-steps:
-  - click:
-      selector: a.sign-up
-      text: 'Join now for free!'
-      if: ${isDesktop}
-      unless: ${isMobile}
+- click:
+    selector: a.sign-up
+    text: 'Join now for free!'
+    if: ${isDesktop}
+    unless: ${isMobile}

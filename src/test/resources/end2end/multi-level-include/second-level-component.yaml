@@ -1,5 +1,2 @@
-name: ensure at landing page
-fragment: true
-steps:
-  - include: goto landing page
-  - ensure: div.first-article
+- include: goto landing page
+- ensure: div.first-article

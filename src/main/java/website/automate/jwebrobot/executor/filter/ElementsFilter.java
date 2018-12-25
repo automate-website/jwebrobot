@@ -39,17 +39,17 @@ public class ElementsFilter {
 
         String selector = filterCriteria.getSelector();
         if(selector != null){
-            elements = selectorElementFilter.filter(selector, elements);
+            elements = getDisplayed(context, selectorElementFilter.filter(selector, elements));
         }
 
         String text = filterCriteria.getText();
         if(text != null){
-            elements = textElementFilter.filter(text, elements);
+            elements = getDisplayed(context, textElementFilter.filter(text, elements));
         }
 
         String value = filterCriteria.getValue();
         if(value != null){
-            elements = valueElementFilter.filter(value, elements);
+            elements = getDisplayed(context, valueElementFilter.filter(value, elements));
         }
 
         return getFirstOrNull(elements);
@@ -68,7 +68,7 @@ public class ElementsFilter {
         } else {
             elements = singletonList(getDefaultFrameElement(context.getDriver()));
         }
-        return elements;
+        return getDisplayed(context, elements);
     }
 
     private WebElement getFirstOrNull(List<WebElement> webElements){

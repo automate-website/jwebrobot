@@ -15,7 +15,7 @@ public class ExecutorOptions {
 
         private String name;
 
-        private TakeScreenshots(String name) {
+        TakeScreenshots(String name) {
             this.name = name;
         }
 
@@ -39,7 +39,7 @@ public class ExecutorOptions {
     	
     	private String name;
 
-        private ScreenshotType(String name) {
+    	ScreenshotType(String name) {
             this.name = name;
         }
 
@@ -62,7 +62,7 @@ public class ExecutorOptions {
         NON_INTERACTIVE("NON_INTERACTIVE"),
         INTERACTIVE("INTERACTIVE");
         
-        private Mode(String name){
+        Mode(String name){
             this.name = name;
         }
         
@@ -86,7 +86,7 @@ public class ExecutorOptions {
 
     private URL webDriverUrl;
 
-    public String screenshotPath;
+    private String screenshotPath;
 
     private TakeScreenshots takeScreenshots;
 

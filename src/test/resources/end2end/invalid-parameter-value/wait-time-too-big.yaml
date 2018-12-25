@@ -1,3 +1,1 @@
-name: Wait time too big
-steps:
-  - wait: 1000
+- wait: 1000

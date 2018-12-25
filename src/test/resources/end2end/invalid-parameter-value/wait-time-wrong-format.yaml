@@ -1,3 +1,1 @@
-name: Wait time wrong format
-steps:
-  - wait: abc
+- wait: abc

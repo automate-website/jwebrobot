@@ -1,3 +1,1 @@
-name: go-to-example
-steps:
-  - open: www.example.com
+- open: www.example.com
