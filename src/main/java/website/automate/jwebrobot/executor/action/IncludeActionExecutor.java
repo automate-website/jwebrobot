@@ -5,17 +5,18 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.RecursiveScenarioInclusionException;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
-import website.automate.jwebrobot.executor.ActionExecutionResult;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.main.Scenario;
 import website.automate.waml.io.model.main.action.IncludeAction;
 
 @Service
-public class IncludeActionExecutor implements ActionExecutor<IncludeAction> {
+public class IncludeActionExecutor extends BaseActionExecutor<IncludeAction> {
 
     @Override
-    public ActionExecutionResult execute(final IncludeAction action,
-                                         final ScenarioExecutionContext context,
-                                         final ActionExecutorUtils utils) {
+    public void execute(IncludeAction action,
+                        ScenarioExecutionContext context,
+                        ActionResult result,
+                        ActionExecutorUtils utils) {
         GlobalExecutionContext globalContext = context.getGlobalContext();
         String scenarioName = action.getInclude().getScenario();
         Scenario scenario = globalContext.getScenario(scenarioName);
@@ -26,8 +27,6 @@ public class IncludeActionExecutor implements ActionExecutor<IncludeAction> {
         
         ScenarioExecutionContext includedScenarioContext = context.createChildContext(scenario);
         utils.getScenarioExecutor().runScenario(scenario, includedScenarioContext);
-
-        return null;
     }
 
     @Override

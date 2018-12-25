@@ -20,6 +20,6 @@ public abstract class ActionExpressionEvaluator<T extends Action> {
         if(value == null){
             return null;
         }
-        return expressionEvaluator.evaluate(value, context.getTotalMemory());
+        return expressionEvaluator.evaluate(value, context.getTotalMemory(), String.class);
     }
 }

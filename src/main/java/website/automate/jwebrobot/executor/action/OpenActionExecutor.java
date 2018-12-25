@@ -3,25 +3,22 @@ package website.automate.jwebrobot.executor.action;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.executor.ActionExecutionResult.ActionResultBuilder;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
-import website.automate.jwebrobot.executor.ActionExecutionResult;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.main.action.OpenAction;
 
 import java.net.URL;
 
 @Service
-public class OpenActionExecutor implements ActionExecutor<OpenAction> {
+public class OpenActionExecutor extends BaseActionExecutor<OpenAction> {
 
     @Override
-    public ActionExecutionResult execute(final OpenAction action,
-                                         final ScenarioExecutionContext context,
-                                         final ActionExecutorUtils utils) {
-        final ActionResultBuilder resultBuilder = new ActionResultBuilder();
+    public void execute(OpenAction action,
+                        ScenarioExecutionContext context,
+                        ActionResult result,
+                        ActionExecutorUtils utils) {
         final WebDriver driver = context.getDriver();
         driver.get(safeGetUrl(action.getOpen().getUrl()));
-        return resultBuilder
-            .build();
     }
 
     @Override

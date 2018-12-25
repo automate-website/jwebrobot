@@ -7,21 +7,20 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.executor.ActionExecutionResult.ActionResultBuilder;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
-import website.automate.jwebrobot.executor.ActionExecutionResult;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.main.action.SelectAction;
 
 @Service
-public class SelectActionExecutor implements ActionExecutor<SelectAction> {
+public class SelectActionExecutor extends BaseActionExecutor<SelectAction> {
 
     private static final String OPTION = "option";
 
     @Override
-    public ActionExecutionResult execute(final SelectAction action,
-                                         final ScenarioExecutionContext context,
-                                         final ActionExecutorUtils utils) {
-        final ActionResultBuilder resultBuilder = new ActionResultBuilder();
+    public void execute(SelectAction action,
+                        ScenarioExecutionContext context,
+                        ActionResult result,
+                        ActionExecutorUtils utils) {
         final WebDriver driver = context.getDriver();
 
         WebElement element = (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context)))
@@ -37,9 +36,7 @@ public class SelectActionExecutor implements ActionExecutor<SelectAction> {
             select.selectByValue(action.getSelect().getValue());
         }
 
-        return resultBuilder
-            .withValue(element)
-            .build();
+        result.setValue(element);
     }
 
     @Override

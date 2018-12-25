@@ -6,5 +6,5 @@ import java.util.Map;
 
 public interface ExpressionEvaluator {
 
-    String evaluate(String expression, Map<String, Object> memory) throws ExpressionEvaluationException;
+    <T> T evaluate(String expression, Map<String, Object> memory, Class<T> resultClazz) throws ExpressionEvaluationException;
 }

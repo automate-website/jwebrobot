@@ -5,34 +5,29 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.executor.ActionExecutionResult.ActionResultBuilder;
-import website.automate.jwebrobot.executor.ActionExecutionResult.StatusCode;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
-import website.automate.jwebrobot.executor.ActionExecutionResult;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.main.action.EnsureAction;
 
 @Service
-public class EnsureActionExecutor implements ActionExecutor<EnsureAction> {
+public class EnsureActionExecutor extends BaseActionExecutor<EnsureAction> {
 
     @Override
-    public ActionExecutionResult execute(final EnsureAction action,
-                                         final ScenarioExecutionContext context,
-                                         final ActionExecutorUtils utils) {
+    public void execute(EnsureAction action,
+                        ScenarioExecutionContext context,
+                        ActionResult result,
+                        ActionExecutorUtils utils) {
         final WebDriver driver = context.getDriver();
-        final ActionResultBuilder resultBuilder = new ActionResultBuilder();
 
         (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context))).until(d -> {
                 WebElement webElement = utils.getElementsFilter().filter(context, action);
                 if(webElement == null){
                     return false;
                 } else {
-                    resultBuilder.withValue(webElement);
+                    result.setValue(webElement);
                     return webElement.isDisplayed();
                 }
         });
-
-        return resultBuilder
-            .build();
     }
 
     @Override

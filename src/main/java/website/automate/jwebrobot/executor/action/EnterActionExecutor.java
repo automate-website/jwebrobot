@@ -5,20 +5,19 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.executor.ActionExecutionResult.ActionResultBuilder;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
-import website.automate.jwebrobot.executor.ActionExecutionResult;
 import website.automate.waml.io.model.main.action.EnterAction;
 
 @Service
-public class EnterActionExecutor implements ActionExecutor<EnterAction> {
+public class EnterActionExecutor extends BaseActionExecutor<EnterAction> {
 
     @Override
-    public ActionExecutionResult execute(final EnterAction action,
-                                         final ScenarioExecutionContext context,
-                                         final ActionExecutorUtils utils) {
+    public void execute(EnterAction action,
+                        ScenarioExecutionContext context,
+                        ActionResult result,
+                        ActionExecutorUtils utils) {
         final WebDriver driver = context.getDriver();
-        final ActionResultBuilder resultBuilder = new ActionResultBuilder();
         final WebElement element;
         
         boolean hasFilterCriteria = action.getFilter().hasFilterCriteria();
@@ -40,9 +39,7 @@ public class EnterActionExecutor implements ActionExecutor<EnterAction> {
          */
         element.sendKeys(action.getEnter().getInput());
 
-        return resultBuilder
-            .withValue(element)
-            .build();
+        result.setValue(element);
     }
 
     @Override

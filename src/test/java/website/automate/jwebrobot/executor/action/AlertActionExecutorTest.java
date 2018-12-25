@@ -70,7 +70,7 @@ public class AlertActionExecutorTest {
 
     @Test
     public void shouldConfirmAlert() {
-        alertActionExecutor.execute(action, context, utils);
+        alertActionExecutor.perform(action, context, utils);
 
         verify(alert).accept();
     }
@@ -79,14 +79,14 @@ public class AlertActionExecutorTest {
     public void shouldDismissAlert() {
         when(alertCriteria.getConfirm()).thenReturn("no");
 
-        alertActionExecutor.execute(action, context, utils);
+        alertActionExecutor.perform(action, context, utils);
 
         verify(alert).dismiss();
     }
 
     @Test
     public void shouldEnterText() {
-        alertActionExecutor.execute(action, context, utils);
+        alertActionExecutor.perform(action, context, utils);
 
         verify(alert).sendKeys(VALUE_INPUT);
         verify(alert).accept();
@@ -97,14 +97,14 @@ public class AlertActionExecutorTest {
     public void shouldVerifyAlertText() {
         when(alertCriteria.getText()).thenReturn(randomUUID().toString());
 
-        alertActionExecutor.execute(action, context, utils);
+        alertActionExecutor.perform(action, context, utils);
     }
 
     @Test(expected = BooleanExpectedException.class)
     public void shouldClaimAboutUnknownConfirmCriteria() {
         when(alertCriteria.getConfirm()).thenReturn(randomUUID().toString());
 
-        alertActionExecutor.execute(action, context, utils);
+        alertActionExecutor.perform(action, context, utils);
     }
 
     @Test

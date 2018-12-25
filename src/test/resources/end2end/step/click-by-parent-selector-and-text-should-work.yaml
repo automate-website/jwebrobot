@@ -2,8 +2,8 @@
 - ensure:
     selector: div.second-article
     text: You can read further
-  register: parent-element
+  register: result
 - click:
     selector: a
-    parent: parent-element
+    parent: result.value
 - ensure: h1#Info

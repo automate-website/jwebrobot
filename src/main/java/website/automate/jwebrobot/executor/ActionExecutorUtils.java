@@ -3,7 +3,7 @@ package website.automate.jwebrobot.executor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-import website.automate.jwebrobot.exceptions.ExceptionTranslator;
+import website.automate.jwebrobot.executor.action.ActionEvaluator;
 import website.automate.jwebrobot.executor.filter.ElementsFilter;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
@@ -20,27 +20,27 @@ public class ActionExecutorUtils {
 
     private ConditionalExpressionEvaluator conditionalExpressionEvaluator;
 
-    private ExceptionTranslator exceptionTranslator;
-
     private ElementsFilter elementsFilter;
 
     private ScenarioExecutor scenarioExecutor;
+
+    private final ActionEvaluator actionEvaluator;
 
     @Autowired
     public ActionExecutorUtils(TimeoutResolver timeoutResolver,
                                ExpressionEvaluator expressionEvaluator,
                                ExecutionEventListeners listener,
                                ConditionalExpressionEvaluator conditionalExpressionEvaluator,
-                               ExceptionTranslator exceptionTranslator,
                                ElementsFilter elementsFilter,
-                               @Lazy ScenarioExecutor scenarioExecutor){
+                               @Lazy ScenarioExecutor scenarioExecutor,
+                               ActionEvaluator actionEvaluator){
         this.timeoutResolver = timeoutResolver;
         this.expressionEvaluator = expressionEvaluator;
         this.listener = listener;
         this.conditionalExpressionEvaluator = conditionalExpressionEvaluator;
-        this.exceptionTranslator = exceptionTranslator;
         this.elementsFilter = elementsFilter;
         this.scenarioExecutor = scenarioExecutor;
+        this.actionEvaluator = actionEvaluator;
     }
 
     public TimeoutResolver getTimeoutResolver() {
@@ -59,15 +59,15 @@ public class ActionExecutorUtils {
         return conditionalExpressionEvaluator;
     }
 
-    public ExceptionTranslator getExceptionTranslator() {
-        return exceptionTranslator;
-    }
-
     public ElementsFilter getElementsFilter() {
         return elementsFilter;
     }
 
     public ScenarioExecutor getScenarioExecutor() {
         return scenarioExecutor;
+    }
+
+    public ActionEvaluator getActionEvaluator() {
+        return actionEvaluator;
     }
 }

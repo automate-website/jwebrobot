@@ -6,20 +6,19 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.executor.ActionExecutionResult.ActionResultBuilder;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
-import website.automate.jwebrobot.executor.ActionExecutionResult;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.main.action.ClickAction;
 
 @Service
-public class ClickActionExecutor implements ActionExecutor<ClickAction> {
+public class ClickActionExecutor extends BaseActionExecutor<ClickAction> {
 
     @Override
-    public ActionExecutionResult execute(final ClickAction action,
-                                         final ScenarioExecutionContext context,
-                                         final ActionExecutorUtils utils) {
+    public void execute(ClickAction action,
+                        ScenarioExecutionContext context,
+                        ActionResult result,
+                        ActionExecutorUtils utils) {
         WebDriver driver = context.getDriver();
-        final ActionResultBuilder resultBuilder = new ActionResultBuilder();
 
         WebElement element =  (
             new WebDriverWait(
@@ -31,9 +30,7 @@ public class ClickActionExecutor implements ActionExecutor<ClickAction> {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
 
-        return resultBuilder
-            .withValue(element)
-            .build();
+        result.setValue(element);
     }
 
     @Override

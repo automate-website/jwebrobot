@@ -30,8 +30,8 @@ public class ConditionalExpressionEvaluatorTest {
     @Before
     public void init(){
         evaluator = new ConditionalExpressionEvaluator(expressionEvaluator);
-        when(expressionEvaluator.evaluate(Mockito.eq(TRUE_VALUE), Mockito.anyMap())).thenReturn("true");
-        when(expressionEvaluator.evaluate(Mockito.eq(FALSE_VALUE), Mockito.anyMap())).thenReturn("false");
+        when(expressionEvaluator.evaluate(Mockito.eq(TRUE_VALUE), Mockito.anyMap(), String.class)).thenReturn("true");
+        when(expressionEvaluator.evaluate(Mockito.eq(FALSE_VALUE), Mockito.anyMap(), String.class)).thenReturn("false");
     }
     
     @Test

@@ -8,18 +8,18 @@ import website.automate.jwebrobot.expression.action.ActionExpressionEvaluatorPro
 import website.automate.waml.io.model.main.action.Action;
 
 @Service
-public class ActionPreprocessor {
+public class ActionEvaluator {
 
     private ActionExpressionEvaluatorProvider actionExpressionEvaluatorProvider;
     
     @Autowired
-    public ActionPreprocessor(ActionExpressionEvaluatorProvider actionExpressionEvaluatorProvider){
+    public ActionEvaluator(ActionExpressionEvaluatorProvider actionExpressionEvaluatorProvider){
         this.actionExpressionEvaluatorProvider = actionExpressionEvaluatorProvider;
     }
     
-    public Action preprocess(Action action, ScenarioExecutionContext context){
+    public <T extends Action> T evaluate(T action, ScenarioExecutionContext context){
         ActionExpressionEvaluator<Action> actionExpressionEvaluator = actionExpressionEvaluatorProvider.getInstance(action.getClass());
         actionExpressionEvaluator.evaluate(action, context);
-        return action;
+        return (T)action;
     }
 }

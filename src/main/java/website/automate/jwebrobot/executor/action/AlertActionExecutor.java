@@ -9,17 +9,18 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.AlertTextMismatchException;
 import website.automate.jwebrobot.exceptions.BooleanExpectedException;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
-import website.automate.jwebrobot.executor.ActionExecutionResult;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.jwebrobot.mapper.BooleanMapper;
 import website.automate.waml.io.model.main.action.AlertAction;
 
 @Service
-public class AlertActionExecutor implements ActionExecutor<AlertAction> {
+public class AlertActionExecutor extends BaseActionExecutor<AlertAction> {
 
     @Override
-    public ActionExecutionResult execute(final AlertAction action,
-                                         final ScenarioExecutionContext context,
-                                         final ActionExecutorUtils utils) {
+    public void execute(AlertAction action,
+                        ScenarioExecutionContext context,
+                        ActionResult result,
+                        ActionExecutorUtils utils) {
         WebDriver driver = context.getDriver();
 
         // Wait for the alert
@@ -50,11 +51,6 @@ public class AlertActionExecutor implements ActionExecutor<AlertAction> {
         } catch (BooleanExpectedException e) {
             throw new BooleanExpectedException(action.getClass(), confirmValue);
         }
-
-        return new ActionExecutionResult.ActionResultBuilder()
-            .withCode(ActionExecutionResult.StatusCode.SUCCESS)
-            .withFailed(false)
-            .build();
     }
 
     @Override
