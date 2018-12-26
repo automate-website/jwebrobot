@@ -1,11 +1,13 @@
 package website.automate.jwebrobot.executor.filter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
+import website.automate.jwebrobot.expression.SpelExpressionEvaluator;
 import website.automate.waml.io.model.main.action.FilterAction;
 import website.automate.waml.io.model.main.criteria.FilterCriteria;
 
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Service
 public class ElementsFilter {
@@ -23,13 +26,17 @@ public class ElementsFilter {
 
     private TextElementFilter textElementFilter;
 
+    private SpelExpressionEvaluator expressionEvaluator;
+
     @Autowired
     public ElementsFilter(SelectorElementFilter selectorElementFilter,
                           ValueElementFilter valueElementFilter,
-                          TextElementFilter textElementFilter){
+                          TextElementFilter textElementFilter,
+                          SpelExpressionEvaluator expressionEvaluator){
         this.selectorElementFilter = selectorElementFilter;
         this.valueElementFilter = valueElementFilter;
         this.textElementFilter = textElementFilter;
+        this.expressionEvaluator = expressionEvaluator;
     }
 
     public <T extends FilterAction> WebElement filter(ScenarioExecutionContext context, T action){
@@ -60,15 +67,19 @@ public class ElementsFilter {
         String element = filterCriteria.getElement();
 
         List<WebElement> elements;
-        if(element != null){
-            elements = singletonList(WebElement.class.cast(context.getTotalMemory().get(element)));
+        if(isNotBlank(element)){
+            elements = singletonList(getElementFromMemory(element, context));
         }
-        else if(parent != null){
-            elements = singletonList(WebElement.class.cast(context.getTotalMemory().get(parent)));
+        else if(isNotBlank(parent)){
+            elements = singletonList(getElementFromMemory(parent, context));
         } else {
             elements = singletonList(getDefaultFrameElement(context.getDriver()));
         }
         return getDisplayed(context, elements);
+    }
+
+    private WebElement getElementFromMemory(String reference, ScenarioExecutionContext context){
+        return expressionEvaluator.evaluate(reference, context.getTotalMemory(), WebElement.class);
     }
 
     private WebElement getFirstOrNull(List<WebElement> webElements){

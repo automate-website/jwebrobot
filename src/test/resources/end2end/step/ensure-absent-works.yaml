@@ -1,4 +1,5 @@
 - open: ${baseUrl}
 - ensure:
     selector: div.another-article
-  invert: true
+  register: result
+  failed_when: result.code == 'failure' and not result.message.contains('Timeout waiting for an element')

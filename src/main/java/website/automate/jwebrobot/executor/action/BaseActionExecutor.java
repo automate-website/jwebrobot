@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionResult;
-import website.automate.jwebrobot.executor.ActionResult.StatusCode;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.utils.SimpleNoNullValueStyle;
 import website.automate.waml.io.model.main.Scenario;
@@ -30,6 +29,7 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
                                 ScenarioExecutionContext context,
                                 ActionExecutorUtils utils) {
         ActionResult result = new ActionResult();
+        result.setRawAction(action);
 
         T evaluatedAction = null;
         try {
@@ -40,15 +40,13 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
 
                 execute(evaluatedAction, context, result, utils);
             } else {
+                result.setSkipped(true);
             }
         } catch (Exception e){
             translateException(result, e);
         } finally {
-            if(evaluatedAction != null) {
-                register(evaluatedAction, context, result);
-            } else {
-                register(action, context, result);
-            }
+            result.setEvaluatedAction(evaluatedAction);
+            register(context, result);
         }
 
         return result;
@@ -61,7 +59,9 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
         return utils.getConditionalExpressionEvaluator().isExecutable(conditionalAction, context);
     }
 
-    void register(T action, ScenarioExecutionContext context, ActionResult result) {
+    void register(ScenarioExecutionContext context, ActionResult result) {
+        Action action = result.getEvaluatedOrRawAction();
+
         String register = action.getRegister();
         if (isNotBlank(register)) {
             context.getMemory().put(register, result);
@@ -69,12 +69,12 @@ public abstract class BaseActionExecutor<T extends Action> implements ActionExec
     }
 
     void translateException(ActionResult result, Exception e){
-        result.setCode(StatusCode.ERROR);
+        result.setCode(ActionResult.ERROR);
         result.setMessage(e.getMessage());
         result.setError(e);
 
         if(e instanceof TimeoutException){
-            result.setCode(StatusCode.FAILURE);
+            result.setCode(ActionResult.FAILURE);
             result.setMessage(FAILURE_MESSAGE_ELEMENT_NOT_FOUND);
         }
     }

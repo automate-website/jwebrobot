@@ -14,7 +14,7 @@ import java.util.Map;
 import static java.util.Collections.singletonMap;
 
 @Service
-public class SpelTemplateExpressionEvaluator implements ExpressionEvaluator {
+public class SpelExpressionEvaluator implements ExpressionEvaluator {
 
     private ExpressionParser expressionParser;
 
@@ -23,9 +23,9 @@ public class SpelTemplateExpressionEvaluator implements ExpressionEvaluator {
     private Fairy mock;
 
     @Autowired
-    public SpelTemplateExpressionEvaluator(ExpressionParser expressionParser,
-                                           TemplateParserContext parserContext,
-                                           Fairy mock){
+    public SpelExpressionEvaluator(ExpressionParser expressionParser,
+                                   TemplateParserContext parserContext,
+                                   Fairy mock){
         this.expressionParser = expressionParser;
         this.parserContext = parserContext;
         this.mock = mock;
@@ -38,7 +38,12 @@ public class SpelTemplateExpressionEvaluator implements ExpressionEvaluator {
         context.put("_", singletonMap("mock", mock));
         
         try {
-            Expression expression = expressionParser.parseExpression(expressionStr, parserContext);
+            Expression expression;
+            if(resultClazz == String.class) {
+                expression = expressionParser.parseExpression(expressionStr, parserContext);
+            } else {
+                expression = expressionParser.parseExpression(expressionStr);
+            }
             StandardEvaluationContext evaluationContext = new StandardEvaluationContext(context);
             evaluationContext.addPropertyAccessor(new MapAccessor());
 

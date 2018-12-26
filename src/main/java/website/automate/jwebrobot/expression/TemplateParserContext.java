@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class TemplateParserContext implements ParserContext {
 
     public String getExpressionPrefix() {
-        return "#{";
+        return "${";
     }
 
     public String getExpressionSuffix() {

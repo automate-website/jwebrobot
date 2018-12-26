@@ -2,8 +2,8 @@
 - ensure:
     selector: '.secondary > a'
     text: 'Read info'
-  register: infoAnchor
+  register: result
 - click:
     selector: '.secondary > a'
-    text: ${ infoAnchor.getText() }
+    text: ${ result.value.getText() }
 - ensure: 'h1#Info'

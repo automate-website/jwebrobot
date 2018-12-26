@@ -4,17 +4,19 @@ import website.automate.waml.io.model.main.action.Action;
 
 public class ActionResult {
 
-    public enum StatusCode {
-        SUCCESS,
-        FAILURE,
-        ERROR
-    }
+    public static final String SUCCESS = "success";
 
-    private Action action;
+    public static final String FAILURE = "failure";
+
+    public static final String ERROR = "error";
+
+    private Action rawAction;
+
+    private Action evaluatedAction;
 
     private boolean failed;
 
-    private StatusCode code = StatusCode.SUCCESS;
+    private String code = SUCCESS;
 
     private String message;
 
@@ -28,7 +30,7 @@ public class ActionResult {
         return failed;
     }
 
-    public StatusCode getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -52,7 +54,7 @@ public class ActionResult {
         this.failed = failed;
     }
 
-    public void setCode(StatusCode code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -72,11 +74,27 @@ public class ActionResult {
         this.value = value;
     }
 
-    public Action getAction() {
-        return action;
+    public Action getRawAction() {
+        return rawAction;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
+    public void setRawAction(Action rawAction) {
+        this.rawAction = rawAction;
+    }
+
+    public Action getEvaluatedAction() {
+        return evaluatedAction;
+    }
+
+    public void setEvaluatedAction(Action evaluatedAction) {
+        this.evaluatedAction = evaluatedAction;
+    }
+
+    public Action getEvaluatedOrRawAction(){
+        Action action = getEvaluatedAction();
+        if(action == null){
+            action = getRawAction();
+        }
+        return action;
     }
 }

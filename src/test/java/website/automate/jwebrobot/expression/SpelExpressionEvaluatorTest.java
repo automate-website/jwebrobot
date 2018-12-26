@@ -11,9 +11,9 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
-public class SpelTemplateExpressionEvaluatorTest {
+public class SpelExpressionEvaluatorTest {
 
-    private SpelTemplateExpressionEvaluator evaluator = new SpelTemplateExpressionEvaluator(new SpelExpressionParser(), new TemplateParserContext(), Fairy.create());
+    private SpelExpressionEvaluator evaluator = new SpelExpressionEvaluator(new SpelExpressionParser(), new TemplateParserContext(), Fairy.create());
     
     @Test
     public void simpleExpressionIsEvaluated(){
