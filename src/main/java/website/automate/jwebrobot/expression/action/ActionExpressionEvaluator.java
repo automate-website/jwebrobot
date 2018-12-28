@@ -12,14 +12,21 @@ public abstract class ActionExpressionEvaluator<T extends Action> {
         this.expressionEvaluator = expressionEvaluator;
     }
     
-    abstract public void evaluate(T action, ScenarioExecutionContext context);
+    abstract public void evaluateTemplateAsString(T action, ScenarioExecutionContext context);
     
     abstract public Class<T> getSupportedType();
     
-    protected String evaluate(String value, ScenarioExecutionContext context){
+    protected String evaluateTemplateAsString(String value, ScenarioExecutionContext context){
         if(value == null){
             return null;
         }
-        return expressionEvaluator.evaluate(value, context.getTotalMemory(), String.class);
+        return expressionEvaluator.evaluate(value, context.getTotalMemory(), String.class, true);
+    }
+
+    protected Object evaluateTempateAsObject(String value, ScenarioExecutionContext context){
+        if(value == null) {
+            return null;
+        }
+        return expressionEvaluator.evaluate(value, context.getTotalMemory(), Object.class, true);
     }
 }

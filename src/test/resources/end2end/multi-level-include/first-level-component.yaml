@@ -1,4 +1,4 @@
-- include: ensure at landing page
+- include: second-level-component.yaml
 - click:
     selector: a
     text: Read information

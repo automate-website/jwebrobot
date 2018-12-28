@@ -12,8 +12,8 @@ public abstract class TimeLimitedActionExpressionEvaluator<T extends TimeLimited
     }
 
     @Override
-    public void evaluate(T action, ScenarioExecutionContext context) {
-        super.evaluate(action, context);
-        action.setTimeout(evaluate(action.getTimeout(), context));
+    public void evaluateTemplateAsString(T action, ScenarioExecutionContext context) {
+        super.evaluateTemplateAsString(action, context);
+        action.setTimeout(evaluateTemplateAsString(action.getTimeout(), context));
     }
 }

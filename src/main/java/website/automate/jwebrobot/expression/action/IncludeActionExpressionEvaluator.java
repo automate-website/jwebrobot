@@ -17,10 +17,10 @@ public class IncludeActionExpressionEvaluator extends ConditionalActionExpressio
     }
 
     @Override
-    public void evaluate(IncludeAction action, ScenarioExecutionContext context) {
-        super.evaluate(action, context);
+    public void evaluateTemplateAsString(IncludeAction action, ScenarioExecutionContext context) {
+        super.evaluateTemplateAsString(action, context);
         IncludeCriteria includeCriteria = action.getInclude();
-        includeCriteria.setScenario(evaluate(includeCriteria.getScenario(), context));
+        includeCriteria.setScenario(evaluateTemplateAsString(includeCriteria.getScenario(), context));
     }
 
     @Override

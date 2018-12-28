@@ -1,6 +1,7 @@
 - open: ${baseUrl}
+- ensure: div.second-article
+  register: result
 - click:
     selector: a
-    parent:
-      selector: div.second-article
+    parent: result.value
 - ensure: h1#Info

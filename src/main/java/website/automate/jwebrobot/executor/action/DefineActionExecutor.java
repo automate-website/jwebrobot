@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 @Service
-public class StoreActionExecutor extends BaseActionExecutor<DefineAction> {
+public class DefineActionExecutor extends BaseActionExecutor<DefineAction> {
 
     @Override
     public void execute(DefineAction action,

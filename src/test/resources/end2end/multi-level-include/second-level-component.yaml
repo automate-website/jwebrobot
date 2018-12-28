@@ -1,2 +1,2 @@
-- include: goto landing page
+- include: third-level-component.yaml
 - ensure: div.first-article

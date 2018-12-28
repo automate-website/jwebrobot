@@ -1,5 +1,6 @@
 package website.automate.jwebrobot.executor.action;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,12 +14,16 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.exceptions.AlertTextMismatchException;
 import website.automate.jwebrobot.exceptions.BooleanExpectedException;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
+import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.jwebrobot.executor.TimeoutResolver;
+import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
+import website.automate.jwebrobot.expression.action.AlertActionExpressionEvaluator;
 import website.automate.waml.io.model.main.action.AlertAction;
 import website.automate.waml.io.model.main.criteria.AlertCriteria;
 
 import static java.util.UUID.randomUUID;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -53,6 +58,12 @@ public class AlertActionExecutorTest {
     @Mock
     private TimeoutResolver timeoutResolver;
 
+    @Mock
+    private ConditionalExpressionEvaluator expressionEvaluator;
+
+    @Mock
+    private ActionEvaluator actionEvaluator;
+
     @Before
     public void setUpAlert() {
         when(context.getDriver()).thenReturn(driver);
@@ -60,8 +71,12 @@ public class AlertActionExecutorTest {
         when(context.getGlobalContext().getOptions().getTimeout()).thenReturn(10L);
         when(alert.getText()).thenReturn(VALUE_TEXT);
         when(utils.getTimeoutResolver()).thenReturn(timeoutResolver);
+        when(utils.getConditionalExpressionEvaluator()).thenReturn(expressionEvaluator);
+        when(expressionEvaluator.isExecutable(action, context)).thenReturn(true);
         when(timeoutResolver.resolve(action, context)).thenReturn(10L);
         when(action.getAlert()).thenReturn(alertCriteria);
+        when(utils.getActionEvaluator()).thenReturn(actionEvaluator);
+        when(actionEvaluator.evaluate(action, context)).thenReturn(action);
 
         when(alertCriteria.getConfirm()).thenReturn(VALUE_CONFIRM);
         when(alertCriteria.getText()).thenReturn(VALUE_TEXT);
@@ -93,18 +108,22 @@ public class AlertActionExecutorTest {
     }
 
 
-    @Test(expected = AlertTextMismatchException.class)
+    @Test
     public void shouldVerifyAlertText() {
         when(alertCriteria.getText()).thenReturn(randomUUID().toString());
 
-        alertActionExecutor.perform(action, context, utils);
+        ActionResult result = alertActionExecutor.perform(action, context, utils);
+
+        assertTrue(result.getError() instanceof AlertTextMismatchException);
     }
 
-    @Test(expected = BooleanExpectedException.class)
+    @Test
     public void shouldClaimAboutUnknownConfirmCriteria() {
         when(alertCriteria.getConfirm()).thenReturn(randomUUID().toString());
 
-        alertActionExecutor.perform(action, context, utils);
+        ActionResult result = alertActionExecutor.perform(action, context, utils);
+
+        assertTrue(result.getError() instanceof BooleanExpectedException);
     }
 
     @Test

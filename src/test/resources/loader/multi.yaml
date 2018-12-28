@@ -1,2 +1,2 @@
-- include: go-to.yaml
+- include: standalone.yaml
 - click: button[type=submitA]

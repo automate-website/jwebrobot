@@ -47,8 +47,7 @@ public class StepExecutor {
 
         ActionResult result = actionExecutor.perform(action, context, utils);
 
-        if(result.getCode() != ActionResult.SUCCESS
-            && failedWhen(result, context)){
+        if(failedWhen(result, context)){
             throw new RuntimeException("Step execution has failed.", result.getError());
         }
 
@@ -58,12 +57,12 @@ public class StepExecutor {
     private boolean failedWhen(ActionResult result, ScenarioExecutionContext context){
         Action action = result.getEvaluatedOrRawAction();
         if(action != null){
-            String failedWhenStr = action.getFailed_when();
+            String failedWhenStr = action.getFailedWhen();
             if(isNotBlank(failedWhenStr)){
-                return expressionEvaluator.evaluate(failedWhenStr, context.getTotalMemory(), Boolean.class);
+                return expressionEvaluator.evaluate(failedWhenStr, context.getTotalMemory(), Boolean.class, false);
             }
         }
-        return false;
+        return result.getCode() != ActionResult.SUCCESS;
     }
 
     private ActionExecutor<Action> getActionExecutor(Action action){

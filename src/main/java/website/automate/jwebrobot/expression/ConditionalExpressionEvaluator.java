@@ -19,9 +19,9 @@ public class ConditionalExpressionEvaluator {
         return isExecutable(action.getWhen(), action.getUnless(), context);
     }
 
-    private boolean isExecutable(String ifCriteriaValue, String unlessCriteriaValue, ScenarioExecutionContext context){
-        boolean executeIf = evaluate(ifCriteriaValue, context, true);
-        boolean executeUnless = evaluate(unlessCriteriaValue, context, false);
+    private boolean isExecutable(String when, String unless, ScenarioExecutionContext context){
+        boolean executeIf = evaluate(when, context, true);
+        boolean executeUnless = evaluate(unless, context, false);
 
         return executeIf && !executeUnless;
     }
@@ -30,6 +30,6 @@ public class ConditionalExpressionEvaluator {
         if(value == null){
             return defaultValue;
         }
-        return expressionEvaluator.evaluate(value, context.getTotalMemory(), Boolean.class);
+        return expressionEvaluator.evaluate(value, context.getTotalMemory(), Boolean.class, false);
     }
 }

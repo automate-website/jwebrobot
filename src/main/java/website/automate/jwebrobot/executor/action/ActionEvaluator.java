@@ -19,7 +19,7 @@ public class ActionEvaluator {
     
     public <T extends Action> T evaluate(T action, ScenarioExecutionContext context){
         ActionExpressionEvaluator<Action> actionExpressionEvaluator = actionExpressionEvaluatorProvider.getInstance(action.getClass());
-        actionExpressionEvaluator.evaluate(action, context);
+        actionExpressionEvaluator.evaluateTemplateAsString(action, context);
         return (T)action;
     }
 }

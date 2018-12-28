@@ -11,8 +11,8 @@ public abstract class ConditionalActionExpressionEvaluator<T extends Conditional
     }
     
     @Override
-    public void evaluate(T action, ScenarioExecutionContext context) {
-        action.setWhen(evaluate(action.getWhen(), context));
-        action.setUnless(evaluate(action.getUnless(), context));
+    public void evaluateTemplateAsString(T action, ScenarioExecutionContext context) {
+        action.setWhen(evaluateTemplateAsString(action.getWhen(), context));
+        action.setUnless(evaluateTemplateAsString(action.getUnless(), context));
     }
 }

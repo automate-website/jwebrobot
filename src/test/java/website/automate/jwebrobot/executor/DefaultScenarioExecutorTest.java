@@ -46,14 +46,6 @@ public class DefaultScenarioExecutorTest {
     }
     
     @Test
-    public void listenerNotInvokedForScenarioIfNotExecutable(){
-        scenarioExecutor.runScenario(scenario, context);
-        
-        verify(listener, never()).beforeScenario(context);
-        verify(listener, never()).afterScenario(context);
-    }
-    
-    @Test
     public void listenerIsInvokedBeforeScenarioIfExecutable(){
         scenarioExecutor.runScenario(scenario, context);
         

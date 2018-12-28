@@ -49,11 +49,11 @@ public class AlertActionExpressionEvaluatorTest {
         when(alertCriteria.getText()).thenReturn(VALUE_TEXT);
         when(alertCriteria.getInput()).thenReturn(VALUE_INPUT);
 
-        when(expressionEvaluator.evaluate(VALUE_CONFIRM, context.getTotalMemory(), String.class)).thenReturn(VALUE_CONFIRM_PROCESSED);
-        when(expressionEvaluator.evaluate(VALUE_TEXT, context.getTotalMemory(), String.class)).thenReturn(VALUE_TEXT_PROCESSED);
-        when(expressionEvaluator.evaluate(VALUE_INPUT, context.getTotalMemory(),  String.class)).thenReturn(VALUE_INPUT_PROCESSED);
+        when(expressionEvaluator.evaluate(VALUE_CONFIRM, context.getTotalMemory(), String.class, true)).thenReturn(VALUE_CONFIRM_PROCESSED);
+        when(expressionEvaluator.evaluate(VALUE_TEXT, context.getTotalMemory(), String.class, true)).thenReturn(VALUE_TEXT_PROCESSED);
+        when(expressionEvaluator.evaluate(VALUE_INPUT, context.getTotalMemory(),  String.class, true)).thenReturn(VALUE_INPUT_PROCESSED);
 
-        actionExpressionEvaluator.evaluate(action, context);
+        actionExpressionEvaluator.evaluateTemplateAsString(action, context);
 
         verify(alertCriteria).setConfirm(VALUE_CONFIRM_PROCESSED);
         verify(alertCriteria).setText(VALUE_TEXT_PROCESSED);

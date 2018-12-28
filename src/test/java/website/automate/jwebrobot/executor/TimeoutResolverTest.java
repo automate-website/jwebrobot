@@ -17,8 +17,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class TimeoutResolverTest {
 
-    private static final String SCENARIO_TIMEOUT = "3";
-
     private static final Long GLOBAL_TIMEOUT = 1L;
 
     private static final String ACTION_TIMEOUT = "2";
@@ -33,16 +31,12 @@ public class TimeoutResolverTest {
     private GlobalExecutionContext globalContext;
 
     @Mock
-    private Scenario scenario;
-
-    @Mock
     private ExecutorOptions options;
 
     private TimeoutResolver resolver = new TimeoutResolver();
 
     @Before
     public void init(){
-        when(context.getScenario()).thenReturn(scenario);
         when(context.getGlobalContext()).thenReturn(globalContext);
         when(globalContext.getOptions()).thenReturn(options);
     }
@@ -64,15 +58,6 @@ public class TimeoutResolverTest {
         Long actualTimeout = resolver.resolve(action, context);
 
         assertThat(actualTimeout, is(Long.parseLong(ACTION_TIMEOUT)));
-    }
-
-    @Test
-    public void scenarioTimeoutChoosenIfActionTimeoutIsNotSet(){
-        when(options.getTimeout()).thenReturn(null);
-
-        Long actualTimeout = resolver.resolve(action, context);
-
-        assertThat(actualTimeout, is(Long.parseLong(SCENARIO_TIMEOUT)));
     }
 
     @Test
