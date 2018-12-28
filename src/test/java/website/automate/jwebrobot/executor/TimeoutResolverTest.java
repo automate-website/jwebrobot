@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.waml.io.model.main.Scenario;
 import website.automate.waml.io.model.main.action.TimeLimitedAction;
 
 import static org.hamcrest.core.Is.is;

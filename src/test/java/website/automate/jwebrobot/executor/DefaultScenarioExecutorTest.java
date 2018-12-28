@@ -6,15 +6,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
-import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.executor.action.ActionEvaluator;
+import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.executor.action.StepExecutor;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
 import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.main.Scenario;
 
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)

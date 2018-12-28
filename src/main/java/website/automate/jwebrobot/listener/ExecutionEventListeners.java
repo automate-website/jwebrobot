@@ -6,7 +6,6 @@ import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.waml.io.model.main.action.Action;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Service

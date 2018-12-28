@@ -1,6 +1,5 @@
 package website.automate.jwebrobot.executor.action;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +16,6 @@ import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.jwebrobot.executor.TimeoutResolver;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
-import website.automate.jwebrobot.expression.action.AlertActionExpressionEvaluator;
 import website.automate.waml.io.model.main.action.AlertAction;
 import website.automate.waml.io.model.main.criteria.AlertCriteria;
 
