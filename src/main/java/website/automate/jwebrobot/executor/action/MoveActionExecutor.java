@@ -20,7 +20,7 @@ public class MoveActionExecutor extends BaseActionExecutor<MoveAction> {
                         ActionExecutorUtils utils) {
         final WebDriver driver = context.getDriver();
 
-        final WebElement element = (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context)))
+        final WebElement element = (utils.getWebdriverWaitProvider().getInstance(driver, utils.getTimeoutResolver().resolve(action, context)))
             .until(d -> utils.getElementsFilter().filter(context, action));
 
         Actions actions = new Actions(driver);

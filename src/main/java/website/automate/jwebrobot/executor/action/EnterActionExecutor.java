@@ -23,7 +23,7 @@ public class EnterActionExecutor extends BaseActionExecutor<EnterAction> {
         boolean hasFilterCriteria = action.getFilter().hasFilterCriteria();
 
         if (hasFilterCriteria) {
-            element = (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context)))
+            element = (utils.getWebdriverWaitProvider().getInstance(driver, utils.getTimeoutResolver().resolve(action, context)))
                 .until(d -> utils.getElementsFilter().filter(context, action));
         } else {
             element = driver.switchTo().activeElement();

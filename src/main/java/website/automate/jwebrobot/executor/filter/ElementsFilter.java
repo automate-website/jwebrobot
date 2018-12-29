@@ -1,6 +1,7 @@
 package website.automate.jwebrobot.executor.filter;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +111,10 @@ public class ElementsFilter {
     }
 
     private WebElement getDefaultFrameElement(WebDriver driver){
-        return driver.findElement(By.tagName("html"));
+        try {
+            return driver.findElement(By.tagName("html"));
+        } catch (StaleElementReferenceException e){
+            return getDefaultFrameElement(driver);
+        }
     }
 }

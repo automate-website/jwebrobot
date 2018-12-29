@@ -23,7 +23,7 @@ public class SelectActionExecutor extends BaseActionExecutor<SelectAction> {
                         ActionExecutorUtils utils) {
         final WebDriver driver = context.getDriver();
 
-        WebElement element = (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context)))
+        WebElement element = (utils.getWebdriverWaitProvider().getInstance(driver, utils.getTimeoutResolver().resolve(action, context)))
             .until(d -> utils.getElementsFilter().filter(context, action));
 
         Actions actions = new Actions(driver);

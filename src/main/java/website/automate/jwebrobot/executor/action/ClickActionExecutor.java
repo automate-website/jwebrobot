@@ -21,7 +21,7 @@ public class ClickActionExecutor extends BaseActionExecutor<ClickAction> {
         WebDriver driver = context.getDriver();
 
         WebElement element =  (
-            new WebDriverWait(
+            utils.getWebdriverWaitProvider().getInstance(
                 driver,
                 utils.getTimeoutResolver().resolve(action, context)
             )

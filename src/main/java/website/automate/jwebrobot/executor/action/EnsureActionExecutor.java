@@ -19,7 +19,7 @@ public class EnsureActionExecutor extends BaseActionExecutor<EnsureAction> {
                         ActionExecutorUtils utils) {
         final WebDriver driver = context.getDriver();
 
-        (new WebDriverWait(driver, utils.getTimeoutResolver().resolve(action, context))).until(d -> {
+        (utils.getWebdriverWaitProvider().getInstance(driver, utils.getTimeoutResolver().resolve(action, context))).until(d -> {
                 WebElement webElement = utils.getElementsFilter().filter(context, action);
                 if(webElement == null){
                     return false;
