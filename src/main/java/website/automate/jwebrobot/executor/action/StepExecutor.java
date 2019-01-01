@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
+import website.automate.jwebrobot.executor.decorators.WithItemsExecutor;
 import website.automate.jwebrobot.expression.SpelExpressionEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.waml.io.model.main.action.Action;
@@ -26,18 +27,30 @@ public class StepExecutor {
 
     private SpelExpressionEvaluator expressionEvaluator;
 
+    private WithItemsExecutor withItemsExecutor;
+
     @Autowired
     public StepExecutor(ExecutionEventListeners listener,
                         ActionExecutorFactory actionExecutorFactory,
                         ActionExecutorUtils utils,
-                        SpelExpressionEvaluator expressionEvaluator) {
+                        SpelExpressionEvaluator expressionEvaluator,
+                        WithItemsExecutor withItemsExecutor) {
         this.listener = listener;
         this.actionExecutorFactory = actionExecutorFactory;
         this.utils = utils;
         this.expressionEvaluator = expressionEvaluator;
+        this.withItemsExecutor = withItemsExecutor;
+    }
+
+    public void execute(Action action, ScenarioExecutionContext context){
+        if(withItemsExecutor.isApply(action)){
+            withItemsExecutor.execute(action, context);
+        } else {
+            perform(action, context);
+        }
     }
     
-    public void execute(Action action, ScenarioExecutionContext context){
+    private void perform(Action action, ScenarioExecutionContext context){
         ActionExecutor<Action> actionExecutor = getActionExecutor(action);
 
         listener.beforeAction(context, action);
