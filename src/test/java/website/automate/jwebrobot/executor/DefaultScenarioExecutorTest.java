@@ -10,7 +10,6 @@ import website.automate.jwebrobot.executor.action.ActionEvaluator;
 import website.automate.jwebrobot.executor.action.ActionExecutorFactory;
 import website.automate.jwebrobot.executor.action.StepExecutor;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
-import website.automate.jwebrobot.mapper.action.AbstractActionMapper;
 import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.main.Scenario;
 
@@ -27,7 +26,6 @@ public class DefaultScenarioExecutorTest {
 
     @Mock private Scenario scenario;
     @Mock private ScenarioExecutionContext context;
-    @Mock private AbstractActionMapper abstractActionMapper;
     @Mock private ScenarioPatternFilter scenarioPatternFilter;
     @Mock private ActionExecutorUtils actionExecutorUtils;
     @Mock private StepExecutor stepExecutor;
