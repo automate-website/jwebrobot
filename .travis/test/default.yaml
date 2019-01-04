@@ -1,0 +1,9 @@
+- open: ${baseUrl}
+- ensure:
+    selector: div.second-article
+    text: You can read further
+  register: result
+- click:
+    selector: a
+    parent: result.value
+- ensure: h1#Info

@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  jwebrobot:
+    image: automatewebsite/jwebrobot:standalone-${BROWSER}
+    build:
+      args:
+        BROWSER_TYPE: ${BROWSER_TYPE}
+        BROWSER: ${BROWSER}
+      context: ../
+      dockerfile: ./Dockerfile.standalone
+    depends_on:
+    - testpage
+    links:
+    - testpage
+    volumes:
+    - ./test:/tmp/waml/test
+    entrypoint: /usr/bin/jwebrobot
+    command: "-context baseUrl=http://testpage"
+  testpage:
+    image: automatewebsite/testpage:1.0.0
+    ports:
+    - "80:80"

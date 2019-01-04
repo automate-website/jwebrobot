@@ -1,0 +1,39 @@
+ARG BROWSER_TYPE
+
+FROM selenium/node-$BROWSER_TYPE:latest
+
+MAINTAINER automate.website <hello@automate.website>
+
+ARG BROWSER
+
+ENV GEOMETRY 1366x768x16
+ENV SCENARIO_DIR /tmp/waml/test
+ENV REPORT_DIR /tmp/waml/report
+ENV BROWSER $BROWSER
+ENV TAKE_SCREENSHOTS ON_EVERY_STEP
+ENV TIMEOUT 5
+ENV JWEBROBOT_ARGS "-scenarioPath $SCENARIO_DIR -reportPath $REPORT_DIR/report.yaml -browser $BROWSER -timeout $TIMEOUT -takeScreenshots $TAKE_SCREENSHOTS -screenshotPath $REPORT_DIR/"
+ENV JAVA_OPTS ""
+
+USER root
+
+RUN apt-get update -qqy && \
+    apt-get -qqy install zip curl wget && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY .docker.standalone/ /
+COPY target/jwebrobot-*.jar /opt/jwebrobot/
+
+RUN chown -R seluser:seluser /opt/jwebrobot && \
+    mkdir -p $SCENARIO_DIR && \
+    mkdir -p $REPORT_DIR && \
+    chown -R seluser:seluser $SCENARIO_DIR && \
+    chown -R seluser:seluser $REPORT_DIR
+
+RUN export JWEBROBOT_REAL_PATH=$(ls -1 /opt/jwebrobot/*.jar | grep -E '/opt/jwebrobot/jwebrobot-[0-9]+\.[0-9]+\.[0-9]+?(-SNAPSHOT)\.jar$') \
+    && ln -s $JWEBROBOT_REAL_PATH /opt/jwebrobot/app.jar \
+    && ln -s /opt/jwebrobot/app.sh /usr/bin/jwebrobot
+
+USER seluser
+
+ENTRYPOINT /usr/bin/jwebrobot
