@@ -14,6 +14,7 @@ before_script:
 script:
   - mvn clean verify $MAVEN_CLI_OPTS
   - docker-compose -f .travis/docker-compose.image-it.yml run jwebrobot
+  - docker build -t automatewebsite/jwebrobot:standalone-chrome -f Dockerfile.standalone.chrome
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
