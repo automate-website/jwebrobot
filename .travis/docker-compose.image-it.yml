@@ -10,9 +10,9 @@ services:
     links:
     - firefox
     volumes:
-    - ./.docker-compose.image-it/test:/test
+    - ./test:/test
     environment:
-    - 'JWEBROBOT_ARGS=-scenarioPath /test -browserDriverUrl "http://firefox:4444/wd/hub" -context "baseUrl=http://testpage"'
+    - 'JWEBROBOT_ARGS=-reportPath /tmp/report.yml -scenarioPath /test -browserDriverUrl "http://firefox:4444/wd/hub" -context "baseUrl=http://testpage"'
     entrypoint: /usr/bin/jwebrobot
   firefox:
     image: selenium/standalone-firefox-debug:3.14.0-helium
