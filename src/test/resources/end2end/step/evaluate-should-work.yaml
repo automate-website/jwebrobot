@@ -1,0 +1,8 @@
+- open: '${baseUrl}'
+
+- execute: |
+    document.body.innerHTML = '<h1>foo</h1>';
+
+- ensure:
+    selector: 'h1'
+    text: 'foo'
