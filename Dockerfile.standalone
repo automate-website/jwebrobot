@@ -1,6 +1,6 @@
 ARG BROWSER_TYPE
 
-FROM selenium/node-$BROWSER_TYPE:latest
+FROM selenium/node-$BROWSER_TYPE:3.14.0-helium
 
 MAINTAINER automate.website <hello@automate.website>
 

@@ -8,15 +8,8 @@ cache:
 services:
   - docker
 
-before_script:
-  - docker-compose -f .travis/docker-compose.package-it.yml up -d
-
 script:
-  - mvn clean verify $MAVEN_CLI_OPTS
-  - docker-compose -f .travis/docker-compose.image-it.yml run jwebrobot
-  - docker-compose -f .travis/docker-compose.standalone-image-it.yml run -e BROWSER=chrome -e BROWSER_TYPE=chrome-headless jwebrobot
-  - docker-compose -f .travis/docker-compose.standalone-image-it.yml run -e BROWSER=chrome -e BROWSER_TYPE=chrome jwebrobot
-  - docker-compose -f .travis/docker-compose.standalone-image-it.yml run -e BROWSER=firefox -e BROWSER_TYPE=firefox jwebrobot
+  - .travis/build-and-run-itegration-tests.sh
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

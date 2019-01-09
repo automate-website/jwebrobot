@@ -1,11 +1,43 @@
 version: '3.3'
 services:
-  jwebrobot:
-    image: automatewebsite/jwebrobot:standalone-${BROWSER}
+  jwebrobot-standalone-chrome:
+    image: automatewebsite/jwebrobot:standalone-chrome
     build:
       args:
-        BROWSER_TYPE: ${BROWSER_TYPE}
-        BROWSER: ${BROWSER}
+        BROWSER_TYPE: chrome
+        BROWSER: chrome
+      context: ../
+      dockerfile: ./Dockerfile.standalone
+    depends_on:
+    - testpage
+    links:
+    - testpage
+    volumes:
+    - ./test:/tmp/waml/test
+    entrypoint: /usr/bin/jwebrobot
+    command: "-context baseUrl=http://testpage"
+  jwebrobot-standalone-chrome-headless:
+    image: automatewebsite/jwebrobot:standalone-chrome-headless
+    build:
+      args:
+        BROWSER_TYPE: chrome
+        BROWSER: chrome-headless
+      context: ../
+      dockerfile: ./Dockerfile.standalone
+    depends_on:
+    - testpage
+    links:
+    - testpage
+    volumes:
+    - ./test:/tmp/waml/test
+    entrypoint: /usr/bin/jwebrobot
+    command: "-context baseUrl=http://testpage"
+  jwebrobot-standalone-firefox:
+    image: automatewebsite/jwebrobot:standalone-firefox
+    build:
+      args:
+        BROWSER_TYPE: firefox
+        BROWSER: firefox
       context: ../
       dockerfile: ./Dockerfile.standalone
     depends_on:
