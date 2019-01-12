@@ -13,9 +13,8 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  - .travis/prepare-gpg.sh
-  - .travis/deploy.sh
-  - .travis/deploy-image.sh
+  - .travis/deploy-artifacts.sh
+  - .travis/deploy-images.sh
 
 env:
   global:
