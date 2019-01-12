@@ -21,7 +21,7 @@ RUN apt-get update -qqy && \
     apt-get -qqy install zip curl wget && \
     rm -rf /var/lib/apt/lists/*
 
-COPY .docker.standalone/ /
+COPY Docker.standalone/ /
 COPY target/jwebrobot-*.jar /opt/jwebrobot/
 
 RUN chown -R seluser:seluser /opt/jwebrobot && \
