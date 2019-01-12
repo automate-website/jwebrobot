@@ -1,10 +1,12 @@
 package website.automate.jwebrobot.end2end;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.asList;
@@ -21,39 +23,39 @@ public class ParametersBuilder {
 
     private Map<String, String> context = new HashMap<>();
 
-    public ParametersBuilder(String basePath){
+    public ParametersBuilder(String basePath) {
         super();
         this.basePath = basePath;
     }
 
-    public ParametersBuilder withArguments(List<String> arguments){
+    public ParametersBuilder withArguments(List<String> arguments) {
         validateArguments(arguments);
         this.arguments = arguments;
         return this;
     }
 
-    public ParametersBuilder withError(Class<? extends Throwable> error){
+    public ParametersBuilder withError(Class<? extends Throwable> error) {
         this.error = error;
         return this;
     }
 
-    public ParametersBuilder withScanBaseDirForDependencies(boolean scanBaseDirForDependencies){
+    public ParametersBuilder withScanBaseDirForDependencies(boolean scanBaseDirForDependencies) {
         this.scanBaseDirForDependencies = scanBaseDirForDependencies;
         return this;
     }
 
-    public ParametersBuilder withContextEntry(String key, String value){
+    public ParametersBuilder withContextEntry(String key, String value) {
         context.put(key, value);
         return this;
     }
 
-    private void validateArguments(List<String> arguments){
-        if(arguments.contains("-context")){
+    private void validateArguments(List<String> arguments) {
+        if (arguments.contains("-context")) {
             throw new IllegalArgumentException("Argument -context can not be specified here! Use withContextEntry instead.");
         }
     }
 
-    public ParametersBuilder withContextBaseUrl(String baseUrl){
+    public ParametersBuilder withContextBaseUrl(String baseUrl) {
         return withContextEntry("baseUrl", baseUrl);
     }
 
@@ -61,11 +63,11 @@ public class ParametersBuilder {
         Collection<File> scenarioFiles = getSamples(basePath);
         Collection<Object[]> parameters = new ArrayList<>();
 
-        for(File scenarioFile : scenarioFiles){
+        for (File scenarioFile : scenarioFiles) {
             String testName = getTestName(scenarioFile);
             List<String> arguments;
 
-            if(scanBaseDirForDependencies){
+            if (scanBaseDirForDependencies) {
                 File scenarioBaseDir = scenarioFile.getParentFile();
                 arguments = generateArguments(scenarioBaseDir);
             } else {
@@ -80,15 +82,15 @@ public class ParametersBuilder {
         return parameters;
     }
 
-    private String getTestName(File scenarioFile){
+    private String getTestName(File scenarioFile) {
         return scenarioFile.getName();
     }
 
-    private Object[] asObjects(Object ... objects){
+    private Object[] asObjects(Object... objects) {
         return objects;
     }
 
-    private List<String> generateArguments(File scenarioFile){
+    private List<String> generateArguments(File scenarioFile) {
         String webDriverUrl = "http://localhost:44441/wd/hub";
 
         List<String> allArguments = new ArrayList<>(asList("-scenarioPath",
@@ -102,14 +104,14 @@ public class ParametersBuilder {
         return allArguments;
     }
 
-    private List<String> getContextArguments(Map<String, String> context){
-        if(context.isEmpty()){
+    private List<String> getContextArguments(Map<String, String> context) {
+        if (context.isEmpty()) {
             return Collections.emptyList();
         }
 
         List<String> contextArguments = new ArrayList<>();
 
-        for(Map.Entry<String, String> contextEntry : context.entrySet()){
+        for (Map.Entry<String, String> contextEntry : context.entrySet()) {
             contextArguments.add("-context");
             contextArguments.add(contextEntry.getKey() + "=" + contextEntry.getValue());
         }
@@ -118,17 +120,31 @@ public class ParametersBuilder {
     }
 
     private Collection<File> getSamples(String baseClassPath) {
+        if (baseClassPath.contains("*")) {
+            final String classPath = ParametersBuilder.class.getResource("/").getFile();
+            File root = new File(classPath);
+
+            String wildcardMatcher = getNormalizedPath(root) + "/" + baseClassPath;
+            Collection<File> files = FileUtils.listFiles(root, null, true);
+            return files.stream()
+                .filter(f -> FilenameUtils.wildcardMatch(getNormalizedPath(f), wildcardMatcher))
+                .collect(Collectors.toList());
+        }
+
         File baseFile = getBaseFile(baseClassPath);
 
-        if(baseFile.isDirectory()){
+        if (baseFile.isDirectory()) {
             return FileUtils.listFiles(
-                getBaseFile(
-                    baseClassPath),
-                    new String[] {"yaml", "yml"},
+                getBaseFile(baseClassPath),
+                new String[]{"yaml", "yml"},
                 false);
         }
 
         return asList(baseFile);
+    }
+
+    private String getNormalizedPath(File file) {
+        return file.getAbsolutePath().replace("\\", "/");
     }
 
     private File getBaseFile(String baseClassPath) {
@@ -137,7 +153,7 @@ public class ParametersBuilder {
 
     private String getAbsoluteScenariosPath(String baseClassPath) {
         URL resource = ParametersBuilder.class.getClassLoader().getResource(baseClassPath);
-        if(resource == null){
+        if (resource == null) {
             throw new IllegalArgumentException(format("Resource not found at path {0}!", baseClassPath));
         }
         return resource.getPath();

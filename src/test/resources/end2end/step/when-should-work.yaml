@@ -1,0 +1,9 @@
+- open: '${baseUrl}'
+
+- click:
+    selector: 'a[title="About"]'
+  when: false
+
+- ensure:
+    selector: 'h1'
+    text: 'Welcome!'
