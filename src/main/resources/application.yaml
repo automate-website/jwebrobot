@@ -1,6 +1,7 @@
 spring:
   main:
     banner-mode: 'OFF'
+    web-environment: false
 
 logging:
   pattern:
