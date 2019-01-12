@@ -1,0 +1,21 @@
+- open: '${baseUrl}'
+
+- define:
+    TAG: 'h1'
+    HEADER: 'foo'
+
+- execute:
+    async: true
+    script: |
+      var context = arguments[0];
+      var callback = arguments[1];
+      window.setTimeout(function () {
+        document.body.innerHTML = `<h1>${context.HEADER}</h1>`;
+        callback(`${context.TAG}`);
+      }, 500);
+  register: response
+
+- ensure:
+    selector: '${response.value}'
+    text: 'foo'
+  timeout: 1

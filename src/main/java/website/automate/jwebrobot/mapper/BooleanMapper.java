@@ -1,5 +1,6 @@
 package website.automate.jwebrobot.mapper;
 
+import org.apache.commons.lang3.StringUtils;
 import website.automate.jwebrobot.exceptions.BooleanExpectedException;
 
 public class BooleanMapper {
@@ -14,5 +15,12 @@ public class BooleanMapper {
         }
 
         throw new BooleanExpectedException(rawValue);
+    }
+
+    public static boolean isTruthy(String rawValue) {
+        final String normalizedValue = StringUtils.trimToEmpty(rawValue).toUpperCase();
+        return "TRUE".equals(normalizedValue) ||
+            "YES".equals(normalizedValue) ||
+            "1".equals(normalizedValue);
     }
 }
