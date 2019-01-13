@@ -7,6 +7,7 @@ import website.automate.jwebrobot.executor.action.ActionEvaluator;
 import website.automate.jwebrobot.executor.filter.ElementsFilter;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
+import website.automate.jwebrobot.expression.ObjectEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 
 @Service
@@ -28,6 +29,8 @@ public class ActionExecutorUtils {
 
     private final WebDriverWaitProvider webdriverWaitProvider;
 
+    private final ObjectEvaluator objectEvaluator;
+
     @Autowired
     public ActionExecutorUtils(TimeoutResolver timeoutResolver,
                                ExpressionEvaluator expressionEvaluator,
@@ -36,7 +39,8 @@ public class ActionExecutorUtils {
                                ElementsFilter elementsFilter,
                                @Lazy ScenarioExecutor scenarioExecutor,
                                ActionEvaluator actionEvaluator,
-                               WebDriverWaitProvider webdriverWaitProvider){
+                               WebDriverWaitProvider webdriverWaitProvider,
+                               ObjectEvaluator objectEvaluator){
         this.timeoutResolver = timeoutResolver;
         this.expressionEvaluator = expressionEvaluator;
         this.listener = listener;
@@ -45,6 +49,7 @@ public class ActionExecutorUtils {
         this.scenarioExecutor = scenarioExecutor;
         this.actionEvaluator = actionEvaluator;
         this.webdriverWaitProvider = webdriverWaitProvider;
+        this.objectEvaluator = objectEvaluator;
     }
 
     public TimeoutResolver getTimeoutResolver() {
@@ -77,5 +82,9 @@ public class ActionExecutorUtils {
 
     public WebDriverWaitProvider getWebdriverWaitProvider() {
         return webdriverWaitProvider;
+    }
+
+    public ObjectEvaluator getObjectEvaluator() {
+        return objectEvaluator;
     }
 }
