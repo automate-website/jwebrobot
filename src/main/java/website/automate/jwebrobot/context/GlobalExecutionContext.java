@@ -5,11 +5,14 @@ import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.waml.io.model.main.Scenario;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.*;
 
 import static java.util.Collections.unmodifiableMap;
 
 public class GlobalExecutionContext {
+
+    private File tempDir = createTempDir();
 
     private Map<String, Scenario> nameScenarioMap = new HashMap<>();
 
@@ -39,6 +42,14 @@ public class GlobalExecutionContext {
         this.nameScenarioMap.put(scenario.getName(), scenario);
         this.scenarios.add(scenario);
     }
+
+    private File createTempDir(){
+        try {
+            return Files.createTempDirectory("jwebrobot").toFile();
+        } catch (Exception e){
+            throw new RuntimeException("Can not create temp directory.", e);
+        }
+    }
     
     public Scenario getScenario(String name){
         return nameScenarioMap.get(name);
@@ -58,5 +69,9 @@ public class GlobalExecutionContext {
     
     public Map<String, Object> getMemory() {
         return memory;
+    }
+
+    public File getTempDir() {
+        return tempDir;
     }
 }

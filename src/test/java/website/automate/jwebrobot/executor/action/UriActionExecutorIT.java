@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
@@ -36,10 +38,16 @@ import static org.mockito.Mockito.when;
 public class UriActionExecutorIT {
 
     @ClassRule
+    public static TemporaryFolder TEMP_DIR = new TemporaryFolder();
+
+    @ClassRule
     public static final WireMockRule SERVER = new WireMockRule(8888);
 
     @MockBean
     private ScenarioExecutionContext context;
+
+    @MockBean
+    private GlobalExecutionContext globalContext;
 
     @Autowired
     private ActionExecutorUtils utils;
@@ -52,6 +60,8 @@ public class UriActionExecutorIT {
     @Before
     public void init(){
         when(context.getTotalMemory()).thenReturn(singletonMap("foo", "bar"));
+        when(context.getGlobalContext()).thenReturn(globalContext);
+        when(globalContext.getTempDir()).thenReturn(TEMP_DIR.getRoot());
     }
 
     @Test
@@ -120,15 +130,18 @@ public class UriActionExecutorIT {
 
     @Test
     public void fileGetOk() throws Exception {
+        String filePath = TEMP_DIR.newFile().getAbsolutePath();
         SERVER.stubFor(
             get(urlEqualTo("/file/get/ok"))
                 .willReturn(aResponse()
                     .withBodyFile("action/uri/get.pdf")
                     .withHeader("Content-Type", "application/octet-stream")
+                    .withHeader("Content-Disposition", "attachment; filename=\"get.pdf\"")
                 )
         );
         UriAction action = new UriActionBuilder()
             .withUrl("http://localhost:8888/file/get/ok")
+            .withDest(filePath)
             .build();
 
         ActionResult result = new ActionResult();
@@ -136,8 +149,7 @@ public class UriActionExecutorIT {
         executor.execute(action, context, result, utils);
 
         ResponseEntity<?> object = ResponseEntity.class.cast(result.getValue());
-        assertThat(object.getBody(), is(readFile("__files/action/uri/get.pdf")));
-
+        assertThat(object.getBody(), is(filePath));
     }
 
     @Test
@@ -147,13 +159,19 @@ public class UriActionExecutorIT {
 
         SERVER.stubFor(
             post(urlEqualTo("/file/post/ok"))
-                .withMultipartRequestBody(
+               .withMultipartRequestBody(
                     aMultipart()
+/**
+ * Wiremock does not parse the multi part request properly yet:
+ * https://github.com/tomakehurst/wiremock/issues/920
+
+                   Wiremock Bug doesn't parse a multi part request properly yet
                         .withName("file")
-                       // .withHeader("Content-Type", containing("application/octet-stream"))
-                        .withBody(binaryEqualTo(fileContent))
-                )
-                .willReturn(aResponse()
+                        .withHeader("Content-Type", containing("application/pdf"))
+                       .withBody(binaryEqualTo(fileContent))
+ */
+               ).willReturn(
+                   aResponse()
                     .withStatus(200)
                 )
         );
@@ -195,6 +213,8 @@ public class UriActionExecutorIT {
 
         private String src;
 
+        private String dest;
+
         private Map<String, String> headers = new HashMap<>();
 
         UriActionBuilder withUrl(String url){
@@ -222,6 +242,11 @@ public class UriActionExecutorIT {
             return this;
         }
 
+        UriActionBuilder withDest(String dest){
+            this.dest = dest;
+            return this;
+        }
+
 
         UriActionBuilder withSrc(String src){
             this.src = src;
@@ -239,6 +264,7 @@ public class UriActionExecutorIT {
             criteria.setMethod(method);
             criteria.setBodyFormat(bodyFormat);
             criteria.setSrc(src);
+            criteria.setDest(dest);
 
             return action;
         }
