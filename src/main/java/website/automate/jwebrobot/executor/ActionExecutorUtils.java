@@ -7,6 +7,7 @@ import website.automate.jwebrobot.executor.action.ActionEvaluator;
 import website.automate.jwebrobot.executor.filter.ElementsFilter;
 import website.automate.jwebrobot.expression.ConditionalExpressionEvaluator;
 import website.automate.jwebrobot.expression.ExpressionEvaluator;
+import website.automate.jwebrobot.expression.ObjectEvaluator;
 import website.automate.jwebrobot.listener.ExecutionEventListeners;
 
 @Service
@@ -78,4 +79,5 @@ public class ActionExecutorUtils {
     public WebDriverWaitProvider getWebdriverWaitProvider() {
         return webdriverWaitProvider;
     }
+
 }

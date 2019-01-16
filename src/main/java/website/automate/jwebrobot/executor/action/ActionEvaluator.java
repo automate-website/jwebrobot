@@ -23,7 +23,7 @@ public class ActionEvaluator {
         if (actionExpressionEvaluator == null) {
             throw new UnknownActionException(action.toString());
         }
-        actionExpressionEvaluator.evaluateTemplateAsString(action, context);
+        actionExpressionEvaluator.evaluate(action, context);
         return (T)action;
     }
 }

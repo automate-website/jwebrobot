@@ -14,10 +14,10 @@ public class ExecuteActionExpressionEvaluator extends ConditionalActionExpressio
     }
 
     @Override
-    public void evaluateTemplateAsString(ExecuteAction action, ScenarioExecutionContext context) {
-        super.evaluateTemplateAsString(action, context);
+    public void evaluate(ExecuteAction action, ScenarioExecutionContext context) {
+        super.evaluate(action, context);
         ExecuteCriteria executeCriteria = action.getExecute();
-        executeCriteria.setAsync(evaluateTemplateAsString(executeCriteria.getAsync(), context));
+        executeCriteria.setAsync(evaluateAsString(executeCriteria.getAsync(), context));
     }
 
     @Override

@@ -17,11 +17,11 @@ public class EnterActionExpressionEvaluator extends FilterActionExpressionEvalua
     }
 
     @Override
-    public void evaluateTemplateAsString(EnterAction action, ScenarioExecutionContext context) {
-        super.evaluateTemplateAsString(action, context);
+    public void evaluate(EnterAction action, ScenarioExecutionContext context) {
+        super.evaluate(action, context);
 
         EnterCriteria enterCriteria = action.getFilter();
-        enterCriteria.setInput(evaluateTemplateAsString(enterCriteria.getInput(), context));
+        enterCriteria.setInput(evaluateAsString(enterCriteria.getInput(), context));
     }
 
     @Override

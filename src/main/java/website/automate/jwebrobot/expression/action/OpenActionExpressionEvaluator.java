@@ -17,10 +17,10 @@ public class OpenActionExpressionEvaluator extends ConditionalActionExpressionEv
     }
 
     @Override
-    public void evaluateTemplateAsString(OpenAction action, ScenarioExecutionContext context) {
-        super.evaluateTemplateAsString(action, context);
+    public void evaluate(OpenAction action, ScenarioExecutionContext context) {
+        super.evaluate(action, context);
         OpenCriteria openCriteria = action.getOpen();
-        openCriteria.setUrl(evaluateTemplateAsString(openCriteria.getUrl(), context));
+        openCriteria.setUrl(evaluateAsString(openCriteria.getUrl(), context));
     }
 
     @Override

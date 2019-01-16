@@ -13,13 +13,13 @@ public abstract class FilterActionExpressionEvaluator<T extends FilterAction> ex
     }
 
     @Override
-    public void evaluateTemplateAsString(T action, ScenarioExecutionContext context) {
-        super.evaluateTemplateAsString(action, context);
+    public void evaluate(T action, ScenarioExecutionContext context) {
+        super.evaluate(action, context);
         FilterCriteria filterCriteria = action.getFilter();
 
-        filterCriteria.setSelector(evaluateTemplateAsString(filterCriteria.getSelector(), context));
-        filterCriteria.setText(evaluateTemplateAsString(filterCriteria.getText(), context));
-        filterCriteria.setValue(evaluateTemplateAsString(filterCriteria.getValue(), context));
-        filterCriteria.setParent(evaluateTemplateAsString(filterCriteria.getParent(), context));
+        filterCriteria.setSelector(evaluateAsString(filterCriteria.getSelector(), context));
+        filterCriteria.setText(evaluateAsString(filterCriteria.getText(), context));
+        filterCriteria.setValue(evaluateAsString(filterCriteria.getValue(), context));
+        filterCriteria.setParent(evaluateAsString(filterCriteria.getParent(), context));
     }
 }
