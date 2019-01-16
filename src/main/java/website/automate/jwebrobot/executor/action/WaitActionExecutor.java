@@ -53,7 +53,7 @@ public class WaitActionExecutor extends BaseActionExecutor<WaitAction> {
         try {
             System.in.read();
         } catch (Exception e){
-            throw new GenericExecutionException("Failed to wait for enter keypress. ", e);
+            throw new GenericExecutionException("Failed to wait for enter keypress.", e);
         }
     }
 
