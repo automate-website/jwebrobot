@@ -137,6 +137,7 @@ public class Reporter implements ExecutionEventListener {
         report.setScenarios(new ArrayList<ScenarioReport>(scenarioReportMap.values()));
         report.updateStats();
         report.setPath(getReportPath(context));
+        report.setExport(context.getExportMemory());
         try {
             writer.write(report);
         } catch (Exception e) {
