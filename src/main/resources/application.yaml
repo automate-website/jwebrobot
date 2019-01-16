@@ -5,9 +5,10 @@ spring:
 
 logging:
   pattern:
-    console: '%msg%n'
+    console: '%msg %nopex %n'
   level:
     root: ERROR
     org.springframework: WARN
     website.automate.jwebrobot.executor: INFO
     website.automate.jwebrobot.loader: INFO
+    org.springframework.boot.SpringApplication: OFF

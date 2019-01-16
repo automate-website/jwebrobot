@@ -14,9 +14,12 @@ import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.main.Scenario;
 import website.automate.waml.io.model.main.action.Action;
 
+import static java.text.MessageFormat.format;
 
 @Service
 public class DefaultScenarioExecutor implements ScenarioExecutor {
+
+    private static final String TEMPLATE_SCENARIO_START_OK_LOG_MESSAGE = "ok: {0} > {1}";
 
     private Logger logger = LoggerFactory.getLogger(DefaultScenarioExecutor.class);
 
@@ -62,7 +65,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ExecutorOptions options = context.getOptions();
 
         if (scenarioPatternFilter.isExecutable(options.getScenarioPattern(), scenario.getName())){
-            logger.info(scenario.getName() + " > Start");
+            logger.info(format(TEMPLATE_SCENARIO_START_OK_LOG_MESSAGE, scenario.getName(), "Start"));
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType(), options.getWebDriverUrl());
 
             if(options.isMaximizeWindow() == Boolean.TRUE){
@@ -79,7 +82,7 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
             finally {
                 driver.quit();
             }
-            logger.info(scenario.getName() + " > End");
+            logger.info(format(TEMPLATE_SCENARIO_START_OK_LOG_MESSAGE, scenario.getName(), "End"));
         }
     }
 
