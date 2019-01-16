@@ -13,12 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
+import website.automate.jwebrobot.executor.action.uri.UriResultValue;
 import website.automate.waml.io.model.main.action.UriAction;
 import website.automate.waml.io.model.main.criteria.UriCriteria;
 
@@ -82,7 +82,7 @@ public class UriActionExecutorIT {
 
         executor.execute(action, context, result, utils);
 
-        ResponseEntity<?> object = ResponseEntity.class.cast(result.getValue());
+        UriResultValue object = (UriResultValue)result.getValue();
         assertThat(object.getBody(), is(singletonMap("foo", "bar")));
     }
 
@@ -105,7 +105,7 @@ public class UriActionExecutorIT {
 
         executor.execute(action, context, result, utils);
 
-        ResponseEntity<?> object = ResponseEntity.class.cast(result.getValue());
+        UriResultValue object = (UriResultValue)result.getValue();
         assertThat(object.getBody(), is(singletonMap("bar", "foo")));
     }
 
@@ -123,7 +123,7 @@ public class UriActionExecutorIT {
 
         executor.execute(action, context, result, utils);
 
-        ResponseEntity<?> object = ResponseEntity.class.cast(result.getValue());
+        UriResultValue object = (UriResultValue)result.getValue();
         assertNull(object.getBody());
         assertThat(result.getMessage(), is("Request has failed with status 500."));
     }
@@ -148,12 +148,12 @@ public class UriActionExecutorIT {
 
         executor.execute(action, context, result, utils);
 
-        ResponseEntity<?> object = ResponseEntity.class.cast(result.getValue());
-        assertThat(object.getBody(), is(filePath));
+        UriResultValue object = (UriResultValue)result.getValue();
+        assertThat(object.getFilePath(), is(filePath));
     }
 
     @Test
-    public void filePostOk() throws Exception {
+    public void filePostOk() {
         byte [] fileContent = readFile("__files/action/uri/get.pdf");
         String filePath = getAbsoluteFilePath("__files/action/uri/get.pdf");
 
@@ -184,8 +184,8 @@ public class UriActionExecutorIT {
 
         executor.execute(action, context, result, utils);
 
-        ResponseEntity<?> object = ResponseEntity.class.cast(result.getValue());
-        assertThat(object.getStatusCode(), is(HttpStatus.OK));
+        UriResultValue object = (UriResultValue)result.getValue();
+        assertThat(object.getStatus(), is(HttpStatus.OK));
 
     }
 
