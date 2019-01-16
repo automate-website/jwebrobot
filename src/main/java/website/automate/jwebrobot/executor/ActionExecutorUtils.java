@@ -29,8 +29,6 @@ public class ActionExecutorUtils {
 
     private final WebDriverWaitProvider webdriverWaitProvider;
 
-    private final ObjectEvaluator objectEvaluator;
-
     @Autowired
     public ActionExecutorUtils(TimeoutResolver timeoutResolver,
                                ExpressionEvaluator expressionEvaluator,
@@ -39,8 +37,7 @@ public class ActionExecutorUtils {
                                ElementsFilter elementsFilter,
                                @Lazy ScenarioExecutor scenarioExecutor,
                                ActionEvaluator actionEvaluator,
-                               WebDriverWaitProvider webdriverWaitProvider,
-                               ObjectEvaluator objectEvaluator){
+                               WebDriverWaitProvider webdriverWaitProvider){
         this.timeoutResolver = timeoutResolver;
         this.expressionEvaluator = expressionEvaluator;
         this.listener = listener;
@@ -49,7 +46,6 @@ public class ActionExecutorUtils {
         this.scenarioExecutor = scenarioExecutor;
         this.actionEvaluator = actionEvaluator;
         this.webdriverWaitProvider = webdriverWaitProvider;
-        this.objectEvaluator = objectEvaluator;
     }
 
     public TimeoutResolver getTimeoutResolver() {
@@ -84,7 +80,4 @@ public class ActionExecutorUtils {
         return webdriverWaitProvider;
     }
 
-    public ObjectEvaluator getObjectEvaluator() {
-        return objectEvaluator;
-    }
 }

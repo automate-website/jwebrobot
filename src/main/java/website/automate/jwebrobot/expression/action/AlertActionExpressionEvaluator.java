@@ -17,13 +17,13 @@ public class AlertActionExpressionEvaluator extends ConditionalActionExpressionE
     }
 
     @Override
-    public void evaluateTemplateAsString(AlertAction action, ScenarioExecutionContext context) {
-        super.evaluateTemplateAsString(action, context);
+    public void evaluate(AlertAction action, ScenarioExecutionContext context) {
+        super.evaluate(action, context);
 
         AlertCriteria alert = action.getAlert();
-        alert.setConfirm(evaluateTemplateAsString(alert.getConfirm(), context));
-        alert.setText(evaluateTemplateAsString(alert.getText(), context));
-        alert.setInput(evaluateTemplateAsString(alert.getInput(), context));
+        alert.setConfirm(evaluateAsString(alert.getConfirm(), context));
+        alert.setText(evaluateAsString(alert.getText(), context));
+        alert.setInput(evaluateAsString(alert.getInput(), context));
     }
 
     @Override

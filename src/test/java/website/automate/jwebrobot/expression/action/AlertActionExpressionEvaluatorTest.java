@@ -53,7 +53,7 @@ public class AlertActionExpressionEvaluatorTest {
         when(expressionEvaluator.evaluate(VALUE_TEXT, context.getTotalMemory(), String.class, true)).thenReturn(VALUE_TEXT_PROCESSED);
         when(expressionEvaluator.evaluate(VALUE_INPUT, context.getTotalMemory(),  String.class, true)).thenReturn(VALUE_INPUT_PROCESSED);
 
-        actionExpressionEvaluator.evaluateTemplateAsString(action, context);
+        actionExpressionEvaluator.evaluate(action, context);
 
         verify(alertCriteria).setConfirm(VALUE_CONFIRM_PROCESSED);
         verify(alertCriteria).setText(VALUE_TEXT_PROCESSED);

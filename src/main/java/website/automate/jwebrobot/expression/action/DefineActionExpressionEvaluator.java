@@ -18,13 +18,13 @@ public class DefineActionExpressionEvaluator extends ConditionalActionExpression
     }
 
     @Override
-    public void evaluateTemplateAsString(DefineAction action, ScenarioExecutionContext context) {
-        super.evaluateTemplateAsString(action, context);
+    public void evaluate(DefineAction action, ScenarioExecutionContext context) {
+        super.evaluate(action, context);
 
         Map<String, Object> facts = action.getDefine().getFacts();
         facts.keySet()
             .stream()
-            .map(key -> evaluateTemplateAsString(key, context));
+            .map(key -> evaluateAsString(key, context));
         facts.values()
             .stream()
             .forEach(value -> evaluateIfExpression(value, context));
@@ -33,7 +33,7 @@ public class DefineActionExpressionEvaluator extends ConditionalActionExpression
     private Object evaluateIfExpression(Object value, ScenarioExecutionContext context){
         if(value instanceof String){
             String valueStr = String.class.cast(value);
-            return evaluateTempateAsObject(valueStr, context);
+            return evaluateAsObject(valueStr, context);
         }
         return value;
     }

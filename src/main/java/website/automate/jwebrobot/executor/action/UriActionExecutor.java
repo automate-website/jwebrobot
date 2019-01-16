@@ -42,7 +42,7 @@ public class UriActionExecutor extends BaseActionExecutor<UriAction> {
                         ActionExecutorUtils utils) {
 
         UriCriteria criteria = action.getUri();
-        HttpHeaders headers = getHeaders(criteria, context, utils);
+        HttpHeaders headers = headersConverter.convert((Map<String, String>)criteria.getHeaders());
         RestTemplate restTemplate = restTemplateProvider.get(criteria);
         String url = criteria.getUrl();
         Object body = getBody(criteria, context, utils);
@@ -119,19 +119,7 @@ public class UriActionExecutor extends BaseActionExecutor<UriAction> {
         if(isFileUpload(criteria)){
             return getSrcAsBody(criteria.getSrc());
         }
-        return utils.getObjectEvaluator().evaluate(criteria.getBody(), context.getTotalMemory(), Object.class);
-    }
-
-    @SuppressWarnings("unchecked")
-    private HttpHeaders getHeaders(UriCriteria criteria, ScenarioExecutionContext context, ActionExecutorUtils utils){
-        Map<String, String> headers = utils
-            .getObjectEvaluator()
-            .evaluate(
-                criteria.getHeaders(),
-                context.getTotalMemory(),
-                Map.class);
-
-        return headersConverter.convert(headers);
+        return criteria.getBody();
     }
 
     @Override

@@ -19,6 +19,7 @@ import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
 import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.jwebrobot.executor.action.uri.UriResultValue;
+import website.automate.jwebrobot.expression.action.UriActionExpressionEvaluator;
 import website.automate.waml.io.model.main.action.UriAction;
 import website.automate.waml.io.model.main.criteria.UriCriteria;
 
@@ -57,6 +58,9 @@ public class UriActionExecutorIT {
     @Autowired
     private UriActionExecutor executor;
 
+    @Autowired
+    private UriActionExpressionEvaluator evaluator;
+
     @Before
     public void init(){
         when(context.getTotalMemory()).thenReturn(singletonMap("foo", "bar"));
@@ -79,6 +83,7 @@ public class UriActionExecutorIT {
             .withHeader("X-Token", "foo")
             .build();
         ActionResult result = new ActionResult();
+        evaluator.evaluate(action, context);
 
         executor.execute(action, context, result, utils);
 
@@ -102,6 +107,7 @@ public class UriActionExecutorIT {
             .withBody(singletonMap("foo", "bar"))
             .build();
         ActionResult result = new ActionResult();
+        evaluator.evaluate(action, context);
 
         executor.execute(action, context, result, utils);
 
@@ -120,6 +126,7 @@ public class UriActionExecutorIT {
             .withUrl("http://localhost:8888/json/get/error")
             .build();
         ActionResult result = new ActionResult();
+        evaluator.evaluate(action, context);
 
         executor.execute(action, context, result, utils);
 
@@ -145,6 +152,7 @@ public class UriActionExecutorIT {
             .build();
 
         ActionResult result = new ActionResult();
+        evaluator.evaluate(action, context);
 
         executor.execute(action, context, result, utils);
 
@@ -181,6 +189,7 @@ public class UriActionExecutorIT {
             .build();
 
         ActionResult result = new ActionResult();
+        evaluator.evaluate(action, context);
 
         executor.execute(action, context, result, utils);
 
