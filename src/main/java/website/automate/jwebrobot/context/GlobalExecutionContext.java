@@ -23,6 +23,8 @@ public class GlobalExecutionContext {
     private List<Scenario> scenarios = new ArrayList<>();
     
     private ExecutorOptions options;
+
+    private Map<String, Object> exportMemory = new HashMap<>();
     
     public GlobalExecutionContext(Collection<ScenarioFile> scenarioFiles, ExecutorOptions options,
             Map<String, Object> memory) {
@@ -73,5 +75,9 @@ public class GlobalExecutionContext {
 
     public File getTempDir() {
         return tempDir;
+    }
+
+    public Map<String, Object> getExportMemory() {
+        return exportMemory;
     }
 }

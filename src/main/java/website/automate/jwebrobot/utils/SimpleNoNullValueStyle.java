@@ -1,8 +1,8 @@
 package website.automate.jwebrobot.utils;
 
-import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.RecursiveToStringStyle;
 
-public final class SimpleNoNullValueStyle extends ToStringStyle {
+public final class SimpleNoNullValueStyle extends RecursiveToStringStyle {
         private static final long serialVersionUID = 1L;
 
         public static final SimpleNoNullValueStyle INSTANCE = new SimpleNoNullValueStyle();

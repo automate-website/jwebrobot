@@ -45,7 +45,7 @@ public class UriActionExecutor extends BaseActionExecutor<UriAction> {
         HttpHeaders headers = headersConverter.convert((Map<String, String>)criteria.getHeaders());
         RestTemplate restTemplate = restTemplateProvider.get(criteria);
         String url = criteria.getUrl();
-        Object body = getBody(criteria, context, utils);
+        Object body = getBody(criteria);
         HttpMethod method = getMethod(criteria);
         MediaType mediaType = bodyFormatMediaTypeConverter.convert(criteria.getBodyFormat());
         Collection<HttpStatus> expectedStatus = getStatus(criteria);
@@ -113,9 +113,7 @@ public class UriActionExecutor extends BaseActionExecutor<UriAction> {
         return HttpMethod.GET;
     }
 
-    private Object getBody(UriCriteria criteria,
-                           ScenarioExecutionContext context,
-                           ActionExecutorUtils utils){
+    private Object getBody(UriCriteria criteria){
         if(isFileUpload(criteria)){
             return getSrcAsBody(criteria.getSrc());
         }
