@@ -28,6 +28,13 @@ steps:
 
 ### Run JWebRobot using Docker
 
+#### Prerequisites
+
+- Get latest `Docker` version available [here](https://docs.docker.com/install/).
+- Get latest `Docker Compose` version available [here](https://docs.docker.com/compose/install/)*.
+- Get latest `VNC Client` version available [here](https://www.realvnc.com/en/connect/download/viewer/)*. 
+
+_* required for container toolkit only_
 #### Run Container Toolkit
 
 Download the [docker-compose](docker-compose.yml).
@@ -114,9 +121,9 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 | *reportPath*  | optional  | Path to which the report is written to. | `./report.yaml` | `./myreport.yaml` |
 | *maximizeWindow* | optional | Toggles window maximization before scenario execution. | `false` | `true` |
 
-## Supported Browses
+## Supported Browsers
 
-Currently, the following browses-webdriver combinations are supported:
+Currently, the following browsers-webdriver combinations are supported:
 
 | Browser | Version | WebDriver |
 |---------|---------|-----------|
