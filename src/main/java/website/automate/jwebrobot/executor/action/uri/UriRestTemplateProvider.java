@@ -31,6 +31,5 @@ public class UriRestTemplateProvider {
         builder.configure(restTemplate);
 
         return restTemplate;
-
     }
 }
