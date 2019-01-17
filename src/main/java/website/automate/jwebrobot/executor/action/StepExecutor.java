@@ -15,6 +15,7 @@ import website.automate.jwebrobot.listener.ExecutionEventListeners;
 import website.automate.jwebrobot.utils.SimpleNoNullValueStyle;
 import website.automate.waml.io.model.main.Scenario;
 import website.automate.waml.io.model.main.action.Action;
+import website.automate.waml.io.model.main.action.IncludeAction;
 
 import static java.text.MessageFormat.format;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -73,10 +74,16 @@ public class StepExecutor {
             LOGGER.error(getActionFailedLogMessage(context.getScenario(), evaluatedAction, result));
             throw new GenericExecutionException(result.getMessage(), result.getError());
         } else {
-            LOGGER.info(getActionOkLogMessage(context.getScenario(), evaluatedAction));
+            if(isLogActionSuccess(evaluatedAction)) {
+                LOGGER.info(getActionOkLogMessage(context.getScenario(), evaluatedAction));
+            }
         }
 
         listener.afterAction(context, action);
+    }
+
+    private boolean isLogActionSuccess(Action action){
+        return !(action instanceof IncludeAction);
     }
 
     private String getActionFailedLogMessage(Scenario scenario, Action action, ActionResult result){
