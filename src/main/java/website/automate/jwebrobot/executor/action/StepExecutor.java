@@ -71,11 +71,20 @@ public class StepExecutor {
         Action evaluatedAction = result.getEvaluatedOrRawAction();
 
         if(failedWhen(result, context)){
-            LOGGER.error(getActionFailedLogMessage(context.getScenario(), evaluatedAction, result));
+            LOGGER.error(getActionFailedLogMessage(
+                context,
+                context.getScenario(),
+                evaluatedAction,
+                result
+            ));
             throw new GenericExecutionException(result.getMessage(), result.getError());
         } else {
             if(isLogActionSuccess(evaluatedAction)) {
-                LOGGER.info(getActionOkLogMessage(context.getScenario(), evaluatedAction));
+                LOGGER.info(getActionOkLogMessage(
+                    context,
+                    context.getScenario(),
+                    evaluatedAction
+                ));
             }
         }
 
@@ -86,17 +95,19 @@ public class StepExecutor {
         return !(action instanceof IncludeAction);
     }
 
-    private String getActionFailedLogMessage(Scenario scenario, Action action, ActionResult result){
+    private String getActionFailedLogMessage(ScenarioExecutionContext context,
+                                             Scenario scenario, Action action, ActionResult result){
         return format(TEMPLATE_ACTION_FAIL_LOG_MESSAGE,
-            scenario.getName(),
+            getScenarioPath(context, scenario),
             getActionName(action),
             getActionValue(action),
             result.getMessage());
     }
 
-    private String getActionOkLogMessage(Scenario scenario, Action action){
+    private String getActionOkLogMessage(ScenarioExecutionContext context,
+                                         Scenario scenario, Action action){
         return format(TEMPLATE_ACTION_OK_LOG_MESSAGE,
-            scenario.getName(),
+            getScenarioPath(context, scenario),
             getActionName(action),
             getActionValue(action));
     }
@@ -122,5 +133,16 @@ public class StepExecutor {
 
     private ActionExecutor<Action> getActionExecutor(Action action){
         return actionExecutorFactory.getInstance(action.getClass());
+    }
+
+    private String getScenarioPath(ScenarioExecutionContext context, Scenario scenario){
+        String path = scenario.getName();
+        ScenarioExecutionContext parentContext = context.getParent();
+        while(parentContext != null){
+            String parentName = parentContext.getScenario().getName();
+            path = parentName + "/" + path;
+            parentContext = parentContext.getParent();
+        }
+        return path;
     }
 }
