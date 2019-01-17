@@ -15,8 +15,7 @@ getVersion(){
         echo "${TRAVIS_TAG}"
         return
     else
-        echo "${TRAVIS_BRANCH}"
-        return
+        return 'latest'
     fi
 }
 
