@@ -1,6 +1,6 @@
 # JWebRobot – The Reference Implementation of WAML Executor
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot/badge.svg)](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot) [![Build Status](https://travis-ci.org/automate-website/jwebrobot.svg?branch=master)](https://travis-ci.org/automate-website/jwebrobot) [![codecov.io](https://codecov.io/github/automate-website/jwebrobot/coverage.svg?branch=master)](https://codecov.io/github/automate-website/jwebrobot?branch=master) [![Gitter](https://badges.gitter.im/automate-website/jwebrobot.svg)](https://gitter.im/automate-website/jwebrobot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Docker Hub](https://img.shields.io/docker/pulls/automatewebsite/jwebrobot-chrome.svg)](https://hub.docker.com/r/automatewebsite/jwebrobot-chrome) 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot/badge.svg)](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot) [![Build Status](https://travis-ci.org/automate-website/jwebrobot.svg?branch=master)](https://travis-ci.org/automate-website/jwebrobot) [![codecov.io](https://codecov.io/github/automate-website/jwebrobot/coverage.svg?branch=master)](https://codecov.io/github/automate-website/jwebrobot?branch=master) [![Gitter](https://badges.gitter.im/automate-website/jwebrobot.svg)](https://gitter.im/automate-website/jwebrobot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Docker Hub](https://img.shields.io/docker/pulls/automatewebsite/jwebrobot.svg)](https://hub.docker.com/r/automatewebsite/jwebrobot) 
 
 
 **JWebRobot** is the reference implementation of executor which processes the [Web Automation Markup Language][waml-git]. Currently the it is based on the [draft-02] schema.
@@ -121,24 +121,13 @@ java -jar <path to jar> -<argument name> [<argument value> ...]
 | *reportPath*  | optional  | Path to which the report is written to. | `./report.yaml` | `./myreport.yaml` |
 | *maximizeWindow* | optional | Toggles window maximization before scenario execution. | `false` | `true` |
 
-## Supported Browsers
-
-Currently, the following browsers-webdriver combinations are supported:
-
-| Browser | Version | WebDriver |
-|---------|---------|-----------|
-| Chrome  | 59.0.3071.115 | [2.30](http://chromedriver.storage.googleapis.com/index.html?path=2.30/) |
-| Firefox | 54.0.1  | [v0.17.0](https://github.com/mozilla/geckodriver/releases) |
-| Opera   | 46.0.2597.39 | [2.29](https://github.com/operasoftware/operachromiumdriver/releases) |
-
-
 ## Expressions
-Expression are evaluated by the awesome templating engine [freemarker]. The expression syntax and result may be tested using online [template-tester].
+Expression are evaluated by the awesome templating engine [SpEL].
 
 | Expression | Context | Result | Description |
 | ------------- | ------------- | ------------- | ------------- |
 | ${foo} | foo="bar" | bar | Renders the context parameter value |
-| ${(foo=="bar")?c} | foo="bar" | true | Tests context parameter foo for having the value "bar" and renders the boolean value. |
+| ${foo == "bar"} | foo="bar" | true | Tests context parameter foo for having the value "bar" and renders the boolean value. |
 
 ### Reserved Namespace
 
@@ -166,7 +155,7 @@ While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `
         selector: input[type=text]
         store: userEmailInput
     store:
-        userEmailInputEnabled: ${userEmailInput.isEnabled()?c}
+        userEmailInputEnabled: ${userEmailInput.isEnabled()}
 
 Note that the element reference currently exports the underlying [selenium webelement api]. The direct access is an experimental feature and may be subject to change in the future releases.
 
@@ -195,8 +184,7 @@ Refer to the [waml-schema] for schema sources.
 [waml-git]: https://github.com/automate-website/waml
 [draft-02]: http://waml-schema.org/draft-02/schema#
 [download]: https://github.com/automate-website/jwebrobot/releases
-[freemarker]: http://freemarker.org
-[template-tester]: http://freemarker-online.kenshoo.com/
+[SpEL]: https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#expressions
 [jfairy]: https://github.com/Codearte/jfairy
 [selenium webelement api]: https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebElement.html
 [docker-jwebrobot]: https://hub.docker.com/r/automatewebsite/jwebrobot-chrome/
