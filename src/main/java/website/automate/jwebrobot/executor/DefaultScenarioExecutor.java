@@ -1,8 +1,6 @@
 package website.automate.jwebrobot.executor;
 
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.GlobalExecutionContext;
@@ -14,14 +12,8 @@ import website.automate.jwebrobot.validator.ContextValidators;
 import website.automate.waml.io.model.main.Scenario;
 import website.automate.waml.io.model.main.action.Action;
 
-import static java.text.MessageFormat.format;
-
 @Service
 public class DefaultScenarioExecutor implements ScenarioExecutor {
-
-    private static final String TEMPLATE_SCENARIO_START_OK_LOG_MESSAGE = "ok: {0} > {1}";
-
-    private Logger logger = LoggerFactory.getLogger(DefaultScenarioExecutor.class);
 
     private final WebDriverProvider webDriverProvider;
     private final ExecutionEventListeners listener;
@@ -65,7 +57,6 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
         ExecutorOptions options = context.getOptions();
 
         if (scenarioPatternFilter.isExecutable(options.getScenarioPattern(), scenario.getName())){
-            logger.info(format(TEMPLATE_SCENARIO_START_OK_LOG_MESSAGE, scenario.getName(), "Start"));
             WebDriver driver = webDriverProvider.createInstance(options.getWebDriverType(), options.getWebDriverUrl());
 
             if(options.isMaximizeWindow() == Boolean.TRUE){
@@ -82,7 +73,6 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
             finally {
                 driver.quit();
             }
-            logger.info(format(TEMPLATE_SCENARIO_START_OK_LOG_MESSAGE, scenario.getName(), "End"));
         }
     }
 
