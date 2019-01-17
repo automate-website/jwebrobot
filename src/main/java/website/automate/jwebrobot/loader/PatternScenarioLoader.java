@@ -13,19 +13,21 @@ import website.automate.waml.io.model.main.Scenario;
 import website.automate.waml.io.reader.WamlReader;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static java.text.MessageFormat.format;
+
 @Service
 public class PatternScenarioLoader implements ScenarioLoader {
 
-    private static final IOFileFilter SCENARIO_FORMAT_FILTER = new WildcardFileFilter(new String[] {"**.yaml", "**.json"});
+    private static final String TEMPLATE_SCENARIO_LOAD_FAIL_LOG_MESSAGE = "error: {0} > {1}";
 
-    private static final Logger LOG = LoggerFactory.getLogger(PatternScenarioLoader.class);
+    private static final IOFileFilter SCENARIO_FORMAT_FILTER = new WildcardFileFilter(new String[] {"**.yaml", "**.yml"});
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatternScenarioLoader.class);
 
     private final WamlReader wamlReader;
 
@@ -80,8 +82,15 @@ public class PatternScenarioLoader implements ScenarioLoader {
         }
     }
     
-    private Scenario load(File scenarioFile) throws FileNotFoundException{
-        LOG.debug(MessageFormat.format("Reading scenario file {0} ...", scenarioFile.getAbsolutePath()));
-        return wamlReader.read(scenarioFile);
+    private Scenario load(File scenarioFile) {
+        try {
+            LOGGER.debug(format("Reading scenario file {0} ...", scenarioFile.getAbsolutePath()));
+            return wamlReader.read(scenarioFile);
+        } catch (Exception e){
+            LOGGER.error(format(TEMPLATE_SCENARIO_LOAD_FAIL_LOG_MESSAGE,
+                scenarioFile.getName(),
+                "Failed to parse scenario."));
+            throw e;
+        }
     }
 }
