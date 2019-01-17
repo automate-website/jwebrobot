@@ -3,7 +3,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot/badge.svg)](https://maven-badges.herokuapp.com/maven-central/website.automate/jwebrobot) [![Build Status](https://travis-ci.org/automate-website/jwebrobot.svg?branch=master)](https://travis-ci.org/automate-website/jwebrobot) [![codecov.io](https://codecov.io/github/automate-website/jwebrobot/coverage.svg?branch=master)](https://codecov.io/github/automate-website/jwebrobot?branch=master) [![Gitter](https://badges.gitter.im/automate-website/jwebrobot.svg)](https://gitter.im/automate-website/jwebrobot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Docker Hub](https://img.shields.io/docker/pulls/automatewebsite/jwebrobot.svg)](https://hub.docker.com/r/automatewebsite/jwebrobot) 
 
 
-**JWebRobot** is the reference implementation of executor which processes the [Web Automation Markup Language][waml-git]. Currently the it is based on the [draft-02] schema.
+**JWebRobot** is the reference implementation of executor which processes the [Web Automation Markup Language][waml-git]. Currently the it is based on the [2.0](http://waml-schema.org/2.0/schema#) schema.
 
 
 ## How to Run
@@ -182,7 +182,6 @@ Refer to the [waml-schema] for schema sources.
 [webdriver-chrome]: http://chromedriver.storage.googleapis.com/index.html
 [waml-schema]: http://waml-schema.org
 [waml-git]: https://github.com/automate-website/waml
-[draft-02]: http://waml-schema.org/draft-02/schema#
 [download]: https://github.com/automate-website/jwebrobot/releases
 [SpEL]: https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#expressions
 [jfairy]: https://github.com/Codearte/jfairy
