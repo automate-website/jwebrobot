@@ -1,10 +1,10 @@
 version: '3.3'
 services:
   jwebrobot:
-    image: automatewebsite/jwebrobot:2.0.3
+    image: automatewebsite/jwebrobot:2.0.4
     environment:
     - 'JWEBROBOT_ARGS=-scenarioPath /test -browserDriverUrl "http://firefox:4444/wd/hub"'
-    entrypoint: /usr/bin/jwebrobot 2>/dev/null
+    entrypoint: /usr/bin/jwebrobot
     depends_on:
     - firefox
     links:
