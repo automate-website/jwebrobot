@@ -19,9 +19,12 @@ import java.util.Collection;
 import java.util.List;
 
 import static java.text.MessageFormat.format;
+import static java.util.Arrays.asList;
 
 @Service
 public class PatternScenarioLoader implements ScenarioLoader {
+
+    private static final List<String> IGNORE_KEYWORDS = asList("docker-compose");
 
     private static final String TEMPLATE_SCENARIO_LOAD_FAIL_LOG_MESSAGE = "error: {0} > {1}";
 
@@ -60,6 +63,10 @@ public class PatternScenarioLoader implements ScenarioLoader {
                 if(baseScenarioFile.isDirectory()){
                     Collection<File> scenarioFiles = FileUtils.listFiles(baseScenarioFile, SCENARIO_FORMAT_FILTER, TrueFileFilter.INSTANCE);
                     for(File scenarioFile : scenarioFiles){
+                        if(isIgnore(scenarioFile)) {
+                            continue;
+                        }
+
                         currentPath = scenarioFile.getAbsolutePath();
                         addScenarioFile(reportCanonicalPath, scenarioFile, loadedScenarioFiles);
                     }
@@ -74,6 +81,13 @@ public class PatternScenarioLoader implements ScenarioLoader {
         }
 
         return loadedScenarioFiles;
+    }
+
+    private boolean isIgnore(File file){
+        String fileName = file.getName();
+        return IGNORE_KEYWORDS
+            .parallelStream()
+            .anyMatch(ignoreKeyword -> fileName.contains(ignoreKeyword));
     }
 
     private void addScenarioFile(String reportCanonicalPath, File scenarioFile, List<ScenarioFile> loadedScenarioFiles) throws IOException{
