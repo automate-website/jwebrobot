@@ -7,5 +7,5 @@ import java.util.Map;
 public interface ExpressionEvaluator {
 
     <T> T evaluate(String expression, Map<String, Object> memory,
-                   Class<T> resultClazz, boolean isTemplate) throws ExpressionEvaluationException;
+                   Class<T> resultClazz) throws ExpressionEvaluationException;
 }

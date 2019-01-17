@@ -25,7 +25,7 @@ public class ObjectEvaluator {
         }
         Object result;
         if(value instanceof String){
-            result = expressionEvaluator.evaluate((String)value, memory, expectedClass, false);
+            result = expressionEvaluator.evaluate((String)value, memory, expectedClass);
         } else {
             result = value;
         }

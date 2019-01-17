@@ -71,10 +71,9 @@ public class WithItemsExecutor {
                 return Collections.emptyList();
             }
 
-            return asCollection(expressionEvaluator.evaluate(withItemsStr,
+            return asCollection(expressionEvaluator.evaluate("${" + withItemsStr + "}",
                 context.getTotalMemory(),
-                Object.class,
-                false));
+                Object.class));
         }
 
         return asCollection(withItems);

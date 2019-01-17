@@ -17,14 +17,14 @@ public class SpelExpressionEvaluatorTest {
     
     @Test
     public void simpleExpressionIsEvaluated(){
-        Object actualResult = evaluator.evaluate("i'm feeling ${mood}!", singletonMap("mood", (Object)"great"),  String.class, true);
+        Object actualResult = evaluator.evaluate("i'm feeling ${mood}!", singletonMap("mood", (Object)"great"),  String.class);
         
         assertThat(actualResult.toString(), is("i'm feeling great!"));
     }
     
     @Test
     public void mockDataIsGenerated(){
-        Object actualResult = evaluator.evaluate("${ _.mock.company().name() }", new HashMap<String, Object>(),  String.class, true);
+        Object actualResult = evaluator.evaluate("${ _.mock.company().name() }", new HashMap<String, Object>(),  String.class);
         
         assertFalse(actualResult.toString().isEmpty());
     }

@@ -20,13 +20,13 @@ public abstract class ActionExpressionEvaluator<T extends Action> {
         if(value == null){
             return null;
         }
-        return expressionEvaluator.evaluate(value, context.getTotalMemory(), String.class, true);
+        return expressionEvaluator.evaluate(value, context.getTotalMemory(), String.class);
     }
 
     protected Object evaluateAsObject(String value, ScenarioExecutionContext context){
         if(value == null) {
             return null;
         }
-        return expressionEvaluator.evaluate(value, context.getTotalMemory(), Object.class, true);
+        return expressionEvaluator.evaluate(value, context.getTotalMemory(), Object.class);
     }
 }

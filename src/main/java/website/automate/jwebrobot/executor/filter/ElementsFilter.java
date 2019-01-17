@@ -79,7 +79,7 @@ public class ElementsFilter {
     }
 
     private WebElement getElementFromMemory(String reference, ScenarioExecutionContext context){
-        return expressionEvaluator.evaluate(reference, context.getTotalMemory(), WebElement.class, false);
+        return expressionEvaluator.evaluate("${" + reference + "}", context.getTotalMemory(), WebElement.class);
     }
 
     private WebElement getFirstOrNull(List<WebElement> webElements){

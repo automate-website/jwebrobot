@@ -30,6 +30,6 @@ public class ConditionalExpressionEvaluator {
         if(value == null){
             return defaultValue;
         }
-        return expressionEvaluator.evaluate(value, context.getTotalMemory(), Boolean.class, false);
+        return expressionEvaluator.evaluate(value, context.getTotalMemory(), Boolean.class);
     }
 }

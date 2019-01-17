@@ -36,18 +36,14 @@ public class SpelExpressionEvaluator implements ExpressionEvaluator {
     
     @Override
     public <T> T evaluate(String expressionStr, Map<String, Object> memory,
-                          Class<T> resultClazz, boolean isTemplate) {
+                          Class<T> resultClazz) {
         Map<String, Object> context = new HashMap<>();
         context.putAll(memory);
         context.put("_", singletonMap("mock", mock));
         
         try {
-            Expression expression;
-            if(isTemplate) {
-                expression = expressionParser.parseExpression(expressionStr, parserContext);
-            } else {
-                expression = expressionParser.parseExpression(expressionStr);
-            }
+            Expression expression = expressionParser.parseExpression(expressionStr, parserContext);
+
             StandardEvaluationContext evaluationContext = new StandardEvaluationContext(context);
             evaluationContext.addPropertyAccessor(new MapAccessor());
 

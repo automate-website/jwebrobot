@@ -125,10 +125,10 @@ public class StepExecutor {
         if(action != null){
             String failedWhenStr = action.getFailedWhen();
             if(isNotBlank(failedWhenStr)){
-                return expressionEvaluator.evaluate(failedWhenStr, context.getTotalMemory(), Boolean.class, false);
+                return expressionEvaluator.evaluate(failedWhenStr, context.getTotalMemory(), Boolean.class);
             }
         }
-        return result.getCode() != ActionResult.SUCCESS;
+        return !result.getCode().equalsIgnoreCase(ActionResult.SUCCESS);
     }
 
     private ActionExecutor<Action> getActionExecutor(Action action){

@@ -2,4 +2,4 @@
 - ensure:
     selector: div.another-article
   register: result
-  failed_when: result.code == 'failure' and not result.message.contains('Timeout waiting for an element')
+  failed_when: ${result.code == 'failure' and not result.message.contains('Timeout waiting for an element')}

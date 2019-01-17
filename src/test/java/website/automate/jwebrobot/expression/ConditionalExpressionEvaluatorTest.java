@@ -33,8 +33,8 @@ public class ConditionalExpressionEvaluatorTest {
     @Before
     public void init(){
         when(context.getTotalMemory()).thenReturn(memory);
-        when(expressionEvaluator.evaluate(TRUE_VALUE, memory, Boolean.class, false)).thenReturn(true);
-        when(expressionEvaluator.evaluate(FALSE_VALUE, memory, Boolean.class, false)).thenReturn(false);
+        when(expressionEvaluator.evaluate(TRUE_VALUE, memory, Boolean.class)).thenReturn(true);
+        when(expressionEvaluator.evaluate(FALSE_VALUE, memory, Boolean.class)).thenReturn(false);
     }
     
     @Test
