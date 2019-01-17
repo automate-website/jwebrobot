@@ -51,6 +51,9 @@ public class DefaultScenarioExecutor implements ScenarioExecutor {
 
         try{
             for (Scenario scenario : context.getScenarios()) {
+                if(scenario.isFragment()){
+                    continue;
+                }
                 execute(context, scenario);
             }
         } catch (Exception e){
