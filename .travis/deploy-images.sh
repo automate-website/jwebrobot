@@ -13,9 +13,8 @@ isDeploy(){
 getVersion(){
     if [[ ! -z "$TRAVIS_TAG" ]]; then
         echo "${TRAVIS_TAG}"
-        return
     else
-        return 'latest'
+        echo 'latest'
     fi
 }
 
