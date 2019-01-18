@@ -19,13 +19,11 @@ public class WebDriverProvider {
     public WebDriver createInstance(Type type) {
         switch (type) {
             case CHROME:
-                return new ChromeDriver();
+                return new ChromeDriver(getChromeOptions());
             case CHROME_HEADLESS:
-                ChromeOptions options = new ChromeOptions();
+                ChromeOptions options = getChromeOptions();
                 options.addArguments("--headless", "--disable-gpu");
-                ChromeDriver chromeDriver = new ChromeDriver(options);
-
-                return chromeDriver;
+                return new ChromeDriver(options);
             case OPERA:
                 return new OperaDriver(getOperaCapabilities());
             case FIREFOX:
@@ -47,13 +45,26 @@ public class WebDriverProvider {
         switch (type) {
             case CHROME:
             case CHROME_HEADLESS:
-                return new RemoteWebDriver(commandExecutor, DesiredCapabilities.chrome());
+                return new RemoteWebDriver(commandExecutor, getChromeCapabilities());
             case OPERA:
                 return new RemoteWebDriver(commandExecutor, DesiredCapabilities.operaBlink());
             case FIREFOX:
             default:
                 return new RemoteWebDriver(commandExecutor, DesiredCapabilities.firefox());
         }
+    }
+
+    private ChromeOptions getChromeOptions(){
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        return options;
+    }
+
+    private DesiredCapabilities getChromeCapabilities(){
+        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        ChromeOptions options = getChromeOptions();
+        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        return capabilities;
     }
 
     private DesiredCapabilities getOperaCapabilities(){

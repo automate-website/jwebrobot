@@ -99,6 +99,8 @@ public class ParametersBuilder {
             webDriverUrl));
 
         allArguments.addAll(arguments);
+        allArguments.add("-browser");
+        allArguments.add("chrome");
         allArguments.addAll(getContextArguments(context));
 
         return allArguments;
