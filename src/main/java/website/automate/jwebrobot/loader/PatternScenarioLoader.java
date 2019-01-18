@@ -71,7 +71,9 @@ public class PatternScenarioLoader implements ScenarioLoader {
                         addScenarioFile(reportCanonicalPath, scenarioFile, loadedScenarioFiles);
                     }
                 } else {
-                    addScenarioFile(reportCanonicalPath, baseScenarioFile, loadedScenarioFiles);
+                    if(!isIgnore(baseScenarioFile)) {
+                        addScenarioFile(reportCanonicalPath, baseScenarioFile, loadedScenarioFiles);
+                    }
                 }
             } else {
                 throw new NonReadableFileException(currentPath);
