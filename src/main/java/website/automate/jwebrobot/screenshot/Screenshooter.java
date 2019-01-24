@@ -56,6 +56,6 @@ public class Screenshooter {
         GlobalExecutionContext globalContext = scenarioRootContext.getGlobalContext();
         String targetPath = globalContext.getOptions().getScreenshotPath();
         
-        return targetPath + scenarioRootContext.getScenario().getName() + "_" + scenarioRootContext.getStepCount() + "_" + action.getName() + "." + format;
+        return targetPath + scenarioRootContext.getScenario().getName() + "_" + scenarioRootContext.getStepCount() + "_" + action.getTypeName() + "." + format;
     }
 }
