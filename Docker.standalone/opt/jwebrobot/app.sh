@@ -43,10 +43,8 @@ if [ -n "$PULL_URL" ]; then
 fi
 
 if [[ $BROWSER == *-headless ]]; then
-echo "headless"
     java $JWR_OPTS -jar /opt/jwebrobot/app.jar ${JWEBROBOT_ARGS}
 else
-echo "with head"
     xvfb-run --server-args="-screen 0 $GEOMETRY -ac +extension RANDR" \
         java $JWR_OPTS -jar /opt/jwebrobot/app.jar ${JWEBROBOT_ARGS}
 fi

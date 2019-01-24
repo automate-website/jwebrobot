@@ -2,6 +2,7 @@ package website.automate.jwebrobot.executor;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.opera.OperaDriver;
@@ -19,17 +20,26 @@ public class WebDriverProvider {
     public WebDriver createInstance(Type type) {
         switch (type) {
             case CHROME:
-                return new ChromeDriver(getChromeOptions());
+                return new ChromeDriver(getChromeService(), getChromeOptions());
             case CHROME_HEADLESS:
                 ChromeOptions options = getChromeOptions();
                 options.addArguments("--headless", "--disable-gpu");
-                return new ChromeDriver(options);
+                return new ChromeDriver(getChromeService(), options);
             case OPERA:
                 return new OperaDriver(getOperaCapabilities());
             case FIREFOX:
             default:
                 return new FirefoxDriver();
         }
+    }
+
+    private ChromeDriverService getChromeService(){
+        ChromeDriverService.Builder builder = new ChromeDriverService.Builder();
+        return builder
+            .usingAnyFreePort()
+            .withSilent(true)
+            .withVerbose(false)
+            .build();
     }
 
     public WebDriver createInstance(Type type, URL webDriverUrl){
