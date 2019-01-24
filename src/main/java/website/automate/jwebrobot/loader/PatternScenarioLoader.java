@@ -24,7 +24,7 @@ import static java.util.Arrays.asList;
 @Service
 public class PatternScenarioLoader implements ScenarioLoader {
 
-    private static final List<String> IGNORE_KEYWORDS = asList("docker-compose");
+    private static final List<String> IGNORE_KEYWORDS = asList("docker-compose", ".gitlab-ci", ".travis");
 
     private static final String TEMPLATE_SCENARIO_LOAD_FAIL_LOG_MESSAGE = "error: {0} > {1}";
 
