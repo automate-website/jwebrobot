@@ -1,9 +1,7 @@
 package website.automate.jwebrobot.loader;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.io.filefilter.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +17,23 @@ import java.util.Collection;
 import java.util.List;
 
 import static java.text.MessageFormat.format;
-import static java.util.Arrays.asList;
 
 @Service
 public class PatternScenarioLoader implements ScenarioLoader {
 
-    private static final List<String> IGNORE_KEYWORDS = asList("docker-compose", ".gitlab-ci", ".travis");
-
     private static final String TEMPLATE_SCENARIO_LOAD_FAIL_LOG_MESSAGE = "error: {0} > {1}";
-
-    private static final IOFileFilter SCENARIO_FORMAT_FILTER = new WildcardFileFilter(new String[] {"**.yaml", "**.yml"});
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PatternScenarioLoader.class);
 
     private final WamlReader wamlReader;
 
+    private final FileFilterProvider fileFilterProvider;
+
     @Autowired
-    public PatternScenarioLoader(WamlReader wamlReader){
+    public PatternScenarioLoader(WamlReader wamlReader,
+                                 FileFilterProvider fileFilterProvider){
         this.wamlReader = wamlReader;
+        this.fileFilterProvider = fileFilterProvider;
     }
 
     @Override
@@ -61,19 +58,17 @@ public class PatternScenarioLoader implements ScenarioLoader {
             
             if(baseScenarioFile.canRead()){
                 if(baseScenarioFile.isDirectory()){
-                    Collection<File> scenarioFiles = FileUtils.listFiles(baseScenarioFile, SCENARIO_FORMAT_FILTER, TrueFileFilter.INSTANCE);
+                    Collection<File> scenarioFiles = FileUtils.listFiles(
+                        baseScenarioFile,
+                        fileFilterProvider.getFileFilter(baseScenarioFile),
+                        TrueFileFilter.INSTANCE
+                    );
                     for(File scenarioFile : scenarioFiles){
-                        if(isIgnore(scenarioFile)) {
-                            continue;
-                        }
-
                         currentPath = scenarioFile.getAbsolutePath();
                         addScenarioFile(reportCanonicalPath, scenarioFile, loadedScenarioFiles);
                     }
                 } else {
-                    if(!isIgnore(baseScenarioFile)) {
                         addScenarioFile(reportCanonicalPath, baseScenarioFile, loadedScenarioFiles);
-                    }
                 }
             } else {
                 throw new NonReadableFileException(currentPath);
@@ -83,13 +78,6 @@ public class PatternScenarioLoader implements ScenarioLoader {
         }
 
         return loadedScenarioFiles;
-    }
-
-    private boolean isIgnore(File file){
-        String fileName = file.getName();
-        return IGNORE_KEYWORDS
-            .parallelStream()
-            .anyMatch(ignoreKeyword -> fileName.contains(ignoreKeyword));
     }
 
     private void addScenarioFile(String reportCanonicalPath, File scenarioFile, List<ScenarioFile> loadedScenarioFiles) throws IOException{
