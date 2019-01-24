@@ -140,7 +140,6 @@ public class Reporter implements ExecutionEventListener {
         report.setPath(getReportPath(context));
         report.setExport(context.getExportMemory());
         try {
-            createParentDirsIfNotExist(report.getPath());
             writer.write(report);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -159,18 +158,10 @@ public class Reporter implements ExecutionEventListener {
         report.setMessage(reportMessage);
         report.setPath(getReportPath(context));
         try {
-            createParentDirsIfNotExist(report.getPath());
             writer.write(report);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void createParentDirsIfNotExist(String reportPath){
-        Paths.get(reportPath)
-            .getParent()
-            .toFile()
-            .mkdirs();
     }
 
     private WamlReport afterExecutionOrError(GlobalExecutionContext context) {

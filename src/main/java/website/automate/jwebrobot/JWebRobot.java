@@ -12,6 +12,7 @@ import website.automate.jwebrobot.executor.ScenarioExecutor;
 import website.automate.jwebrobot.loader.ScenarioFile;
 import website.automate.jwebrobot.loader.ScenarioLoader;
 
+import java.nio.file.Paths;
 import java.util.List;
 
 @SpringBootApplication
@@ -38,6 +39,7 @@ public class JWebRobot implements CommandLineRunner {
   }
 
   public void run(ConfigurationProperties configurationProperties) {
+    createReportDirIfNotExists(configurationProperties.getReportPath());
     List<ScenarioFile> scenarioFiles = scenarioLoader.load(
         configurationProperties.getAllScenarioPaths(), configurationProperties.getReportPath());
     ExecutorOptions executorOptions = ExecutorOptions.of(configurationProperties);
@@ -47,8 +49,15 @@ public class JWebRobot implements CommandLineRunner {
     scenarioExecutor.execute(globalContext);
   }
 
+  private void createReportDirIfNotExists(String path){
+      Paths.get(path)
+          .getParent()
+          .toFile()
+          .mkdirs();
+  }
+
   @Override
-  public void run(String... args) throws Exception {
+  public void run(String... args) {
     bridgeJULToSLF4();
 
     ConfigurationProperties configurationProperties = new ConfigurationProperties();
