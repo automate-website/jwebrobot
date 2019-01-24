@@ -22,12 +22,9 @@ public class DefineActionExpressionEvaluator extends ConditionalActionExpression
         super.evaluate(action, context);
 
         Map<String, Object> facts = action.getDefine().getFacts();
-        facts.keySet()
-            .stream()
-            .map(key -> evaluateAsString(key, context));
-        facts.values()
-            .stream()
-            .forEach(value -> evaluateIfExpression(value, context));
+        for(Map.Entry<String, Object> entry: facts.entrySet()){
+            entry.setValue(evaluateIfExpression(entry.getValue(), context));
+        }
     }
 
     private Object evaluateIfExpression(Object value, ScenarioExecutionContext context){
