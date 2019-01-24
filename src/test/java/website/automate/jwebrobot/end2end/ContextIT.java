@@ -13,6 +13,7 @@ public class ContextIT extends End2EndTestCase {
             .withContextEntry("url", "http://testpage")
             .withContextEntry("timeout", "1")
             .withContextEntry("isEnabled", "false")
+            .withScanBaseDirForDependencies(true)
             .build();
     }
 }

@@ -51,7 +51,7 @@ public class StepExecutorTest {
     @Before
     public void init(){
         executor = new TestStepExecutor(listener, translator);
-        when(context.getScenario()).thenReturn(scenario);
+        when(context.getScenarioByPath()).thenReturn(scenario);
         when(context.getGlobalContext()).thenReturn(globalContext);
         when(globalContext.getOptions()).thenReturn(options);
     }

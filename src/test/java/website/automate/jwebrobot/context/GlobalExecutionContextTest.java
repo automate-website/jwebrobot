@@ -21,8 +21,7 @@ import static org.mockito.Mockito.when;
 public class GlobalExecutionContextTest {
 
     private static final String
-        SCENARIO_TITLE = "awesome scenario",
-        ANOTHER_SCENARIO_TITLE = "another awesome scenario";
+        SCENARIO_PATH = "../foo/bar.yaml";
     
     @Mock private Scenario scenario;
     @Mock private File file;
@@ -32,7 +31,7 @@ public class GlobalExecutionContextTest {
     
     @Before
     public void init(){
-        when(scenario.getName()).thenReturn(SCENARIO_TITLE);
+        when(scenario.getPath()).thenReturn(SCENARIO_PATH);
         when(scenarioFile.getFile()).thenReturn(file);
         when(scenarioFile.getScenario()).thenReturn(scenario);
     }
@@ -48,7 +47,7 @@ public class GlobalExecutionContextTest {
     public void scenariosFoundByName(){
         GlobalExecutionContext context = new GlobalExecutionContext(asList(scenarioFile), options, memory);
         
-        assertThat(context.getScenario(SCENARIO_TITLE), is(scenario));
+        assertThat(context.getScenarioByPath(SCENARIO_PATH), is(scenario));
     }
     
     @Test

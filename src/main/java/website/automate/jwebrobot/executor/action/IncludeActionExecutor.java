@@ -9,6 +9,8 @@ import website.automate.jwebrobot.executor.ActionResult;
 import website.automate.waml.io.model.main.Scenario;
 import website.automate.waml.io.model.main.action.IncludeAction;
 
+import java.nio.file.Paths;
+
 @Service
 public class IncludeActionExecutor extends BaseActionExecutor<IncludeAction> {
 
@@ -19,7 +21,9 @@ public class IncludeActionExecutor extends BaseActionExecutor<IncludeAction> {
                         ActionExecutorUtils utils) {
         GlobalExecutionContext globalContext = context.getGlobalContext();
         String scenarioName = action.getInclude().getScenario();
-        Scenario scenario = globalContext.getScenario(scenarioName);
+        Scenario scenario = globalContext.getScenarioByPath(
+            getAbsoluteScenarioPath(context.getScenario().getPath(),
+            scenarioName));
         
         if(context.containsScenario(scenario)){
             throw new RecursiveScenarioInclusionException(scenario.getName());
@@ -27,6 +31,16 @@ public class IncludeActionExecutor extends BaseActionExecutor<IncludeAction> {
         
         ScenarioExecutionContext includedScenarioContext = context.createChildContext(scenario);
         utils.getScenarioExecutor().runScenario(scenario, includedScenarioContext);
+    }
+
+    private String getAbsoluteScenarioPath(
+        String absoluteSourceScenarioPath,
+        String includedRelativeScenarioPath
+    ){
+        return Paths.get(absoluteSourceScenarioPath)
+            .getParent()
+            .resolve(includedRelativeScenarioPath)
+            .toString();
     }
 
     @Override

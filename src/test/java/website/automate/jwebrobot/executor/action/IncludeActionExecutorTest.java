@@ -46,9 +46,9 @@ public class IncludeActionExecutorTest<CriteriaValue> {
     @Before
     public void init(){
         when(conditionalExpressionEvaluator.isExecutable(action, scenarioContext)).thenReturn(true);
-        when(action.getScenario()).thenReturn(SCENARIO_TITLE);
+        when(action.getScenarioByPath()).thenReturn(SCENARIO_TITLE);
         when(scenarioContext.getGlobalContext()).thenReturn(globalContext);
-        when(globalContext.getScenario(SCENARIO_TITLE)).thenReturn(childScenario);
+        when(globalContext.getScenarioByPath(SCENARIO_TITLE)).thenReturn(childScenario);
         when(scenarioContext.createChildContext(childScenario)).thenReturn(childScenarioContext);
 
         executor = new IncludeActionExecutor(expressionEvaluator, scenarioExecutor, listener,

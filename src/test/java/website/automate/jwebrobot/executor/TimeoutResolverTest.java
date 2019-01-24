@@ -46,7 +46,7 @@ public class TimeoutResolverTest {
 
         Long actualTimeout = resolver.resolve(action, context);
 
-        assertThat(actualTimeout, is(1L));
+        assertThat(actualTimeout, is(5L));
     }
 
     @Test

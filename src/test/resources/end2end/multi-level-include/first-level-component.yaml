@@ -1,4 +1,4 @@
-- include: second-level-component.yaml
+- include: _second-level-component.yaml
 - click:
     selector: a
     text: Read information

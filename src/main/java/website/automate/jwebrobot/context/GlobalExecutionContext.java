@@ -14,7 +14,7 @@ public class GlobalExecutionContext {
 
     private File tempDir = createTempDir();
 
-    private Map<String, Scenario> nameScenarioMap = new HashMap<>();
+    private Map<String, Scenario> pathScenarioMap = new HashMap<>();
 
     private Map<Scenario, File> scenarioFileMap = new HashMap<>();
     
@@ -41,7 +41,7 @@ public class GlobalExecutionContext {
     
     private void addScenario(File scenarioFile, Scenario scenario){
         this.scenarioFileMap.put(scenario, scenarioFile);
-        this.nameScenarioMap.put(scenario.getName(), scenario);
+        this.pathScenarioMap.put(scenario.getPath(), scenario);
         this.scenarios.add(scenario);
     }
 
@@ -53,8 +53,8 @@ public class GlobalExecutionContext {
         }
     }
     
-    public Scenario getScenario(String name){
-        return nameScenarioMap.get(name);
+    public Scenario getScenarioByPath(String name){
+        return pathScenarioMap.get(name);
     }
     
     public File getFile(Scenario scenario){

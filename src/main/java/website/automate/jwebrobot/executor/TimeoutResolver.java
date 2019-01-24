@@ -7,7 +7,7 @@ import website.automate.waml.io.model.main.action.TimeLimitedAction;
 @Service
 public class TimeoutResolver {
 
-    static final long DEFAULT_TIMEOUT_S = 1;
+    static final long DEFAULT_TIMEOUT_S = 5;
 
     public Long resolve(TimeLimitedAction action, ScenarioExecutionContext context){
             Long optionsTimeout = context.getGlobalContext().getOptions().getTimeout();
