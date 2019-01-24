@@ -13,7 +13,7 @@ services:
     links:
     - testpage
     volumes:
-    - ./test:/tmp/waml/test
+    - ./test:/test
     entrypoint: /usr/bin/jwebrobot
     command: "-context baseUrl=http://testpage"
   testpage:

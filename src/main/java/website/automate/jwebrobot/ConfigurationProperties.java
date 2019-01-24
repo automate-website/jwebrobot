@@ -11,7 +11,8 @@ import static java.text.MessageFormat.format;
 public class ConfigurationProperties {
 
     public static final String
-        DEFAULT_REPORT_PATH = "./report.yaml",
+        DEFAULT_REPORT_PATH = "./report/report.yaml",
+        DEFAULT_SCREENSHOT_PATH = "./report/",
         DEFAULT_SCENARIO_PATH = "./",
         DEFAULT_BROWSER_LOG_LEVEL = "error",
         DEFAULT_MODE = "non_interactive";
@@ -36,7 +37,7 @@ public class ConfigurationProperties {
     private String takeScreenshots = TakeScreenshots.ON_FAILURE.getName();
 
     @Parameter(names = "-screenshotPath", description = "Path to the directory where created screeshots must be saved.", required = false)
-    private String screenshotPath = "./";
+    private String screenshotPath = DEFAULT_SCREENSHOT_PATH;
 
     @Parameter(names = "-screenshotType", description = "Defines the way screenshots must be taken: fullscreen vs. viewport")
     private String screenshotType = ScreenshotType.VIEW_PORT.getName();
