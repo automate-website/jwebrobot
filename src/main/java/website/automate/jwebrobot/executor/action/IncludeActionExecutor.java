@@ -40,6 +40,7 @@ public class IncludeActionExecutor extends BaseActionExecutor<IncludeAction> {
         return Paths.get(absoluteSourceScenarioPath)
             .getParent()
             .resolve(includedRelativeScenarioPath)
+            .normalize()
             .toString();
     }
 
