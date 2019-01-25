@@ -32,6 +32,10 @@ public class FileFilterProvider {
 
     private static final IOFileFilter YAML_FILE_FILTER = new WildcardFileFilter(new String[] {"**.yaml", "**.yml"});
 
+    public IOFileFilter getDirFilter(File base){
+        return getWildcardFileFilter(base);
+    }
+
     public IOFileFilter getFileFilter(File base){
         IOFileFilter ignoreWildcardFileFilter = getWildcardFileFilter(base);
         if(ignoreWildcardFileFilter != null){

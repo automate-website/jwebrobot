@@ -61,7 +61,7 @@ public class PatternScenarioLoader implements ScenarioLoader {
                     Collection<File> scenarioFiles = FileUtils.listFiles(
                         baseScenarioFile,
                         fileFilterProvider.getFileFilter(baseScenarioFile),
-                        TrueFileFilter.INSTANCE
+                        fileFilterProvider.getDirFilter(baseScenarioFile)
                     );
                     for(File scenarioFile : scenarioFiles){
                         currentPath = scenarioFile.getAbsolutePath();
