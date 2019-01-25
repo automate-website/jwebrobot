@@ -14,7 +14,6 @@ services:
     - testpage
     volumes:
     - ./test:/test
-    entrypoint: /usr/bin/jwebrobot
     command: "-context baseUrl=http://testpage"
   testpage:
     image: automatewebsite/testpage:1.0.0

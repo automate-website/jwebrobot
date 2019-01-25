@@ -4,7 +4,6 @@ services:
     image: automatewebsite/jwebrobot:latest
     environment:
       - 'JWEBROBOT_ARGS=-scenarioPath /test -browserDriverUrl "http://chrome:4444/wd/hub" -browser chrome'
-    entrypoint: /usr/bin/jwebrobot
     depends_on:
       - chrome
     links:
