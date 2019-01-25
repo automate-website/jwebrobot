@@ -36,4 +36,4 @@ RUN export JWEBROBOT_REAL_PATH=$(ls -1 /opt/jwebrobot/*.jar | grep -E '/opt/jweb
 
 USER seluser
 
-ENTRYPOINT /usr/bin/jwebrobot $0 $@
+ENTRYPOINT ["/bin/bash", "/usr/bin/jwebrobot"]

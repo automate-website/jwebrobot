@@ -9,4 +9,4 @@ RUN export JWEBROBOT_REAL_PATH=$(ls -1 /opt/jwebrobot/*.jar | grep -E '/opt/jweb
     && ln -s $JWEBROBOT_REAL_PATH /opt/jwebrobot/app.jar \
     && ln -s /opt/jwebrobot/app.sh /usr/bin/jwebrobot
 
-ENTRYPOINT /usr/bin/jwebrobot $0 $@
+ENTRYPOINT ["/bin/bash", "/usr/bin/jwebrobot"]
