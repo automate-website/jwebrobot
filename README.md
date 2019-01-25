@@ -20,10 +20,8 @@ It is assumed that your already have a test scenario in which is stored in
 and having a valid content in [WAML format][waml-git], e.g.
 
 ```yaml
-name: Checkout Button Presence Test
-steps:
-  - open: 'https://example.com/checkout'
-  - ensure: 'button#buy-now'
+- open: 'https://example.com/checkout'
+- ensure: 'button#buy-now'
 ```
 
 ### Run JWebRobot using Docker
@@ -148,24 +146,27 @@ Find some examples below:
 
 Behind the scenes a powerful test data framework [jfairy] is doing the job. More usage examples may be found there.
 
-### Store Criterion & Element Reference
-While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `select`, `move`) the reference to the filtered element may be stored using the `store` criterion, e.g.:
+### Register Decorator & Element Reference
+While using steps containing filter criteria (e.g. `ensure`, `click`, `enter`, `select`, `move`) the reference to the filtered element may be stored using the `register` decorator, e.g.:
 
-    ensure:
-        selector: input[type=text]
-        store: userEmailInput
-    store:
-        userEmailInputEnabled: ${userEmailInput.isEnabled()}
+```yaml
+- ensure: input[type=text]
+  register: userEmailInput
+- debug: ${userEmailInput.value}
+```
 
 Note that the element reference currently exports the underlying [selenium webelement api]. The direct access is an experimental feature and may be subject to change in the future releases.
 
 ## IFrame Scoped Elements
 A single set of filter criteria can not be applied across multiple documents, thus if the desired element is located within a different document on the same page (e.g. iframe), it might be accessed by pointing to the target document within the parent filter criteria):
 
-    ensure:
-        selector: input[type=username]
-        parent:
-            selector: iframe[src=login]
+```yaml
+- ensure: iframe[src=login]
+  register: parentIframe
+- ensure:
+    selector: input[type=username]
+    parent: ${parentIframe.value}
+```
 
 ## Source Build
 
