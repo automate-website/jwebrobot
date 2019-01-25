@@ -10,9 +10,7 @@ ENV GEOMETRY 1366x768x16
 ENV SCENARIO_DIR /test
 ENV REPORT_DIR /test/report
 ENV BROWSER $BROWSER
-ENV TAKE_SCREENSHOTS ON_EVERY_STEP
-ENV TIMEOUT 5
-ENV JWEBROBOT_ARGS "-scenarioPath $SCENARIO_DIR -reportPath $REPORT_DIR/report.yaml -browser $BROWSER -timeout $TIMEOUT -takeScreenshots $TAKE_SCREENSHOTS -screenshotPath $REPORT_DIR/"
+ENV JWEBROBOT_ARGS "-scenarioPath $SCENARIO_DIR -reportPath $REPORT_DIR/report.yaml -browser $BROWSER -screenshotPath $REPORT_DIR/"
 ENV JAVA_OPTS ""
 
 USER root
