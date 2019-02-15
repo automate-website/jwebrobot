@@ -23,9 +23,13 @@ public class EnterActionExecutor extends BaseActionExecutor<EnterAction> {
 
         if (hasFilterCriteria) {
             element = (utils.getWebdriverWaitProvider().getInstance(driver, utils.getTimeoutResolver().resolve(action, context)))
-                .until(d -> utils.getElementsFilter().filter(context, action));
+                .until(condition -> new WaitCondition(action, context, result, utils).apply(driver));
         } else {
             element = driver.switchTo().activeElement();
+        }
+
+        if(element == WaitCondition.EMPTY){
+            return;
         }
 
         // Make clear

@@ -22,7 +22,7 @@ public class PatternScenarioLoaderIT extends AbstractTest {
         List<ScenarioFile> scenarioFiles = scenarioLoader.load(asList("./src/test/resources/loader"),
                 ConfigurationProperties.DEFAULT_REPORT_PATH);
         
-        assertThat(scenarioFiles.size(), is(2));
+        assertThat(scenarioFiles.size(), is(3));
     }
     
     @Test

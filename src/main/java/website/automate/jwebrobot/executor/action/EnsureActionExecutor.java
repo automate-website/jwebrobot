@@ -1,7 +1,6 @@
 package website.automate.jwebrobot.executor.action;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
 import website.automate.jwebrobot.context.ScenarioExecutionContext;
 import website.automate.jwebrobot.executor.ActionExecutorUtils;
@@ -18,15 +17,11 @@ public class EnsureActionExecutor extends BaseActionExecutor<EnsureAction> {
                         ActionExecutorUtils utils) {
         final WebDriver driver = context.getDriver();
 
-        (utils.getWebdriverWaitProvider().getInstance(driver, utils.getTimeoutResolver().resolve(action, context))).until(d -> {
-                WebElement webElement = utils.getElementsFilter().filter(context, action);
-                if(webElement == null){
-                    return false;
-                } else {
-                    result.setValue(webElement);
-                    return webElement.isDisplayed();
-                }
-        });
+        (utils.getWebdriverWaitProvider()
+            .getInstance(driver, utils.getTimeoutResolver()
+            .resolve(action, context))).until(
+                condition -> new WaitCondition(action, context, result, utils).apply(driver)
+        );
     }
 
     @Override
