@@ -1,0 +1,3 @@
+- open: ${baseUrl}
+- ensure:
+    selector: div.missing-article

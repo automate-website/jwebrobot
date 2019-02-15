@@ -77,6 +77,7 @@ public class StepExecutor {
                 evaluatedAction,
                 result
             ));
+            listener.errorAction(context, action, result.getError());
             throw new GenericExecutionException(result.getMessage(), result.getError());
         } else {
             if(isLogActionSuccess(evaluatedAction)) {

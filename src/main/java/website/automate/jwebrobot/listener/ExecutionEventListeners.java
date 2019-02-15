@@ -54,7 +54,7 @@ public class ExecutionEventListeners implements ExecutionEventListener {
     }
 
     @Override
-    public void errorAction(ScenarioExecutionContext context, Action action, Exception exception) {
+    public void errorAction(ScenarioExecutionContext context, Action action, Throwable exception) {
         for(ExecutionEventListener listener : listeners){
             listener.errorAction(context, action, exception);
         }

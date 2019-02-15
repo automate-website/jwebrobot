@@ -29,7 +29,7 @@ public class ScreenshotEventListener implements ExecutionEventListener {
 
     @Override
     public void errorAction(ScenarioExecutionContext context, Action action,
-            Exception exception) {
+            Throwable error) {
         if(context.getGlobalContext().getOptions().getTakeScreenshots() != TakeScreenshots.NEVER
                 && ActionRegistry.isExplicit(action.getClass())){
             screenshooter.takeScreenshot(context, action);

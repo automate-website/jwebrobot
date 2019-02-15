@@ -23,6 +23,8 @@ public class ParametersBuilder {
 
     private Map<String, String> context = new HashMap<>();
 
+    private List<String> files;
+
     public ParametersBuilder(String basePath) {
         super();
         this.basePath = basePath;
@@ -36,6 +38,11 @@ public class ParametersBuilder {
 
     public ParametersBuilder withError(Class<? extends Throwable> error) {
         this.error = error;
+        return this;
+    }
+
+    public ParametersBuilder withFiles(List<String> files){
+        this.files = files;
         return this;
     }
 
@@ -76,7 +83,8 @@ public class ParametersBuilder {
 
             parameters.add(asObjects(testName,
                 arguments,
-                error));
+                error,
+                files));
         }
 
         return parameters;

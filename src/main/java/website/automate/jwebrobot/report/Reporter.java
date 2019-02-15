@@ -17,7 +17,6 @@ import website.automate.waml.io.model.report.LogEntry.LogLevel;
 import website.automate.waml.io.writer.WamlWriter;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -122,10 +121,13 @@ public class Reporter implements ExecutionEventListener {
     }
 
     @Override
-    public void errorAction(ScenarioExecutionContext context, Action action, Exception exception) {
+    public void errorAction(ScenarioExecutionContext context, Action action, Throwable error) {
         ActionReport report = afterActionOrError(context, action);
-        report.setStatus(exceptionToStatus(exception));
-        report.setMessage(exception.getMessage());
+
+        if(error != null) {
+            report.setStatus(exceptionToStatus(error));
+            report.setMessage(error.getMessage());
+        }
     }
 
     @Override
@@ -178,7 +180,7 @@ public class Reporter implements ExecutionEventListener {
         return report;
     }
 
-    private ExecutionStatus exceptionToStatus(Exception exception) {
+    private ExecutionStatus exceptionToStatus(Throwable error) {
         return ExecutionStatus.ERROR;
     }
 

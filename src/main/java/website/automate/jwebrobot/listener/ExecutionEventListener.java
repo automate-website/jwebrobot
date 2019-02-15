@@ -22,5 +22,5 @@ public interface ExecutionEventListener {
 
     void afterAction(ScenarioExecutionContext context, Action action);
 
-    void errorAction(ScenarioExecutionContext context, Action action, Exception exception);
+    void errorAction(ScenarioExecutionContext context, Action action, Throwable exception);
 }
