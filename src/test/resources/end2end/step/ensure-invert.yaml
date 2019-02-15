@@ -1,0 +1,4 @@
+- open: ${baseUrl}
+- ensure:
+    selector: div.another-article
+    invert: true
