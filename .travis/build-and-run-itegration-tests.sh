@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 MAVEN_CLI_OPTS=${MAVEN_CLI_OPTS:-}
 
 runPackageIntegrationTests(){

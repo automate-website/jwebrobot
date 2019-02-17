@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 signArtifacts(){
     openssl aes-256-cbc -K $encrypted_69a424f7a752_key -iv $encrypted_69a424f7a752_iv -in .travis/codesigning.asc.enc -out .travis/codesigning.asc -d
     gpg --fast-import .travis/codesigning.asc

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 isDeploy(){
     if [ ! -z "$TRAVIS_TAG" ]; then
         return 0
