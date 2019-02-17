@@ -4,6 +4,10 @@ set -e
 
 MAVEN_CLI_OPTS=${MAVEN_CLI_OPTS:-}
 
+allowWriteToTestDirectory(){
+    chmod -R 777 .travis/test
+}
+
 runPackageIntegrationTests(){
     docker-compose -f .travis/docker-compose.package-it.yml up -d
     mvn clean verify ${MAVEN_CLI_OPTS}
@@ -40,6 +44,7 @@ exportVariables(){
     export BROWSER="$browser"
 }
 
+allowWriteToTestDirectory
 runPackageIntegrationTests
 runImageIntegrationTests
 runStandaloneImageIntegrationTests 'firefox'
