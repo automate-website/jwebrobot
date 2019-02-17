@@ -4,8 +4,13 @@ set -e
 
 MAVEN_CLI_OPTS=${MAVEN_CLI_OPTS:-}
 
-allowWriteToTestDirectory(){
-    chmod -R 777 .travis/test
+allowWriteToTestReportDir(){
+    mkdir -p .travis/test/report
+    chmod -R 777 .travis/test/report
+}
+
+cleanupTestReportDir(){
+    rm -rf .travis/test/report
 }
 
 runPackageIntegrationTests(){
@@ -44,9 +49,18 @@ exportVariables(){
     export BROWSER="$browser"
 }
 
-allowWriteToTestDirectory
 runPackageIntegrationTests
+
+allowWriteToTestReportDir
+
 runImageIntegrationTests
+cleanupTestReportDir
+
 runStandaloneImageIntegrationTests 'firefox'
+cleanupTestReportDir
+
 runStandaloneImageIntegrationTests 'chrome'
+cleanupTestReportDir
+
 runStandaloneImageIntegrationTests 'chrome-headless'
+cleanupTestReportDir
